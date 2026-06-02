@@ -1,0 +1,37 @@
+name: AEO Auto Publisher
+
+on:
+  schedule:
+    # 월/수/금 오전 8시 (UTC+9 = UTC 23:00 전날)
+    - cron: '0 23 * * 0,2,4'
+  workflow_dispatch:  # 수동 실행 버튼
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install feedparser anthropic requests python-dotenv
+
+      - name: Run publisher
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          LINKEDIN_ACCESS_TOKEN: ${{ secrets.LINKEDIN_ACCESS_TOKEN }}
+          LINKEDIN_ORGANIZATION_ID: ${{ secrets.LINKEDIN_ORGANIZATION_ID }}
+        run: python main.py
+
+      - name: Save logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: publish-log-${{ github.run_number }}
+          path: logs.json

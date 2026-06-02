@@ -1,0 +1,62 @@
+name: Daily iGaming News Update
+
+on:
+  # Runs every day at 9:00 AM Eastern Time (13:00 UTC)
+  schedule:
+    - cron: '0 13 * * *'
+  # Also allows manual trigger from GitHub Actions tab
+  workflow_dispatch:
+
+jobs:
+  generate-and-deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    permissions:
+      contents: write  # Required to commit updated scripts back to main
+
+    steps:
+      # ─── 1. Checkout Repository ───────────────────────────────────────────────
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      # ─── 2. Set Up Python ─────────────────────────────────────────────────────
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      # ─── 3. Set Up Node.js (for Netlify CLI) ──────────────────────────────────
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      # ─── 4. Install Netlify CLI ────────────────────────────────────────────────
+      - name: Install Netlify CLI
+        run: npm install -g netlify-cli
+
+      # ─── 5. Generate Daily Press Releases via Gemini API ─────────────────────
+      - name: Generate 5 new daily press releases
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: python3 scripts/generate_daily_news.py
+
+      # ─── 6. Deploy to Netlify Production ─────────────────────────────────────
+      - name: Deploy to Netlify
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+        run: netlify deploy --prod --dir=index --auth=$NETLIFY_AUTH_TOKEN --site=$NETLIFY_SITE_ID
+
+      # ─── 7. Commit Updated Scripts Back to Repository ─────────────────────────
+      - name: Commit and push updated article data
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add scripts/update_articles.py index/llms.txt index/sitemap.xml
+          git diff --staged --quiet || git commit -m "🤖 Daily auto-update: $(date +'%Y-%m-%d') — 5 new press releases added [skip ci]"
+          git push origin main
