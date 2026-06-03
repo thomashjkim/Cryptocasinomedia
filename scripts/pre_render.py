@@ -4,6 +4,22 @@ import re
 import json
 from datetime import datetime
 
+def inject_sponsored_rel(text):
+    # Regex to find <a href="..."> and inject rel="sponsored nofollow"
+    # only if the URL is external (i.e. starts with http and doesn't contain cryptocasinomedia.com)
+    def replacer(match):
+        tag = match.group(0)
+        href_match = re.search(r'href=["\'](https?://[^"\']+)["\']', tag)
+        if href_match:
+            url = href_match.group(1)
+            if 'cryptocasinomedia.com' not in url:
+                if 'rel=' in tag:
+                    tag = re.sub(r'rel=["\'][^"\']*["\']', 'rel="sponsored nofollow"', tag)
+                else:
+                    tag = tag.replace('<a ', '<a rel="sponsored nofollow" ')
+        return tag
+    return re.sub(r'<a\s+[^>]*>', replacer, text)
+
 # Setup paths
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 try:
@@ -467,10 +483,11 @@ def renderArticlePage(slug):
 
     bodyHtml = f'<section id="core-announcement" data-semantic-role="body" data-key-entities="{", ".join(article["topics"])}">'
     for idx, p in enumerate(article['body'][1:]):
+        p_formatted = inject_sponsored_rel(p)
         if p.startswith('"') or p.startswith('“') or p.startswith('`'):
-            bodyHtml += f'<blockquote id="quote-{idx+1}" data-semantic-role="editorial-quote" class="pl-4 border-l-4 border-blue-600 italic my-6 text-gray-700 font-serif font-medium text-lg leading-relaxed">{p}</blockquote>'
+            bodyHtml += f'<blockquote id="quote-{idx+1}" data-semantic-role="editorial-quote" class="pl-4 border-l-4 border-blue-600 italic my-6 text-gray-700 font-serif font-medium text-lg leading-relaxed">{p_formatted}</blockquote>'
         else:
-            bodyHtml += f'<p id="p-{idx+1}" data-semantic-role="narrative-chunk" class="mt-6 font-serif text-[17px] text-gray-800 leading-relaxed">{p}</p>'
+            bodyHtml += f'<p id="p-{idx+1}" data-semantic-role="narrative-chunk" class="mt-6 font-serif text-[17px] text-gray-800 leading-relaxed">{p_formatted}</p>'
     bodyHtml += '</section>'
 
     # FAQ structured blocks for AEO
@@ -533,7 +550,7 @@ def renderArticlePage(slug):
                                 <span class="inline-block px-2 py-1 bg-gray-900 text-white text-[10px] uppercase tracking-widest font-semibold mb-4 font-sans">
                                     Press Release
                                 </span>
-                                <h1 class="text-3xl sm:text-[40px] leading-[1.15] font-semibold tracking-tight text-gray-900 mb-4">
+                                <h1 id="article-headline" class="text-3xl sm:text-[40px] leading-[1.15] font-semibold tracking-tight text-gray-900 mb-4">
                                     {article['title']}
                                 </h1>
                                 {excerpt_block}
@@ -568,7 +585,7 @@ def renderArticlePage(slug):
                             <div class="prose prose-lg prose-gray max-w-none font-serif text-[17px] leading-relaxed text-gray-800">
                                 {tldr_section}
                                 <p id="p-0" data-semantic-role="origin-chunk" class="font-serif text-[17px] text-gray-800 leading-relaxed">
-                                    <strong>{article['dateline']}</strong> — {article['body'][0]}
+                                    <strong>{article['dateline']}</strong> — {inject_sponsored_rel(article['body'][0])}
                                 </p>
                                 {bodyHtml}
                                 
@@ -965,6 +982,8 @@ def build_static_page(template_content, path, title, description, body_content, 
     content = re.sub(r'<link rel="canonical" href=".*?" id="canonical-link">', f'<link rel="canonical" href="https://cryptocasinomedia.com{path}" id="canonical-link">', content)
     
     # Open Graph properties
+    og_type = "article" if path.startswith("/press-releases/") and len(path.split("/")) > 2 else "website"
+    content = re.sub(r'<meta property="og:type" content=".*?">', f'<meta property="og:type" content="{og_type}">', content)
     content = re.sub(r'<meta property="og:title" content=".*?">', f'<meta property="og:title" content="{title}">', content)
     content = re.sub(r'<meta property="og:description" content=".*?">', f'<meta property="og:description" content="{description}">', content)
     content = re.sub(r'<meta property="og:url" content=".*?">', f'<meta property="og:url" content="https://cryptocasinomedia.com{path}">', content)
@@ -1030,29 +1049,43 @@ for article in articles_sorted:
     title = f"{article['title']} — CryptoCasinoMedia"
     description = article['excerpt']
     
-    # Generate static NewsArticle + FAQPage + BreadcrumbList schemas
+    # Generate image crops (16:9, 4:3, 1:1) from Unsplash URL
+    image_base = article.get('thumbnailUrl') or "https://cryptocasinomedia.com/og-image.jpg"
+    image_16_9 = image_base
+    image_4_3 = image_base.replace('w=800', 'w=800&ar=4:3&fit=crop') if 'unsplash.com' in image_base else image_base
+    image_1_1 = image_base.replace('w=800', 'w=800&ar=1:1&fit=crop') if 'unsplash.com' in image_base else image_base
+
+    # Generate static Article + FAQPage + BreadcrumbList schemas
     article_schema = {
         "@context": "https://schema.org",
-        "@type": "NewsArticle",
+        "@type": "Article",
+        "@id": f"https://cryptocasinomedia.com/press-releases/{slug}#article",
+        "isPartOf": {
+            "@id": "https://cryptocasinomedia.com/#website"
+        },
         "headline": article['title'],
         "description": article['excerpt'],
         "datePublished": article['publishedAt'],
         "dateModified": article['publishedAt'],
-        "author": {"@type": "Organization", "name": article['sourceName'], "url": "https://cryptocasinomedia.com"},
-        "publisher": {"@type": "Organization", "name": "CryptoCasinoMedia", "url": "https://cryptocasinomedia.com", "logo": {"@type": "ImageObject", "url": "https://cryptocasinomedia.com/favicon.ico"}},
-        "image": article.get('thumbnailUrl') or "https://cryptocasinomedia.com/og-image.jpg",
-        "url": f"https://cryptocasinomedia.com/press-releases/{slug}",
-        "mainEntityOfPage": {"@type": "WebPage", "@id": f"https://cryptocasinomedia.com/press-releases/{slug}"},
-        "articleSection": article['primaryCategory'],
+        "inLanguage": "en-US",
+        "mainEntityOfPage": f"https://cryptocasinomedia.com/press-releases/{slug}",
+        "author": {
+            "@type": "Organization",
+            "name": article['sourceName'],
+            "url": article.get('originalUrl') or "https://cryptocasinomedia.com"
+        },
+        "publisher": {
+            "@id": "https://cryptocasinomedia.com/#organization"
+        },
+        "image": [image_16_9, image_4_3, image_1_1],
+        "articleSection": "Press Releases",
         "keywords": ", ".join(article['topics']),
-        "about": [
-            {
-                "@type": "Thing",
-                "name": t,
-                "sameAs": WIKIDATA_MAPPING.get(t.lower())
-            } if t.lower() in WIKIDATA_MAPPING else {"@type": "Thing", "name": t}
-            for t in article['topics']
-        ]
+        "articleBody": " ".join(article['body']),
+        "dateline": article['dateline'],
+        "speakable": {
+            "@type": "SpeakableSpecification",
+            "cssSelector": ["#article-headline", "#p-0"]
+        }
     }
     faq_schema = {
         "@context": "https://schema.org",
@@ -1063,13 +1096,17 @@ for article in articles_sorted:
             "acceptedAnswer": {"@type": "Answer", "text": article['excerpt']}
         } for topic in article['topics'][:3]]
     }
+    
+    cat_slug = article['primaryCategory']
+    cat_name = cat_slug.replace('-', ' ').title()
     breadcrumb_schema = {
         "@context": "https://schema.org",
         "@type": "BreadcrumbList",
         "itemListElement": [
             {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://cryptocasinomedia.com"},
             {"@type": "ListItem", "position": 2, "name": "Press Releases", "item": "https://cryptocasinomedia.com/press-releases"},
-            {"@type": "ListItem", "position": 3, "name": article['title'], "item": f"https://cryptocasinomedia.com/press-releases/{slug}"}
+            {"@type": "ListItem", "position": 3, "name": cat_name, "item": f"https://cryptocasinomedia.com/{cat_slug}"},
+            {"@type": "ListItem", "position": 4, "name": article['title'], "item": f"https://cryptocasinomedia.com/press-releases/{slug}"}
         ]
     }
     
@@ -1099,6 +1136,30 @@ categories = [
 for path, title, description, filter_cat in categories:
     body = renderSectionPage(title, description, filter_cat)
     
+    collection_schema = {
+        "@context": "https://schema.org",
+        "@type": "CollectionPage",
+        "@id": f"https://cryptocasinomedia.com{path}#collection",
+        "name": f"{title} — CryptoCasinoMedia",
+        "url": f"https://cryptocasinomedia.com{path}",
+        "description": description,
+        "isPartOf": {
+            "@id": "https://cryptocasinomedia.com/#website"
+        },
+        "about": {
+            "@id": "https://cryptocasinomedia.com/#organization"
+        }
+    }
+    
+    category_breadcrumb_schema = {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://cryptocasinomedia.com"},
+            {"@type": "ListItem", "position": 2, "name": title, "item": f"https://cryptocasinomedia.com{path}"}
+        ]
+    }
+    
     # Generate list schema
     list_schema = {
         "@context": "https://schema.org",
@@ -1114,7 +1175,7 @@ for path, title, description, filter_cat in categories:
         ]
     }
     
-    html = build_static_page(template_content, path, f"{title} — CryptoCasinoMedia", description, body, [list_schema])
+    html = build_static_page(template_content, path, f"{title} — CryptoCasinoMedia", description, body, [collection_schema, category_breadcrumb_schema, list_schema])
     
     # Write to index/[category]/index.html
     # Remove leading slash for folder creation
@@ -1235,10 +1296,30 @@ for path, title, description, body_content in utility_pages:
 # 7. Overwrite index/index.html to pre-render the homepage statically
 home_title = "CryptoCasinoMedia — B2B iGaming & Crypto Casino News"
 home_description = "The trusted B2B source for crypto casino news, press releases, regulation updates, and iGaming industry analysis."
-home_search_schema = {
+home_org_schema = {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "@id": "https://cryptocasinomedia.com/#organization",
+    "name": "CryptoCasinoMedia",
+    "url": "https://cryptocasinomedia.com",
+    "logo": {
+        "@type": "ImageObject",
+        "url": "https://cryptocasinomedia.com/favicon.ico"
+    },
+    "sameAs": [
+        "https://x.com/CryptoCasinoM"
+    ]
+}
+
+home_website_schema = {
     "@context": "https://schema.org",
     "@type": "WebSite",
+    "@id": "https://cryptocasinomedia.com/#website",
+    "name": "CryptoCasinoMedia",
     "url": "https://cryptocasinomedia.com",
+    "publisher": {
+        "@id": "https://cryptocasinomedia.com/#organization"
+    },
     "potentialAction": {
         "@type": "SearchAction",
         "target": {
@@ -1250,7 +1331,7 @@ home_search_schema = {
 }
 
 home_body = renderHomePage()
-home_html = build_static_page(template_content, "/", home_title, home_description, home_body, [])
+home_html = build_static_page(template_content, "/", home_title, home_description, home_body, [home_org_schema, home_website_schema])
 
 with open(os.path.join(output_base_dir, "index.html"), "w", encoding="utf-8") as f:
     f.write(home_html)

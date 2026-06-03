@@ -166,7 +166,7 @@ def generate_mock_articles(next_date):
 
 def generate_ai_articles(api_key, next_date):
     # Generates 5 unique press releases using the Gemini API in JSON mode
-    url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key={api_key}"
+    url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash:generateContent?key={api_key}"
     
     date_str = next_date.strftime("%Y-%m-%d")
     date_iso = next_date.strftime("%Y-%m-%dT09:00:00Z")
