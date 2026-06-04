@@ -15,25 +15,100 @@ except ImportError as e:
     print(f"Error: Could not import articles_data from update_articles.py: {e}")
     sys.exit(1)
 
-# List of 20 verified active Unsplash image URLs that return 200 OK
-VERIFIED_IMAGES = {
-    "crypto-casinos": "https://images.unsplash.com/photo-1518546305927-5a555bb7020d?auto=format&fit=crop&q=80&w=800",
-    "sportsbook": "https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?auto=format&fit=crop&q=80&w=800",
-    "payments": "https://images.unsplash.com/photo-1621416894569-0f39ed31d247?auto=format&fit=crop&q=80&w=800",
-    "regulation": "https://images.unsplash.com/photo-1589829545856-d10d557cf95f?auto=format&fit=crop&q=80&w=800",
-    "guides": "https://images.unsplash.com/photo-1551434678-e076c223a692?auto=format&fit=crop&q=80&w=800",
-    "sweepstakes": "https://images.unsplash.com/photo-1541256996761-85df2efaa164?auto=format&fit=crop&q=80&w=800",
-    "blockchain": "https://images.unsplash.com/photo-1639762681485-074b7f938ba0?auto=format&fit=crop&q=80&w=800",
-    "technology": "https://images.unsplash.com/photo-1677442135703-1787eea5ce01?auto=format&fit=crop&q=80&w=800",
-    "esports": "https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&q=80&w=800",
-    "corporate": "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&q=80&w=800",
-    "data": "https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&q=80&w=800",
-    "security": "https://images.unsplash.com/photo-1526304640581-d334cdbbf45e?auto=format&fit=crop&q=80&w=800",
-    "financials": "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=800",
-    "luxury": "https://images.unsplash.com/photo-1578575437130-527eed3abbec?auto=format&fit=crop&q=80&w=800",
-    "defi": "https://images.unsplash.com/photo-1622630998477-20aa696ecb05?auto=format&fit=crop&q=80&w=800",
-    "sports-soccer": "https://images.unsplash.com/photo-1620321023374-d1a68fbc720d?auto=format&fit=crop&q=80&w=800"
+# Expanded pools of high-quality verified Unsplash image URLs per category to guarantee uniqueness
+IMAGE_POOLS = {
+    "crypto-casinos": [
+        "https://images.unsplash.com/photo-1596838132731-3301c3fd4317?auto=format&fit=crop&q=80&w=800",
+        "https://images.unsplash.com/photo-1518546305927-5a555bb7020d?auto=format&fit=crop&q=80&w=800",
+        "https://images.unsplash.com/photo-1606167668584-78701c57f13d?auto=format&fit=crop&q=80&w=800",
+        "https://images.unsplash.com/photo-1570649236495-42fa5fe3c48b?auto=format&fit=crop&q=80&w=800",
+        "https://images.unsplash.com/photo-1605809831853-4117905d0d41?auto=format&fit=crop&q=80&w=800",
+        "https://images.unsplash.com/photo-1596838132646-c73db2f664df?auto=format&fit=crop&q=80&w=800",
+        "https://images.unsplash.com/photo-1578575437130-527eed3abbec?auto=format&fit=crop&q=80&w=800",
+        "https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?auto=format&fit=crop&q=80&w=800",
+        "https://images.unsplash.com/photo-1511193311914-0346f16efe90?auto=format&fit=crop&q=80&w=800",
+        "https://images.unsplash.com/photo-1609501676725-7186f017a4b7?auto=format&fit=crop&q=80&w=800",
+        "https://images.unsplash.com/photo-1513151233558-d860c5398176?auto=format&fit=crop&q=80&w=800",
+        "https://images.unsplash.com/photo-1522069169874-c58ec4b76be5?auto=format&fit=crop&q=80&w=800"
+    ],
+    "sportsbook": [
+        "https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?auto=format&fit=crop&q=80&w=800",
+        "https://images.unsplash.com/photo-1508098682722-e99c43a406b2?auto=format&fit=crop&q=80&w=800",
+        "https://images.unsplash.com/photo-1517649763962-0c623066013b?auto=format&fit=crop&q=80&w=800",
+        "https://images.unsplash.com/photo-1461896836934-ffe607ba8211?auto=format&fit=crop&q=80&w=800",
+        "https://images.unsplash.com/photo-1505250469679-203ad9ced0cb?auto=format&fit=crop&q=80&w=800",
+        "https://images.unsplash.com/photo-1518063319789-7217e6706b04?auto=format&fit=crop&q=80&w=800",
+        "https://images.unsplash.com/photo-1541252260730-0412e8e2108e?auto=format&fit=crop&q=80&w=800",
+        "https://images.unsplash.com/photo-1599447421416-3414500d18a5?auto=format&fit=crop&q=80&w=800",
+        "https://images.unsplash.com/photo-1579952362224-d986950002a4?auto=format&fit=crop&q=80&w=800",
+        "https://images.unsplash.com/photo-1519766304817-4f37bda74a27?auto=format&fit=crop&q=80&w=800",
+        "https://images.unsplash.com/photo-1540747737956-37872404f802?auto=format&fit=crop&q=80&w=800",
+        "https://images.unsplash.com/photo-1530541930197-ff16ac917b0e?auto=format&fit=crop&q=80&w=800"
+    ],
+    "regulation": [
+        "https://images.unsplash.com/photo-1589829545856-d10d557cf95f?auto=format&fit=crop&q=80&w=800",
+        "https://images.unsplash.com/photo-1450133064473-71024230f91b?auto=format&fit=crop&q=80&w=800",
+        "https://images.unsplash.com/photo-1505664194779-8bebcb95c553?auto=format&fit=crop&q=80&w=800",
+        "https://images.unsplash.com/photo-1521791136364-72864c003222?auto=format&fit=crop&q=80&w=800",
+        "https://images.unsplash.com/photo-1589829085413-56de8ae18c73?auto=format&fit=crop&q=80&w=800",
+        "https://images.unsplash.com/photo-1553729459-efe14ef6055d?auto=format&fit=crop&q=80&w=800",
+        "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&q=80&w=800",
+        "https://images.unsplash.com/photo-1447069387593-a5de0862481e?auto=format&fit=crop&q=80&w=800",
+        "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&q=80&w=800",
+        "https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&q=80&w=800"
+    ],
+    "payments": [
+        "https://images.unsplash.com/photo-1621416894569-0f39ed31d247?auto=format&fit=crop&q=80&w=800",
+        "https://images.unsplash.com/photo-1559526324-4b87b5e36e44?auto=format&fit=crop&q=80&w=800",
+        "https://images.unsplash.com/photo-1563013544-824ae1d704d3?auto=format&fit=crop&q=80&w=800",
+        "https://images.unsplash.com/photo-1601597111158-2fceff270190?auto=format&fit=crop&q=80&w=800",
+        "https://images.unsplash.com/photo-1526304640581-d334cdbbf45e?auto=format&fit=crop&q=80&w=800",
+        "https://images.unsplash.com/photo-1616077168079-7e09a677fb2c?auto=format&fit=crop&q=80&w=800",
+        "https://images.unsplash.com/photo-1621506289937-a8e4df240d0b?auto=format&fit=crop&q=80&w=800",
+        "https://images.unsplash.com/photo-1639762681485-074b7f938ba0?auto=format&fit=crop&q=80&w=800",
+        "https://images.unsplash.com/photo-1516245834210-c4c142787335?auto=format&fit=crop&q=80&w=800",
+        "https://images.unsplash.com/photo-1621761191319-c6fb62004040?auto=format&fit=crop&q=80&w=800",
+        "https://images.unsplash.com/photo-1622630998477-20aa696ecb05?auto=format&fit=crop&q=80&w=800",
+        "https://images.unsplash.com/photo-1629339942248-47d49e0855d6?auto=format&fit=crop&q=80&w=800"
+    ],
+    "sweepstakes": [
+        "https://images.unsplash.com/photo-1541256996761-85df2efaa164?auto=format&fit=crop&q=80&w=800",
+        "https://images.unsplash.com/photo-1612287230202-1bf1d85d1bdf?auto=format&fit=crop&q=80&w=800",
+        "https://images.unsplash.com/photo-1560253023-3ec5d502959f?auto=format&fit=crop&q=80&w=800",
+        "https://images.unsplash.com/photo-1553481187-be93c21490a9?auto=format&fit=crop&q=80&w=800",
+        "https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&q=80&w=800",
+        "https://images.unsplash.com/photo-1511512578047-dfb367046420?auto=format&fit=crop&q=80&w=800",
+        "https://images.unsplash.com/photo-1566241440091-ec10de8db2e1?auto=format&fit=crop&q=80&w=800",
+        "https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?auto=format&fit=crop&q=80&w=800",
+        "https://images.unsplash.com/photo-1538481199705-c710c4e965fc?auto=format&fit=crop&q=80&w=800",
+        "https://images.unsplash.com/photo-1551103782-8ab07afd45c1?auto=format&fit=crop&q=80&w=800"
+    ],
+    "guides": [
+        "https://images.unsplash.com/photo-1551434678-e076c223a692?auto=format&fit=crop&q=80&w=800",
+        "https://images.unsplash.com/photo-1518495973542-4542c06a5843?auto=format&fit=crop&q=80&w=800",
+        "https://images.unsplash.com/photo-1434030216411-0b793f4b4173?auto=format&fit=crop&q=80&w=800",
+        "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&q=80&w=800",
+        "https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?auto=format&fit=crop&q=80&w=800",
+        "https://images.unsplash.com/photo-1506784983877-45594efa4cbe?auto=format&fit=crop&q=80&w=800",
+        "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&q=80&w=800",
+        "https://images.unsplash.com/photo-1427504494785-3a9ca7044f45?auto=format&fit=crop&q=80&w=800"
+    ]
 }
+
+def select_unique_image(category, existing_urls):
+    pool = IMAGE_POOLS.get(category, IMAGE_POOLS.get("guides"))
+    unused = [url for url in pool if url not in existing_urls]
+    if unused:
+        return unused[0]
+    all_unused = []
+    for cat, urls in IMAGE_POOLS.items():
+        for url in urls:
+            if url not in existing_urls and url not in all_unused:
+                all_unused.append(url)
+    if all_unused:
+        return all_unused[0]
+    return pool[0]
+
 
 def get_next_date():
     # Detect the date of the latest article in our database
@@ -113,6 +188,7 @@ def write_to_update_articles(updated_articles_data):
 def generate_mock_articles(next_date):
     # Generates 5 high-quality mock press releases if the Gemini API Key is missing (useful for testing)
     import random
+    existing_urls = {art["thumbnailUrl"] for art in articles_data if "thumbnailUrl" in art}
     
     companies = ["Stake.com", "BC.GAME", "Rollbit", "Roobet", "Curacao Gaming Board", "MGA", "Coinbase Commerce", "Tether"]
     categories = ["crypto-casinos", "sportsbook", "regulation", "payments", "sweepstakes", "guides"]
@@ -140,8 +216,9 @@ def generate_mock_articles(next_date):
             "As digital asset regulations tighten globally, operators prioritize robust KYC/AML frameworks. This upgrade ensures full compliance with local financial authorities while maintaining standard user privacy parameters."
         ]
         
-        # Select verified working image
-        thumbnail = VERIFIED_IMAGES.get(category, VERIFIED_IMAGES["corporate"])
+        # Select unique unused image
+        thumbnail = select_unique_image(category, existing_urls)
+        existing_urls.add(thumbnail)
         
         new_articles.append({
             "id": art_id,
@@ -248,7 +325,8 @@ Format the output strictly as a JSON array of 5 objects matching the following s
             content_text = res_json['candidates'][0]['content']['parts'][0]['text']
             new_articles = json.loads(content_text.strip())
             
-            # Post-process to inject IDs incrementally
+            # Post-process to inject IDs and unique thumbnails incrementally
+            existing_urls = {art["thumbnailUrl"] for art in articles_data if "thumbnailUrl" in art}
             for offset, art in enumerate(new_articles):
                 art["id"] = f"pr-{len(articles_data) + offset + 1}"
                 # Ensure publishedAt and originalUrl conform
@@ -256,6 +334,12 @@ Format the output strictly as a JSON array of 5 objects matching the following s
                 art["originalUrl"] = f"https://cryptocasinomedia.com/press-releases/{art['slug']}"
                 if "lede" not in art:
                     art["lede"] = art["body"][0]
+                
+                # Assign a unique unused image
+                category = art.get("primaryCategory", "guides")
+                unique_img = select_unique_image(category, existing_urls)
+                art["thumbnailUrl"] = unique_img
+                existing_urls.add(unique_img)
                 
             return new_articles
             
