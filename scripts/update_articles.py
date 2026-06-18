@@ -9,6 +9,29 @@ import subprocess
 # Detailed list of the 34 articles with 4-5 paragraphs each, including quotes starting with "“"
 articles_data = [
   {
+    "id": "pr-65-scam-alert",
+    "slug": "scam-alert-fake-elon-musk-crypto-casino-giveaway-hiorax-riowex",
+    "originalUrl": "",
+    "title": "Scam Alert: Fake 'Elon Musk' $2,500 Crypto Casino Giveaway Targets Web3 Users",
+    "publishedAt": "2026-06-08T18:00:00Z",
+    "sourceName": "CryptoCasinoMedia Security Desk",
+    "thumbnailUrl": "https://images.unsplash.com/photo-1627856013091-fed6e4e30025?auto=format&fit=crop&q=80&w=800",
+    "dateline": "LONDON, UK, Jun. 08, 2026",
+    "lede": "A new network of fraudulent crypto casinos (Hiorax and Riowex) is exploiting deepfakes and fake Elon Musk endorsements to trap users with a deceptive $2,500 sign-up bonus.",
+    "body": [
+      "A highly coordinated network of fraudulent cryptocurrency casinos is actively targeting Web3 users with a fake promotion claiming that billionaire Elon Musk has launched his own blockchain casino. The scam lures victims with the promise of a guaranteed $2,500 sign-up bonus using the promo code 'BOSS'.",
+      "According to recent reports circulating in cybersecurity and Reddit communities, the scam operates through multiple identical mirror sites, most notably Hiorax.com and Riowex.com. Both platforms utilize the exact same frontend script, promotional language, and artificial urgency tactics, claiming the offer will 'be deleted in 1 hour.'",
+      "Security researchers note that these platforms display multiple red flags common to deposit-theft operations. Neither platform provides verifiable corporate information, regulatory oversight, or genuine iGaming licenses. The 'Licenses' page on both sites contains empty templates with zero regulatory data. Furthermore, the platforms promise 'instant withdrawals'\u2014a hook designed to convince users to make an initial deposit to 'verify' their accounts or unlock the fake $2,500 bonus, at which point their funds are stolen.",
+      "CryptoCasinoMedia urges all operators and players to remain vigilant. Legitimate operators must go through rigorous licensing and compliance procedures. If a promotion seems too good to be true and lacks basic regulatory transparency, it is highly likely a template scam designed to drain user wallets. Players are advised to never deposit funds to unlock a 'free' bonus on unverified platforms."
+    ],
+    "topics": ["Security", "Scams", "Regulation", "Player Protection"],
+    "primaryCategory": "regulation",
+    "company": "CryptoCasinoMedia Security Desk",
+    "region": "Global",
+    "contact": "security@cryptocasinomedia.com",
+    "excerpt": "Cybersecurity researchers have identified a coordinated network of template scam casinos, including Hiorax and Riowex, falsely claiming affiliation with Elon Musk. The sites lure victims with a fake $2,500 'BOSS' promo code, promising instant withdrawals to trick users into depositing funds."
+  },
+  {
     "id": "pr-1",
     "slug": "bitcoin-casino-no-deposit-bonus-2026-bc-poker-launches-5-free",
     "originalUrl": "https://www.globenewswire.com/news-release/2026/02/20/3241667/0/en/Bitcoin-Casino-No-Deposit-Bonus-2026-BC-Poker-Launches-5-Free-with-SMPBONUS-Code.html",
@@ -1526,6 +1549,13 @@ def main():
     raw_index_path = "/Users/thomaskim/Cryptocasinomedia/index/index.html"
     target_path = "/Users/thomaskim/Cryptocasinomedia/index/index.html.template"
 
+    try:
+        with open("/Users/thomaskim/Cryptocasinomedia/data/expert_analysis.json", "r", encoding="utf-8") as f:
+            expert_analysis_data = json.load(f)
+    except Exception:
+        expert_analysis_data = {}
+
+
     # Ensure the template exists as a copy of the clean raw index.html if not already created
     if not os.path.exists(target_path):
         print(f"Initializing {target_path} from clean {raw_index_path}...")
@@ -1557,7 +1587,9 @@ def main():
         item_str += f"            company: '{article['company']}',\n"
         item_str += f"            region: '{article['region']}',\n"
         item_str += f"            contact: '{article['contact']}',\n"
-        item_str += f"            excerpt: {json.dumps(article['excerpt'])}\n"
+        item_str += f"            excerpt: {json.dumps(article['excerpt'])},\n"
+        expert_text = expert_analysis_data.get(article['slug'], "")
+        item_str += f"            expertAnalysis: {json.dumps(expert_text)}\n"
         item_str += "          }"
         
         if i < len(articles_data) - 1:

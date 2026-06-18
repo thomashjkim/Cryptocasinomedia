@@ -32,7 +32,10 @@ core_pages = [
     ("https://cryptocasinomedia.com/how-crypto-casino-news-works", "2026-05-20", "monthly", "0.7"),
     ("https://cryptocasinomedia.com/aeo-best-practices", "2026-05-20", "monthly", "0.7"),
     ("https://cryptocasinomedia.com/press-release-seo", "2026-05-20", "monthly", "0.7"),
-    ("https://cryptocasinomedia.com/agent", "2026-05-21", "weekly", "0.7")
+    ("https://cryptocasinomedia.com/agent", "2026-05-21", "weekly", "0.7"),
+    ("https://cryptocasinomedia.com/guides/regulation-2026", "2026-06-08", "monthly", "0.9"),
+    ("https://cryptocasinomedia.com/guides/sweepstakes-market", "2026-06-08", "monthly", "0.9"),
+    ("https://cryptocasinomedia.com/guides/gamblefi-telegram", "2026-06-08", "monthly", "0.9")
 ]
 
 xml_lines = [

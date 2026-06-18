@@ -2,6 +2,7 @@ import sys
 import os
 import re
 import json
+import urllib.parse
 from datetime import datetime
 
 def inject_sponsored_rel(text):
@@ -34,6 +35,12 @@ output_base_dir = os.path.join(PROJECT_ROOT, "index")
 
 # Sort articles newest first
 articles_sorted = sorted(articles_data, key=lambda x: x['publishedAt'], reverse=True)
+
+try:
+    with open(os.path.join(PROJECT_ROOT, "data", "expert_analysis.json"), "r", encoding="utf-8") as f:
+        expert_analysis_data = json.load(f)
+except Exception:
+    expert_analysis_data = {}
 
 # L2 and Navigation configuration
 L2_MENUS = {
@@ -472,8 +479,27 @@ def renderArticlePage(slug):
         
     formattedDate = dt.strftime("%B %d, %Y")
 
-    tldr_section = f"""
-                                <section id="tldr" data-semantic-role="summary" class="my-8 bg-blue-50 border-l-4 border-blue-700 p-6 rounded-sm">
+    expert_text = expert_analysis_data.get(slug)
+    if expert_text:
+        expert_paragraphs = expert_text.split('\n\n')
+        expert_html = f"""
+                                <section id="expert-analysis" data-semantic-role="analysis" class="my-8 bg-blue-50 border-l-4 border-blue-600 p-6 rounded-r-lg font-sans">
+                                    <h3 class="flex items-center text-blue-900 font-bold mb-3 uppercase tracking-wider text-sm">
+                                        <i data-lucide="brain-circuit" class="w-5 h-5 mr-2"></i> CryptoCasinoMedia Expert Analysis
+                                    </h3>
+                                    <div class="space-y-4">
+"""
+        for ep in expert_paragraphs:
+            if ep.strip():
+                expert_html += f'                                        <p class="text-blue-800 text-sm leading-relaxed m-0">{ep.strip()}</p>\n'
+        expert_html += """                                    </div>
+                                </section>
+        """
+    else:
+        expert_html = ""
+
+    tldr_section = expert_html + f"""
+                                <section id="tldr" data-semantic-role="summary" class="my-8 bg-gray-50 border-l-4 border-gray-400 p-6 rounded-sm">
                                     <h3 class="text-xs uppercase tracking-widest font-semibold text-gray-900 mb-2 font-sans">Key Takeaways (AI Overview)</h3>
                                     <p class="text-sm font-sans text-gray-800 leading-relaxed m-0">
                                         {article['excerpt']}
@@ -570,12 +596,12 @@ def renderArticlePage(slug):
                                         </div>
                                     </div>
                                     <div class="flex gap-2">
-                                        <div class="w-8 h-8 rounded-full border border-gray-200 flex items-center justify-center text-gray-500 hover:text-blue-700 hover:border-blue-700 cursor-pointer transition-colors">
+                                        <a href="https://twitter.com/intent/tweet?text={urllib.parse.quote(article['title'])}&url=https://cryptocasinomedia.com/press-releases/{slug}" target="_blank" rel="noopener noreferrer" class="w-8 h-8 rounded-full border border-gray-200 flex items-center justify-center text-gray-500 hover:text-blue-700 hover:border-blue-700 transition-colors" aria-label="Share on Twitter">
                                             <svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24"><path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"/></svg>
-                                        </div>
-                                        <div class="w-8 h-8 rounded-full border border-gray-200 flex items-center justify-center text-gray-500 hover:text-blue-700 hover:border-blue-700 cursor-pointer transition-colors">
+                                        </a>
+                                        <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://cryptocasinomedia.com/press-releases/{slug}" target="_blank" rel="noopener noreferrer" class="w-8 h-8 rounded-full border border-gray-200 flex items-center justify-center text-gray-500 hover:text-blue-700 hover:border-blue-700 transition-colors" aria-label="Share on LinkedIn">
                                             <svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
-                                        </div>
+                                        </a>
                                     </div>
                                 </div>
                             </div>
@@ -594,6 +620,16 @@ def renderArticlePage(slug):
                                     <p class="text-sm text-gray-700 m-0">
                                         {article['company']} is a leading operator in the digital asset and interactive gaming space, committed to providing secure, transparent, and innovative entertainment experiences globally. For more information, visit the official corporate portal.
                                     </p>
+                                </div>
+
+                                <div class="my-10 bg-gradient-to-r from-blue-900 to-indigo-900 rounded-lg shadow-lg overflow-hidden flex flex-col md:flex-row items-center justify-between p-8 font-sans text-white">
+                                    <div class="mb-6 md:mb-0 md:mr-8 text-center md:text-left flex-1">
+                                        <h3 class="text-2xl font-bold mb-2 text-white">Reach 50,000+ iGaming Professionals</h3>
+                                        <p class="text-blue-100 text-sm m-0">Distribute your corporate announcements, product launches, and regulatory updates directly to decision-makers across the crypto casino ecosystem.</p>
+                                    </div>
+                                    <a href="/advertise" class="shrink-0 bg-white text-blue-900 hover:bg-blue-50 font-bold py-3 px-6 rounded-md transition-colors whitespace-nowrap text-sm shadow-md cursor-pointer no-underline block">
+                                        Submit Press Release
+                                    </a>
                                 </div>
 
                                 {contact_block}
@@ -622,6 +658,10 @@ def renderArticlePage(slug):
                                     </div>
                                     <div class="p-5 space-y-4 text-sm">
                                         <div>
+                                            <span class="block text-gray-500 text-[11px] uppercase tracking-wider mb-1">Author</span>
+                                            <span class="font-semibold text-gray-900">CryptoCasinoMedia Desk</span>
+                                        </div>
+                                        <div>
                                             <span class="block text-gray-500 text-[11px] uppercase tracking-wider mb-1">Source</span>
                                             <span class="font-semibold text-gray-900">{article['sourceName']}</span>
                                         </div>
@@ -637,11 +677,7 @@ def renderArticlePage(slug):
                                                 {topicsHtml}
                                             </div>
                                         </div>
-                                        <div class="pt-4 border-t border-gray-100">
-                                            <a href="{article['originalUrl']}" target="_blank" rel="noopener noreferrer" class="flex items-center justify-center w-full py-2 bg-gray-900 text-white hover:bg-blue-700 transition-colors font-medium">
-                                                View Original Release <i data-lucide="external-link" class="w-[14px] h-[14px] ml-2"></i>
-                                            </a>
-                                        </div>
+
                                     </div>
                                 </div>
 
@@ -737,6 +773,40 @@ def renderIndustryPage(industry):
 
 def renderKnowledgePage(type):
     pages = {
+
+        'regulation-2026': {
+            'title': 'The 2026 Crypto Casino Regulatory Guide',
+            'h1': 'The 2026 Crypto Casino Regulatory Guide',
+            'sections': [
+                {'heading': 'Executive Summary', 'body': 'The regulatory landscape for crypto casinos has matured significantly in 2026. With the full implementation of MiCA in Europe and the restructuring of Curacao\'s licensing framework, operators must navigate a complex web of multijurisdictional compliance to maintain market access and banking relationships.'},
+                {'heading': 'Curacao License Restructuring', 'body': 'Historically the primary jurisdiction for crypto casinos, Curacao has replaced its master license system with the National Ordinance for Games of Chance (LOK). In 2026, operators face stricter KYC/AML requirements, mandatory physical presence on the island, and enhanced player protection standards. Existing sub-license holders must fully transition to the new framework by Q3 2026.'},
+                {'heading': 'The MiCA Impact in Europe', 'body': 'The Markets in Crypto-Assets (MiCA) regulation has fundamentally altered how crypto casinos operate within the EU. While MiCA does not regulate gambling directly, it strictly regulates the stablecoins (E-Money Tokens) and service providers that casinos rely on. Casinos must ensure their payment gateways and custody solutions are fully MiCA-compliant to serve European players legally.'},
+                {'heading': 'Emerging Markets: LatAm & Brazil', 'body': 'Brazil\'s fully regulated iGaming market, which opened in early 2025, has become a primary target for crypto operators. However, the Brazilian framework requires strict local entity establishment and mandates fiat-crypto on-ramps through licensed financial institutions using PIX. Unlicensed offshore crypto casinos face aggressive ISP blocking and payment processor sanctions.'},
+                {'heading': 'UKGC & Crypto Integration', 'body': 'The UK Gambling Commission maintains its stringent stance on crypto assets. While direct crypto deposits remain highly restricted, operators are increasingly utilizing licensed third-party processors that instantly convert crypto deposits to fiat. Proving source of funds (SOF) for crypto wealth remains the highest compliance hurdle for UK-licensed operators.'}
+            ]
+        },
+        'sweepstakes-market': {
+            'title': 'Sweepstakes Casinos: Market Size & Legal Framework',
+            'h1': 'Sweepstakes Casinos: Market Size & Legal Framework 2026',
+            'sections': [
+                {'heading': 'The Sweepstakes Model Explained', 'body': 'Sweepstakes casinos operate under US sweepstakes laws rather than traditional gambling regulations. They utilize a dual-currency system: "Gold Coins" (GC) which hold no monetary value and are used for free play, and "Sweeps Coins" (SC) which are given away for free as a promotional entry and can be redeemed for real cash prizes. Players cannot purchase Sweeps Coins directly.'},
+                {'heading': 'Market Size and Growth', 'body': 'The US sweepstakes casino market has exploded, surpassing $4 billion in estimated revenue in 2026. This exponential growth is driven by the slow rollout of legal real-money online casinos (iGaming) in the US, which remains restricted to only a handful of states. Sweepstakes provide a legal, casino-like experience to players in over 40 states.'},
+                {'heading': 'Legal Framework and State Restrictions', 'body': 'While federally legal under sweepstakes provisions, state-level regulations vary wildly. In 2026, states like Michigan, Idaho, and Washington have taken aggressive stances against the sweepstakes model, forcing operators to geoblock residents. The legal distinction hinges on the "No Purchase Necessary" clause and the Alternative Method of Entry (AMOE), typically via mail-in requests.'},
+                {'heading': 'Convergence with Crypto', 'body': 'A major trend in 2026 is the integration of cryptocurrency into the sweepstakes model. Operators are increasingly allowing users to purchase Gold Coin packages using Bitcoin or stablecoins, and redeeming Sweeps Coins via crypto payouts. This bypasses traditional banking hurdles that often plague the high-risk sweepstakes sector.'},
+                {'heading': 'Future Outlook', 'body': 'As the market matures, regulatory scrutiny will intensify. Major traditional iGaming operators are expected to launch their own sweepstakes brands or acquire existing market leaders to capture the massive US audience currently inaccessible via regulated real-money channels.'}
+            ]
+        },
+        'gamblefi-telegram': {
+            'title': 'GambleFi & Telegram Casinos: Web3 Betting',
+            'h1': 'GambleFi & Telegram Casinos: The Future of Web3 Betting',
+            'sections': [
+                {'heading': 'What is GambleFi?', 'body': 'GambleFi sits at the intersection of decentralized finance (DeFi) and iGaming. It encompasses decentralized betting protocols, on-chain casinos, and platforms that utilize smart contracts to execute bets and distribute winnings without a centralized house. This model offers unparalleled transparency, as the house edge and payout mechanics are verifiable on the blockchain.'},
+                {'heading': 'The Rise of Telegram Casinos', 'body': 'Telegram casinos have become the fastest-growing acquisition channel in the crypto gambling space in 2026. By integrating directly into the Telegram messaging app via bots and mini-apps, operators eliminate the friction of traditional account creation. Players can deposit, bet, and withdraw seamlessly within the chat interface, often without extensive KYC requirements.'},
+                {'heading': 'Tokenomics and Revenue Sharing', 'body': 'A defining feature of GambleFi is revenue sharing. Many decentralized casinos issue native utility tokens. Token holders can stake their assets to act as the "house bankroll," earning a yield generated from the platform\'s profits. This aligns the incentives of players, liquidity providers, and the platform.'},
+                {'heading': 'Zero-Knowledge and Privacy', 'body': 'As regulatory pressures mount, GambleFi platforms are adopting Zero-Knowledge (ZK) proofs. This allows players to prove they are of legal age or not located in a restricted jurisdiction without revealing their actual identity or location, balancing compliance with the privacy ethos of Web3.'},
+                {'heading': 'Challenges and Risks', 'body': 'The GambleFi sector faces significant risks, including smart contract vulnerabilities, rug pulls, and ambiguous legal status. Because many platforms operate entirely on-chain without traditional licenses, they exist in a regulatory gray area, making them vulnerable to enforcement actions from global financial regulators.'}
+            ]
+        },
         'how': {
             'title': 'How Crypto Casino News Distribution Works',
             'h1': 'How Crypto Casino News Distribution Works',
@@ -780,6 +850,8 @@ def renderContactPage():
 
 def renderSubmitPage():
     return '<div class="max-w-[800px] mx-auto px-4 sm:px-6 lg:px-8 py-16 animate-fade-in"><div class="mb-10 border-b border-gray-200 pb-8"><h1 class="text-4xl font-semibold tracking-tight text-gray-900 mb-3">Submit a Press Release</h1><p class="text-lg text-gray-600">Reach key decision makers, operators, and analysts in the crypto and iGaming sector.</p></div><form name="press-release" method="POST" data-netlify="true" class="space-y-6"><input type="hidden" name="form-name" value="press-release"><div class="grid grid-cols-1 sm:grid-cols-2 gap-6"><div><label class="block text-sm font-semibold text-gray-700 mb-2">Company Name *</label><input type="text" name="company" required placeholder="Your Company" class="w-full border border-gray-300 px-4 py-2.5 text-sm focus:outline-none focus:border-gray-900 bg-white"></div><div><label class="block text-sm font-semibold text-gray-700 mb-2">Contact Name *</label><input type="text" name="contact-name" required placeholder="Jane Doe" class="w-full border border-gray-300 px-4 py-2.5 text-sm focus:outline-none focus:border-gray-900 bg-white"></div></div><div class="grid grid-cols-1 sm:grid-cols-2 gap-6"><div><label class="block text-sm font-semibold text-gray-700 mb-2">Email Address *</label><input type="email" name="email" required placeholder="press@yourcompany.com" class="w-full border border-gray-300 px-4 py-2.5 text-sm focus:outline-none focus:border-gray-900 bg-white"></div><div><label class="block text-sm font-semibold text-gray-700 mb-2">Distribution Date</label><input type="date" name="distribution-date" class="w-full border border-gray-300 px-4 py-2.5 text-sm focus:outline-none focus:border-gray-900 bg-white"></div></div><div><label class="block text-sm font-semibold text-gray-700 mb-2">Press Release Headline *</label><input type="text" name="headline" required placeholder="Your Press Release Title" class="w-full border border-gray-300 px-4 py-2.5 text-sm focus:outline-none focus:border-gray-900 bg-white"></div><div><label class="block text-sm font-semibold text-gray-700 mb-2">Category *</label><select name="category" required class="w-full border border-gray-300 px-4 py-2.5 text-sm focus:outline-none focus:border-gray-900 bg-white"><option value="">Select a category...</option><option value="crypto-casinos">Crypto Casinos</option><option value="sportsbook">Sportsbook</option><option value="regulation">Regulation and Compliance</option><option value="payments">Payments and Technology</option><option value="sweepstakes">Sweepstakes</option><option value="guides">Industry Guides</option></select></div><div><label class="block text-sm font-semibold text-gray-700 mb-2">Press Release Body *</label><textarea name="body" required rows="10" placeholder="Paste the full text of your press release here..." class="w-full border border-gray-300 px-4 py-2.5 text-sm focus:outline-none focus:border-gray-900 bg-white resize-none"></textarea></div><div><label class="block text-sm font-semibold text-gray-700 mb-2">Image URL (optional)</label><input type="url" name="image-url" placeholder="https://yoursite.com/image.jpg" class="w-full border border-gray-300 px-4 py-2.5 text-sm focus:outline-none focus:border-gray-900 bg-white"></div><div class="bg-gray-50 border border-gray-200 p-4 text-sm text-gray-600">Distribution includes editorial review, homepage feature consideration, and SEO-optimized publication. Standard turnaround is 1-3 business days.</div><button type="submit" class="px-8 py-3 bg-gray-900 text-white text-sm font-semibold hover:bg-blue-700 transition-colors">Submit Press Release</button></form><div id="pr-success" class="hidden mt-6 p-4 bg-green-50 border border-green-200 text-green-800 text-sm font-medium">Thank you for your submission! Our editorial team will review your press release and follow up within 1-3 business days.</div></div>'
+
+
 
 def renderAboutPage():
     return """
@@ -1239,7 +1311,9 @@ for key, title, description in industries:
 
 # 5. Knowledge base guides
 guides = [
-    ('how', 'how-crypto-casino-news-works', 'How Crypto Casino News Distribution Works', 'How crypto casino press releases reach AI systems, search engines, and industry professionals through structured news distribution.'),
+('regulation-2026', 'guides/regulation-2026', 'The 2026 Crypto Casino Regulatory Guide', 'A comprehensive B2B guide covering Curacao LOK, EU MiCA impact, and emerging LatAm regulatory frameworks.'),
+    ('sweepstakes-market', 'guides/sweepstakes-market', 'Sweepstakes Casinos: Market Size & Legal Framework 2026', 'Understanding the $4B US sweepstakes model, Gold Coins/Sweeps Coins mechanics, and state-by-state legality.'),
+    ('gamblefi-telegram', 'guides/gamblefi-telegram', 'GambleFi & Telegram Casinos: Web3 Betting', 'The rise of no-KYC Telegram bots, decentralized on-chain casinos, and revenue-sharing tokenomics.'),    ('how', 'how-crypto-casino-news-works', 'How Crypto Casino News Distribution Works', 'How crypto casino press releases reach AI systems, search engines, and industry professionals through structured news distribution.'),
     ('aeo', 'aeo-best-practices', 'AEO Best Practices for iGaming Publishers', 'Answer Engine Optimization guide for crypto casino and iGaming publishers. Structure content for ChatGPT, Perplexity, and Google AI.'),
     ('seo', 'press-release-seo', 'Press Release SEO for Crypto Operators', 'How to structure press releases for maximum SEO and AI visibility. Semantic URLs, schema markup, and content strategy.')
 ]
