@@ -1,0 +1,12 @@
+2026/06/05-15:22:12.270 a481fd Reusing MANIFEST /Users/thomaskim/Library/Application Support/Google/Chrome/Profile 5/IndexedDB/https_mail.google.com_0.indexeddb.leveldb/MANIFEST-000001
+2026/06/05-15:22:12.271 a481fd Recovering log #39
+2026/06/05-15:22:12.272 a481fd Reusing old log /Users/thomaskim/Library/Application Support/Google/Chrome/Profile 5/IndexedDB/https_mail.google.com_0.indexeddb.leveldb/000039.log 
+2026/06/05-15:22:14.060 a481fa Compacting 1@1 + 1@2 files
+2026/06/05-15:22:14.067 a481fa Generated table #42@1: 69 keys, 109973 bytes
+2026/06/05-15:22:14.067 a481fa Compacted 1@1 + 1@2 files => 109973 bytes
+2026/06/05-15:22:14.069 a481fa compacted to: files[ 0 0 1 0 0 0 0 ]
+2026/06/05-15:22:14.069 a481fa Delete type=2 #38
+2026/06/05-15:22:14.069 a481fa Delete type=2 #40
+2026/06/05-15:22:26.301 a481fd Level-0 table #44: started
+2026/06/05-15:22:26.321 a481fd Level-0 table #44: 3218670 bytes OK
+2026/06/05-15:22:26.324 a481fd Delete type=0 #39

@@ -15,27 +15,27 @@ sitemap_path = os.path.join(PROJECT_ROOT, "index/sitemap.xml")
 # Standard core pages
 core_pages = [
     ("https://cryptocasinomedia.com/", "2026-05-20", "daily", "1.0"),
-    ("https://cryptocasinomedia.com/press-releases", "2026-05-20", "daily", "0.9"),
-    ("https://cryptocasinomedia.com/crypto-casinos", "2026-05-20", "daily", "0.8"),
-    ("https://cryptocasinomedia.com/sportsbook", "2026-05-20", "daily", "0.8"),
-    ("https://cryptocasinomedia.com/regulation", "2026-05-20", "weekly", "0.8"),
-    ("https://cryptocasinomedia.com/payments", "2026-05-20", "weekly", "0.7"),
-    ("https://cryptocasinomedia.com/sweepstakes", "2026-05-20", "weekly", "0.7"),
-    ("https://cryptocasinomedia.com/guides", "2026-05-20", "weekly", "0.7"),
-    ("https://cryptocasinomedia.com/about", "2026-05-20", "monthly", "0.7"),
-    ("https://cryptocasinomedia.com/editorial-standards", "2026-05-20", "monthly", "0.6"),
-    ("https://cryptocasinomedia.com/advertise", "2026-05-20", "monthly", "0.7"),
-    ("https://cryptocasinomedia.com/submit", "2026-05-20", "monthly", "0.7"),
-    ("https://cryptocasinomedia.com/contact", "2026-05-20", "monthly", "0.7"),
-    ("https://cryptocasinomedia.com/industry/crypto", "2026-05-20", "weekly", "0.8"),
-    ("https://cryptocasinomedia.com/industry/igaming", "2026-05-20", "weekly", "0.8"),
-    ("https://cryptocasinomedia.com/how-crypto-casino-news-works", "2026-05-20", "monthly", "0.7"),
-    ("https://cryptocasinomedia.com/aeo-best-practices", "2026-05-20", "monthly", "0.7"),
-    ("https://cryptocasinomedia.com/press-release-seo", "2026-05-20", "monthly", "0.7"),
-    ("https://cryptocasinomedia.com/agent", "2026-05-21", "weekly", "0.7"),
-    ("https://cryptocasinomedia.com/guides/regulation-2026", "2026-06-08", "monthly", "0.9"),
-    ("https://cryptocasinomedia.com/guides/sweepstakes-market", "2026-06-08", "monthly", "0.9"),
-    ("https://cryptocasinomedia.com/guides/gamblefi-telegram", "2026-06-08", "monthly", "0.9")
+    ("https://cryptocasinomedia.com/press-releases/", "2026-05-20", "daily", "0.9"),
+    ("https://cryptocasinomedia.com/crypto-casinos/", "2026-05-20", "daily", "0.8"),
+    ("https://cryptocasinomedia.com/sportsbook/", "2026-05-20", "daily", "0.8"),
+    ("https://cryptocasinomedia.com/regulation/", "2026-05-20", "weekly", "0.8"),
+    ("https://cryptocasinomedia.com/payments/", "2026-05-20", "weekly", "0.7"),
+    ("https://cryptocasinomedia.com/sweepstakes/", "2026-05-20", "weekly", "0.7"),
+    ("https://cryptocasinomedia.com/guides/", "2026-05-20", "weekly", "0.7"),
+    ("https://cryptocasinomedia.com/about/", "2026-05-20", "monthly", "0.7"),
+    ("https://cryptocasinomedia.com/editorial-standards/", "2026-05-20", "monthly", "0.6"),
+    ("https://cryptocasinomedia.com/advertise/", "2026-05-20", "monthly", "0.7"),
+    ("https://cryptocasinomedia.com/submit/", "2026-05-20", "monthly", "0.7"),
+    ("https://cryptocasinomedia.com/contact/", "2026-05-20", "monthly", "0.7"),
+    ("https://cryptocasinomedia.com/industry/crypto/", "2026-05-20", "weekly", "0.8"),
+    ("https://cryptocasinomedia.com/industry/igaming/", "2026-05-20", "weekly", "0.8"),
+    ("https://cryptocasinomedia.com/how-crypto-casino-news-works/", "2026-05-20", "monthly", "0.7"),
+    ("https://cryptocasinomedia.com/aeo-best-practices/", "2026-05-20", "monthly", "0.7"),
+    ("https://cryptocasinomedia.com/press-release-seo/", "2026-05-20", "monthly", "0.7"),
+    ("https://cryptocasinomedia.com/agent/", "2026-05-21", "weekly", "0.7"),
+    ("https://cryptocasinomedia.com/guides/regulation-2026/", "2026-06-08", "monthly", "0.9"),
+    ("https://cryptocasinomedia.com/guides/sweepstakes-market/", "2026-06-08", "monthly", "0.9"),
+    ("https://cryptocasinomedia.com/guides/gamblefi-telegram/", "2026-06-08", "monthly", "0.9")
 ]
 
 xml_lines = [
@@ -52,7 +52,7 @@ for article in articles_data:
     published_at = article["publishedAt"]
     # Get YYYY-MM-DD from YYYY-MM-DDTHH:MM:SSZ
     date_part = published_at.split("T")[0]
-    loc = f"https://cryptocasinomedia.com/press-releases/{slug}"
+    loc = f"https://cryptocasinomedia.com/press-releases/{slug}/"
     xml_lines.append(f'  <url><loc>{loc}</loc><lastmod>{date_part}</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>')
 
 xml_lines.append('</urlset>')

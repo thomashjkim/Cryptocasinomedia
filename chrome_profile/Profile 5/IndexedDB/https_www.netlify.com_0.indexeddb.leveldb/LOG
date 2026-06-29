@@ -1,0 +1,15 @@
+2026/06/18-17:04:20.399 4f40 Reusing MANIFEST /Users/thomaskim/Library/Application Support/Google/Chrome/Profile 5/IndexedDB/https_www.netlify.com_0.indexeddb.leveldb/MANIFEST-000001
+2026/06/18-17:04:20.399 4f40 Recovering log #7
+2026/06/18-17:04:20.400 4f40 Reusing old log /Users/thomaskim/Library/Application Support/Google/Chrome/Profile 5/IndexedDB/https_www.netlify.com_0.indexeddb.leveldb/000007.log 
+2026/06/18-17:08:44.554 4f40 Level-0 table #12: started
+2026/06/18-17:08:44.555 4f40 Level-0 table #12: 209 bytes OK
+2026/06/18-17:08:44.556 4f40 Delete type=0 #7
+2026/06/18-17:08:44.557 4f40 Manual compaction at level-0 from (begin) .. (end); will stop at (end)
+2026/06/18-17:08:44.557 4f40 Manual compaction at level-1 from (begin) .. (end); will stop at '\x00\x00\x00\x00\x06' @ 50 : 1
+2026/06/18-17:08:44.557 4f40 Compacting 1@1 + 1@2 files
+2026/06/18-17:08:44.559 4f40 Generated table #13@1: 19 keys, 513 bytes
+2026/06/18-17:08:44.559 4f40 Compacted 1@1 + 1@2 files => 513 bytes
+2026/06/18-17:08:44.560 4f40 compacted to: files[ 0 0 1 0 0 0 0 ]
+2026/06/18-17:08:44.560 4f40 Delete type=2 #12
+2026/06/18-17:08:44.560 4f40 Delete type=2 #9
+2026/06/18-17:08:44.561 4f40 Manual compaction at level-1 from '\x00\x00\x00\x00\x06' @ 50 : 1 .. (end); will stop at (end)

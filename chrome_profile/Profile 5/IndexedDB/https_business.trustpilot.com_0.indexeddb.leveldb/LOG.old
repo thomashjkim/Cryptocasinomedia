@@ -1,0 +1,6 @@
+2026/05/22-10:16:36.495 2bd83e Creating DB /Users/thomaskim/Library/Application Support/Google/Chrome/Profile 5/IndexedDB/https_business.trustpilot.com_0.indexeddb.leveldb since it was missing.
+2026/05/22-10:16:36.498 2bd83e Reusing MANIFEST /Users/thomaskim/Library/Application Support/Google/Chrome/Profile 5/IndexedDB/https_business.trustpilot.com_0.indexeddb.leveldb/MANIFEST-000001
+2026/05/22-10:16:47.752 2bd841 Level-0 table #5: started
+2026/05/22-10:16:47.756 2bd841 Level-0 table #5: 1119 bytes OK
+2026/05/22-10:16:47.759 2bd841 Delete type=0 #3
+2026/05/22-10:16:47.759 2bd841 Manual compaction at level-0 from (begin) .. (end); will stop at (end)

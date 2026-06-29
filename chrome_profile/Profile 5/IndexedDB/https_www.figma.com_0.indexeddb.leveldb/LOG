@@ -1,0 +1,4 @@
+2026/05/21-17:33:29.476 2bd83e Reusing MANIFEST /Users/thomaskim/Library/Application Support/Google/Chrome/Profile 5/IndexedDB/https_www.figma.com_0.indexeddb.leveldb/MANIFEST-000001
+2026/05/21-17:33:29.476 2bd83e Recovering log #4
+2026/05/21-17:33:29.476 2bd83e Reusing old log /Users/thomaskim/Library/Application Support/Google/Chrome/Profile 5/IndexedDB/https_www.figma.com_0.indexeddb.leveldb/000004.log 
+2026/05/21-17:33:30.005 2bd848 Manual compaction at level-0 from '\x00\x02\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00\x03\x00\x00\x00' @ 0 : 0; will stop at (end)

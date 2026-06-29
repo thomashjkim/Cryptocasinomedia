@@ -1,0 +1,31 @@
+2026/05/22-10:19:28.720 2bd848 Creating DB /Users/thomaskim/Library/Application Support/Google/Chrome/Profile 5/IndexedDB/https_authenticate.trustpilot.com_0.indexeddb.leveldb since it was missing.
+2026/05/22-10:19:28.722 2bd848 Reusing MANIFEST /Users/thomaskim/Library/Application Support/Google/Chrome/Profile 5/IndexedDB/https_authenticate.trustpilot.com_0.indexeddb.leveldb/MANIFEST-000001
+2026/05/22-10:19:28.726 2bd841 Level-0 table #5: started
+2026/05/22-10:19:28.727 2bd841 Level-0 table #5: 1338 bytes OK
+2026/05/22-10:19:28.728 2bd841 Delete type=0 #3
+2026/05/22-10:19:28.728 2bd841 Manual compaction at level-0 from '\x00\x01\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00\x02\x00\x00\x00' @ 0 : 0; will stop at (end)
+2026/05/22-10:19:34.846 2bd848 Level-0 table #7: started
+2026/05/22-10:19:34.847 2bd848 Level-0 table #7: 2117 bytes OK
+2026/05/22-10:19:34.849 2bd848 Delete type=0 #4
+2026/05/22-10:19:34.849 2bd841 Manual compaction at level-0 from '\x00\x04\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00\x05\x00\x00\x00' @ 0 : 0; will stop at (end)
+2026/05/22-10:23:34.377 2bd848 Level-0 table #9: started
+2026/05/22-10:23:34.378 2bd848 Level-0 table #9: 3936 bytes OK
+2026/05/22-10:23:34.379 2bd848 Delete type=0 #6
+2026/05/22-10:23:34.380 2bd83e Manual compaction at level-0 from '\x00\x05\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00\x06\x00\x00\x00' @ 0 : 0; will stop at '\x00\x05\x00\x00\x05' @ 225 : 1
+2026/05/22-10:23:34.380 2bd83e Compacting 1@0 + 1@1 files
+2026/05/22-10:23:34.380 2bd83e Generated table #10@0: 80 keys, 3569 bytes
+2026/05/22-10:23:34.380 2bd83e Compacted 1@0 + 1@1 files => 3569 bytes
+2026/05/22-10:23:34.381 2bd83e compacted to: files[ 0 1 1 0 0 0 0 ]
+2026/05/22-10:23:34.381 2bd83e Delete type=2 #9
+2026/05/22-10:23:34.381 2bd83e Manual compaction at level-0 from '\x00\x05\x00\x00\x05' @ 225 : 1 .. '\x00\x06\x00\x00\x00' @ 0 : 0; will stop at (end)
+2026/05/22-10:23:43.646 2bd841 Level-0 table #12: started
+2026/05/22-10:23:43.648 2bd841 Level-0 table #12: 3627 bytes OK
+2026/05/22-10:23:43.649 2bd841 Delete type=2 #7
+2026/05/22-10:23:43.649 2bd841 Delete type=0 #8
+2026/05/22-10:23:43.649 2bd83e Manual compaction at level-0 from '\x00\x06\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00\x07\x00\x00\x00' @ 0 : 0; will stop at '\x00\x06\x00\x00\x05' @ 282 : 1
+2026/05/22-10:23:43.649 2bd83e Compacting 1@0 + 1@1 files
+2026/05/22-10:23:43.650 2bd83e Generated table #13@0: 96 keys, 3784 bytes
+2026/05/22-10:23:43.650 2bd83e Compacted 1@0 + 1@1 files => 3784 bytes
+2026/05/22-10:23:43.651 2bd83e compacted to: files[ 0 1 1 0 0 0 0 ]
+2026/05/22-10:23:43.651 2bd83e Delete type=2 #12
+2026/05/22-10:23:43.651 2bd83e Manual compaction at level-0 from '\x00\x06\x00\x00\x05' @ 282 : 1 .. '\x00\x07\x00\x00\x00' @ 0 : 0; will stop at (end)

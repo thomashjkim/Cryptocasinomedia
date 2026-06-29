@@ -1,0 +1,15 @@
+2026/06/18-17:04:22.408 4f36 Reusing MANIFEST /Users/thomaskim/Library/Application Support/Google/Chrome/Profile 5/IndexedDB/https_app.netlify.com_0.indexeddb.leveldb/MANIFEST-000001
+2026/06/18-17:04:22.409 4f36 Recovering log #13
+2026/06/18-17:04:22.410 4f36 Reusing old log /Users/thomaskim/Library/Application Support/Google/Chrome/Profile 5/IndexedDB/https_app.netlify.com_0.indexeddb.leveldb/000013.log 
+2026/06/18-17:08:44.554 4f41 Level-0 table #18: started
+2026/06/18-17:08:44.556 4f41 Level-0 table #18: 14708 bytes OK
+2026/06/18-17:08:44.557 4f41 Delete type=0 #13
+2026/06/18-17:08:44.558 4f41 Manual compaction at level-0 from (begin) .. (end); will stop at (end)
+2026/06/18-17:08:44.559 4f41 Manual compaction at level-1 from (begin) .. (end); will stop at '\x00\x0b\x00\x00\xc8 \x00l\x00o\x00c\x00a\x00l\x00-\x00f\x00o\x00r\x00a\x00g\x00e\x00-\x00d\x00e\x00t\x00e\x00c\x00t\x00-\x00b\x00l\x00o\x00b\x00-\x00s\x00u\x00p\x00p\x00o\x00r\x00t' @ 12086 : 1
+2026/06/18-17:08:44.559 4f41 Compacting 1@1 + 1@2 files
+2026/06/18-17:08:44.560 4f41 Generated table #19@1: 243 keys, 7024 bytes
+2026/06/18-17:08:44.560 4f41 Compacted 1@1 + 1@2 files => 7024 bytes
+2026/06/18-17:08:44.562 4f41 compacted to: files[ 0 0 1 0 0 0 0 ]
+2026/06/18-17:08:44.562 4f41 Delete type=2 #15
+2026/06/18-17:08:44.562 4f41 Delete type=2 #18
+2026/06/18-17:08:44.563 4f36 Manual compaction at level-1 from '\x00\x0b\x00\x00\xc8 \x00l\x00o\x00c\x00a\x00l\x00-\x00f\x00o\x00r\x00a\x00g\x00e\x00-\x00d\x00e\x00t\x00e\x00c\x00t\x00-\x00b\x00l\x00o\x00b\x00-\x00s\x00u\x00p\x00p\x00o\x00r\x00t' @ 12086 : 1 .. (end); will stop at (end)

@@ -44,20 +44,20 @@ except Exception:
 
 # L2 and Navigation configuration
 L2_MENUS = {
-    '/press-releases': ['All', 'New Launches', 'Partnerships', 'Bonuses', 'Expansion', 'Technology', 'Compliance'],
-    '/regulation': ['USA', 'Canada', 'Europe', 'Asia', 'Licensing', 'Enforcement'],
-    '/payments': ['Bitcoin', 'Ethereum', 'Stablecoins', 'Fast Withdrawals', 'No KYC'],
-    '/sweepstakes': ['Market Updates', 'Coin Trends', 'Operator Launches', 'Promotions', 'Guides']
+    '/press-releases/': ['All', 'New Launches', 'Partnerships', 'Bonuses', 'Expansion', 'Technology', 'Compliance'],
+    '/regulation/': ['USA', 'Canada', 'Europe', 'Asia', 'Licensing', 'Enforcement'],
+    '/payments/': ['Bitcoin', 'Ethereum', 'Stablecoins', 'Fast Withdrawals', 'No KYC'],
+    '/sweepstakes/': ['Market Updates', 'Coin Trends', 'Operator Launches', 'Promotions', 'Guides']
 }
 
 navItems = [
-    { 'label': 'Press Releases', 'path': '/press-releases' },
-    { 'label': 'Crypto Casinos', 'path': '/crypto-casinos' },
-    { 'label': 'Sportsbook', 'path': '/sportsbook' },
-    { 'label': 'Regulation', 'path': '/regulation' },
-    { 'label': 'Payments', 'path': '/payments' },
-    { 'label': 'Sweepstakes', 'path': '/sweepstakes' },
-    { 'label': 'Guides', 'path': '/guides' },
+    { 'label': 'Press Releases', 'path': '/press-releases/' },
+    { 'label': 'Crypto Casinos', 'path': '/crypto-casinos/' },
+    { 'label': 'Sportsbook', 'path': '/sportsbook/' },
+    { 'label': 'Regulation', 'path': '/regulation/' },
+    { 'label': 'Payments', 'path': '/payments/' },
+    { 'label': 'Sweepstakes', 'path': '/sweepstakes/' },
+    { 'label': 'Guides', 'path': '/guides/' },
 ]
 
 # Global Wikidata Entity mappings for high-value B2B concepts
@@ -218,12 +218,15 @@ def renderFooter():
 
 def formatDateMeta(dateStr):
     try:
-        dt = datetime.strptime(dateStr.replace('Z', ''), "%Y-%m-%dT%H:%M:%S")
-    except ValueError:
+        dt = datetime.fromisoformat(dateStr.replace('Z', '+00:00'))
+    except Exception:
         try:
-            dt = datetime.strptime(dateStr.split('.')[0].replace('Z', ''), "%Y-%m-%dT%H:%M:%S")
-        except Exception:
-            return dateStr
+            dt = datetime.strptime(dateStr.replace('Z', ''), "%Y-%m-%dT%H:%M:%S")
+        except ValueError:
+            try:
+                dt = datetime.strptime(dateStr.split('.')[0].replace('Z', ''), "%Y-%m-%dT%H:%M:%S")
+            except Exception:
+                return dateStr
     return dt.strftime("%b %d, %Y")
 
 def renderArticleMeta(article):
@@ -417,9 +420,9 @@ def renderSectionPage(title, description, filterCategory, filterTopic=None):
                     <span class="text-2xl font-bold text-gray-200 group-hover:text-blue-200 transition-colors">{str(idx + 1).zfill(2)}</span>
                     <div>
                         {renderArticleMeta(article)}
-                        <h4 class="text-[14px] font-medium text-gray-900 group-hover:text-blue-700 transition-colors leading-snug">
+                        <h3 class="text-[14px] font-medium text-gray-900 group-hover:text-blue-700 transition-colors leading-snug">
                             {article['title']}
-                        </h4>
+                        </h3>
                     </div>
                 </a>
             """ for idx, article in enumerate(articles_sorted[:5])])
@@ -441,7 +444,7 @@ def renderSectionPage(title, description, filterCategory, filterTopic=None):
                 <div class="lg:w-[30%]">
                     <div class="sticky top-24">
                         <div class="bg-gray-50 border border-gray-200 p-6 mb-8">
-                            <h3 class="text-sm font-semibold uppercase tracking-wider mb-2 font-sans">Section Filter</h3>
+                            <h2 class="text-sm font-semibold uppercase tracking-wider mb-2 font-sans">Section Filter</h2>
                             <div class="space-y-2 mt-4 font-sans">
                                 <div class="flex justify-between items-center text-sm border-b border-gray-200 pb-2">
                                     <span class="text-gray-600">Region</span>
@@ -473,9 +476,12 @@ def renderArticlePage(slug):
     
     # Published date parsing
     try:
-        dt = datetime.strptime(article['publishedAt'].replace('Z', ''), "%Y-%m-%dT%H:%M:%S")
-    except ValueError:
-        dt = datetime.strptime(article['publishedAt'].split('.')[0].replace('Z', ''), "%Y-%m-%dT%H:%M:%S")
+        dt = datetime.fromisoformat(article['publishedAt'].replace('Z', '+00:00'))
+    except Exception:
+        try:
+            dt = datetime.strptime(article['publishedAt'].replace('Z', ''), "%Y-%m-%dT%H:%M:%S")
+        except ValueError:
+            dt = datetime.strptime(article['publishedAt'].split('.')[0].replace('Z', ''), "%Y-%m-%dT%H:%M:%S")
         
     formattedDate = dt.strftime("%B %d, %Y")
 
@@ -484,9 +490,9 @@ def renderArticlePage(slug):
         expert_paragraphs = expert_text.split('\n\n')
         expert_html = f"""
                                 <section id="expert-analysis" data-semantic-role="analysis" class="my-8 bg-blue-50 border-l-4 border-blue-600 p-6 rounded-r-lg font-sans">
-                                    <h3 class="flex items-center text-blue-900 font-bold mb-3 uppercase tracking-wider text-sm">
+                                    <h2 class="flex items-center text-blue-900 font-bold mb-3 uppercase tracking-wider text-sm">
                                         <i data-lucide="brain-circuit" class="w-5 h-5 mr-2"></i> CryptoCasinoMedia Expert Analysis
-                                    </h3>
+                                    </h2>
                                     <div class="space-y-4">
 """
         for ep in expert_paragraphs:
@@ -500,7 +506,7 @@ def renderArticlePage(slug):
 
     tldr_section = expert_html + f"""
                                 <section id="tldr" data-semantic-role="summary" class="my-8 bg-gray-50 border-l-4 border-gray-400 p-6 rounded-sm">
-                                    <h3 class="text-xs uppercase tracking-widest font-semibold text-gray-900 mb-2 font-sans">Key Takeaways (AI Overview)</h3>
+                                    <h2 class="text-xs uppercase tracking-widest font-semibold text-gray-900 mb-2 font-sans">Key Takeaways (AI Overview)</h2>
                                     <p class="text-sm font-sans text-gray-800 leading-relaxed m-0">
                                         {article['excerpt']}
                                     </p>
@@ -519,7 +525,7 @@ def renderArticlePage(slug):
     # FAQ structured blocks for AEO
     faqHtml = "".join([f"""
                                 <div class="border-b border-gray-100 pb-4 last:border-0">
-                                    <h4 class="text-sm font-semibold text-gray-900 mb-1">What is the latest news about {topic}?</h4>
+                                    <h3 class="text-sm font-semibold text-gray-900 mb-1">What is the latest news about {topic}?</h3>
                                     <p class="text-sm text-gray-600">{article['excerpt']}</p>
                                 </div>
                             """ for topic in article['topics'][:3]])
@@ -616,7 +622,7 @@ def renderArticlePage(slug):
                                 {bodyHtml}
                                 
                                 <div class="my-10 border-t border-b border-gray-200 py-6 bg-gray-50 px-6 font-sans">
-                                    <h3 class="text-lg font-semibold mb-3 text-gray-900">About {article['company']}</h3>
+                                    <h2 class="text-lg font-semibold mb-3 text-gray-900">About {article['company']}</h2>
                                     <p class="text-sm text-gray-700 m-0">
                                         {article['company']} is a leading operator in the digital asset and interactive gaming space, committed to providing secure, transparent, and innovative entertainment experiences globally. For more information, visit the official corporate portal.
                                     </p>
@@ -624,7 +630,7 @@ def renderArticlePage(slug):
 
                                 <div class="my-10 bg-gradient-to-r from-blue-900 to-indigo-900 rounded-lg shadow-lg overflow-hidden flex flex-col md:flex-row items-center justify-between p-8 font-sans text-white">
                                     <div class="mb-6 md:mb-0 md:mr-8 text-center md:text-left flex-1">
-                                        <h3 class="text-2xl font-bold mb-2 text-white">Reach 50,000+ iGaming Professionals</h3>
+                                        <p class="text-2xl font-bold mb-2 text-white">Reach 50,000+ iGaming Professionals</p>
                                         <p class="text-blue-100 text-sm m-0">Distribute your corporate announcements, product launches, and regulatory updates directly to decision-makers across the crypto casino ecosystem.</p>
                                     </div>
                                     <a href="/advertise" class="shrink-0 bg-white text-blue-900 hover:bg-blue-50 font-bold py-3 px-6 rounded-md transition-colors whitespace-nowrap text-sm shadow-md cursor-pointer no-underline block">
@@ -635,7 +641,7 @@ def renderArticlePage(slug):
                                 {contact_block}
 
                                 <section class="mt-10 pt-8 border-t border-gray-200 font-sans">
-                                    <h3 class="text-base font-semibold uppercase tracking-wider text-gray-900 mb-4">Frequently Asked Questions</h3>
+                                    <h2 class="text-base font-semibold uppercase tracking-wider text-gray-900 mb-4">Frequently Asked Questions</h2>
                                     <div class="space-y-4">
                                         {faqHtml}
                                     </div>
@@ -654,7 +660,7 @@ def renderArticlePage(slug):
                             <div class="sticky top-24">
                                 <div class="bg-white border border-gray-200 mb-8 shadow-sm">
                                     <div class="bg-gray-50 border-b border-gray-200 px-5 py-3">
-                                        <h3 class="text-xs uppercase tracking-widest font-semibold text-gray-900">Release Facts</h3>
+                                        <h2 class="text-xs uppercase tracking-widest font-semibold text-gray-900">Release Facts</h2>
                                     </div>
                                     <div class="p-5 space-y-4 text-sm">
                                         <div>
@@ -700,7 +706,7 @@ def renderArticlePage(slug):
                                 </div>
 
                                 <div class="mt-8 bg-gray-50 border border-gray-200 p-4">
-                                    <h3 class="text-xs uppercase tracking-widest font-semibold text-gray-900 mb-2">Submit Your Release</h3>
+                                    <h2 class="text-xs uppercase tracking-widest font-semibold text-gray-900 mb-2">Submit Your Release</h2>
                                     <p class="text-xs text-gray-600 mb-3">Reach AI systems, search engines, and industry professionals.</p>
                                     <a href="/submit" class="block w-full text-center bg-gray-900 text-white text-xs font-semibold py-2 hover:bg-blue-700 transition-colors">Get Started</a>
                                 </div>
@@ -1041,7 +1047,72 @@ def replace_tag_content(html_content, tag_start_marker, tag_end_marker, new_inne
         
     return html_content[:tag_open_end + 1] + new_inner_content + html_content[end_idx:]
 
+def normalize_links(html):
+    def replacer(match):
+        full_match = match.group(0)
+        url = match.group(1)
+        
+        # Strip domain if it's absolute
+        is_absolute = False
+        domain = "https://cryptocasinomedia.com"
+        if url.startswith(domain):
+            url = url[len(domain):]
+            is_absolute = True
+            
+        # Split anchor
+        parts = url.split("#")
+        path_part = parts[0]
+        anchor = f"#{parts[1]}" if len(parts) > 1 else ""
+        
+        # Skip if it has a dot (asset file) or is root or empty
+        if "." in path_part or path_part == "/" or path_part == "":
+            return full_match
+            
+        if not path_part.endswith("/"):
+            path_part = f"{path_part}/"
+            
+        new_url = f"{domain}{path_part}{anchor}" if is_absolute else f"{path_part}{anchor}"
+        return f'href="{new_url}"'
+        
+    return re.sub(r'href="((?:/|https://cryptocasinomedia\.com)[^"]*)"', replacer, html)
+
+BASE_ORGANIZATION_SCHEMA = {
+    "@type": "Organization",
+    "@id": "https://cryptocasinomedia.com/#organization",
+    "name": "CryptoCasinoMedia",
+    "url": "https://cryptocasinomedia.com/",
+    "logo": {
+        "@type": "ImageObject",
+        "@id": "https://cryptocasinomedia.com/#logo",
+        "url": "https://cryptocasinomedia.com/favicon.ico",
+        "caption": "CryptoCasinoMedia Logo"
+    },
+    "sameAs": [
+        "https://x.com/CryptoCasinoM"
+    ]
+}
+
+BASE_WEBSITE_SCHEMA = {
+    "@type": "WebSite",
+    "@id": "https://cryptocasinomedia.com/#website",
+    "name": "CryptoCasinoMedia",
+    "url": "https://cryptocasinomedia.com/",
+    "publisher": {
+        "@id": "https://cryptocasinomedia.com/#organization"
+    },
+    "potentialAction": {
+        "@type": "SearchAction",
+        "target": {
+            "@type": "EntryPoint",
+            "urlTemplate": "https://cryptocasinomedia.com/?search={search_term_string}"
+        },
+        "query-input": "required name=search_term_string"
+    }
+}
+
 def build_static_page(template_content, path, title, description, body_content, schemas=[], og_image=None):
+    if path != "/" and not path.endswith("/"):
+        path = f"{path}/"
     content = template_content
     
     # Default OG image fallback
@@ -1076,10 +1147,60 @@ def build_static_page(template_content, path, title, description, body_content, 
     content = re.sub(r'\n\s*<meta property="og:image"[^>]*>', '', content)
     content = re.sub(r'\n\s*<meta name="twitter:[^>]*>', '', content)
     
-    # Inject schemas in <head>
-    schema_tags = ""
+    # Compile a unified Schema.org graph
+    graph_elements = []
+    
+    # 1. Base entities
+    graph_elements.append(BASE_ORGANIZATION_SCHEMA)
+    graph_elements.append(BASE_WEBSITE_SCHEMA)
+    
+    # 2. Base WebPage entity (if not explicitly provided as CollectionPage or WebPage)
+    has_webpage_like = False
     for s in schemas:
-        schema_tags += f'\n    <script type="application/ld+json">{json.dumps(s)}</script>'
+        if s.get("@type") in ["WebPage", "CollectionPage", "FAQPage", "AboutPage", "ContactPage"]:
+            has_webpage_like = True
+            break
+            
+    if not has_webpage_like:
+        webpage_schema = {
+            "@type": "WebPage",
+            "@id": f"https://cryptocasinomedia.com{path}#webpage",
+            "url": f"https://cryptocasinomedia.com{path}",
+            "name": title,
+            "description": description,
+            "isPartOf": {
+                "@id": "https://cryptocasinomedia.com/#website"
+            },
+            "publisher": {
+                "@id": "https://cryptocasinomedia.com/#organization"
+            }
+        }
+        graph_elements.append(webpage_schema)
+        
+    # 3. Process custom schemas and add to graph
+    for s in schemas:
+        schema_copy = s.copy()
+        if "@context" in schema_copy:
+            del schema_copy["@context"]
+            
+        # Link Article to the correct webpage
+        if schema_copy.get("@type") == "Article":
+            if not has_webpage_like:
+                schema_copy["mainEntityOfPage"] = f"https://cryptocasinomedia.com{path}#webpage"
+            else:
+                for temp_s in schemas:
+                    if temp_s.get("@type") == "WebPage":
+                        schema_copy["mainEntityOfPage"] = temp_s.get("@id")
+                        break
+                        
+        graph_elements.append(schema_copy)
+        
+    unified_schema = {
+        "@context": "https://schema.org",
+        "@graph": graph_elements
+    }
+    
+    schema_tags = f'\n    <script type="application/ld+json">{json.dumps(unified_schema, ensure_ascii=False)}</script>'
     
     content = content.replace('<!-- Google tag (gtag.js) -->', f'{extra_meta}\n{schema_tags}\n    <!-- Google tag (gtag.js) -->')
     
@@ -1089,23 +1210,20 @@ def build_static_page(template_content, path, title, description, body_content, 
     
     # Sub navigation
     rendered_sub_nav = renderSubNav(path)
-    sub_nav_start_tag = '<div id="context-sub-nav" class="bg-white border-b border-gray-200 overflow-x-auto no-scrollbar hidden"'
     if rendered_sub_nav:
-        # replace class to remove 'hidden'
         content = content.replace(
             '<div id="context-sub-nav" class="bg-white border-b border-gray-200 overflow-x-auto no-scrollbar hidden"></div>',
             '<div id="context-sub-nav" class="bg-white border-b border-gray-200 overflow-x-auto no-scrollbar"></div>'
         )
         content = replace_tag_content(content, '<div id="context-sub-nav" class="bg-white border-b border-gray-200 overflow-x-auto no-scrollbar"', '</div>', rendered_sub_nav)
     else:
-        # Keep hidden
         content = replace_tag_content(content, '<div id="context-sub-nav"', '</div>', '')
         
     content = replace_tag_content(content, '<header id="primary-nav"', '</header>', rendered_header)
     content = replace_tag_content(content, '<main id="main-content"', '</main>', body_content)
     content = replace_tag_content(content, '<footer id="footer"', '</footer>', rendered_footer)
     
-    return content
+    return normalize_links(content)
 
 # Load the master dynamic index.html as our base template
 with open(template_path, "r", encoding="utf-8") as f:
@@ -1117,7 +1235,7 @@ pages_generated = 0
 # 1. 34 Articles
 for article in articles_sorted:
     slug = article['slug']
-    path = f"/press-releases/{slug}"
+    path = f"/press-releases/{slug}/"
     title = f"{article['title']} — CryptoCasinoMedia"
     description = article['excerpt']
     
@@ -1131,7 +1249,7 @@ for article in articles_sorted:
     article_schema = {
         "@context": "https://schema.org",
         "@type": "Article",
-        "@id": f"https://cryptocasinomedia.com/press-releases/{slug}#article",
+        "@id": f"https://cryptocasinomedia.com/press-releases/{slug}/#article",
         "isPartOf": {
             "@id": "https://cryptocasinomedia.com/#website"
         },
@@ -1140,11 +1258,11 @@ for article in articles_sorted:
         "datePublished": article['publishedAt'],
         "dateModified": article['publishedAt'],
         "inLanguage": "en-US",
-        "mainEntityOfPage": f"https://cryptocasinomedia.com/press-releases/{slug}",
+        "mainEntityOfPage": f"https://cryptocasinomedia.com/press-releases/{slug}/",
         "author": {
             "@type": "Organization",
             "name": article['sourceName'],
-            "url": article.get('originalUrl') or "https://cryptocasinomedia.com"
+            "url": article.get('originalUrl') or "https://cryptocasinomedia.com/"
         },
         "publisher": {
             "@id": "https://cryptocasinomedia.com/#organization"
@@ -1175,10 +1293,10 @@ for article in articles_sorted:
         "@context": "https://schema.org",
         "@type": "BreadcrumbList",
         "itemListElement": [
-            {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://cryptocasinomedia.com"},
-            {"@type": "ListItem", "position": 2, "name": "Press Releases", "item": "https://cryptocasinomedia.com/press-releases"},
-            {"@type": "ListItem", "position": 3, "name": cat_name, "item": f"https://cryptocasinomedia.com/{cat_slug}"},
-            {"@type": "ListItem", "position": 4, "name": article['title'], "item": f"https://cryptocasinomedia.com/press-releases/{slug}"}
+            {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://cryptocasinomedia.com/"},
+            {"@type": "ListItem", "position": 2, "name": "Press Releases", "item": "https://cryptocasinomedia.com/press-releases/"},
+            {"@type": "ListItem", "position": 3, "name": cat_name, "item": f"https://cryptocasinomedia.com/{cat_slug}/"},
+            {"@type": "ListItem", "position": 4, "name": article['title'], "item": f"https://cryptocasinomedia.com/press-releases/{slug}/"}
         ]
     }
     
@@ -1196,18 +1314,36 @@ for article in articles_sorted:
 
 # 2. L2 category hubs
 categories = [
-    ("/press-releases", "Press Releases", "The latest official statements and corporate announcements from verified operators in the crypto and iGaming sector.", "press-releases"),
-    ("/crypto-casinos", "Crypto Casinos", "Latest updates, compliance standards, and game launches in the crypto casino sector.", "crypto-casinos"),
-    ("/sportsbook", "Sportsbook", "Crypto sports betting, partnership deals, and major global sportsbook news.", "sportsbook"),
-    ("/regulation", "Regulation & Compliance", "Regulatory compliance, licensing standards, and legal updates in key jurisdictions.", "regulation"),
-    ("/payments", "Payments & Technology", "Payment processing infrastructure, blockchain integrations, and stablecoin trends.", "payments"),
-    ("/sweepstakes", "Sweepstakes", "US sweepstakes casino market analysis, operator updates, and coin trends.", "sweepstakes"),
-    ("/guides", "Industry Guides", "B2B tutorials, knowledge-base guides, and professional advice for iGaming publishers.", "guides")
+    ("/press-releases/", "Press Releases", "The latest official statements and corporate announcements from verified operators in the crypto and iGaming sector.", "press-releases"),
+    ("/crypto-casinos/", "Crypto Casinos", "Latest updates, compliance standards, and game launches in the crypto casino sector.", "crypto-casinos"),
+    ("/sportsbook/", "Sportsbook", "Crypto sports betting, partnership deals, and major global sportsbook news.", "sportsbook"),
+    ("/regulation/", "Regulation & Compliance", "Regulatory compliance, licensing standards, and legal updates in key jurisdictions.", "regulation"),
+    ("/payments/", "Payments & Technology", "Payment processing infrastructure, blockchain integrations, and stablecoin trends.", "payments"),
+    ("/sweepstakes/", "Sweepstakes", "US sweepstakes casino market analysis, operator updates, and coin trends.", "sweepstakes"),
+    ("/guides/", "Industry Guides", "B2B tutorials, knowledge-base guides, and professional advice for iGaming publishers.", "guides")
 ]
 
 for path, title, description, filter_cat in categories:
     body = renderSectionPage(title, description, filter_cat)
     
+    # Get articles for this category
+    cat_articles = [a for a in articles_sorted if a['primaryCategory'] == filter_cat] if filter_cat else articles_sorted
+    
+    item_list = {
+        "@type": "ItemList",
+        "itemListElement": []
+    }
+    for i, a in enumerate(cat_articles):
+        item_list["itemListElement"].append({
+            "@type": "ListItem",
+            "position": i + 1,
+            "item": {
+                "@type": "Article",
+                "headline": a['title'],
+                "url": f"https://cryptocasinomedia.com/press-releases/{a['slug']}/"
+            }
+        })
+
     collection_schema = {
         "@context": "https://schema.org",
         "@type": "CollectionPage",
@@ -1220,14 +1356,15 @@ for path, title, description, filter_cat in categories:
         },
         "about": {
             "@id": "https://cryptocasinomedia.com/#organization"
-        }
+        },
+        "mainEntity": item_list
     }
     
     category_breadcrumb_schema = {
         "@context": "https://schema.org",
         "@type": "BreadcrumbList",
         "itemListElement": [
-            {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://cryptocasinomedia.com"},
+            {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://cryptocasinomedia.com/"},
             {"@type": "ListItem", "position": 2, "name": title, "item": f"https://cryptocasinomedia.com{path}"}
         ]
     }
@@ -1242,7 +1379,7 @@ for path, title, description, filter_cat in categories:
             {
                 "@type": "ListItem",
                 "position": i + 1,
-                "url": f"https://cryptocasinomedia.com/press-releases/{a['slug']}"
+                "url": f"https://cryptocasinomedia.com/press-releases/{a['slug']}/"
             } for i, a in enumerate([x for x in articles_sorted if filter_cat == 'press-releases' or x['primaryCategory'] == filter_cat][:10])
         ]
     }
@@ -1264,7 +1401,7 @@ for category, topics in L2_MENUS.items():
         if topic == 'All':
             continue
         topic_slug = topic.lower().replace(' ', '-')
-        path = f"{category}/topic/{topic_slug}"
+        path = f"{category}topic/{topic_slug}/"
         title = f"{topic} News & Press Releases — CryptoCasinoMedia"
         description = f"Comprehensive B2B coverage, press releases, and compliance updates regarding {topic} in the online gaming ecosystem."
         
@@ -1284,7 +1421,7 @@ industries = [
 ]
 
 for key, title, description in industries:
-    path = f"/industry/{key}"
+    path = f"/industry/{key}/"
     body = renderIndustryPage(key)
     
     industry_schema = {
@@ -1294,11 +1431,11 @@ for key, title, description in industries:
         "description": description,
         "url": f"https://cryptocasinomedia.com{path}",
         "breadcrumb": {"@type": "BreadcrumbList", "itemListElement": [
-            {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://cryptocasinomedia.com"},
-            {"@type": "ListItem", "position": 2, "name": "Industry", "item": "https://cryptocasinomedia.com/industry"},
+            {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://cryptocasinomedia.com/"},
+            {"@type": "ListItem", "position": 2, "name": "Industry", "item": "https://cryptocasinomedia.com/industry/"},
             {"@type": "ListItem", "position": 3, "name": title, "item": f"https://cryptocasinomedia.com{path}"}
         ]},
-        "publisher": {"@type": "Organization", "name": "CryptoCasinoMedia", "url": "https://cryptocasinomedia.com"}
+        "publisher": {"@type": "Organization", "name": "CryptoCasinoMedia", "url": "https://cryptocasinomedia.com/"}
     }
     
     html = build_static_page(template_content, path, f"{title} — CryptoCasinoMedia", description, body, [industry_schema])
@@ -1311,7 +1448,7 @@ for key, title, description in industries:
 
 # 5. Knowledge base guides
 guides = [
-('regulation-2026', 'guides/regulation-2026', 'The 2026 Crypto Casino Regulatory Guide', 'A comprehensive B2B guide covering Curacao LOK, EU MiCA impact, and emerging LatAm regulatory frameworks.'),
+    ('regulation-2026', 'guides/regulation-2026', 'The 2026 Crypto Casino Regulatory Guide', 'A comprehensive B2B guide covering Curacao LOK, EU MiCA impact, and emerging LatAm regulatory frameworks.'),
     ('sweepstakes-market', 'guides/sweepstakes-market', 'Sweepstakes Casinos: Market Size & Legal Framework 2026', 'Understanding the $4B US sweepstakes model, Gold Coins/Sweeps Coins mechanics, and state-by-state legality.'),
     ('gamblefi-telegram', 'guides/gamblefi-telegram', 'GambleFi & Telegram Casinos: Web3 Betting', 'The rise of no-KYC Telegram bots, decentralized on-chain casinos, and revenue-sharing tokenomics.'),    ('how', 'how-crypto-casino-news-works', 'How Crypto Casino News Distribution Works', 'How crypto casino press releases reach AI systems, search engines, and industry professionals through structured news distribution.'),
     ('aeo', 'aeo-best-practices', 'AEO Best Practices for iGaming Publishers', 'Answer Engine Optimization guide for crypto casino and iGaming publishers. Structure content for ChatGPT, Perplexity, and Google AI.'),
@@ -1319,7 +1456,7 @@ guides = [
 ]
 
 for key, slug, title, description in guides:
-    path = f"/{slug}"
+    path = f"/{slug}/"
     body = renderKnowledgePage(key)
     
     guide_schema = {
@@ -1330,10 +1467,10 @@ for key, slug, title, description in guides:
         "url": f"https://cryptocasinomedia.com{path}",
         "datePublished": "2026-05-01",
         "author": {"@type": "Organization", "name": "CryptoCasinoMedia"},
-        "publisher": {"@type": "Organization", "name": "CryptoCasinoMedia", "url": "https://cryptocasinomedia.com"},
+        "publisher": {"@type": "Organization", "name": "CryptoCasinoMedia", "url": "https://cryptocasinomedia.com/"},
         "breadcrumb": {"@type": "BreadcrumbList", "itemListElement": [
-            {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://cryptocasinomedia.com"},
-            {"@type": "ListItem", "position": 2, "name": "Guides", "item": "https://cryptocasinomedia.com/guides"},
+            {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://cryptocasinomedia.com/"},
+            {"@type": "ListItem", "position": 2, "name": "Guides", "item": "https://cryptocasinomedia.com/guides/"},
             {"@type": "ListItem", "position": 3, "name": title, "item": f"https://cryptocasinomedia.com{path}"}
         ]}
     }
@@ -1348,13 +1485,13 @@ for key, slug, title, description in guides:
 
 # 6. Corporate & Utility Pages
 utility_pages = [
-    ('/about', 'About CryptoCasinoMedia — B2B iGaming News Publisher', 'CryptoCasinoMedia is an independent B2B editorial publisher covering crypto casinos, iGaming regulation, payments, and sweepstakes.', renderAboutPage()),
-    ('/editorial-standards', 'Editorial Standards — CryptoCasinoMedia', 'CryptoCasinoMedia maintains strict editorial independence. Our standards define how we source, verify, and publish content.', renderEditorialPage()),
-    ('/advertise', 'Advertise with CryptoCasinoMedia — B2B iGaming News', 'Reach operators, investors, and technology partners in the crypto and iGaming industry.', renderAdvertisePage()),
-    ('/submit', 'Submit a Press Release — CryptoCasinoMedia', 'Reach key decision makers, operators, and analysts in the crypto and iGaming sector.', renderSubmitPage()),
-    ('/contact', 'Contact Us — CryptoCasinoMedia', 'Reach our editorial team for inquiries, partnerships, or general questions.', renderContactPage()),
-    ('/admin', '⚡ Amplifier Agent Command Center — CryptoCasinoMedia', 'Automated search engine indexing acceleration, Answer Engine Optimization (AEO), and distribution network health auditing.', renderAdminPage()),
-    ('/amplifier', '⚡ Amplifier Agent Command Center — CryptoCasinoMedia', 'Automated search engine indexing acceleration, Answer Engine Optimization (AEO), and distribution network health auditing.', renderAdminPage())
+    ('/about/', 'About CryptoCasinoMedia — B2B iGaming News Publisher', 'CryptoCasinoMedia is an independent B2B editorial publisher covering crypto casinos, iGaming regulation, payments, and sweepstakes.', renderAboutPage()),
+    ('/editorial-standards/', 'Editorial Standards — CryptoCasinoMedia', 'CryptoCasinoMedia maintains strict editorial independence. Our standards define how we source, verify, and publish content.', renderEditorialPage()),
+    ('/advertise/', 'Advertise with CryptoCasinoMedia — B2B iGaming News', 'Reach operators, investors, and technology partners in the crypto and iGaming industry.', renderAdvertisePage()),
+    ('/submit/', 'Submit a Press Release — CryptoCasinoMedia', 'Reach key decision makers, operators, and analysts in the crypto and iGaming sector.', renderSubmitPage()),
+    ('/contact/', 'Contact Us — CryptoCasinoMedia', 'Reach our editorial team for inquiries, partnerships, or general questions.', renderContactPage()),
+    ('/admin/', '⚡ Amplifier Agent Command Center — CryptoCasinoMedia', 'Automated search engine indexing acceleration, Answer Engine Optimization (AEO), and distribution network health auditing.', renderAdminPage()),
+    ('/amplifier/', '⚡ Amplifier Agent Command Center — CryptoCasinoMedia', 'Automated search engine indexing acceleration, Answer Engine Optimization (AEO), and distribution network health auditing.', renderAdminPage())
 ]
 
 for path, title, description, body_content in utility_pages:
