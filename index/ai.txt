@@ -1,0 +1,47 @@
+# ai.txt - Machine permissions for AI agents & crawlers
+
+User-agent: GPTBot
+Disallow: /admin/
+Disallow: /amplifier/
+
+User-agent: ChatGPT-User
+Disallow: /admin/
+Disallow: /amplifier/
+
+User-agent: ClaudeBot
+Disallow: /admin/
+Disallow: /amplifier/
+
+User-agent: Claude-Web
+Disallow: /admin/
+Disallow: /amplifier/
+
+User-agent: PerplexityBot
+Disallow: /admin/
+Disallow: /amplifier/
+
+User-agent: Google-Extended
+Disallow: /admin/
+Disallow: /amplifier/
+
+User-agent: Omgilibot
+Disallow: /admin/
+Disallow: /amplifier/
+
+User-agent: anthropic-ai
+Disallow: /admin/
+Disallow: /amplifier/
+
+User-agent: cohere-ai
+Disallow: /admin/
+Disallow: /amplifier/
+
+User-agent: FacebookBot
+Disallow: /admin/
+Disallow: /amplifier/
+
+# Allow AI crawlers to read all editorial and PR content
+User-agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /amplifier/

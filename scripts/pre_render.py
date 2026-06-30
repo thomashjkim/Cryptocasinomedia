@@ -1485,17 +1485,115 @@ for key, slug, title, description in guides:
 
 # 6. Corporate & Utility Pages
 utility_pages = [
-    ('/about/', 'About CryptoCasinoMedia — B2B iGaming News Publisher', 'CryptoCasinoMedia is an independent B2B editorial publisher covering crypto casinos, iGaming regulation, payments, and sweepstakes.', renderAboutPage()),
-    ('/editorial-standards/', 'Editorial Standards — CryptoCasinoMedia', 'CryptoCasinoMedia maintains strict editorial independence. Our standards define how we source, verify, and publish content.', renderEditorialPage()),
-    ('/advertise/', 'Advertise with CryptoCasinoMedia — B2B iGaming News', 'Reach operators, investors, and technology partners in the crypto and iGaming industry.', renderAdvertisePage()),
-    ('/submit/', 'Submit a Press Release — CryptoCasinoMedia', 'Reach key decision makers, operators, and analysts in the crypto and iGaming sector.', renderSubmitPage()),
-    ('/contact/', 'Contact Us — CryptoCasinoMedia', 'Reach our editorial team for inquiries, partnerships, or general questions.', renderContactPage()),
-    ('/admin/', '⚡ Amplifier Agent Command Center — CryptoCasinoMedia', 'Automated search engine indexing acceleration, Answer Engine Optimization (AEO), and distribution network health auditing.', renderAdminPage()),
-    ('/amplifier/', '⚡ Amplifier Agent Command Center — CryptoCasinoMedia', 'Automated search engine indexing acceleration, Answer Engine Optimization (AEO), and distribution network health auditing.', renderAdminPage())
+    ('/about/', 'About CryptoCasinoMedia — B2B iGaming News Publisher', 'CryptoCasinoMedia is an independent B2B editorial publisher covering crypto casinos, iGaming regulation, payments, and sweepstakes.', renderAboutPage(), [
+        {
+            "@type": "AboutPage",
+            "@id": "https://cryptocasinomedia.com/about/#webpage",
+            "url": "https://cryptocasinomedia.com/about/",
+            "name": "About CryptoCasinoMedia",
+            "description": "CryptoCasinoMedia is an independent B2B editorial publisher covering crypto casinos, iGaming regulation, payments, and sweepstakes.",
+            "isPartOf": {
+                "@id": "https://cryptocasinomedia.com/#website"
+            },
+            "about": {
+                "@id": "https://cryptocasinomedia.com/#organization"
+            }
+        }
+    ]),
+    ('/editorial-standards/', 'Editorial Standards — CryptoCasinoMedia', 'CryptoCasinoMedia maintains strict editorial independence. Our standards define how we source, verify, and publish content.', renderEditorialPage(), [
+        {
+            "@type": "WebPage",
+            "@id": "https://cryptocasinomedia.com/editorial-standards/#webpage",
+            "url": "https://cryptocasinomedia.com/editorial-standards/",
+            "name": "Editorial Standards — CryptoCasinoMedia",
+            "description": "CryptoCasinoMedia maintains strict editorial independence. Our standards define how we source, verify, and publish content.",
+            "isPartOf": {
+                "@id": "https://cryptocasinomedia.com/#website"
+            },
+            "about": {
+                "@id": "https://cryptocasinomedia.com/#organization"
+            }
+        }
+    ]),
+    ('/advertise/', 'Advertise with CryptoCasinoMedia — B2B iGaming News', 'Reach operators, investors, and technology partners in the crypto and iGaming industry.', renderAdvertisePage(), [
+        {
+            "@type": "Product",
+            "@id": "https://cryptocasinomedia.com/advertise/#product",
+            "name": "B2B iGaming Sponsorship and Banner Advertising",
+            "description": "Targeted B2B advertising campaigns reaching crypto casino decision makers, analysts, and operators.",
+            "brand": {
+                "@id": "https://cryptocasinomedia.com/#organization"
+            },
+            "offers": {
+                "@type": "Offer",
+                "name": "Sponsored Newsletter & Banner Campaign",
+                "priceCurrency": "USD",
+                "price": "999"
+            }
+        }
+    ]),
+    ('/submit/', 'Submit a Press Release — CryptoCasinoMedia', 'Reach key decision makers, operators, and analysts in the crypto and iGaming sector.', renderSubmitPage(), [
+        {
+            "@type": "Product",
+            "@id": "https://cryptocasinomedia.com/submit/#product",
+            "name": "Crypto & iGaming Press Release Distribution",
+            "description": "Professional B2B press release distribution service reaching operators, investors, and regulators in the crypto casino space.",
+            "brand": {
+                "@id": "https://cryptocasinomedia.com/#organization"
+            },
+            "offers": {
+                "@type": "AggregateOffer",
+                "priceCurrency": "USD",
+                "lowPrice": "0",
+                "highPrice": "499",
+                "offerCount": "3",
+                "offers": [
+                    {
+                        "@type": "Offer",
+                        "name": "Basic Distribution",
+                        "price": "0",
+                        "priceCurrency": "USD",
+                        "category": "Press Release Distribution"
+                    },
+                    {
+                        "@type": "Offer",
+                        "name": "Premium Distribution",
+                        "price": "199",
+                        "priceCurrency": "USD",
+                        "category": "Press Release Distribution"
+                    },
+                    {
+                        "@type": "Offer",
+                        "name": "Enterprise Distribution",
+                        "price": "499",
+                        "priceCurrency": "USD",
+                        "category": "Press Release Distribution"
+                    }
+                ]
+            }
+        }
+    ]),
+    ('/contact/', 'Contact Us — CryptoCasinoMedia', 'Reach our editorial team for inquiries, partnerships, or general questions.', renderContactPage(), [
+        {
+            "@type": "ContactPage",
+            "@id": "https://cryptocasinomedia.com/contact/#webpage",
+            "url": "https://cryptocasinomedia.com/contact/",
+            "name": "Contact CryptoCasinoMedia",
+            "description": "Get in touch with the editorial team at CryptoCasinoMedia.",
+            "isPartOf": {
+                "@id": "https://cryptocasinomedia.com/#website"
+            },
+            "about": {
+                "@id": "https://cryptocasinomedia.com/#organization"
+            }
+        }
+    ]),
+    ('/admin/', '⚡ Amplifier Agent Command Center — CryptoCasinoMedia', 'Automated search engine indexing acceleration, Answer Engine Optimization (AEO), and distribution network health auditing.', renderAdminPage(), []),
+    ('/amplifier/', '⚡ Amplifier Agent Command Center — CryptoCasinoMedia', 'Automated search engine indexing acceleration, Answer Engine Optimization (AEO), and distribution network health auditing.', renderAdminPage(), [])
 ]
 
-for path, title, description, body_content in utility_pages:
-    html = build_static_page(template_content, path, title, description, body_content, [])
+for path, title, description, body_content, custom_schemas in utility_pages:
+    html = build_static_page(template_content, path, title, description, body_content, custom_schemas)
     
     folder_name = path.strip("/")
     out_dir = os.path.join(output_base_dir, folder_name)
