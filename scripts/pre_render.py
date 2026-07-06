@@ -1229,6 +1229,30 @@ def build_static_page(template_content, path, title, description, body_content, 
 with open(template_path, "r", encoding="utf-8") as f:
     template_content = f.read()
 
+ENTITY_MAPPINGS = {
+    "Stake.com": "https://en.wikipedia.org/wiki/Stake.com",
+    "Stake": "https://en.wikipedia.org/wiki/Stake.com",
+    "Polymarket": "https://en.wikipedia.org/wiki/Polymarket",
+    "Kalshi": "https://en.wikipedia.org/wiki/Kalshi",
+    "Tether": "https://en.wikipedia.org/wiki/Tether_(cryptocurrency)",
+    "USDT": "https://en.wikipedia.org/wiki/Tether_(cryptocurrency)",
+    "USD Coin": "https://en.wikipedia.org/wiki/USD_Coin",
+    "USDC": "https://en.wikipedia.org/wiki/USD_Coin",
+    "Bitcoin": "https://en.wikipedia.org/wiki/Bitcoin",
+    "BTC": "https://en.wikipedia.org/wiki/Bitcoin",
+    "Ethereum": "https://en.wikipedia.org/wiki/Ethereum",
+    "ETH": "https://en.wikipedia.org/wiki/Ethereum",
+    "Curacao Gaming Control Board": "https://www.wikidata.org/wiki/Q114881518",
+    "Curacao": "https://en.wikipedia.org/wiki/Cura%C3%A7ao",
+    "FIFA World Cup": "https://en.wikipedia.org/wiki/FIFA_World_Cup",
+    "Telegram": "https://en.wikipedia.org/wiki/Telegram_(software)",
+    "GambleFi": "https://www.wikidata.org/wiki/Q122971271",
+    "Roobet": "https://en.wikipedia.org/wiki/Roobet",
+    "DraftKings": "https://en.wikipedia.org/wiki/DraftKings",
+    "BetMGM": "https://en.wikipedia.org/wiki/BetMGM",
+    "LBLOCK": "https://www.wikidata.org/wiki/Q110823377"
+}
+
 pages_generated = 0
 
 # List of pages to compile:
@@ -1244,6 +1268,32 @@ for article in articles_sorted:
     image_16_9 = image_base
     image_4_3 = image_base.replace('w=800', 'w=800&ar=4:3&fit=crop') if 'unsplash.com' in image_base else image_base
     image_1_1 = image_base.replace('w=800', 'w=800&ar=1:1&fit=crop') if 'unsplash.com' in image_base else image_base
+
+    # Resolve entity about mappings for AEO Knowledge Graph
+    mentions = []
+    company_name = article.get('company')
+    if company_name:
+        for part in [p.strip() for p in company_name.split('&')]:
+            if part in ENTITY_MAPPINGS:
+                mentions.append({
+                    "@type": "Thing",
+                    "name": part,
+                    "sameAs": ENTITY_MAPPINGS[part]
+                })
+            elif part.endswith(".com") and part[:-4] in ENTITY_MAPPINGS:
+                mentions.append({
+                    "@type": "Thing",
+                    "name": part,
+                    "sameAs": ENTITY_MAPPINGS[part[:-4]]
+                })
+    for topic in article.get('topics', []):
+        if topic in ENTITY_MAPPINGS:
+            if not any(m['name'] == topic for m in mentions):
+                mentions.append({
+                    "@type": "Thing",
+                    "name": topic,
+                    "sameAs": ENTITY_MAPPINGS[topic]
+                })
 
     # Generate static Article + FAQPage + BreadcrumbList schemas
     article_schema = {
@@ -1277,6 +1327,8 @@ for article in articles_sorted:
             "cssSelector": ["#article-headline", "#p-0"]
         }
     }
+    if mentions:
+        article_schema["about"] = mentions
     faq_schema = {
         "@context": "https://schema.org",
         "@type": "FAQPage",
