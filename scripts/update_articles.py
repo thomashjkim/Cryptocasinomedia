@@ -9,6 +9,75 @@ import subprocess
 # Detailed list of the 34 articles with 4-5 paragraphs each, including quotes starting with "“"
 articles_data = [
   {
+    "id": "guide-01-curacao-igaming-reforms",
+    "slug": "curacao-gcb-igaming-license-reforms-guide",
+    "originalUrl": "",
+    "title": "The 2026 Guide to Curacao iGaming License Reforms for Crypto Casino Operators",
+    "publishedAt": "2026-07-06T15:00:00-04:00",
+    "sourceName": "CryptoCasinoMedia Intelligence",
+    "thumbnailUrl": "https://cryptocasinomedia.com/images/curacao_license_guide.png",
+    "dateline": "WILLEMSTAD, CURACAO, Jul. 6, 2026",
+    "lede": "A comprehensive compliance guide detailing the Curacao Gaming Control Board's new licensing framework, transitional timelines, and crypto asset rules for operators.",
+    "body": [
+      "The regulatory landscape for offshore crypto casinos has undergone its most significant shift in a decade. The Curacao Gaming Control Board (GCB) has officially rolled out its reformed iGaming licensing framework, transitioning away from the historic master/sub-license model to direct government oversight. For operators accepting Bitcoin, Ethereum, and stablecoins, understanding these new compliance guidelines is critical for maintaining market access.",
+      "Under the new National Ordinance for Games of Chance (LOK), all operators must apply directly for a license. Key requirements include strict anti-money laundering (AML) protocols, enhanced player verification processes (KYC), and audited segregation of player funds. The GCB has confirmed that crypto assets remain a permitted payment method, provided that operators employ real-time blockchain analytics to track origin-of-wealth and prevent illicit fund flows.",
+      "Transitional timelines are strict. Operators currently running under master licenses have a limited window to register their applications on the GCB portal. Failure to submit complete compliance documents by the deadline will result in immediate license expiration and potential domain blocking by payment processors.",
+      "\u201cThe era of unregulated offshore gaming is over,\u201d says a senior compliance consultant in Willemstad. \u201cThe direct license model brings Curacao closer to European standards, giving operators more credibility with B2B banking partners and tier-one software providers, albeit at the cost of higher operational overhead.\u201d"
+    ],
+    "topics": ["Regulation", "Licensing", "Compliance"],
+    "primaryCategory": "regulation",
+    "company": "Curacao Gaming Control Board",
+    "region": "Curacao",
+    "contact": "licensing@curacao-gcb.org",
+    "excerpt": "A complete compliance guide to Curacao's new direct iGaming licensing framework and crypto player rules for 2026."
+  },
+  {
+    "id": "guide-02-sweepstakes-social-legality",
+    "slug": "us-sweepstakes-social-casino-compliance-legality-guide",
+    "originalUrl": "",
+    "title": "Navigating US Sweepstakes and Social Casino Legality: Compliance Guidelines for 2026",
+    "publishedAt": "2026-07-06T15:30:00-04:00",
+    "sourceName": "CryptoCasinoMedia Legal Desk",
+    "thumbnailUrl": "https://cryptocasinomedia.com/images/sweepstakes_compliance_guide.png",
+    "dateline": "LOS ANGELES, USA, Jul. 6, 2026",
+    "lede": "An analytical guide examining how sweepstakes coins models navigate federal and state lottery laws, and the key regulatory boundaries to prevent compliance actions.",
+    "body": [
+      "Sweepstakes casinos have rapidly grown into a multi-billion dollar market in the United States, providing a popular alternative to real-money online gaming. By operating under the 'dual-currency' model\u2014utilizing virtual coins for play and sweeps coins for prizes\u2014these platforms allow users to play legally in states where real-money casino apps are prohibited. However, the model faces intense scrutiny from state regulators and class-action attorneys.",
+      "To remain compliant under US sweepstakes laws, operators must adhere to three core pillars: (1) no purchase necessary to participate, (2) alternative methods of entry (such as mail-in requests) must be provided, and (3) the virtual currencies must be kept strictly distinct. If an operator fails to maintain a clear path to free play, state regulators can reclassify the platform as an illegal lottery.",
+      "Several US states, including Michigan, Idaho, and Washington, have recently banned sweepstakes casinos entirely, while others are proposing licensing fees. Legal experts recommend that operators employ advanced geofencing to block users from restrictive jurisdictions and establish robust AML monitoring for sweeps redemptions.",
+      "\u201cThe biggest risk in 2026 is regulatory reclassification,\u201d notes a prominent gaming attorney. \u201cPlatforms that heavily advertise sweeps coins as cash-equivalent rewards without highlighting the free-play entry method are prime targets for enforcement actions. Success requires a compliance-first marketing strategy.\u201d"
+    ],
+    "topics": ["Sweepstakes", "Compliance", "USA"],
+    "primaryCategory": "sweepstakes",
+    "company": "iGaming Legal Group",
+    "region": "USA",
+    "contact": "legal@igaminglegalgroup.com",
+    "excerpt": "An essential compliance guide on US sweepstakes dual-currency legality, state bans, and marketing rules."
+  },
+  {
+    "id": "guide-03-decentralized-vs-centralized-sportsbooks",
+    "slug": "decentralized-prediction-markets-vs-centralized-crypto-sportsbooks",
+    "originalUrl": "",
+    "title": "Decentralized Prediction Markets vs. Centralized Sportsbooks: The Battle for Crypto Betting",
+    "publishedAt": "2026-07-06T16:00:00-04:00",
+    "sourceName": "CryptoCasinoMedia Tech desk",
+    "thumbnailUrl": "https://cryptocasinomedia.com/images/decentralized_vs_centralized.png",
+    "dateline": "LONDON, UK, Jul. 6, 2026",
+    "lede": "A comparison of peer-to-peer DeFi prediction protocols like Polymarket and centralized bookmakers like Stake, exploring liquidity, user experience, and market trends.",
+    "body": [
+      "The iGaming landscape is splitting into two distinct paradigms: centralized crypto sportsbooks, which offer traditional fixed-odds betting, and decentralized prediction markets, which operate order-book style contracts on public blockchains. As trading volumes surge, both formats are competing for the same segment of crypto-native sports bettors.",
+      "Centralized platforms like Stake and Roobet operate as traditional bookmakers. They manage risk, dictate lines, and take the house edge (vig). This allows them to offer instant deposits, live betting options, and deep marketing promotions. However, users must trust the platform with custody of their funds and accept any betting limits placed on their accounts.",
+      "In contrast, decentralized prediction networks like Polymarket operate as peer-to-peer marketplaces. Because there is no house, prices are set by market consensus, leading to lower fees and superior odds. All contracts are resolved on-chain using smart contracts and public oracles. The trade-offs include higher friction for non-crypto users and lower liquidity on niche sporting events.",
+      "\u201cThe future points to hybrid integration,\u201d says a DeFi protocol architect. \u201cWe expect centralized casinos to offer P2P event contracts as a sub-feature to capture retail users who want to bet on politics or macro trends. Both models will coexist, serving different betting styles and user preferences.\u201d"
+    ],
+    "topics": ["Sportsbook", "DeFi", "Technology"],
+    "primaryCategory": "sportsbook",
+    "company": "Web3 iGaming Labs",
+    "region": "Global",
+    "contact": "tech@web3igaminglabs.io",
+    "excerpt": "An in-depth tech comparison of decentralized P2P prediction protocols and centralized crypto sportsbooks."
+  },
+  {
     "id": "pr-78-prediction-markets-world-cup",
     "slug": "polymarket-kalshi-prediction-markets-rival-crypto-sportsbooks",
     "originalUrl": "",
