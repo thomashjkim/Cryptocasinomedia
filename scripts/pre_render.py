@@ -291,7 +291,8 @@ def renderHomePage():
                                             </a>
                                         </div>
                                     """ for article in latestSidebar])
-    trendingHtml = "".join([f"""
+    promoted_guides_html = """<a href="/guides/regulation-2026" class="px-3 py-1.5 bg-gray-100 text-xs font-medium text-gray-700 hover:bg-gray-200 transition-colors rounded-sm">Regulation 2026</a><a href="/guides/sweepstakes-market" class="px-3 py-1.5 bg-gray-100 text-xs font-medium text-gray-700 hover:bg-gray-200 transition-colors rounded-sm">Sweepstakes</a><a href="/guides/gamblefi-telegram" class="px-3 py-1.5 bg-gray-100 text-xs font-medium text-gray-700 hover:bg-gray-200 transition-colors rounded-sm">GambleFi</a>"""
+    trendingHtml = promoted_guides_html + "".join([f"""
                                         <a href="/press-releases/topic/{topic.lower()}" class="px-3 py-1.5 bg-gray-100 text-xs font-medium text-gray-700 hover:bg-gray-200 transition-colors rounded-sm">
                                             {topic}
                                         </a>
@@ -539,7 +540,8 @@ def renderArticlePage(slug):
                 </div>
             """ for rel in relatedArticles])
 
-    topicsHtml = "".join([f"""
+    promoted_aside_html = """<a href="/guides/regulation-2026" class="inline-flex items-center px-2 py-1 bg-gray-100 text-[11px] font-medium text-gray-700 hover:bg-gray-200 transition-colors rounded-sm"><i data-lucide="tag" class="w-[10px] h-[10px] mr-1"></i> Regulation 2026</a><a href="/guides/sweepstakes-market" class="inline-flex items-center px-2 py-1 bg-gray-100 text-[11px] font-medium text-gray-700 hover:bg-gray-200 transition-colors rounded-sm"><i data-lucide="tag" class="w-[10px] h-[10px] mr-1"></i> Sweepstakes</a><a href="/guides/gamblefi-telegram" class="inline-flex items-center px-2 py-1 bg-gray-100 text-[11px] font-medium text-gray-700 hover:bg-gray-200 transition-colors rounded-sm"><i data-lucide="tag" class="w-[10px] h-[10px] mr-1"></i> GambleFi</a>"""
+    topicsHtml = promoted_aside_html + "".join([f"""
                 <a href="/press-releases/topic/{topic.lower().replace(' ', '-')}" class="inline-flex items-center px-2 py-1 bg-gray-100 text-[11px] font-medium text-gray-700 hover:bg-gray-200 transition-colors">
                     <i data-lucide="tag" class="w-[10px] h-[10px] mr-1"></i> {topic}
                 </a>
@@ -562,7 +564,8 @@ def renderArticlePage(slug):
                                 </div>
                                 """ if article.get('contact') else ''
 
-    topics_footer_html = "".join([f'<a href="/press-releases/topic/{t.lower().replace(" ", "-")}" class="px-3 py-1.5 bg-gray-100 text-xs font-medium text-gray-700 hover:bg-gray-200 transition-colors rounded-sm">{t}</a>' for t in article['topics']])
+    promoted_footer_html = """<a href="/guides/regulation-2026" class="px-3 py-1.5 bg-gray-100 text-xs font-medium text-gray-700 hover:bg-gray-200 transition-colors rounded-sm">Regulation 2026</a><a href="/guides/sweepstakes-market" class="px-3 py-1.5 bg-gray-100 text-xs font-medium text-gray-700 hover:bg-gray-200 transition-colors rounded-sm">Sweepstakes</a><a href="/guides/gamblefi-telegram" class="px-3 py-1.5 bg-gray-100 text-xs font-medium text-gray-700 hover:bg-gray-200 transition-colors rounded-sm">GambleFi</a>"""
+    topics_footer_html = promoted_footer_html + "".join([f'<a href="/press-releases/topic/{t.lower().replace(" ", "-")}" class="px-3 py-1.5 bg-gray-100 text-xs font-medium text-gray-700 hover:bg-gray-200 transition-colors rounded-sm">{t}</a>' for t in article['topics']])
 
     return f"""
                 <div class="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8 py-8 animate-fade-in">
