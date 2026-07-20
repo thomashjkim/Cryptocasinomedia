@@ -12,7 +12,7 @@ articles_data = [
     "id": "pr-82-world-cup-final-spain-victory-betting",
     "slug": "spain-argentina-world-cup-final-crypto-betting-records-resolved",
     "originalUrl": "",
-    "title": "Spain's 1-0 World Cup Final Triumph Over Argentina Resolves $1.8 Billion in Crypto Betting Markets, Smashing Industry Records",
+    "title": "Spain's 1-0 World Cup Final Triumph Over Argentina Resolves $1.8 Billion in Crypto & CFTC-Regulated Prediction Markets, Smashing Industry Records",
     "publishedAt": "2026-07-20T11:00:00-04:00",
     "sourceName": "iGaming Market Intelligence",
     "thumbnailUrl": "https://cryptocasinomedia.com/images/spain_victory_world_cup_final.jpg",
@@ -21,15 +21,16 @@ articles_data = [
     "body": [
       "The FIFA World Cup 2026 came to a sensational close yesterday at MetLife Stadium in New Jersey, with Spain securing a 1-0 victory against Argentina to claim the global crown. The tight, defensive battle resolved the single largest event-based sports wagering volume in history, with decentralized prediction protocols and centralized crypto sportsbooks processing over $1.8 billion in cumulative bets by the final whistle.",
       "On the decentralized prediction platform Polymarket, the primary 'World Cup Winner' contract resolved immediately following Spain's victory, distributing over $710 million to winning shareholders who locked in Spain at 2.10 decimal odds prior to kickoff. Live in-play volume fluctuated intensely during the scoreless first half, generating massive trading margins for automated stablecoin arbitrage bots across Polygon and Ethereum networks.",
+      "Concurrently, the CFTC-regulated prediction market Kalshi reported unprecedented retail volume, clearing over $320 million in federally regulated World Cup contracts. The platform's offering—focusing on minute-by-minute micro-outcomes, player statistical overlays, and direct champion contracts—saw peak trading activity as retail investors utilized traditional financial on-ramps to hedge positions against volatile offshore crypto pools, establishing Kalshi as a major institutional counterweight to decentralized protocols.",
       "Centralized platforms such as Stake and BC.GAME reported record traffic density during the final minutes, with Spain's game-winning goal in the 83rd minute triggering historic payouts. Operators noted that the integration of fast payment rails like USDT, USDC, and Bitcoin allowed winning players to settle and withdraw their balances within seconds, proving the high scale of Web3 gaming infrastructure under extreme network load.",
-      "“We have witnessed a watershed moment for the iGaming industry,” commented a senior analyst at a digital asset research firm. “The sheer volume processed during this World Cup final demonstrates that on-chain liquidity pools and high-performance betting layers are no longer experimental—they are now the primary infrastructure for high-stakes global events. Spain's 1-0 win will be remembered not just as a sporting milestone, but as a historic day for crypto sportsbooks.”"
+      "“We have witnessed a watershed moment for the iGaming industry,” commented a senior analyst at a digital asset research firm. “The sheer volume processed during this World Cup final demonstrates that on-chain liquidity pools and high-performance betting layers are no longer experimental—they are now the primary infrastructure for high-stakes global events. Spain's 1-0 win will be remembered not just as a sporting milestone, but as a historic day for crypto sportsbooks and regulated prediction platforms alike.”"
     ],
     "topics": ["Sportsbook", "World Cup", "DeFi"],
     "primaryCategory": "sportsbook",
-    "company": "Polymarket & Stake",
+    "company": "Polymarket, Kalshi & Stake",
     "region": "USA",
     "contact": "analytics@igamingintel.com",
-    "excerpt": "Spain's 1-0 World Cup Final win over Argentina resolves record-breaking $1.8B+ crypto wagering volume across prediction markets."
+    "excerpt": "Spain's 1-0 World Cup Final win over Argentina resolves record-breaking $1.8B+ wagering volume across Polymarket, Kalshi, and crypto sportsbooks."
   },
   {
     "id": "pr-81-world-cup-final-argentina-spain",
