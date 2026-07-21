@@ -654,13 +654,6 @@ def renderArticlePage(slug):
 
                                 {contact_block}
 
-                                <section class="mt-10 pt-8 border-t border-gray-200 font-sans">
-                                    <h2 class="text-base font-semibold uppercase tracking-wider text-gray-900 mb-4">Frequently Asked Questions</h2>
-                                    <div class="space-y-4">
-                                        {faqHtml}
-                                    </div>
-                                </section>
-
                                 <section class="mt-8 pt-6 border-t border-gray-200 font-sans">
                                     <h3 class="text-base font-semibold uppercase tracking-wider text-gray-900 mb-3">Related Topics</h3>
                                     <div class="flex flex-wrap gap-2">
@@ -869,7 +862,7 @@ def renderContactPage():
     return '<div class="max-w-[800px] mx-auto px-4 sm:px-6 lg:px-8 py-16 animate-fade-in"><div class="mb-10 border-b border-gray-200 pb-8"><h1 class="text-4xl font-semibold tracking-tight text-gray-900 mb-3">Contact Us</h1><p class="text-lg text-gray-600">Reach our editorial team for inquiries, partnerships, or general questions.</p></div><form name="contact" method="POST" data-netlify="true" class="space-y-6"><input type="hidden" name="form-name" value="contact"><div class="grid grid-cols-1 sm:grid-cols-2 gap-6"><div><label class="block text-sm font-semibold text-gray-700 mb-2">Full Name *</label><input type="text" name="name" required placeholder="John Smith" class="w-full border border-gray-300 px-4 py-2.5 text-sm focus:outline-none focus:border-gray-900 bg-white"></div><div><label class="block text-sm font-semibold text-gray-700 mb-2">Email Address *</label><input type="email" name="email" required placeholder="you@company.com" class="w-full border border-gray-300 px-4 py-2.5 text-sm focus:outline-none focus:border-gray-900 bg-white"></div></div><div><label class="block text-sm font-semibold text-gray-700 mb-2">Subject *</label><input type="text" name="subject" required placeholder="How can we help?" class="w-full border border-gray-300 px-4 py-2.5 text-sm focus:outline-none focus:border-gray-900 bg-white"></div><div><label class="block text-sm font-semibold text-gray-700 mb-2">Message *</label><textarea name="message" required rows="6" placeholder="Your message..." class="w-full border border-gray-300 px-4 py-2.5 text-sm focus:outline-none focus:border-gray-900 bg-white resize-none"></textarea></div><button type="submit" class="px-8 py-3 bg-gray-900 text-white text-sm font-semibold hover:bg-blue-700 transition-colors">Send Message</button></form><div id="contact-success" class="hidden mt-6 p-4 bg-green-50 border border-green-200 text-green-800 text-sm font-medium">Thank you! Your message has been sent. We will get back to you within 1-2 business days.</div><div class="mt-12 pt-8 border-t border-gray-200"><h3 class="text-lg font-semibold text-gray-900 mb-4">Corporate Office</h3><p class="text-sm text-gray-600 mb-1"><strong>CryptoCasinoMedia Group LLC</strong></p><p class="text-sm text-gray-600 mb-4">1209 North Orange Street, Wilmington, DE 19801, USA</p><p class="text-sm text-gray-600">For direct support, please fill out the contact form above.</p></div></div>'
 
 def renderSubmitPage():
-    return '<div class="max-w-[800px] mx-auto px-4 sm:px-6 lg:px-8 py-16 animate-fade-in"><div class="mb-10 border-b border-gray-200 pb-8"><h1 class="text-4xl font-semibold tracking-tight text-gray-900 mb-3">Submit a Press Release</h1><p class="text-lg text-gray-600">Reach key decision makers, operators, and analysts in the crypto and iGaming sector.</p></div><form name="press-release" method="POST" data-netlify="true" class="space-y-6"><input type="hidden" name="form-name" value="press-release"><div class="grid grid-cols-1 sm:grid-cols-2 gap-6"><div><label class="block text-sm font-semibold text-gray-700 mb-2">Company Name *</label><input type="text" name="company" required placeholder="Your Company" class="w-full border border-gray-300 px-4 py-2.5 text-sm focus:outline-none focus:border-gray-900 bg-white"></div><div><label class="block text-sm font-semibold text-gray-700 mb-2">Contact Name *</label><input type="text" name="contact-name" required placeholder="Jane Doe" class="w-full border border-gray-300 px-4 py-2.5 text-sm focus:outline-none focus:border-gray-900 bg-white"></div></div><div class="grid grid-cols-1 sm:grid-cols-2 gap-6"><div><label class="block text-sm font-semibold text-gray-700 mb-2">Email Address *</label><input type="email" name="email" required placeholder="press@yourcompany.com" class="w-full border border-gray-300 px-4 py-2.5 text-sm focus:outline-none focus:border-gray-900 bg-white"></div><div><label class="block text-sm font-semibold text-gray-700 mb-2">Distribution Date</label><input type="date" name="distribution-date" class="w-full border border-gray-300 px-4 py-2.5 text-sm focus:outline-none focus:border-gray-900 bg-white"></div></div><div><label class="block text-sm font-semibold text-gray-700 mb-2">Press Release Headline *</label><input type="text" name="headline" required placeholder="Your Press Release Title" class="w-full border border-gray-300 px-4 py-2.5 text-sm focus:outline-none focus:border-gray-900 bg-white"></div><div><label class="block text-sm font-semibold text-gray-700 mb-2">Category *</label><select name="category" required class="w-full border border-gray-300 px-4 py-2.5 text-sm focus:outline-none focus:border-gray-900 bg-white"><option value="">Select a category...</option><option value="crypto-casinos">Crypto Casinos</option><option value="sportsbook">Sportsbook</option><option value="regulation">Regulation and Compliance</option><option value="payments">Payments and Technology</option><option value="sweepstakes">Sweepstakes</option><option value="guides">Industry Guides</option></select></div><div><label class="block text-sm font-semibold text-gray-700 mb-2">Press Release Body *</label><textarea name="body" required rows="10" placeholder="Paste the full text of your press release here..." class="w-full border border-gray-300 px-4 py-2.5 text-sm focus:outline-none focus:border-gray-900 bg-white resize-none"></textarea></div><div><label class="block text-sm font-semibold text-gray-700 mb-2">Image URL (optional)</label><input type="url" name="image-url" placeholder="https://yoursite.com/image.jpg" class="w-full border border-gray-300 px-4 py-2.5 text-sm focus:outline-none focus:border-gray-900 bg-white"></div><div class="bg-gray-50 border border-gray-200 p-4 text-sm text-gray-600">Distribution includes strict editorial review, permanent archiving with verified source attribution, and indexing in industry news databases. Standard turnaround is 1-3 business days.</div><button type="submit" class="px-8 py-3 bg-gray-900 text-white text-sm font-semibold hover:bg-blue-700 transition-colors">Submit Press Release</button></form><div id="pr-success" class="hidden mt-6 p-4 bg-green-50 border border-green-200 text-green-800 text-sm font-medium">Thank you for your submission! Our editorial team will review your press release and follow up within 1-3 business days.</div></div>'
+    return '<div class="max-w-[800px] mx-auto px-4 sm:px-6 lg:px-8 py-16 animate-fade-in"><div class="mb-10 border-b border-gray-200 pb-8"><h1 class="text-4xl font-semibold tracking-tight text-gray-900 mb-3">Submit a Press Release</h1><p class="text-lg text-gray-600">Reach key decision makers, operators, and analysts in the crypto and iGaming sector.</p></div><form name="press-release" method="POST" data-netlify="true" class="space-y-6"><input type="hidden" name="form-name" value="press-release"><div class="grid grid-cols-1 sm:grid-cols-2 gap-6"><div><label class="block text-sm font-semibold text-gray-700 mb-2">Company Name *</label><input type="text" name="company" required placeholder="Your Company" class="w-full border border-gray-300 px-4 py-2.5 text-sm focus:outline-none focus:border-gray-900 bg-white"></div><div><label class="block text-sm font-semibold text-gray-700 mb-2">Contact Name *</label><input type="text" name="contact-name" required placeholder="Jane Doe" class="w-full border border-gray-300 px-4 py-2.5 text-sm focus:outline-none focus:border-gray-900 bg-white"></div></div><div class="grid grid-cols-1 sm:grid-cols-2 gap-6"><div><label class="block text-sm font-semibold text-gray-700 mb-2">Email Address *</label><input type="email" name="email" required placeholder="press@yourcompany.com" class="w-full border border-gray-300 px-4 py-2.5 text-sm focus:outline-none focus:border-gray-900 bg-white"></div><div><label class="block text-sm font-semibold text-gray-700 mb-2">Distribution Date</label><input type="date" name="distribution-date" class="w-full border border-gray-300 px-4 py-2.5 text-sm focus:outline-none focus:border-gray-900 bg-white"></div></div><div><label class="block text-sm font-semibold text-gray-700 mb-2">Press Release Headline *</label><input type="text" name="headline" required placeholder="Your Press Release Title" class="w-full border border-gray-300 px-4 py-2.5 text-sm focus:outline-none focus:border-gray-900 bg-white"></div><div><label class="block text-sm font-semibold text-gray-700 mb-2">Category *</label><select name="category" required class="w-full border border-gray-300 px-4 py-2.5 text-sm focus:outline-none focus:border-gray-900 bg-white"><option value="">Select a category...</option><option value="crypto-casinos">Crypto Casinos</option><option value="sportsbook">Sportsbook</option><option value="regulation">Regulation and Compliance</option><option value="payments">Payments and Technology</option><option value="sweepstakes">Sweepstakes</option><option value="guides">Industry Guides</option></select></div><div><label class="block text-sm font-semibold text-gray-700 mb-2">Press Release Body *</label><textarea name="body" required rows="10" placeholder="Paste the full text of your press release here..." class="w-full border border-gray-300 px-4 py-2.5 text-sm focus:outline-none focus:border-gray-900 bg-white resize-none"></textarea></div><div><label class="block text-sm font-semibold text-gray-700 mb-2">Image URL (optional)</label><input type="url" name="image-url" placeholder="https://yoursite.com/image.jpg" class="w-full border border-gray-300 px-4 py-2.5 text-sm focus:outline-none focus:border-gray-900 bg-white"></div><div class="bg-gray-50 border border-gray-200 p-4 text-sm text-gray-600">Distribution includes strict editorial review, permanent archiving with verified source attribution, and indexing across our network partner feeds (including Google News, Bing News, IndexNow feeds, and the iGaming Retail Syndicate). Standard turnaround is 1-3 business days.</div><button type="submit" class="px-8 py-3 bg-gray-900 text-white text-sm font-semibold hover:bg-blue-700 transition-colors">Submit Press Release</button></form><div id="pr-success" class="hidden mt-6 p-4 bg-green-50 border border-green-200 text-green-800 text-sm font-medium">Thank you for your submission! Our editorial team will review your press release and follow up within 1-3 business days.</div></div>'
 
 def renderAboutPage():
     return """
@@ -933,12 +926,12 @@ def renderAboutPage():
                         <h2 class="text-2xl font-semibold text-gray-900 mb-6">Editorial Team</h2>
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
                             <div class="bg-gray-50 border border-gray-200 p-6 rounded-sm">
-                                <h3 class="font-bold text-gray-900 text-lg">Marcus Vance</h3>
+                                <h3 class="font-bold text-gray-900 text-lg"><a href="/authors/marcus-vance" class="text-gray-900 hover:text-blue-700 transition-colors underline decoration-dotted">Marcus Vance</a></h3>
                                 <p class="text-xs text-blue-700 font-semibold mb-2">Lead iGaming Analyst</p>
                                 <p class="text-sm text-gray-600 leading-relaxed">Marcus has over a decade of experience analyzing digital asset betting volumes, platform architectures, and offshore operator trends. Formerly a compliance consultant for major European sportsbooks.</p>
                             </div>
                             <div class="bg-gray-50 border border-gray-200 p-6 rounded-sm">
-                                <h3 class="font-bold text-gray-900 text-lg">Sophia Chen</h3>
+                                <h3 class="font-bold text-gray-900 text-lg"><a href="/authors/sophia-chen" class="text-gray-900 hover:text-blue-700 transition-colors underline decoration-dotted">Sophia Chen</a></h3>
                                 <p class="text-xs text-blue-700 font-semibold mb-2">Regulatory & Compliance Editor</p>
                                 <p class="text-sm text-gray-600 leading-relaxed">Sophia specializes in global online gaming legal frameworks, focusing on the Curacao GCB reforms, Brazilian iGaming regulation, and compliance standards within the US sweepstakes industry.</p>
                             </div>
@@ -1108,6 +1101,44 @@ def renderTermsPage():
 
                     <h2 class="text-xl font-semibold text-gray-900 mt-8 mb-4">6. Contact Us</h2>
                     <p>For questions or formal inquiries regarding these Terms, please submit them via our <a href="/contact" class="text-blue-700 hover:underline">Contact Form</a>.</p>
+                </div>
+            """
+
+def renderAuthorPage(author):
+    author_articles = [a for a in articles_sorted if (
+        (author['slug'] == 'marcus-vance' and a['primaryCategory'] in ['sportsbook', 'payments']) or
+        (author['slug'] == 'sophia-chen' and a['primaryCategory'] in ['regulation', 'sweepstakes', 'guides'])
+    )]
+    
+    articles_html = "".join([f"""
+                <div class="border-b border-gray-200 py-6 last:border-0">
+                    <div class="flex items-center gap-2 mb-2 text-xs text-gray-500 font-sans">
+                        <span>{a['sourceName']}</span>
+                        <span>•</span>
+                        <span>{formatDateMeta(a['publishedAt'])}</span>
+                    </div>
+                    <a href="/press-releases/{a['slug']}" class="text-xl font-semibold text-gray-900 hover:text-blue-700 transition-colors block mb-2 leading-snug">
+                        {a['title']}
+                    </a>
+                    <p class="text-sm text-gray-600 font-sans m-0">{a['excerpt']}</p>
+                </div>
+            """ for a in author_articles])
+            
+    return f"""
+                <div class="max-w-[800px] mx-auto px-4 sm:px-6 lg:px-8 py-16 animate-fade-in font-sans">
+                    <div class="flex flex-col sm:flex-row items-center gap-8 border-b border-gray-200 pb-10 mb-10">
+                        <img src="{author['avatar']}" alt="{author['name']}" class="w-24 h-24 rounded-full object-cover shadow-md" />
+                        <div class="text-center sm:text-left flex-1">
+                            <h1 class="text-3xl font-semibold text-gray-900 mb-1">{author['name']}</h1>
+                            <p class="text-sm font-semibold uppercase tracking-wider text-blue-700 mb-4">{author['role']}</p>
+                            <p class="text-gray-600 leading-relaxed text-[15px] m-0">{author['bio']}</p>
+                        </div>
+                    </div>
+                    
+                    <h2 class="text-xl font-semibold text-gray-900 mb-6">Articles & Publications by {author['name']}</h2>
+                    <div class="space-y-2">
+                        {articles_html}
+                    </div>
                 </div>
             """
 
@@ -1771,6 +1802,55 @@ for path, title, description, body_content, custom_schemas in utility_pages:
     
     folder_name = path.strip("/")
     out_dir = os.path.join(output_base_dir, folder_name)
+    os.makedirs(out_dir, exist_ok=True)
+    with open(os.path.join(out_dir, "index.html"), "w", encoding="utf-8") as f:
+        f.write(html)
+    pages_generated += 1
+
+# 6.5 Render Author Profile Pages
+authors_list = [
+    {
+        "slug": "marcus-vance",
+        "name": "Marcus Vance",
+        "role": "Lead iGaming Analyst",
+        "bio": "Marcus Vance is a leading B2B iGaming analyst with over 8 years of experience covering sportsbooks, crypto casinos, and digital asset integration. Previously, he served as a market research analyst and has been cited in major interactive gaming publications globally. At CryptoCasinoMedia, he focuses on transaction analytics, platform liquidity, and predictive market volumes.",
+        "avatar": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=300",
+        "email": "marcus.vance@cryptocasinomedia.com"
+    },
+    {
+        "slug": "sophia-chen",
+        "name": "Sophia Chen",
+        "role": "Regulatory Editor",
+        "bio": "Sophia Chen is a regulatory editor specializing in international gambling compliance, sweepstakes laws, and digital asset frameworks. Formerly a compliance advisor for European gaming operators, she leads CryptoCasinoMedia's regulatory desk, auditing licensing transitions, AML policies, and the impact of the EU AI Act.",
+        "avatar": "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&q=80&w=300",
+        "email": "sophia.chen@cryptocasinomedia.com"
+    }
+]
+
+for author in authors_list:
+    author_body = renderAuthorPage(author)
+    author_title = f"{author['name']} Profile & Articles — CryptoCasinoMedia"
+    author_desc = f"Read articles and iGaming industry analysis written by {author['name']} at CryptoCasinoMedia."
+    
+    author_schema = {
+        "@context": "https://schema.org",
+        "@type": "ProfilePage",
+        "@id": f"https://cryptocasinomedia.com/authors/{author['slug']}/#webpage",
+        "url": f"https://cryptocasinomedia.com/authors/{author['slug']}/",
+        "name": author_title,
+        "description": author_desc,
+        "mainEntity": {
+            "@type": "Person",
+            "name": author['name'],
+            "jobTitle": author['role'],
+            "description": author['bio'],
+            "image": author['avatar']
+        }
+    }
+    
+    html = build_static_page(template_content, f"/authors/{author['slug']}/", author_title, author_desc, author_body, [author_schema])
+    
+    out_dir = os.path.join(output_base_dir, "authors", author['slug'])
     os.makedirs(out_dir, exist_ok=True)
     with open(os.path.join(out_dir, "index.html"), "w", encoding="utf-8") as f:
         f.write(html)
