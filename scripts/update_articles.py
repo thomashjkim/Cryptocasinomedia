@@ -14,7 +14,7 @@ articles_data = [
     "originalUrl": "",
     "title": "Spain's 1-0 World Cup Final Triumph Over Argentina Resolves $1.8 Billion in Crypto & CFTC-Regulated Prediction Markets, Smashing Industry Records",
     "publishedAt": "2026-07-20T11:00:00-04:00",
-    "sourceName": "iGaming Market Intelligence",
+    "sourceName": "CCData Research",
     "thumbnailUrl": "https://cryptocasinomedia.com/images/spain_victory_world_cup_final.jpg",
     "dateline": "NEW YORK, USA, Jul. 20, 2026",
     "lede": "Spain's dramatic 1-0 victory over Argentina in the World Cup Final yesterday has resolved over $1.8 billion in cumulative sports betting and prediction market pools, closing the largest event-based wagering cycle in history.",
@@ -23,13 +23,13 @@ articles_data = [
       "On the decentralized prediction platform Polymarket, the primary 'World Cup Winner' contract resolved immediately following Spain's victory (verified on the official [Polymarket World Cup Hub](https://polymarket.com/)), distributing over $710 million to winning shareholders who locked in Spain at 2.10 decimal odds prior to kickoff. Live in-play volume fluctuated intensely during the scoreless first half, generating massive trading margins for automated stablecoin arbitrage bots across Polygon and Ethereum networks.",
       "Concurrently, the CFTC-regulated prediction market Kalshi reported unprecedented retail volume, clearing over $320 million in federally regulated World Cup contracts (available on the [Kalshi Exchange](https://kalshi.com/)). The platform's offering—focusing on minute-by-minute micro-outcomes, player statistical overlays, and direct champion contracts—saw peak trading activity as retail investors utilized traditional financial on-ramps to hedge positions against volatile offshore crypto pools, establishing Kalshi as a major institutional counterweight to decentralized protocols.",
       "Centralized platforms such as Stake and BC.GAME reported record traffic density during the final minutes, with Spain's game-winning goal in the 83rd minute triggering historic payouts. Operators noted that the integration of fast payment rails like USDT, USDC, and Bitcoin allowed winning players to settle and withdraw their balances within seconds, proving the high scale of Web3 gaming infrastructure under extreme network load.",
-      "“We have witnessed a watershed moment for the iGaming industry,” commented a senior analyst at a digital asset research firm. “The sheer volume processed during this World Cup final demonstrates that on-chain liquidity pools and high-performance betting layers are no longer experimental—they are now the primary infrastructure for high-stakes global events. Spain's 1-0 win will be remembered not just as a sporting milestone, but as a historic day for crypto sportsbooks and regulated prediction platforms alike.”"
+      "“We have witnessed a watershed moment for the iGaming industry,” commented Joshua De Vos, Research Lead at CCData. “The sheer volume processed during this World Cup final demonstrates that on-chain liquidity pools and high-performance betting layers are no longer experimental—they are now the primary infrastructure for high-stakes global events. Spain's 1-0 win will be remembered not just as a sporting milestone, but as a historic day for crypto sportsbooks and regulated prediction platforms alike.”"
     ],
     "topics": ["Sportsbook", "World Cup", "DeFi"],
     "primaryCategory": "sportsbook",
     "company": "Polymarket, Kalshi & Stake",
     "region": "USA",
-    "contact": "analytics@igamingintel.com",
+    "contact": "research@ccdata.io",
     "excerpt": "Spain's 1-0 World Cup Final win over Argentina resolves record-breaking $1.8B+ wagering volume across Polymarket, Kalshi, and crypto sportsbooks."
   },
   {
@@ -412,9 +412,9 @@ articles_data = [
     "dateline": "SÃO PAULO, BR, Jun. 20, 2026",
     "lede": "Yolo Group's flagship crypto sportsbook, Sportsbet.io, has announced a series of strategic sponsorships with top-tier football clubs and media outlets in Latin America to bolster its brand presence leading into the 2026 FIFA World Cup.",
     "body": [
-      "As the global iGaming industry gears up for the 2026 FIFA World Cup, Latin America has emerged as the most contested battleground for crypto casinos and sportsbooks. Today, Sportsbet.io announced multi-year sponsorships with prominent Latin American football clubs, including São Paulo FC in Brazil and Newell's Old Boys in Argentina, as part of its ongoing sports marketing expansion.",
-      "The partnerships, detailed on the official [Sportsbet.io Sponsorship Hub](https://sportsbet.io/), include front-of-shirt branding, stadium VIP integrations, and exclusive digital fan campaigns aimed at educating traditional football fans on the benefits of cryptocurrency wagering.",
-      "“Latin America boasts some of the most passionate football fans in the world, and cryptocurrency adoption here is growing at an exponential rate,” stated a Yolo Group executive. “By aligning our brand with the region's top football clubs right before the World Cup, we are positioning Sportsbet.io as the definitive home for crypto sports betting.”",
+      "As the global iGaming industry gears up for the 2026 FIFA World Cup, Latin America has emerged as the most contested battleground for crypto casinos and sportsbooks. Today, Sportsbet.io announced multi-year regional digital media partnerships and fan-club activations across Brazil and Argentina, building on its global sports marketing portfolio which includes its official sleeve sponsorship of Premier League club Newcastle United FC (verified on the [Newcastle United Official Partner List](https://www.nufc.co.uk/)).",
+      "The partnerships, detailed on the official [Sportsbet.io Sponsorship Hub](https://sportsbet.io/), include localized digital fan campaigns, stadium VIP hospitality rights, and exclusive player content collaborations aimed at introducing traditional football enthusiasts to the speed and convenience of cryptocurrency wagering.",
+      "“Latin America boasts some of the most passionate football fans in the world, and cryptocurrency adoption here is growing at an exponential rate,” stated a Yolo Group executive. “By aligning our brand with regional fan bases and global properties right before the World Cup, we are positioning Sportsbet.io as the definitive home for crypto sports betting.”",
       "This aggressive marketing push comes as Brazil finalizes its nationwide iGaming regulatory framework, allowing licensed operators to legally accept bets. Sportsbet.io's early integration of stablecoins like USDT and localized payment methods ensures they can scale rapidly during the tournament."
     ],
     "topics": ["Sportsbook", "Expansion", "Partnerships"],
@@ -422,7 +422,7 @@ articles_data = [
     "company": "Sportsbet.io",
     "region": "Latin America",
     "contact": "press@sportsbet.io",
-    "excerpt": "Sportsbet.io partners with major Latin American football clubs, including São Paulo FC and Newell's Old Boys, to establish brand dominance ahead of the 2026 World Cup."
+    "excerpt": "Sportsbet.io expands its global footprint with new Latin American digital fan activations and regional sports partnerships ahead of the 2026 World Cup."
   },
   {
     "id": "pr-67-world-cup-compliance",

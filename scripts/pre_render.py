@@ -1033,6 +1033,21 @@ def renderAdvertisePage():
                         </div>
                     </section>
 
+                    <section class="mb-12">
+                        <h2 class="text-2xl font-semibold text-gray-900 mb-4">Our Syndication & Reach Network</h2>
+                        <p class="text-gray-700 leading-relaxed mb-6">We provide verified distribution and structured indexing across major financial news indexes and professional opt-in channels, ensuring high-authority visibility:</p>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 text-sm">
+                            <div class="border-l-4 border-blue-700 pl-4">
+                                <h4 class="font-bold text-gray-900 mb-1">Direct B2B Audience Reach</h4>
+                                <p class="text-gray-600 m-0">Our CCM Weekly iGaming Newsletter is delivered directly to over 50,000 double opt-in B2B iGaming professionals, including operators, regulators, compliance officers, and technology investors.</p>
+                            </div>
+                            <div class="border-l-4 border-blue-700 pl-4">
+                                <h4 class="font-bold text-gray-900 mb-1">Search & Feed Indexing</h4>
+                                <p class="text-gray-600 m-0">Every release is mapped with JSON-LD structured schema metadata and pushed instantly to the Google News Index, Bing News indexer, and IndexNow syndicate partners (Yandex, Seznam, Naver) for immediate discovery.</p>
+                            </div>
+                        </div>
+                    </section>
+
                     <section>
                         <h2 class="text-2xl font-semibold text-gray-900 mb-4">Get in Touch</h2>
                         <p class="text-gray-700 mb-4">Contact our partnerships team to discuss advertising and distribution options.</p>
