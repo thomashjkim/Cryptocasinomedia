@@ -202,6 +202,8 @@ def renderFooter():
                                 <li><a href="/editorial-standards" class="hover:text-white transition-colors">Editorial Standards</a></li>
                                 <li><a href="/advertise" class="hover:text-white transition-colors">Advertise</a></li>
                                 <li><a href="/submit" class="hover:text-white transition-colors">Submit Release</a></li>
+                                <li><a href="/privacy" class="hover:text-white transition-colors">Privacy Policy</a></li>
+                                <li><a href="/terms" class="hover:text-white transition-colors">Terms of Service</a></li>
                                 <li><a href="/how-crypto-casino-news-works" class="hover:text-white transition-colors">How It Works</a></li>
                                 <li><a href="/aeo-best-practices" class="hover:text-white transition-colors">AEO Guide</a></li>
                                 <li><a href="/press-release-seo" class="hover:text-white transition-colors">Press Release SEO</a></li>
@@ -209,8 +211,9 @@ def renderFooter():
                         </div>
                     </div>
                     <div class="border-t border-gray-800 pt-8 text-xs text-gray-500 space-y-4 leading-relaxed">
-                        <p><strong>Disclaimer:</strong> CryptoCasinoMedia is a business-to-business and editorial news publisher. We are not a casino operator. The content published on this site, including press releases distributed via third parties like GlobeNewswire, is intended for informational and industry analysis purposes only.</p>
+                        <p><strong>Disclaimer:</strong> CryptoCasinoMedia is a B2B news and editorial publisher. We are not a casino operator. The content published on this site is intended for informational and industry analysis purposes only.</p>
                         <p><strong>Responsible Gambling:</strong> If you or someone you know has a gambling problem, crisis counseling and referral services can be accessed by calling 1-800-GAMBLER.</p>
+                        <p><strong>Corporate Info:</strong> CryptoCasinoMedia Group LLC, 1209 North Orange Street, Wilmington, DE 19801, USA. Tel: +1 (302) 200-3498. Email: desk@cryptocasinomedia.com. For direct support, please use our <a href="/contact" class="text-gray-400 hover:text-white transition-colors underline font-medium">Contact Form</a>.</p>
                         <p>&copy; {current_year} CryptoCasinoMedia. All rights reserved.</p>
                     </div>
                 </div>
@@ -567,6 +570,14 @@ def renderArticlePage(slug):
     promoted_footer_html = """<a href="/guides/regulation-2026" class="px-3 py-1.5 bg-gray-100 text-xs font-medium text-gray-700 hover:bg-gray-200 transition-colors rounded-sm">Regulation 2026</a><a href="/guides/sweepstakes-market" class="px-3 py-1.5 bg-gray-100 text-xs font-medium text-gray-700 hover:bg-gray-200 transition-colors rounded-sm">Sweepstakes</a><a href="/guides/gamblefi-telegram" class="px-3 py-1.5 bg-gray-100 text-xs font-medium text-gray-700 hover:bg-gray-200 transition-colors rounded-sm">GambleFi</a>"""
     topics_footer_html = promoted_footer_html + "".join([f'<a href="/press-releases/topic/{t.lower().replace(" ", "-")}" class="px-3 py-1.5 bg-gray-100 text-xs font-medium text-gray-700 hover:bg-gray-200 transition-colors rounded-sm">{t}</a>' for t in article['topics']])
 
+    company_name = article['company']
+    if any(p in company_name for p in ["Polymarket", "Kalshi", "CFTC"]):
+        about_company_text = f"The platforms and protocols referenced ({company_name}) represent leading digital prediction networks and regulated event contract markets, facilitating peer-to-peer wagering and structured hedging on global event outcomes."
+    elif "," in company_name or "&" in company_name or " and " in company_name:
+        about_company_text = f"The platforms and operators referenced ({company_name}) represent leading digital asset wagering networks, decentralized sportsbooks, or compliance entities operating within the interactive gaming space."
+    else:
+        about_company_text = f"{company_name} is a leading operator in the digital asset and interactive gaming space, committed to providing secure, transparent, and innovative entertainment experiences globally. For more information, visit the official corporate portal."
+
     return f"""
                 <div class="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8 py-8 animate-fade-in">
                     <nav aria-label="Breadcrumb" class="flex text-[11px] uppercase tracking-wider text-gray-500 mb-6 font-sans">
@@ -627,13 +638,13 @@ def renderArticlePage(slug):
                                 <div class="my-10 border-t border-b border-gray-200 py-6 bg-gray-50 px-6 font-sans">
                                     <h2 class="text-lg font-semibold mb-3 text-gray-900">About {article['company']}</h2>
                                     <p class="text-sm text-gray-700 m-0">
-                                        {article['company']} is a leading operator in the digital asset and interactive gaming space, committed to providing secure, transparent, and innovative entertainment experiences globally. For more information, visit the official corporate portal.
+                                        {about_company_text}
                                     </p>
                                 </div>
 
                                 <div class="my-10 bg-gradient-to-r from-blue-900 to-indigo-900 rounded-lg shadow-lg overflow-hidden flex flex-col md:flex-row items-center justify-between p-8 font-sans text-white">
                                     <div class="mb-6 md:mb-0 md:mr-8 text-center md:text-left flex-1">
-                                        <p class="text-2xl font-bold mb-2 text-white">Reach 50,000+ iGaming Professionals</p>
+                                        <p class="text-2xl font-bold mb-2 text-white">Reach Key iGaming Operators & Analysts</p>
                                         <p class="text-blue-100 text-sm m-0">Distribute your corporate announcements, product launches, and regulatory updates directly to decision-makers across the crypto casino ecosystem.</p>
                                     </div>
                                     <a href="/advertise" class="shrink-0 bg-white text-blue-900 hover:bg-blue-50 font-bold py-3 px-6 rounded-md transition-colors whitespace-nowrap text-sm shadow-md cursor-pointer no-underline block">
@@ -1034,6 +1045,69 @@ def renderAdvertisePage():
                         <p class="text-gray-700 mb-4">Contact our partnerships team to discuss advertising and distribution options.</p>
                         <a href="/contact" class="inline-block px-8 py-3 bg-gray-900 text-white text-sm font-semibold hover:bg-blue-700 transition-colors">Contact Us</a>
                     </section>
+                </div>
+            """
+
+def renderPrivacyPage():
+    return """
+                <div class="max-w-[800px] mx-auto px-4 sm:px-6 lg:px-8 py-16 animate-fade-in prose prose-lg prose-gray">
+                    <h1 class="text-4xl font-semibold tracking-tight text-gray-900 mb-6 border-b border-gray-200 pb-4">Privacy Policy</h1>
+                    <p class="text-xs text-gray-500 mb-8">Effective Date: May 1, 2026</p>
+                    
+                    <p>CryptoCasinoMedia Group LLC ("we," "our," or "us") is committed to protecting your privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you visit our website, including any other media form, media channel, mobile website, or mobile application related or connected thereto.</p>
+                    
+                    <h2 class="text-xl font-semibold text-gray-900 mt-8 mb-4">1. Collection of Your Information</h2>
+                    <p>We may collect information about you in a variety of ways. The information we may collect on the Site includes:</p>
+                    <ul>
+                        <li><strong>Personal Data:</strong> Personally identifiable information, such as your name, shipping address, email address, and telephone number, and demographic information, such as your age, gender, hometown, and interests, that you voluntarily give to us when you choose to participate in various activities related to the Site, such as contact forms and press release submissions.</li>
+                        <li><strong>Derivative Data:</strong> Information our servers automatically collect when you access the Site, such as your IP address, your browser type, your operating system, your access times, and the pages you have viewed directly before and after accessing the Site.</li>
+                    </ul>
+
+                    <h2 class="text-xl font-semibold text-gray-900 mt-8 mb-4">2. Use of Your Information</h2>
+                    <p>Having accurate information about you permits us to provide you with a smooth, efficient, and customized experience. Specifically, we may use information collected about you via the Site to:</p>
+                    <ul>
+                        <li>Deliver targeted editorial newsletters and press release confirmations.</li>
+                        <li>Process and review press release submissions.</li>
+                        <li>Respond to customer service and partnership inquiries.</li>
+                        <li>Analyze usage and trends to improve user experience.</li>
+                    </ul>
+
+                    <h2 class="text-xl font-semibold text-gray-900 mt-8 mb-4">3. Disclosure of Your Information</h2>
+                    <p>We do not sell, trade, or otherwise transfer to outside parties your personally identifiable information unless we provide users with advance notice. This does not include website hosting partners and other parties who assist us in operating our website, conducting our business, or serving our B2B users, so long as those parties agree to keep this information confidential.</p>
+
+                    <h2 class="text-xl font-semibold text-gray-900 mt-8 mb-4">4. Security of Your Information</h2>
+                    <p>We use administrative, technical, and physical security measures to help protect your personal information. While we have taken reasonable steps to secure the personal information you provide to us, please be aware that despite our efforts, no security measures are perfect or impenetrable, and no method of data transmission can be guaranteed against any interception or other type of misuse.</p>
+
+                    <h2 class="text-xl font-semibold text-gray-900 mt-8 mb-4">5. Contact Us</h2>
+                    <p>If you have questions or comments about this Privacy Policy, please contact us using our <a href="/contact" class="text-blue-700 hover:underline">Contact Form</a>.</p>
+                </div>
+            """
+
+def renderTermsPage():
+    return """
+                <div class="max-w-[800px] mx-auto px-4 sm:px-6 lg:px-8 py-16 animate-fade-in prose prose-lg prose-gray">
+                    <h1 class="text-4xl font-semibold tracking-tight text-gray-900 mb-6 border-b border-gray-200 pb-4">Terms of Service</h1>
+                    <p class="text-xs text-gray-500 mb-8">Effective Date: May 1, 2026</p>
+                    
+                    <p>Welcome to CryptoCasinoMedia.com. These Terms of Service ("Terms") govern your access to and use of the website operated by CryptoCasinoMedia Group LLC ("we," "our," or "us"). By accessing or using the Site, you agree to be bound by these Terms.</p>
+                    
+                    <h2 class="text-xl font-semibold text-gray-900 mt-8 mb-4">1. Agreement to Terms</h2>
+                    <p>By using our Site, you agree to these Terms and our Privacy Policy. If you do not agree to these Terms, do not use the Site. We reserve the right to modify these Terms at any time, and your continued use of the Site signifies your acceptance of any updated terms.</p>
+
+                    <h2 class="text-xl font-semibold text-gray-900 mt-8 mb-4">2. Intellectual Property Rights</h2>
+                    <p>Unless otherwise indicated, the Site and its entire contents, features, and functionality (including but not limited to all information, software, text, displays, images, video, and audio, and the design, selection, and arrangement thereof) are owned by us, our licensors, or other providers of such material and are protected by United States and international copyright, trademark, patent, trade secret, and other intellectual property or proprietary rights laws.</p>
+
+                    <h2 class="text-xl font-semibold text-gray-900 mt-8 mb-4">3. User Content & Submissions</h2>
+                    <p>When you submit a press release, article, or other content ("User Content") through our submission portal, you grant us a worldwide, non-exclusive, royalty-free, perpetual, and transferable license to publish, distribute, translate, and archive your content across our networks and partner syndicates. You warrant that you own or control all rights to the User Content and that it is factual, verified, and compliant with local iGaming regulations.</p>
+
+                    <h2 class="text-xl font-semibold text-gray-900 mt-8 mb-4">4. Disclaimer of Warranties</h2>
+                    <p>The Site and all content, materials, and services provided on the Site are provided on an "as is" and "as available" basis, without any warranties of any kind, either express or implied. Neither we nor any person associated with us makes any warranty or representation with respect to the completeness, security, reliability, quality, accuracy, or availability of the Site.</p>
+
+                    <h2 class="text-xl font-semibold text-gray-900 mt-8 mb-4">5. Limitation of Liability</h2>
+                    <p>In no event will we, our affiliates, or their licensors, service providers, employees, agents, officers, or directors be liable for damages of any kind, under any legal theory, arising out of or in connection with your use, or inability to use, the Site, any websites linked to it, or any content on the Site.</p>
+
+                    <h2 class="text-xl font-semibold text-gray-900 mt-8 mb-4">6. Contact Us</h2>
+                    <p>For questions or formal inquiries regarding these Terms, please submit them via our <a href="/contact" class="text-blue-700 hover:underline">Contact Form</a>.</p>
                 </div>
             """
 
@@ -1661,6 +1735,30 @@ utility_pages = [
             },
             "about": {
                 "@id": "https://cryptocasinomedia.com/#organization"
+            }
+        }
+    ]),
+    ('/privacy/', 'Privacy Policy — CryptoCasinoMedia', 'Learn how CryptoCasinoMedia collects, uses, and protects your personal and B2B contact data.', renderPrivacyPage(), [
+        {
+            "@type": "WebPage",
+            "@id": "https://cryptocasinomedia.com/privacy/#webpage",
+            "url": "https://cryptocasinomedia.com/privacy/",
+            "name": "Privacy Policy — CryptoCasinoMedia",
+            "description": "Learn how CryptoCasinoMedia collects, uses, and protects your personal and B2B contact data.",
+            "isPartOf": {
+                "@id": "https://cryptocasinomedia.com/#website"
+            }
+        }
+    ]),
+    ('/terms/', 'Terms of Service — CryptoCasinoMedia', 'Read the terms and conditions governing the use of the CryptoCasinoMedia news and submission portal.', renderTermsPage(), [
+        {
+            "@type": "WebPage",
+            "@id": "https://cryptocasinomedia.com/terms/#webpage",
+            "url": "https://cryptocasinomedia.com/terms/",
+            "name": "Terms of Service — CryptoCasinoMedia",
+            "description": "Read the terms and conditions governing the use of the CryptoCasinoMedia news and submission portal.",
+            "isPartOf": {
+                "@id": "https://cryptocasinomedia.com/#website"
             }
         }
     ]),
