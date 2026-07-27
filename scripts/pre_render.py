@@ -213,7 +213,7 @@ def renderFooter():
                     <div class="border-t border-gray-800 pt-8 text-xs text-gray-500 space-y-4 leading-relaxed">
                         <p><strong>Disclaimer:</strong> CryptoCasinoMedia is a B2B news and editorial publisher. We are not a casino operator. The content published on this site is intended for informational and industry analysis purposes only.</p>
                         <p><strong>Responsible Gambling:</strong> If you or someone you know has a gambling problem, crisis counseling and referral services can be accessed by calling 1-800-GAMBLER.</p>
-                        <p><strong>Corporate Info:</strong> CryptoCasinoMedia Group LLC, 1209 North Orange Street, Wilmington, DE 19801, USA. Tel: +1 (302) 200-3498. Email: desk@cryptocasinomedia.com. For direct support, please use our <a href="/contact" class="text-gray-400 hover:text-white transition-colors underline font-medium">Contact Form</a>.</p>
+                        <p><strong>Corporate Info:</strong> CryptoCasinoMedia Group LLC, 1209 North Orange Street, Wilmington, DE 19801, USA. Tel: +1 (302) 200-3498. Email: cryptocasinomedia@gmail.com. For direct support, please use our <a href="/contact" class="text-gray-400 hover:text-white transition-colors underline font-medium">Contact Form</a>.</p>
                         <p>&copy; {current_year} CryptoCasinoMedia. All rights reserved.</p>
                     </div>
                 </div>
@@ -1830,7 +1830,7 @@ authors_list = [
         "role": "Lead iGaming Analyst",
         "bio": "Marcus Vance is a leading B2B iGaming analyst with over 8 years of experience covering sportsbooks, crypto casinos, and digital asset integration. Previously, he served as a market research analyst and has been cited in major interactive gaming publications globally. At CryptoCasinoMedia, he focuses on transaction analytics, platform liquidity, and predictive market volumes.",
         "avatar": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=300",
-        "email": "marcus.vance@cryptocasinomedia.com"
+        "email": "cryptocasinomedia@gmail.com"
     },
     {
         "slug": "sophia-chen",
@@ -1838,7 +1838,7 @@ authors_list = [
         "role": "Regulatory Editor",
         "bio": "Sophia Chen is a regulatory editor specializing in international gambling compliance, sweepstakes laws, and digital asset frameworks. Formerly a compliance advisor for European gaming operators, she leads CryptoCasinoMedia's regulatory desk, auditing licensing transitions, AML policies, and the impact of the EU AI Act.",
         "avatar": "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&q=80&w=300",
-        "email": "sophia.chen@cryptocasinomedia.com"
+        "email": "cryptocasinomedia@gmail.com"
     }
 ]
 

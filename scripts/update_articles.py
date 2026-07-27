@@ -421,7 +421,7 @@ articles_data = [
     "primaryCategory": "crypto-casinos",
     "company": "TG.Casino & Mega Dice",
     "region": "Middle East",
-    "contact": "research@cryptocasinomedia.com",
+    "contact": "cryptocasinomedia@gmail.com",
     "excerpt": "Telegram-based crypto casinos and GambleFi bots see capital surge as they prepare live-betting APIs for the 2026 World Cup."
   },
   {
@@ -467,7 +467,7 @@ articles_data = [
     "primaryCategory": "regulation",
     "company": "Consortium of Gaming Regulators",
     "region": "Global",
-    "contact": "compliance@cryptocasinomedia.com",
+    "contact": "cryptocasinomedia@gmail.com",
     "excerpt": "Regulators from the EU, UK, and US form a joint task force targeting unlicensed crypto sportsbooks during the 2026 World Cup."
   },
   {
@@ -513,7 +513,7 @@ articles_data = [
     "primaryCategory": "regulation",
     "company": "CryptoCasinoMedia Security Desk",
     "region": "Global",
-    "contact": "security@cryptocasinomedia.com",
+    "contact": "cryptocasinomedia@gmail.com",
     "excerpt": "Cybersecurity researchers have identified a coordinated network of template scam casinos, including Hiorax and Riowex, falsely claiming affiliation with Elon Musk. The sites lure victims with a fake $2,500 'BOSS' promo code, promising instant withdrawals to trick users into depositing funds."
   },
   {
@@ -1377,7 +1377,7 @@ articles_data = [
     "primaryCategory": "payments",
     "company": "CryptoCasinoMedia Research",
     "region": "Global",
-    "contact": "research@cryptocasinomedia.com",
+    "contact": "cryptocasinomedia@gmail.com",
     "excerpt": "USDT overtakes Bitcoin at crypto casinos in Q1 2026, commanding 38% of deposit volume and $18.4B in operator transactions as stablecoin wagering reaches mainstream scale."
   },
   {
@@ -1425,7 +1425,7 @@ articles_data = [
     "primaryCategory": "regulation",
     "company": "CryptoCasinoMedia Research",
     "region": "Global",
-    "contact": "research@cryptocasinomedia.com",
+    "contact": "cryptocasinomedia@gmail.com",
     "excerpt": "Curacao's 2026 National Ordinance on Games of Hazard eliminates the master-license model, requiring all 380+ crypto casino operators to obtain direct licenses with full AML and fund segregation compliance by September 2026."
   },
   {
@@ -1449,7 +1449,7 @@ articles_data = [
     "primaryCategory": "crypto-casinos",
     "company": "CryptoCasinoMedia Research",
     "region": "Global",
-    "contact": "research@cryptocasinomedia.com",
+    "contact": "cryptocasinomedia@gmail.com",
     "excerpt": "Ethereum NFT casino platforms hit $2.1B monthly wager volume in May 2026, with on-chain asset ownership reshaping player economics and attracting $87M in institutional VC investment."
   },
   {
@@ -1497,7 +1497,7 @@ articles_data = [
     "primaryCategory": "crypto-casinos",
     "company": "CryptoCasinoMedia Research",
     "region": "Global",
-    "contact": "research@cryptocasinomedia.com",
+    "contact": "cryptocasinomedia@gmail.com",
     "excerpt": "Bitcoin's approach to $120,000 has driven a 28% surge in crypto casino deposit volume, with new player registrations up 34% and operators implementing stablecoin hedging to manage BTC price volatility."
   },
   {
@@ -1521,7 +1521,7 @@ articles_data = [
     "primaryCategory": "regulation",
     "company": "CryptoCasinoMedia Research",
     "region": "Europe",
-    "contact": "research@cryptocasinomedia.com",
+    "contact": "cryptocasinomedia@gmail.com",
     "excerpt": "The EU AI Act's August 2026 deadline may classify iGaming personalization and bonus AI systems as high-risk, requiring audit trails, human oversight, and \u20ac500K-\u20ac2M compliance investment per operator."
   },
   {
