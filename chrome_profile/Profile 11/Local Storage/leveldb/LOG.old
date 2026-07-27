@@ -1,2 +1,48 @@
-2026/06/25-12:24:42.645 25c5cd Creating DB /Users/thomaskim/Cryptocasinomedia/chrome_profile/Profile 11/Local Storage/leveldb since it was missing.
-2026/06/25-12:24:42.649 25c5cd Reusing MANIFEST /Users/thomaskim/Cryptocasinomedia/chrome_profile/Profile 11/Local Storage/leveldb/MANIFEST-000001
+2026/07/27-10:41:44.558 8122 Reusing MANIFEST /Users/thomaskim/Cryptocasinomedia/chrome_profile/Profile 11/Local Storage/leveldb/MANIFEST-000001
+2026/07/27-10:41:44.563 8122 Recovering log #4
+2026/07/27-10:41:44.564 8122 Reusing old log /Users/thomaskim/Cryptocasinomedia/chrome_profile/Profile 11/Local Storage/leveldb/000004.log 
+2026/07/27-11:08:46.167 8122 Level-0 table #8: started
+2026/07/27-11:08:46.172 8122 Level-0 table #8: 96683 bytes OK
+2026/07/27-11:08:46.175 8122 Delete type=0 #4
+2026/07/27-11:23:59.736 8122 Level-0 table #10: started
+2026/07/27-11:23:59.739 8122 Level-0 table #10: 12485 bytes OK
+2026/07/27-11:23:59.741 8122 Delete type=0 #7
+2026/07/27-11:27:32.258 8122 Level-0 table #12: started
+2026/07/27-11:27:32.260 8122 Level-0 table #12: 16737 bytes OK
+2026/07/27-11:27:32.262 8122 Delete type=0 #9
+2026/07/27-11:42:01.707 8122 Level-0 table #14: started
+2026/07/27-11:42:01.711 8122 Level-0 table #14: 27330 bytes OK
+2026/07/27-11:42:01.713 8122 Delete type=0 #11
+2026/07/27-11:43:51.058 8122 Level-0 table #16: started
+2026/07/27-11:43:51.061 8122 Level-0 table #16: 18427 bytes OK
+2026/07/27-11:43:51.063 8122 Delete type=0 #13
+2026/07/27-11:43:51.064 8122 Compacting 4@0 + 1@1 files
+2026/07/27-11:43:51.069 8122 Generated table #17@0: 104 keys, 100435 bytes
+2026/07/27-11:43:51.069 8122 Compacted 4@0 + 1@1 files => 100435 bytes
+2026/07/27-11:43:51.069 8122 compacted to: files[ 0 1 1 0 0 0 0 ]
+2026/07/27-11:43:51.070 8122 Delete type=2 #14
+2026/07/27-11:43:51.070 8122 Delete type=2 #16
+2026/07/27-11:43:51.070 8122 Delete type=2 #12
+2026/07/27-11:43:51.070 8122 Delete type=2 #10
+2026/07/27-11:43:51.070 8122 Delete type=2 #8
+2026/07/27-11:57:51.798 8122 Level-0 table #19: started
+2026/07/27-11:57:51.801 8122 Level-0 table #19: 19984 bytes OK
+2026/07/27-11:57:51.803 8122 Delete type=0 #15
+2026/07/27-11:58:20.065 8122 Level-0 table #21: started
+2026/07/27-11:58:20.068 8122 Level-0 table #21: 18309 bytes OK
+2026/07/27-11:58:20.070 8122 Delete type=0 #18
+2026/07/27-11:58:54.693 8122 Level-0 table #23: started
+2026/07/27-11:58:54.697 8122 Level-0 table #23: 18112 bytes OK
+2026/07/27-11:58:54.699 8122 Delete type=0 #20
+2026/07/27-12:24:54.775 8122 Level-0 table #25: started
+2026/07/27-12:24:54.778 8122 Level-0 table #25: 20478 bytes OK
+2026/07/27-12:24:54.781 8122 Delete type=0 #22
+2026/07/27-12:24:54.782 8122 Compacting 4@0 + 1@1 files
+2026/07/27-12:24:54.787 8122 Generated table #26@0: 106 keys, 100577 bytes
+2026/07/27-12:24:54.787 8122 Compacted 4@0 + 1@1 files => 100577 bytes
+2026/07/27-12:24:54.788 8122 compacted to: files[ 0 1 1 0 0 0 0 ]
+2026/07/27-12:24:54.788 8122 Delete type=2 #17
+2026/07/27-12:24:54.788 8122 Delete type=2 #21
+2026/07/27-12:24:54.788 8122 Delete type=2 #23
+2026/07/27-12:24:54.789 8122 Delete type=2 #25
+2026/07/27-12:24:54.789 8122 Delete type=2 #19

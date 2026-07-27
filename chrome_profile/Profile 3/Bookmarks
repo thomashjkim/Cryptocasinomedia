@@ -1,0 +1,47 @@
+{
+   "checksum": "f205a9deb86f4bd6355043449625aea2",
+   "roots": {
+      "bookmark_bar": {
+         "children": [  ],
+         "date_added": "13429637944015010",
+         "date_last_used": "0",
+         "date_modified": "0",
+         "guid": "0bc5d13f-2cba-5d74-951f-3f233fe6c908",
+         "id": "1",
+         "name": "Bookmarks Bar",
+         "type": "folder"
+      },
+      "other": {
+         "children": [ {
+            "date_added": "13429640962556165",
+            "date_last_used": "0",
+            "guid": "a91cd8a0-30cc-4b0b-9cb5-a4268ed6ee02",
+            "id": "5",
+            "meta_info": {
+               "power_bookmark_meta": ""
+            },
+            "name": "Notified",
+            "type": "url",
+            "url": "https://login.notified.com/login/d5e3ab8e-d65f-4a1f-9bf7-bbe0cc13c9e2?returnurl=%2f&lang=en-us"
+         } ],
+         "date_added": "13429637944015010",
+         "date_last_used": "0",
+         "date_modified": "13429640962556165",
+         "guid": "82b081ec-3dd3-529c-8475-ab6c344590dd",
+         "id": "2",
+         "name": "Other Bookmarks",
+         "type": "folder"
+      },
+      "synced": {
+         "children": [  ],
+         "date_added": "13429637944015010",
+         "date_last_used": "0",
+         "date_modified": "0",
+         "guid": "4cf2e351-0e85-532b-bb37-df045d8f8d0f",
+         "id": "3",
+         "name": "Mobile Bookmarks",
+         "type": "folder"
+      }
+   },
+   "version": 1
+}

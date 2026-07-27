@@ -573,6 +573,8 @@ def renderArticlePage(slug):
     company_name = article['company']
     if any(p in company_name for p in ["Polymarket", "Kalshi", "CFTC"]):
         about_company_text = f"The platforms and protocols referenced ({company_name}) represent leading digital prediction networks and regulated event contract markets, facilitating peer-to-peer wagering and structured hedging on global event outcomes."
+    elif any(p in company_name for p in ["Google", "Alphabet"]):
+        about_company_text = "Google (Alphabet Inc.) is a global technology leader, specializing in search engine platforms, digital advertising, and cloud computing infrastructure, defining advertising policy and compliance standards globally."
     elif "," in company_name or "&" in company_name or " and " in company_name:
         about_company_text = f"The platforms and operators referenced ({company_name}) represent leading digital asset wagering networks, decentralized sportsbooks, or compliance entities operating within the interactive gaming space."
     else:

@@ -1,1 +1,0 @@
-import{r as t}from"./onboarding-prompts-CWLEgoC0.js";document.body.addEventListener("click",n=>{const e=n.target.closest("#claude-onboarding-button");e&&async function(n){const e=n.getAttribute("data-task-id");t(e)&&await chrome.runtime.sendMessage({type:"open_side_panel",onboardingTaskId:e})}(e)});

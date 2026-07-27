@@ -1,2 +1,3 @@
-2026/06/25-12:39:45.136 25c55b Creating DB /Users/thomaskim/Cryptocasinomedia/chrome_profile/Profile 11/WebStorage/4/IndexedDB/indexeddb.leveldb since it was missing.
-2026/06/25-12:39:45.138 25c55b Reusing MANIFEST /Users/thomaskim/Cryptocasinomedia/chrome_profile/Profile 11/WebStorage/4/IndexedDB/indexeddb.leveldb/MANIFEST-000001
+2026/07/27-11:06:45.887 8073 Reusing MANIFEST /Users/thomaskim/Cryptocasinomedia/chrome_profile/Profile 11/WebStorage/4/IndexedDB/indexeddb.leveldb/MANIFEST-000001
+2026/07/27-11:06:45.887 8073 Recovering log #3
+2026/07/27-11:06:45.888 8073 Reusing old log /Users/thomaskim/Cryptocasinomedia/chrome_profile/Profile 11/WebStorage/4/IndexedDB/indexeddb.leveldb/000003.log 

@@ -2868,6 +2868,8 @@
                                              const company = article.company;
                                              if (company.includes("Polymarket") || company.includes("Kalshi") || company.includes("CFTC")) {
                                                  return `${company} represent leading digital prediction platforms and CFTC-regulated event-contract exchanges. These protocols or sportsbooks facilitate peer-to-peer wagering and structured hedging on global events.`;
+                                             } else if (company.includes("Google") || company.includes("Alphabet")) {
+                                                 return `Google (Alphabet Inc.) is a global technology leader, specializing in search engine platforms, digital advertising, and cloud computing infrastructure, defining advertising policy and compliance standards globally.`;
                                              } else if (company.includes(",") || company.includes("&") || company.includes(" and ")) {
                                                  return `The platforms and operators referenced (${company}) represent leading operators, technology vendors, or compliance services operating within the digital asset and interactive gaming space.`;
                                              } else {

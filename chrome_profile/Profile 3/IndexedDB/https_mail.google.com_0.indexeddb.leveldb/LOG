@@ -1,0 +1,8 @@
+2026/07/27-10:59:55.372 8089 Creating DB /Users/thomaskim/Cryptocasinomedia/chrome_profile/Profile 3/IndexedDB/https_mail.google.com_0.indexeddb.leveldb since it was missing.
+2026/07/27-10:59:55.374 8089 Reusing MANIFEST /Users/thomaskim/Cryptocasinomedia/chrome_profile/Profile 3/IndexedDB/https_mail.google.com_0.indexeddb.leveldb/MANIFEST-000001
+2026/07/27-11:02:53.491 8079 Level-0 table #5: started
+2026/07/27-11:02:53.511 8079 Level-0 table #5: 3170505 bytes OK
+2026/07/27-11:02:53.512 8079 Delete type=0 #3
+2026/07/27-12:17:02.847 8079 Level-0 table #7: started
+2026/07/27-12:17:02.867 8079 Level-0 table #7: 3140600 bytes OK
+2026/07/27-12:17:02.868 8079 Delete type=0 #4

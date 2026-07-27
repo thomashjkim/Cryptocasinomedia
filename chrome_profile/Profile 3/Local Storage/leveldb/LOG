@@ -1,0 +1,12 @@
+2026/07/27-10:59:04.017 811f Reusing MANIFEST /Users/thomaskim/Cryptocasinomedia/chrome_profile/Profile 3/Local Storage/leveldb/MANIFEST-000001
+2026/07/27-10:59:04.018 811f Recovering log #3
+2026/07/27-10:59:04.018 811f Reusing old log /Users/thomaskim/Cryptocasinomedia/chrome_profile/Profile 3/Local Storage/leveldb/000003.log 
+2026/07/27-11:55:03.099 8122 Level-0 table #5: started
+2026/07/27-11:55:03.103 8122 Level-0 table #5: 22255 bytes OK
+2026/07/27-11:55:03.105 8122 Delete type=0 #3
+2026/07/27-12:22:44.379 8122 Level-0 table #7: started
+2026/07/27-12:22:44.381 8122 Level-0 table #7: 24213 bytes OK
+2026/07/27-12:22:44.383 8122 Delete type=0 #4
+2026/07/27-12:33:03.209 8122 Level-0 table #9: started
+2026/07/27-12:33:03.211 8122 Level-0 table #9: 14575 bytes OK
+2026/07/27-12:33:03.213 8122 Delete type=0 #6

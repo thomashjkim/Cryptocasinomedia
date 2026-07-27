@@ -1,0 +1,57 @@
+2026/07/27-12:28:29.851 8073 Creating DB /Users/thomaskim/Cryptocasinomedia/chrome_profile/Profile 3/IndexedDB/https_drive.google.com_0.indexeddb.leveldb since it was missing.
+2026/07/27-12:28:29.854 8073 Reusing MANIFEST /Users/thomaskim/Cryptocasinomedia/chrome_profile/Profile 3/IndexedDB/https_drive.google.com_0.indexeddb.leveldb/MANIFEST-000001
+2026/07/27-12:28:32.572 8079 Level-0 table #5: started
+2026/07/27-12:28:32.586 8079 Level-0 table #5: 1205168 bytes OK
+2026/07/27-12:28:32.590 8079 Delete type=0 #3
+2026/07/27-12:28:32.677 8079 Level-0 table #7: started
+2026/07/27-12:28:32.691 8079 Level-0 table #7: 1308664 bytes OK
+2026/07/27-12:28:32.692 8079 Delete type=0 #4
+2026/07/27-12:28:32.695 8079 Compacting 1@1 + 1@2 files
+2026/07/27-12:28:32.723 8079 Generated table #8@1: 12133 keys, 2139643 bytes
+2026/07/27-12:28:32.729 8079 Generated table #9@1: 3759 keys, 330261 bytes
+2026/07/27-12:28:32.729 8079 Compacted 1@1 + 1@2 files => 2469904 bytes
+2026/07/27-12:28:32.729 8079 compacted to: files[ 0 0 2 0 0 0 0 ]
+2026/07/27-12:28:32.729 8079 Delete type=2 #7
+2026/07/27-12:28:32.729 8079 Delete type=2 #5
+2026/07/27-12:28:32.753 8079 Level-0 table #11: started
+2026/07/27-12:28:32.768 8079 Level-0 table #11: 1742248 bytes OK
+2026/07/27-12:28:32.770 8079 Delete type=0 #6
+2026/07/27-12:28:32.839 8079 Level-0 table #13: started
+2026/07/27-12:28:32.850 8079 Level-0 table #13: 1031253 bytes OK
+2026/07/27-12:28:32.852 8079 Delete type=0 #10
+2026/07/27-12:28:32.855 8079 Compacting 1@0 + 1@1 files
+2026/07/27-12:28:32.879 8079 Generated table #14@0: 9477 keys, 2139947 bytes
+2026/07/27-12:28:32.887 8079 Generated table #15@0: 1970 keys, 608063 bytes
+2026/07/27-12:28:32.887 8079 Compacted 1@0 + 1@1 files => 2748010 bytes
+2026/07/27-12:28:32.888 8079 compacted to: files[ 0 2 2 0 0 0 0 ]
+2026/07/27-12:28:32.888 8079 Delete type=2 #13
+2026/07/27-12:28:32.888 8079 Delete type=2 #11
+2026/07/27-12:28:32.891 8079 Compacting 1@1 + 1@2 files
+2026/07/27-12:28:32.904 8079 Generated table #16@1: 5729 keys, 938341 bytes
+2026/07/27-12:28:32.904 8079 Compacted 1@1 + 1@2 files => 938341 bytes
+2026/07/27-12:28:32.905 8079 compacted to: files[ 0 1 2 0 0 0 0 ]
+2026/07/27-12:28:32.905 8079 Delete type=2 #15
+2026/07/27-12:28:32.905 8079 Delete type=2 #9
+2026/07/27-12:28:32.960 8079 Compacting 1@1 + 2@2 files
+2026/07/27-12:28:32.992 8079 Generated table #17@1: 17424 keys, 2158035 bytes
+2026/07/27-12:28:33.010 8079 Level-0 table #20: started
+2026/07/27-12:28:33.022 8079 Level-0 table #20: 474695 bytes OK
+2026/07/27-12:28:33.023 8079 Delete type=0 #12
+2026/07/27-12:28:33.026 8079 Generated table #18@1: 3241 keys, 2121316 bytes
+2026/07/27-12:28:33.040 8079 Generated table #21@1: 6672 keys, 937301 bytes
+2026/07/27-12:28:33.040 8079 Compacted 1@1 + 2@2 files => 5216652 bytes
+2026/07/27-12:28:33.040 8079 compacted to: files[ 1 0 3 0 0 0 0 ]
+2026/07/27-12:28:33.041 8079 Delete type=2 #14
+2026/07/27-12:28:33.041 8079 Delete type=2 #16
+2026/07/27-12:28:33.041 8079 Delete type=2 #8
+2026/07/27-12:28:33.042 8088 Moved #20 to level-1 474695 bytes OK: files[ 0 1 3 0 0 0 0 ]
+2026/07/27-12:28:33.050 8088 Compacting 1@1 + 3@2 files
+2026/07/27-12:28:33.085 8088 Generated table #22@1: 25652 keys, 2168965 bytes
+2026/07/27-12:28:33.105 8088 Generated table #23@1: 3116 keys, 2134961 bytes
+2026/07/27-12:28:33.125 8088 Generated table #24@1: 12614 keys, 1365948 bytes
+2026/07/27-12:28:33.125 8088 Compacted 1@1 + 3@2 files => 5669874 bytes
+2026/07/27-12:28:33.126 8088 compacted to: files[ 0 0 3 0 0 0 0 ]
+2026/07/27-12:28:33.126 8088 Delete type=2 #17
+2026/07/27-12:28:33.126 8088 Delete type=2 #20
+2026/07/27-12:28:33.126 8088 Delete type=2 #21
+2026/07/27-12:28:33.126 8088 Delete type=2 #18

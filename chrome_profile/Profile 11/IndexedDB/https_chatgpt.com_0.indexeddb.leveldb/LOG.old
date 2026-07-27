@@ -1,0 +1,6 @@
+2026/07/27-11:06:55.547 80d7 Creating DB /Users/thomaskim/Cryptocasinomedia/chrome_profile/Profile 11/IndexedDB/https_chatgpt.com_0.indexeddb.leveldb since it was missing.
+2026/07/27-11:06:55.549 80d7 Reusing MANIFEST /Users/thomaskim/Cryptocasinomedia/chrome_profile/Profile 11/IndexedDB/https_chatgpt.com_0.indexeddb.leveldb/MANIFEST-000001
+2026/07/27-11:07:18.518 8079 Level-0 table #5: started
+2026/07/27-11:07:18.519 8079 Level-0 table #5: 1599 bytes OK
+2026/07/27-11:07:18.521 8079 Delete type=0 #3
+2026/07/27-11:07:18.521 8079 Manual compaction at level-0 from (begin) .. (end); will stop at (end)
