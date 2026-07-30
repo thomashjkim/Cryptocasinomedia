@@ -529,10 +529,22 @@ def renderArticlePage(slug):
     # FAQ structured blocks for AEO
     faqHtml = "".join([f"""
                                 <div class="border-b border-gray-100 pb-4 last:border-0">
-                                    <h3 class="text-sm font-semibold text-gray-900 mb-1">What is the latest news about {topic}?</h3>
+                                    <h4 class="text-sm font-semibold text-gray-900 mb-1">What is the latest news about {topic}?</h4>
                                     <p class="text-sm text-gray-600">{article['excerpt']}</p>
                                 </div>
                             """ for topic in article['topics'][:3]])
+
+    faq_section_html = ""
+    if faqHtml:
+        faq_section_html = f"""
+                                <section id="article-faq" class="my-10 border-t border-gray-200 pt-8 font-sans">
+                                    <h3 class="text-lg font-bold text-gray-900 mb-6">Frequently Asked Questions</h3>
+                                    <div class="space-y-6">
+                                        {faqHtml}
+                                    </div>
+                                </section>
+                                """
+
 
     relatedHtml = "".join([f"""
                 <div class="border-b border-gray-100 pb-4 last:border-0">
@@ -636,6 +648,8 @@ def renderArticlePage(slug):
                                     <strong>{article['dateline']}</strong> — {inject_sponsored_rel(article['body'][0])}
                                 </p>
                                 {bodyHtml}
+                                
+                                {faq_section_html}
                                 
                                 <div class="my-10 border-t border-b border-gray-200 py-6 bg-gray-50 px-6 font-sans">
                                     <h2 class="text-lg font-semibold mb-3 text-gray-900">About {article['company']}</h2>
