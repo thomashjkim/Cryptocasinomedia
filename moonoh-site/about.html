@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html data-wf-domain="moon-oh.com" lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <title>About Us | moonoh – NYC & NJ Neighborhood Marketplace App</title>
+  <meta content="Learn about moonoh Inc., our mission to connect neighborhoods in New York City and New Jersey, and our executive leadership." name="description"/>
+  <meta content="width=device-width, initial-scale=1, maximum-scale=5" name="viewport"/>
+  <link href="https://cdn.prod.website-files.com/65e3de602f703e1765199b30/css/moon-oh-b6b03d.webflow.shared.1106088a1.css" rel="stylesheet" type="text/css"/>
+  <link href="https://fonts.googleapis.com" rel="preconnect"/>
+  <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin="anonymous"/>
+  <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js" type="text/javascript"></script>
+  <script type="text/javascript">WebFont.load({ google: { families: ["Open Sans:300,300italic,400,400italic,600,600italic,700,700italic,800,800italic"] }});</script>
+  <link href="https://cdn.prod.website-files.com/65e3de602f703e1765199b30/65e51609210be273428d7ad8_Moonoh%2032.png" rel="shortcut icon" type="image/x-icon"/>
+  <style>
+    :root {
+      --moonoh-dark: #1E1B4B;
+      --moonoh-primary: #4F46E5;
+      --moonoh-light-bg: #FAF9FF;
+      --moonoh-card-bg: #FFFFFF;
+      --text-main: #222222;
+      --text-muted: #717171;
+      --airbnb-border: #EBEBEB;
+      --airbnb-shadow: 0 6px 20px rgba(0, 0, 0, 0.05);
+      --airbnb-shadow-hover: 0 14px 32px rgba(31, 27, 75, 0.09);
+      --radius-airbnb: 20px;
+    }
+    * { box-sizing: border-box; }
+    body { background-color: var(--moonoh-light-bg); color: var(--text-main); font-size: 14px; margin: 0; padding: 0; }
+    .page-container { max-width: 940px; margin: 64px auto !important; padding: 0 20px; }
+    .page-title { font-size: 24px; font-weight: 800; color: var(--moonoh-dark); margin-bottom: 20px; letter-spacing: -0.02em; }
+    .content-box { background: var(--moonoh-card-bg); border: 1px solid var(--airbnb-border); border-radius: var(--radius-airbnb); padding: 32px; box-shadow: var(--airbnb-shadow); line-height: 1.75; color: var(--text-main); transition: transform 0.25s ease, box-shadow 0.25s ease; }
+    .content-box:hover { transform: translateY(-2px); box-shadow: var(--airbnb-shadow-hover); }
+    .section-subtitle { font-size: 17px; font-weight: 800; color: var(--moonoh-dark); margin-top: 28px; margin-bottom: 12px; letter-spacing: -0.01em; }
+    .team-card { background: #FAF9FF; border: 1px solid #EBEBEB; padding: 24px; border-radius: 16px; margin-top: 14px; }
+    .team-card h3 { font-size: 16px; font-weight: 800; color: var(--moonoh-dark); margin: 0; }
+    .team-card p.role { font-size: 13px; font-weight: 600; color: var(--moonoh-primary); margin: 4px 0 10px 0; }
+    .team-card p.desc { font-size: 14px; color: var(--text-main); margin: 0; line-height: 1.65; }
+    .footer-address { color: var(--text-muted); font-size: 13px; line-height: 1.6; margin-top: 10px; }
+
+    @media (max-width: 768px) {
+      .page-container { margin: 36px auto !important; padding: 0 16px !important; }
+      .content-box { padding: 22px 18px !important; border-radius: 16px !important; }
+    }
+  
+    
+    /* Mobile Navigation Fixes (<450px) */
+    @media (max-width: 450px) {
+      .navbar-content {
+        position: relative !important;
+        width: 100% !important;
+        height: 64px !important; /* Fixed height for absolute centering */
+        display: block !important;
+      }
+      .navbar .navbar-brand {
+        position: absolute !important;
+        left: 16px !important;
+        top: 50% !important;
+        transform: translateY(-50%) !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        display: flex !important;
+        align-items: center !important;
+        float: none !important;
+      }
+      .navbar .logo, .navbar .logo a {
+        margin: 0 !important;
+        padding: 0 !important;
+        display: flex !important;
+        align-items: center !important;
+      }
+      .navbar .logo img, .navbar .vectors-wrapper-2 {
+        display: block !important;
+        max-width: 170px !important;
+        height: auto !important;
+        margin: 0 !important;
+        padding: 0 !important;
+      }
+      .navbar .w-nav-button {
+        position: absolute !important;
+        right: 16px !important;
+        top: 50% !important;
+        transform: translateY(-50%) !important;
+        background-color: transparent !important;
+        padding: 0 !important;
+        width: 48px !important;
+        height: 48px !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        float: none !important;
+      }
+      .navbar .w-nav-button.w--open {
+        background-color: transparent !important;
+      }
+      
+      /* Hamburger Menu Open State Styling */
+      .navbar .w-nav-menu {
+        background-color: #FAF9FF !important;
+        box-shadow: 0 8px 24px rgba(0,0,0,0.1) !important;
+        border-radius: 16px !important;
+        padding: 20px !important;
+        margin-top: 10px !important;
+      }
+      .w-nav-overlay {
+        background: transparent !important;
+        top: 64px !important; /* Start below navbar */
+      }
+      .navbar-link, .nav-link {
+        font-family: "Open Sans", sans-serif !important;
+        font-size: 18px !important;
+        font-weight: 700 !important;
+        color: #1A1A1A !important;
+        padding: 16px 20px !important;
+        text-align: center !important;
+        display: block !important;
+      }
+      .navbar .navbar-button {
+        background-color: #2F3CFF !important;
+        color: white !important;
+        padding: 16px 24px !important;
+        border-radius: 100px !important;
+        margin-top: 16px !important;
+        display: block !important;
+        text-align: center !important;
+      }
+      .navbar .navbar-button .text, .navbar .navbar-button div {
+        font-family: "Open Sans", sans-serif !important;
+        font-size: 18px !important;
+        font-weight: 800 !important;
+        color: white !important;
+      }
+      
+      /* Hamburger Icon toggles to X */
+      .navbar .w-nav-button.w--open .w-icon-nav-menu {
+        display: none !important;
+      }
+      .navbar .w-nav-button.w--open::after {
+        content: "✕" !important;
+        font-size: 32px !important;
+        color: #1A1A1A !important;
+        line-height: 1 !important;
+        position: absolute !important;
+        top: 50% !important;
+        left: 50% !important;
+        transform: translate(-50%, -50%) !important;
+      }
+    }
+  </style>
+</head>
+<body>
+      <div data-animation="default" data-collapse="medium" data-duration="400" data-easing="ease" role="banner" class="navbar w-nav">
+    <div class="navbarcontainer w-container">
+      <div class="navbar-content">
+        <div class="navbar-brand">
+          <aside class="logo">
+            <a href="/" aria-current="page" class="w-inline-block w--current">
+              <img src="https://cdn.prod.website-files.com/65e3de602f703e1765199b30/65e51874e4a73ff20cb673ec_Logo.svg" loading="lazy" width="219" height="24" alt="moonoh logo" class="vectors-wrapper-2"/>
+            </a>
+          </aside>
+        </div>
+        <nav role="navigation" class="navbar-menu w-nav-menu">
+          <a href="/about" class="navbar-link w-nav-link">About</a>
+          <a href="/press" class="navbar-link w-nav-link">Press</a>
+          <a href="/contact" class="navbar-link w-nav-link">Contact</a>
+          <a href="https://apps.apple.com/us/app/moonoh/id6477390079" target="_blank" class="navbar-button w-nav-link"><div class="text">Download app</div></a>
+        </nav>
+        <div class="menu-button w-nav-button">
+          <div class="icon w-icon-nav-menu"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="page-container">
+    <h1 class="page-title">About Moonoh Inc.</h1>
+    <div class="content-box">
+      <p><strong>Moonoh Inc.</strong> is a neighborhood marketplace mobile application founded and launched in 2024. Designed specifically for local communities, Moonoh connects buyers and sellers across New York City and parts of the New Jersey area to facilitate safe, fee-free, local secondhand commerce.</p>
+
+      <h2 class="section-subtitle">Our Mission</h2>
+      <p>We believe that buying and selling locally should be simple, safe, and community-oriented. By offering zero listing fees, secure in-app messaging, and local neighborhood meetup coordination, Moonoh helps neighbors declutter, discover unique pre-loved items, and build vibrant local connections.</p>
+
+      <h2 class="section-subtitle">Executive Leadership</h2>
+      <div class="team-card">
+        <h3>Ryan Seungmin Moon</h3>
+        <p class="role">Chief Executive Officer (CEO) &amp; Founder</p>
+        <p class="desc">Ryan Seungmin Moon is the founder of Michelin one-star restaurant Jeju Noodle Bar in New York City and has been focused on the education industry for over 20 years. He leads corporate vision, platform innovation, and regional market strategy for Moonoh Inc.</p>
+        <div style="margin-top: 14px;">
+          <a href="https://www.linkedin.com/in/ryan-moon-9a4954332/" target="_blank" rel="noopener" style="display:inline-flex; align-items:center; gap:6px; background:#0A66C2; color:#FFFFFF; padding:7px 16px; border-radius:9999px; font-size:12px; font-weight:700; text-decoration:none;">
+            Connect on LinkedIn ↗
+          </a>
+        </div>
+      </div>
+
+      <h2 class="section-subtitle">Corporate Headquarters &amp; Business Transparency</h2>
+      <p style="font-size:13.5px; line-height:1.65; color:#475569;">
+        <strong>Moonoh Inc.</strong><br/>
+        Physical Address: 8 Spruce Street, New York, NY 10038, United States<br/>
+        Phone: +1 (917) 584-5177<br/>
+        Executive &amp; Press Email: <a href="mailto:info@moon-oh.com" style="color:#1E1B4B; font-weight:600; text-decoration:underline;">info@moon-oh.com</a><br/>
+        Developer Support Email: <a href="mailto:developer@moon-oh.com" style="color:#1E1B4B; font-weight:600; text-decoration:underline;">developer@moon-oh.com</a>
+      </p>
+    </div>
+  </div>
+
+  <div class="footer">
+    <div class="columns">
+      <div class="column-5">
+        <div class="logo-wrapper">
+          <div class="logo-2">
+            <div class="navbar-brand">
+              <div class="logo-3">
+                <img src="https://cdn.prod.website-files.com/65e3de602f703e1765199b30/65e3edce4680dd6049b6070b_Vectors-Wrapper.svg" loading="lazy" width="20" height="16" alt="" class="vectors-wrapper-4"/>
+                <img src="https://cdn.prod.website-files.com/65e3de602f703e1765199b30/65e3edd0efd8f1e77c3fbf15_Vectors-Wrapper.svg" loading="lazy" width="110" height="12" alt="" class="vectors-wrapper-5"/>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="footer-address">
+          <strong>Moonoh Inc.</strong><br/>
+          8 Spruce Street<br/>
+          New York, NY 10038<br/>
+          Phone: +1 (917) 584-5177<br/>
+          Email: info@moon-oh.com
+        </div>
+      </div>
+      <div class="small-columns-2">
+        <div class="column-4">
+          <div class="content">
+            <div class="text-4">Company</div>
+            <div class="footer-links">
+              <div class="link"><a href="/about" class="link-3">About us</a></div>
+              <div class="link"><a href="/press" class="link-5">Press & Media</a></div>
+            </div>
+          </div>
+        </div>
+        <div class="column-4">
+          <div class="content">
+            <div class="text-4">Support & Legal</div>
+            <div class="footer-links">
+              <div class="link"><a href="/contact" class="link-4">Contact us</a></div>
+              <div class="link"><a href="/disclaimer" class="link-8">Disclaimer</a></div>
+              <div class="link"><a href="/fraud-prevention" class="link-9">Fraud Prevention</a></div>
+              <div class="link"><a href="/terms" class="link-6">Terms of Use</a></div>
+              <div class="link"><a href="/privacy" class="link-7">Privacy Policy</a></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="copyright"><div class="text-5">© 2024–2026 Moonoh Inc. All rights reserved.</div></div>
+  </div>
+</body>
+</html>

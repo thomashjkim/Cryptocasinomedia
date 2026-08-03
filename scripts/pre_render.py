@@ -939,8 +939,13 @@ def renderAboutPage():
                     </section>
 
                     <section class="mb-12">
-                        <h2 class="text-2xl font-semibold text-gray-900 mb-6">Editorial Team</h2>
-                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                        <h2 class="text-2xl font-semibold text-gray-900 mb-6">Editorial & Executive Team</h2>
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+                            <div class="bg-gray-50 border border-gray-200 p-6 rounded-sm">
+                                <h3 class="font-bold text-gray-900 text-lg"><a href="/authors/dan-moon" class="text-gray-900 hover:text-blue-700 transition-colors underline decoration-dotted">Dan Moon</a></h3>
+                                <p class="text-xs text-blue-700 font-semibold mb-2">Founder & Publisher</p>
+                                <p class="text-sm text-gray-600 leading-relaxed">Dan Moon is the Founder and Publisher of CryptoCasinoMedia. Drawing on operational leadership from a Michelin 1-Star Restaurant in New York, he brings uncompromising precision, E-E-A-T standards, and quality execution to digital gaming media.</p>
+                            </div>
                             <div class="bg-gray-50 border border-gray-200 p-6 rounded-sm">
                                 <h3 class="font-bold text-gray-900 text-lg"><a href="/authors/marcus-vance" class="text-gray-900 hover:text-blue-700 transition-colors underline decoration-dotted">Marcus Vance</a></h3>
                                 <p class="text-xs text-blue-700 font-semibold mb-2">Lead iGaming Analyst</p>
@@ -1840,6 +1845,14 @@ for path, title, description, body_content, custom_schemas in utility_pages:
 
 # 6.5 Render Author Profile Pages
 authors_list = [
+    {
+        "slug": "dan-moon",
+        "name": "Dan Moon",
+        "role": "Founder & Publisher",
+        "bio": "Dan Moon is the Founder & Publisher of CryptoCasinoMedia. Bringing executive operational experience from a Michelin 1-Star Restaurant in New York, he applies relentless precision, E-E-A-T standards, and editorial integrity across all CryptoCasinoMedia publications.",
+        "avatar": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=300",
+        "email": "cryptocasinomedia@gmail.com"
+    },
     {
         "slug": "marcus-vance",
         "name": "Marcus Vance",

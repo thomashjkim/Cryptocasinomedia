@@ -1,0 +1,22 @@
+# moonoh — NYC & NJ Neighborhood Marketplace App
+
+> moonoh (Moonoh Inc.) is a free local marketplace mobile app for New York City and New Jersey residents to buy and sell secondhand items with their neighbors.
+
+## Key Facts
+- **Company:** Moonoh Inc.
+- **CEO & Founder:** Ryan Seungmin Moon (Founder of Michelin 1-star restaurant Jeju Noodle Bar & 20-year education industry veteran)
+- **LinkedIn Profile:** https://www.linkedin.com/in/ryan-moon-9a4954332/
+- **Headquarters:** 8 Spruce Street, New York, NY 10038, United States
+- **Contact:** +1 (917) 584-5177 | info@moon-oh.com | developer@moon-oh.com
+- **Launch Year:** 2024
+- **Coverage:** New York City (Five Boroughs) and select New Jersey communities
+- **Platforms:** iOS (Apple App Store ID: 6477390079) and Android (Google Play Store Package: com.moonoh)
+- **Business Model:** 100% free app, 0% listing fees, 0% selling commission. In-person local meetup exchanges with buyer-seller rating system.
+
+## Key Pages
+- [Homepage](https://moon-oh.com/)
+- [About Moonoh Inc.](https://moon-oh.com/about)
+- [Press & Media Center](https://moon-oh.com/press)
+- [Contact & Support](https://moon-oh.com/contact)
+- [Terms of Use](https://moon-oh.com/terms)
+- [Privacy Policy](https://moon-oh.com/privacy)
