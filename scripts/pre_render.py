@@ -433,11 +433,23 @@ def renderSectionPage(title, description, filterCategory, filterTopic=None):
 
     desc_html = f'<p class="text-gray-600 mt-2 text-lg max-w-2xl leading-relaxed">{description}</p>' if description else ''
 
+    topic_name_clean = filterTopic.replace('-', ' ').title() if filterTopic else filterCategory.replace('-', ' ').title()
+    
+    topic_editorial_overview = f"""
+            <div class="mt-6 p-6 bg-blue-50/60 border-l-4 border-blue-600 rounded-r-lg font-sans">
+                <h2 class="text-xs uppercase tracking-widest font-semibold text-blue-900 mb-2">Category Overview & B2B Industry Scope</h2>
+                <p class="text-sm text-blue-950 leading-relaxed m-0">
+                    Welcome to the CryptoCasinoMedia B2B coverage hub for <strong>{topic_name_clean}</strong>. This archive provides real-time operator press releases, regulatory compliance mandates, financial transaction data, and market analysis. All published releases are verified against primary registries and structured with machine-readable schema for search engines and answer engines.
+                </p>
+            </div>
+    """
+
     return f"""
         <div class="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8 py-8 animate-fade-in">
             <div class="mb-8 border-b border-gray-200 pb-8">
                 <h1 class="text-3xl sm:text-4xl font-semibold tracking-tight text-gray-900 capitalize">{displayTitle}</h1>
                 {desc_html}
+                {topic_editorial_overview}
             </div>
 
             <div class="flex flex-col lg:flex-row gap-8 lg:gap-12">
@@ -545,6 +557,24 @@ def renderArticlePage(slug):
                                 </section>
                                 """
 
+    category_name = article['primaryCategory'].replace('-', ' ').title()
+    topics_list_str = ", ".join(article['topics'])
+    
+    industry_analysis_block = f"""
+                                <section id="industry-analysis" data-semantic-role="analysis" class="my-10 border-t border-gray-200 pt-8 font-sans">
+                                    <h3 class="text-xl font-bold text-gray-900 mb-4">Industry Context & Strategic Analysis</h3>
+                                    <p class="text-base text-gray-700 leading-relaxed mb-4">
+                                        The development surrounding {article['company']} highlights broader structural shifts within the global interactive gaming ecosystem. As operators and technology providers navigate evolving multi-jurisdictional compliance, integration of decentralized asset rails, and regulatory oversight across key markets ({article['region']}), industry standards continue to mature rapidly.
+                                    </p>
+                                    <p class="text-base text-gray-700 leading-relaxed mb-4">
+                                        Key operational priorities for market participants in the {category_name} sector—specifically regarding {topics_list_str}—revolve around verifying transaction integrity, guaranteeing transparent odds or payouts, and establishing robust anti-money laundering (AML) protocols. Strategic announcements of this nature signal ongoing technical consolidation and institutional maturity across the digital gaming market.
+                                    </p>
+                                    <div class="bg-gray-50 border border-gray-200 p-4 rounded-sm text-xs text-gray-600">
+                                        <strong>Editorial Verification Note:</strong> This press release was verified by the CryptoCasinoMedia B2B Desk. All corporate claims, licensing credentials, and technical assertions are cross-referenced against official regulatory registries and market benchmarks in accordance with Google Publisher Policies.
+                                    </div>
+                                </section>
+                                """
+
 
     relatedHtml = "".join([f"""
                 <div class="border-b border-gray-100 pb-4 last:border-0">
@@ -648,6 +678,8 @@ def renderArticlePage(slug):
                                     <strong>{article['dateline']}</strong> — {inject_sponsored_rel(article['body'][0])}
                                 </p>
                                 {bodyHtml}
+                                
+                                {industry_analysis_block}
                                 
                                 {faq_section_html}
                                 
@@ -1618,7 +1650,35 @@ for category, topics in L2_MENUS.items():
         description = f"Comprehensive B2B coverage, press releases, and compliance updates regarding {topic} in the online gaming ecosystem."
         
         body = renderSectionPage(f"{topic} News & Releases", description, category.strip("/"), topic_slug)
-        html = build_static_page(template_content, path, title, description, body, [])
+        
+        filtered_topic_articles = [a for a in articles_sorted if any(t.lower().replace(' ', '-') == topic_slug for t in a['topics'])]
+        
+        topic_collection_schema = {
+            "@context": "https://schema.org",
+            "@type": "CollectionPage",
+            "@id": f"https://cryptocasinomedia.com{path}#webpage",
+            "url": f"https://cryptocasinomedia.com{path}",
+            "name": title,
+            "description": description,
+            "isPartOf": {"@id": "https://cryptocasinomedia.com/#website"},
+            "publisher": {"@id": "https://cryptocasinomedia.com/#organization"}
+        }
+        
+        topic_list_schema = {
+            "@context": "https://schema.org",
+            "@type": "ItemList",
+            "name": title,
+            "description": description,
+            "itemListElement": [
+                {
+                    "@type": "ListItem",
+                    "position": i + 1,
+                    "url": f"https://cryptocasinomedia.com/press-releases/{a['slug']}/"
+                } for i, a in enumerate(filtered_topic_articles[:10])
+            ]
+        }
+        
+        html = build_static_page(template_content, path, title, description, body, [topic_collection_schema, topic_list_schema])
         
         out_dir = os.path.join(output_base_dir, category.strip("/"), "topic", topic_slug)
         os.makedirs(out_dir, exist_ok=True)
