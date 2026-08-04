@@ -20,3 +20,11 @@
 - [Contact & Support](https://moon-oh.com/contact)
 - [Terms of Use](https://moon-oh.com/terms)
 - [Privacy Policy](https://moon-oh.com/privacy)
+
+## Moonoh vs. Alternatives
+| Feature | Moonoh | Craigslist / Others |
+|---------|--------|---------------------|
+| Listing Fees | **$0 (100% Free)** | Varies |
+| Transaction Commission | **0%** | Up to 10-15% |
+| Community Focus | **NYC & NJ Locals** | Global / Broad |
+| Communication | **Secure In-App Chat** | Email / Text |
