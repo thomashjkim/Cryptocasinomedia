@@ -1,6 +1,15 @@
 <!DOCTYPE html>
 <html data-wf-domain="moon-oh.com" lang="en">
 <head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-1VN9Y8LLGX"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-1VN9Y8LLGX');
+  </script>
   <meta charset="utf-8"/>
   <title>moonoh – NYC & NJ Neighborhood Marketplace App | Buy & Sell Locally</title>
   <meta content="Buy and sell secondhand items locally with your NYC and NJ neighbors on moonoh — the free neighborhood marketplace app. <strong>0% fees</strong>, secure chat, and safe meetups on iOS & Android." name="description"/>
@@ -420,6 +429,7 @@
       .navbar .w-nav-button.w--open .w-icon-nav-menu {
         display: none !important;
       }
+      @media (max-width: 479px) {
       .navbar .w-nav-button.w--open::after {
         content: "✕" !important;
         font-size: 32px !important;
@@ -430,6 +440,203 @@
         left: 50% !important;
         transform: translate(-50%, -50%) !important;
       }
+    }
+    } /* Missing closing brace added here */
+    
+    /* Dynamic Item Grid & Modal CSS */
+    .item-feed-section {
+      max-width: var(--container-max-width) !important;
+      margin: 64px auto !important;
+      padding: 0 20px !important;
+      width: 100% !important;
+      box-sizing: border-box !important;
+    }
+    .item-feed-title {
+      font-size: 24px;
+      font-weight: 800;
+      color: var(--moonoh-dark);
+      letter-spacing: -0.02em;
+      margin-bottom: 24px;
+    }
+    .item-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 20px;
+    }
+    .item-card {
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      transition: transform 0.2s ease;
+      display: flex;
+      flex-direction: column;
+    }
+    .item-card:hover {
+      transform: translateY(-4px);
+    }
+    .item-card-image {
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      background-color: #F3F4F6;
+      object-fit: cover;
+      border-radius: 12px;
+    }
+    .item-card-content {
+      padding: 12px 4px 0 4px;
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
+    }
+    .item-card-price {
+      font-weight: 800;
+      font-size: 18px;
+      color: var(--text-main);
+      margin-bottom: 4px;
+    }
+    .item-card-title {
+      font-size: 15px;
+      color: var(--text-main);
+      line-height: 1.4;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      margin-bottom: 4px;
+    }
+    .item-card-location {
+      font-size: 13px;
+      color: #717171;
+    }
+    
+    /* Filter Pills (Multi-line Wrap, Compact Size, 8px Vertical Gap) */
+    .filter-container {
+      display: flex;
+      flex-wrap: wrap;
+      row-gap: 8px;
+      column-gap: 10px;
+      margin-bottom: 28px;
+    }
+    .filter-pill {
+      white-space: nowrap;
+      padding: 7px 14px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 500;
+      color: #4B5563;
+      background-color: #F9FAFB;
+      border: 1px solid #E5E7EB;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      outline: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .filter-pill:focus {
+      outline: none;
+    }
+    .filter-pill.active {
+      background-color: #111827;
+      color: #FFFFFF;
+      border-color: #111827;
+      font-weight: 600;
+    }
+    .filter-pill:hover:not(.active) {
+      border-color: #9CA3AF;
+      color: #111827;
+      background-color: #F3F4F6;
+    }
+    .filter-pill-extra {
+      display: none;
+    }
+    .filter-container.is-expanded .filter-pill-extra {
+      display: inline-block;
+    }
+    .filter-pill-more {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .filter-container.is-expanded .filter-pill-more {
+      background-color: #111827;
+      color: #FFFFFF;
+      border-color: #111827;
+      font-weight: 600;
+    }
+    .more-cat-caret {
+      transition: transform 0.2s ease;
+    }
+    .filter-container.is-expanded .more-cat-caret {
+      transform: rotate(180deg);
+    }
+    
+    /* Modal Styles */
+    .moonoh-modal-overlay {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(4px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+    .moonoh-modal-overlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .moonoh-modal {
+      background: #FFFFFF;
+      border-radius: 20px;
+      padding: 32px;
+      width: 90%;
+      max-width: 400px;
+      text-align: center;
+      box-shadow: 0 24px 48px rgba(0,0,0,0.2);
+      transform: translateY(20px) scale(0.95);
+      transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      position: relative;
+    }
+    .moonoh-modal-overlay.active .moonoh-modal {
+      transform: translateY(0) scale(1);
+    }
+    .moonoh-modal-close {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      background: none;
+      border: none;
+      font-size: 24px;
+      cursor: pointer;
+      color: #999;
+    }
+    .moonoh-modal-title {
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--moonoh-dark);
+      margin: 16px 0 8px 0;
+    }
+    .moonoh-modal-desc {
+      font-size: 15px;
+      color: var(--text-muted);
+      margin-bottom: 24px;
+      line-height: 1.5;
+    }
+    .moonoh-modal-item-name {
+      font-weight: 700;
+      color: var(--moonoh-primary);
+    }
+
+    @media (max-width: 991px) {
+      .item-grid { grid-template-columns: repeat(4, 1fr); }
+    }
+    @media (max-width: 767px) {
+      .item-grid { grid-template-columns: repeat(3, 1fr); gap: 16px; }
+      .item-feed-section { margin: 36px auto !important; padding: 0 16px !important; }
+    }
+    @media (max-width: 479px) {
+      .item-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
     }
   </style>
 <script type="application/ld+json">
@@ -464,6 +671,7 @@
           </aside>
         </div>
         <nav role="navigation" class="navbar-menu w-nav-menu">
+          <a href="/explore" class="navbar-link w-nav-link">Explore</a>
           <a href="/about" class="navbar-link w-nav-link">About</a>
           <a href="/press" class="navbar-link w-nav-link">Press</a>
           <a href="/contact" class="navbar-link w-nav-link">Contact</a>
@@ -502,11 +710,42 @@
       </div>
     </div>
 
-    <!-- Summary Block (Unified Max-Width 940px Grid Alignment) -->
-    <div class="tldr-box" data-semantic-role="summary">
-      <span class="tldr-badge">ABOUT MOONOH</span>
-      <p><strong>moonoh (Moonoh Inc.)</strong> is a 100% free local marketplace mobile app serving residents across New York City and New Jersey. Founded in 2024 by CEO Ryan Seungmin Moon, moonoh enables neighbors to list secondhand items, chat securely in-app, coordinate safe local meetups, and exchange goods with zero listing fees and zero transaction commissions.</p>
-    </div>
+    <!-- Dynamic Item Feed Section -->
+    <section class="item-feed-section">
+      <h2 class="item-feed-title" style="margin-bottom: 16px;">Buy and sell used items in your neighborhood</h2>
+      <div class="filter-container" id="filter-container">
+        <button class="filter-pill active">All</button>
+        <button class="filter-pill">Free</button>
+        <button class="filter-pill">Furniture</button>
+        <button class="filter-pill">Electronics &amp; appliances</button>
+        <button class="filter-pill">Health &amp; beauty</button>
+        <button class="filter-pill">Women's fashion</button>
+
+        <!-- Folded Extra Categories -->
+        <button class="filter-pill filter-pill-extra">Shoes</button>
+        <button class="filter-pill filter-pill-extra">Home, garden &amp; DIY</button>
+        <button class="filter-pill filter-pill-extra">Jewelry &amp; watches</button>
+        <button class="filter-pill filter-pill-extra">Luggages &amp; bags</button>
+        <button class="filter-pill filter-pill-extra">Men's fashion</button>
+        <button class="filter-pill filter-pill-extra">Baby &amp; kids</button>
+        <button class="filter-pill filter-pill-extra">Antiques &amp; collections</button>
+        <button class="filter-pill filter-pill-extra">Arts, books, music, movies &amp; tickets</button>
+        <button class="filter-pill filter-pill-extra">Pet supplies</button>
+        <button class="filter-pill filter-pill-extra">Sublets</button>
+        <button class="filter-pill filter-pill-extra">Sports &amp; leisure</button>
+        <button class="filter-pill filter-pill-extra">Toys &amp; Games</button>
+        <button class="filter-pill filter-pill-extra">Other</button>
+
+        <!-- Toggle Button -->
+        <button class="filter-pill filter-pill-more" id="btn-more-categories">
+          <span id="btn-more-text">More Categories</span>
+          <svg class="more-cat-caret" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+      </div>
+      <div class="item-grid" id="moonoh-item-grid">
+        <!-- JS will populate cards here -->
+      </div>
+    </section>
 
     <!-- How moonoh works Expanded to Full 940px Airbnb Cards Grid -->
     <div class="team-circles">
@@ -549,6 +788,30 @@
           </div>
         </div>
 
+      </div>
+    </div>
+
+    <!-- Summary Block (Unified Max-Width 940px Grid Alignment) -->
+    <div class="tldr-box" data-semantic-role="summary">
+      <span class="tldr-badge">ABOUT MOONOH</span>
+      <p><strong>moonoh (Moonoh Inc.)</strong> is a 100% free local marketplace mobile app serving residents across New York City and New Jersey. Founded in 2024 by CEO Ryan Seungmin Moon, moonoh enables neighbors to list secondhand items, chat securely in-app, coordinate safe local meetups, and exchange goods with zero listing fees and zero transaction commissions.</p>
+    </div>
+    
+    <!-- Modal -->
+    <div class="moonoh-modal-overlay" id="moonoh-download-modal">
+      <div class="moonoh-modal">
+        <button class="moonoh-modal-close" onclick="closeModal()">×</button>
+        <img src="https://cdn.prod.website-files.com/65e3de602f703e1765199b30/65e51609210be273428d7ad8_Moonoh%2032.png" width="48" style="margin:0 auto; display:block;">
+        <h3 class="moonoh-modal-title">Get the Moonoh App</h3>
+        <p class="moonoh-modal-desc">Want to buy <span class="moonoh-modal-item-name" id="modal-item-name">this item</span>? Download the free Moonoh app to chat with the seller securely.</p>
+        <div style="display:flex; flex-direction:column; gap:12px;">
+          <a href="https://apps.apple.com/us/app/moonoh/id6477390079" target="_blank">
+            <img src="https://cdn.prod.website-files.com/65e3de602f703e1765199b30/65e3defb38f948f6f3f18a51_appstore.svg" width="100%" style="max-width:200px; margin:0 auto; display:block;">
+          </a>
+          <a href="https://play.google.com/store/apps/details?id=com.moonoh" target="_blank">
+            <img src="https://cdn.prod.website-files.com/65e3de602f703e1765199b30/66f20cadd9e770db9e8cf5d7_Google_Play_Store_badge_EN.svg%20(1).png" width="100%" style="max-width:230px; margin:0 auto; display:block;">
+          </a>
+        </div>
       </div>
     </div>
 
@@ -679,5 +942,161 @@
 
   <script src="https://d3e54v103j8qbb.cloudfront.net/js/jquery-3.5.1.min.dc5e7f18c8.js?site=65e3de602f703e1765199b30" type="text/javascript"></script>
   <script src="https://cdn.prod.website-files.com/65e3de602f703e1765199b30/js/webflow.a9ba356d.0a61e10cae1364c9.js" type="text/javascript"></script>
+
+  <script>
+    // Phase 1: Mock Data Generator
+    const mockTitles = ["Vintage Leather Jacket", "Used iPhone 13 Pro", "Wooden Dining Table", "Nike Air Max Sneakers", "MacBook Air M1", "Sony Noise Cancelling Headphones", "IKEA Bookshelf", "Mountain Bike", "Coffee Maker", "Acoustic Guitar", "Nintendo Switch Console", "Dyson Vacuum", "Office Chair", "Standing Desk", "Yoga Mat", "Dumbbell Set", "Plant Pots", "Record Player", "Board Game Bundle", "Camping Tent"];
+    const mockImages = [
+      "https://images.unsplash.com/photo-1551028719-0125fd6b9aa2?auto=format&fit=crop&w=400&q=80",
+      "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=400&q=80",
+      "https://images.unsplash.com/photo-1524758631624-e2822e304c36?auto=format&fit=crop&w=400&q=80",
+      "https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=400&q=80",
+      "https://images.unsplash.com/photo-1611186871348-b1ce696e52c9?auto=format&fit=crop&w=400&q=80",
+      "https://images.unsplash.com/photo-1618366712010-f4ae9c647dcb?auto=format&fit=crop&w=400&q=80",
+      "https://images.unsplash.com/photo-1593642632823-8f785ba67e45?auto=format&fit=crop&w=400&q=80",
+      "https://images.unsplash.com/photo-1485965120184-e220f721d03e?auto=format&fit=crop&w=400&q=80",
+      "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=400&q=80",
+      "https://images.unsplash.com/photo-1581516281759-f2e30e61d85b?auto=format&fit=crop&w=400&q=80"
+    ];
+    
+    
+    let allItems = []; // store all items globally for filtering
+
+    // Map filter button labels to API category names (partial match)
+    const categoryMap = {
+      "All": null,
+      "Shoes": "shoe",
+      "Health & beauty": "health",
+      "Luggages & bags": "bag",
+      "Sports & leisure": "sport",
+      "Toys & Games": "toy",
+      "Pet supplies": "pet",
+      "Home, garden & DIY": "home",
+      "Arts, books, music, movies & tickets": "art",
+      "Antiques & collections": "antique",
+      "Men's fashion": "men",
+      "Baby & kids": "baby",
+      "Electronics & appliances": "electronics",
+      "Women's fashion": "women",
+      "Jewelry & watches": "jewelry",
+      "Sublets": "sublet",
+      "Furniture": "furniture",
+      "Other": "other"
+    };
+
+    function renderGrid(items) {
+      const grid = document.getElementById("moonoh-item-grid");
+      if (!grid) return;
+      if (items.length === 0) {
+        grid.innerHTML = '<p style="text-align:center; color:#888; padding:40px; grid-column:1/-1;">No items found.</p>';
+        return;
+      }
+      let html = "";
+      items.forEach(item => {
+        const safeTitle = item.title.replace(/'/g, "\\'");
+        const priceStr = item.price > 0 ? "$" + item.price.toLocaleString() : "Free";
+        const targetUrl = item.url || `/item/item-${item.no}`;
+        html += `
+        <a class="item-card" href="${targetUrl}" style="text-decoration:none; color:inherit;">
+          <img src="${item.image}" alt="${item.title}" class="item-card-image" loading="lazy" onerror="this.onerror=null; this.src='data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';">
+          <div class="item-card-content">
+            <div class="item-card-price">${priceStr}</div>
+            <div class="item-card-title">${item.title}</div>
+            <div class="item-card-location">${item.location}</div>
+          </div>
+        </a>
+        `;
+      });
+      grid.innerHTML = html;
+    }
+
+    async function renderItems() {
+      const grid = document.getElementById("moonoh-item-grid");
+      if (!grid) return;
+      grid.innerHTML = '<p style="text-align:center; color:#888; padding:40px; grid-column:1/-1;">Loading...</p>';
+      
+      try {
+        let items = [];
+        try {
+          const res = await fetch('/api/items');
+          items = await res.json();
+        } catch (e) {}
+
+        if (!Array.isArray(items) || items.length === 0) {
+          const res = await fetch('/.netlify/functions/items');
+          items = await res.json();
+        }
+        
+        // Filter out items without images
+        items = (Array.isArray(items) ? items : []).filter(item => item && item.image && !item.image.includes("ico_profile_empty.png"));
+        
+        allItems = items; // store globally
+        renderGrid(items.slice(0, 50));
+      } catch (e) {
+        console.error("Error loading items:", e);
+        grid.innerHTML = '<p style="text-align:center; color:#888; padding:40px; grid-column:1/-1;">Failed to load items.</p>';
+      }
+    }
+
+    function setupFilters() {
+      // More Categories toggle button
+      const btnMore = document.getElementById("btn-more-categories");
+      const btnMoreText = document.getElementById("btn-more-text");
+      const filterContainer = document.getElementById("filter-container");
+      if (btnMore && filterContainer) {
+        btnMore.addEventListener("click", function(e) {
+          e.stopPropagation();
+          const isExpanded = filterContainer.classList.toggle("is-expanded");
+          if (btnMoreText) btnMoreText.textContent = isExpanded ? "Less" : "More Categories";
+        });
+      }
+
+      document.querySelectorAll('.filter-pill').forEach(btn => {
+        btn.addEventListener('click', function() {
+          if (this.id === "btn-more-categories") return;
+          // Toggle active state
+          document.querySelectorAll('.filter-pill').forEach(b => b.classList.remove('active'));
+          this.classList.add('active');
+
+          const label = this.textContent.trim();
+          const keyword = categoryMap[label];
+
+          let filtered;
+          if (!keyword) {
+            // All
+            filtered = allItems.slice(0, 50);
+          } else if (keyword === "FREE_FILTER") {
+            filtered = allItems.filter(item => item.price === 0).slice(0, 50);
+          } else {
+            filtered = allItems.filter(item =>
+              item.category && item.category.toLowerCase().includes(keyword)
+            ).slice(0, 50);
+          }
+          renderGrid(filtered);
+        });
+      });
+    }
+
+    // Modal Logic
+    function openModal(itemName) {
+      document.getElementById("modal-item-name").innerText = itemName;
+      document.getElementById("moonoh-download-modal").classList.add("active");
+    }
+    
+    function closeModal() {
+      document.getElementById("moonoh-download-modal").classList.remove("active");
+    }
+
+    // Initialize
+    document.addEventListener("DOMContentLoaded", () => {
+      renderItems();
+      setupFilters();
+      
+      // Close modal on overlay click
+      document.getElementById("moonoh-download-modal").addEventListener("click", function(e) {
+        if (e.target === this) closeModal();
+      });
+    });
+  </script>
 </body>
 </html>

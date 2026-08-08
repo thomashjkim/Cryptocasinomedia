@@ -31,126 +31,26 @@
     .content-box { background: var(--moonoh-card-bg); border: 1px solid var(--airbnb-border); border-radius: var(--radius-airbnb); padding: 32px; box-shadow: var(--airbnb-shadow); line-height: 1.75; color: var(--text-main); transition: transform 0.25s ease, box-shadow 0.25s ease; }
     .content-box:hover { transform: translateY(-2px); box-shadow: var(--airbnb-shadow-hover); }
     .content-box h3 { font-size: 16px; font-weight: 800; color: var(--moonoh-dark); margin-top: 24px; margin-bottom: 12px; }
+    .content-box h4 { font-size: 15px; font-weight: 700; color: var(--moonoh-dark); margin-top: 18px; margin-bottom: 8px; }
     .content-box p { font-size: 14.5px; color: var(--text-main); margin-top: 0; margin-bottom: 16px; }
+    .content-box ul { margin-bottom: 16px; padding-left: 24px; }
+    .content-box li { margin-bottom: 8px; font-size: 14.5px; }
+    .content-box a { color: #4F46E5; text-decoration: underline; }
     .footer-address { color: var(--text-muted); font-size: 13px; line-height: 1.6; margin-top: 10px; }
 
     @media (max-width: 768px) {
       .page-container { margin: 36px auto !important; padding: 0 16px !important; }
       .content-box { padding: 22px 18px !important; border-radius: 16px !important; }
     }
-  
-    
-    /* Mobile Navigation Fixes (<450px) */
-    @media (max-width: 450px) {
-      .navbar-content {
-        position: relative !important;
-        width: 100% !important;
-        height: 64px !important; /* Fixed height for absolute centering */
-        display: block !important;
-      }
-      .navbar .navbar-brand {
-        position: absolute !important;
-        left: 16px !important;
-        top: 50% !important;
-        transform: translateY(-50%) !important;
-        margin: 0 !important;
-        padding: 0 !important;
-        display: flex !important;
-        align-items: center !important;
-        float: none !important;
-      }
-      .navbar .logo, .navbar .logo a {
-        margin: 0 !important;
-        padding: 0 !important;
-        display: flex !important;
-        align-items: center !important;
-      }
-      .navbar .logo img, .navbar .vectors-wrapper-2 {
-        display: block !important;
-        max-width: 170px !important;
-        height: auto !important;
-        margin: 0 !important;
-        padding: 0 !important;
-      }
-      .navbar .w-nav-button {
-        position: absolute !important;
-        right: 16px !important;
-        top: 50% !important;
-        transform: translateY(-50%) !important;
-        background-color: transparent !important;
-        padding: 0 !important;
-        width: 48px !important;
-        height: 48px !important;
-        display: flex !important;
-        align-items: center !important;
-        justify-content: center !important;
-        float: none !important;
-      }
-      .navbar .w-nav-button.w--open {
-        background-color: transparent !important;
-      }
-      
-      /* Hamburger Menu Open State Styling */
-      .navbar .w-nav-menu {
-        background-color: #FAF9FF !important;
-        box-shadow: 0 8px 24px rgba(0,0,0,0.1) !important;
-        border-radius: 16px !important;
-        padding: 20px !important;
-        margin-top: 10px !important;
-      }
-      .w-nav-overlay {
-        background: transparent !important;
-        top: 64px !important; /* Start below navbar */
-      }
-      .navbar-link, .nav-link {
-        font-family: "Open Sans", sans-serif !important;
-        font-size: 18px !important;
-        font-weight: 700 !important;
-        color: #1A1A1A !important;
-        padding: 16px 20px !important;
-        text-align: center !important;
-        display: block !important;
-      }
-      .navbar .navbar-button {
-        background-color: #2F3CFF !important;
-        color: white !important;
-        padding: 16px 24px !important;
-        border-radius: 100px !important;
-        margin-top: 16px !important;
-        display: block !important;
-        text-align: center !important;
-      }
-      .navbar .navbar-button .text, .navbar .navbar-button div {
-        font-family: "Open Sans", sans-serif !important;
-        font-size: 18px !important;
-        font-weight: 800 !important;
-        color: white !important;
-      }
-      
-      /* Hamburger Icon toggles to X */
-      .navbar .w-nav-button.w--open .w-icon-nav-menu {
-        display: none !important;
-      }
-      .navbar .w-nav-button.w--open::after {
-        content: "✕" !important;
-        font-size: 32px !important;
-        color: #1A1A1A !important;
-        line-height: 1 !important;
-        position: absolute !important;
-        top: 50% !important;
-        left: 50% !important;
-        transform: translate(-50%, -50%) !important;
-      }
-    }
   </style>
 </head>
 <body>
-      <div data-animation="default" data-collapse="medium" data-duration="400" data-easing="ease" role="banner" class="navbar w-nav">
+  <div data-animation="default" data-collapse="medium" data-duration="400" data-easing="ease" role="banner" class="navbar w-nav">
     <div class="navbarcontainer w-container">
       <div class="navbar-content">
         <div class="navbar-brand">
           <aside class="logo">
-            <a href="/" aria-current="page" class="w-inline-block w--current">
+            <a href="/" class="w-inline-block">
               <img src="https://cdn.prod.website-files.com/65e3de602f703e1765199b30/65e51874e4a73ff20cb673ec_Logo.svg" loading="lazy" width="219" height="24" alt="moonoh logo" class="vectors-wrapper-2"/>
             </a>
           </aside>
@@ -161,9 +61,6 @@
           <a href="/contact" class="navbar-link w-nav-link">Contact</a>
           <a href="https://apps.apple.com/us/app/moonoh/id6477390079" target="_blank" class="navbar-button w-nav-link"><div class="text">Download app</div></a>
         </nav>
-        <div class="menu-button w-nav-button">
-          <div class="icon w-icon-nav-menu"></div>
-        </div>
       </div>
     </div>
   </div>
@@ -171,8 +68,123 @@
   <div class="page-container">
     <h1 class="page-title">Disclaimer</h1>
     <div class="content-box">
-      <p>Moonoh Inc. operates as a local venue platform facilitating communication between local buyers and sellers. Moonoh does not own, inspect, guarantee, or take custody of items listed by users on the marketplace.</p>
-      <p>All in-person transactions and payment arrangements are conducted independently between buyers and sellers in public meeting locations.</p>
+      <h3>Disclaimer of APP Use and Dispute Resolution For Platform and Community Services</h3>
+      
+      <h3>1. Introduction</h3>
+      <p>This APP ("moonoh"), dedicated to build trust, and enjoy convenient, friendly used goods trading with your local community, is owned and operated by moonoh inc. ("Platform Owner"). By accessing or using the APP, you ("User") agree to be bound by the terms and conditions set forth in this Disclaimer of APP Use ("Disclaimer"). Continued use of the APP after reviewing this Disclaimer constitutes your acceptance of its terms. This Disclaimer is available on all pages of the APP for your easy reference. Please note that the Platform Owner reserves the right to modify this Disclaimer at any time, with any updates being posted on the APP.</p>
+
+      <h3>2. APP as a Platform</h3>
+      <p>The APP is a platform for users to connect, share information, and engage in transactions. We facilitate these interactions but do not control or endorse them. You understand and agree that:</p>
+      <ul>
+        <li><strong>Content and transactions are user-generated:</strong> Users are solely responsible for the content they post, share, or sell on the APP. While we do not filter or monitor user-generated content on a regular basis, we reserve the right to remove content that violates our terms of service, community guidelines, or legal requirements. You are encouraged to report any content that appears harmful or violates our policies.</li>
+        <li><strong>You are responsible for your actions:</strong> You agree to use the Website responsibly and ethically, following all applicable laws and regulations. You are solely responsible for any consequences of your actions on the Website.</li>
+        <li><strong>We are not a party to transactions:</strong> We are not a buyer, seller, or intermediary in any transactions between users. We do not guarantee the completion, safety, or satisfaction of any transactions. You understand and agree to resolve any disputes arising from user-to-user transactions directly with the other party involved.</li>
+        <li>We do not endorse any user-generated content or transactions. Our role is solely to provide the platform for users to interact.</li>
+      </ul>
+      <p>Our limitation of liability as stated in this Disclaimer applies to any and all claims arising from this "APP as a Platform" section.</p>
+
+      <h3>3. Disclaimer of Warranties</h3>
+      <p>The APP and its content are provided "as is" and without any warranties, express or implied, including, but not limited to, merchantability, fitness for a particular purpose, non-infringement, accuracy of information, compatibility with any hardware or software, and availability, reliability, or security of the Website. We do not guarantee the accuracy, completeness, or timeliness of any information provided on the Website. You are solely responsible for verifying the accuracy and completeness of any information before relying on it. We reserve the right to modify or discontinue the APP at any time without prior notice. Our limitation of liability as stated in this Disclaimer applies to any and all claims arising from the disclaimers of warranties stated above.</p>
+
+      <h3>4. User Responsibility</h3>
+      <p>You are responsible for:</p>
+      <ul>
+        <li>Complying with all applicable laws and regulations when using the APP.</li>
+        <li>Not infringing on the intellectual property rights of others.</li>
+        <li>Not posting or sharing any content that is harmful, offensive, or illegal.</li>
+        <li>Using the APP in a responsible and ethical manner.</li>
+      </ul>
+
+      <h3>5. Limitation of Liability, Release, and Indemnity</h3>
+      <p>To the maximum extent permitted by law, the Platform Owner will not be liable for any damages arising out of your use of the APP, including, but not limited to, direct, indirect, incidental, consequential, and punitive damages.</p>
+
+      <h4>5.1.1 Limitations of Liability:</h4>
+      <p>The APP Owner shall not be liable for any damages arising out of or in connection with your use of the APP or the services provided, including, but not limited to, direct, indirect, incidental, consequential, and punitive damages. This list is not exhaustive, and other damages may also be excluded. The APP Owner shall not be liable for loss of profits or revenue, loss of or damage to data or information, business interruption, personal injury or death, or any other loss or damage arising from your use of the APP or services, even if the APP Owner has been advised of the possibility of such damages. This limitation of liability does not apply to claims arising from the APP Owner's intentional misconduct or gross negligence by its staff. You should not rely on the information or services provided on the APP for critical decisions without seeking professional advice. These limitations of liability are governed by and construed in accordance with the laws of New York, United States and the courts located in New York, New York, United States as specified in the Governing Law and Jurisdiction clause.</p>
+
+      <h4>5.1.2 Our Maximum Potential Liability:</h4>
+      <p>Our maximum liability for any issue with our website or services, including contracts, intellectual property, or personal injury, is capped at the greater of:</p>
+      <ul>
+        <li>The amount covered by our Money-Back Guarantee (up to the item's price). See details on the Guarantee page.</li>
+        <li>The disputed fees you paid within the past year, not exceeding your total fees during that period. Supported fees need valid documentation and follow our dispute process.</li>
+        <li>$100 USD (or equivalent in local currency).</li>
+      </ul>
+
+      <h3>6 Dispute Resolution and Release</h3>
+      <h4>6.1.1 Governing Law and Jurisdiction:</h4>
+      <p>This Disclaimer and your use of the APP shall be governed by and construed in accordance with the laws of New York, United States, without regard to its conflict of laws provisions. You agree to submit to the exclusive jurisdiction of the courts located in New York, New York, United States for the resolution of any dispute arising out of or in connection with this Disclaimer or your use of the APP. This forum selection clause is enforceable against you, even if you reside outside of New York, United States. You and the APP Owner agree to attempt to resolve any dispute arising out of or in connection with this Disclaimer through binding mediation before resorting to litigation. If the forum selection clause is held to be invalid or unenforceable, the remaining provisions of this Disclaimer, including the governing law clause, will remain in full force and effect.</p>
+
+      <h4>6.1.2 Release:</h4>
+      <p>You agree to release the APP Owner (including its affiliates and staff) from any and all claims arising from direct interactions or transactions with other users on the APP, excluding claims related to platform malfunctions, content moderation decisions, or other matters outside your control. This release applies only to future claims arising after you accept this Disclaimer, and does not affect any existing claims you may have against the APP Owner. This release shall not apply to claims arising from the APP Owner's negligence or intentional misconduct, the intentional misconduct of its staff, or violations of your fundamental user rights.</p>
+
+      <h4>6.1.3 Indemnity:</h4>
+      <p>You agree to hold harmless and indemnify the APP Owner (including its affiliates and staff) from and against any and all reasonable third-party claims, damages, losses, and expenses (including reasonably incurred attorneys' fees) arising out of or in connection with:</p>
+      <ul>
+        <li>Your breach of this Disclaimer;</li>
+        <li>Your improper use of the APP or services; or</li>
+        <li>Your violation of any law or third-party right.</li>
+      </ul>
+      <p>The APP Owner will promptly notify you of any such claim and shall cooperate with you in defending the claim. Your liability under this indemnity clause shall be limited to the listing fees per claim. This indemnity clause shall not apply to claims arising from the Website Owner's negligence or intentional misconduct or the intentional misconduct of any third party.</p>
+
+      <h3>7. Legal Disputes</h3>
+      <h4>7.1.1 Governing Law:</h4>
+      <p>This Disclaimer shall be governed by and construed in accordance with the laws of New York, except where federal law takes precedence.</p>
+
+      <h4>7.1.2 Arbitration:</h4>
+      <p>Any dispute arising out of or in connection with this Disclaimer, your use of the APP, or any transactions conducted through the platform, including contract disputes, intellectual property claims, and breaches of the Community Guidelines, shall be settled through binding arbitration in accordance with the Commercial Arbitration Rules of the American Arbitration Association, except as follows:</p>
+      <ul>
+        <li>You may file a claim in the small claims court located in the County of New York, State of New York if the amount is less than $5,000 and falls within the court's jurisdiction.</li>
+        <li>The arbitration agreement is deemed unenforceable by a court of competent jurisdiction.</li>
+        <li>The arbitration will be conducted on an individual basis, with no class actions or consolidated claims allowed.</li>
+        <li>The arbitrator may award injunctive relief or specific performance in exceptional circumstances, but the award shall be limited to the individual claim and may not exceed the amount in dispute.</li>
+        <li>Each party shall bear its own arbitration fees and costs, except that the prevailing party shall be entitled to recover its reasonable attorneys' fees and costs from the non-prevailing party.</li>
+      </ul>
+
+      <h4>7.1.3 Severability and Opt-Out:</h4>
+      <p>If any provision of the arbitration agreement is held invalid or unenforceable in any jurisdiction by any court of competent jurisdiction, such provision shall be struck and the remaining provisions shall remain in full force and effect. New users of the Website may opt out of the arbitration agreement within 30 days of their first use of the APP by sending a written notice to info@moon-oh.com The opt-out notice must include the user's name, email address, and a clear statement of their intent to opt out of the arbitration agreement. We will inform users of any future amendments to the arbitration agreement through email, platform announcements or APP updates. Opting out will only affect the arbitration agreement; all other provisions of this Disclaimer will remain in full force and effect. Future amendments to the arbitration agreement will apply only to new disputes arising after the effective date of the amendment.</p>
+
+      <h4>7.1.4 Judicial Forum:</h4>
+      <p>If the arbitration agreement is not applicable or is held invalid, any dispute arising out of or in connection with this Disclaimer or your use of the APP shall be brought and heard exclusively in the courts located in the Count of New York, State of New York.</p>
+
+      <h3>8. General Provisions</h3>
+      <h4>8.1.1 Severability:</h4>
+      <p>If any provision of this Disclaimer is held to be invalid or unenforceable, such provision shall be deemed severed and deleted from this Disclaimer. The remaining provisions shall remain in full force and effect as if the invalid provision had never been included.</p>
+
+      <h4>8.1.2 Assignment:</h4>
+      <p>The APP Owner may assign this Disclaimer in whole or in part, including any individual clauses or its rights and obligations hereunder, at any time without prior notice to you. You may not assign your rights or obligations under this Disclaimer without the prior written consent of the APP Owner. We will inform you of any assignment through website updates, platform announcements, or email notifications.</p>
+
+      <h4>8.1.3. Headings</h4>
+      <p>The headings in this Disclaimer are for reference purposes only and do not themselves define, limit, or interpret the scope or meaning of any provision. The entire text of each provision must be considered in determining its meaning and effect.</p>
+
+      <h3>9. Amendments</h3>
+      <p>The APP Owner may amend this Disclaimer at any time by posting the amended Disclaimer on the APP and through additional means such as email, in-platform notifications, or prominent website banners. You are responsible for reviewing the Disclaimer periodically for changes. Your continued use of the APP after the posting of the amended Disclaimer constitutes your acceptance of the amended Disclaimer. New users may opt-out of the amended Disclaimer within 30 days of their first use by contacting info@moon-oh.com. Continued use after the opt-out period signifies acceptance of the amended Disclaimer.</p>
+
+      <h3>10. Dispute Resolution</h3>
+      <p>Any dispute arising out of or relating to this Disclaimer, your use of the APP, or transactions conducted through the platform shall be resolved through binding arbitration in accordance with the Commercial Arbitration Rules of the American Arbitration Association. You and the APP Owner agree to initiate arbitration by providing written notice to the other party, specifying the nature of the dispute and the chosen arbitration rules. Arbitration fees and costs will be shared equally between you and the Website Owner. All disputes must be resolved on an individual basis, and class action lawsuits are not permitted. The arbitration will be governed by the laws of New York, and the arbitrator's decision will be final and binding on the parties. If any provision of this arbitration clause is found to be invalid or unenforceable, such provision shall be struck and the remaining provisions shall remain in full force and effect. The parties agree to seek alternative dispute resolution options in good faith if the arbitration clause is deemed invalid.</p>
+
+      <h3>11. Modification of Disclaimer</h3>
+      <p>We reserve the right to modify this Disclaimer at any time. We will notify you of any modifications through email or Appstore updates. Existing users may opt-out of significant changes to the Disclaimer within 30 days of the notification by contacting info@moon-oh.com. Continued use of the APP after the notification period or after the opt-out window closes, whichever is applicable, constitutes your acceptance of the modified Disclaimer.</p>
+
+      <h3>12. Entire Agreement</h3>
+      <p>This Disclaimer constitutes the entire agreement and understanding between you and the Platform Owner with respect to your use of the Website and supersedes all prior or contemporaneous agreements, representations, and understandings, whether written or oral.</p>
+
+      <h3>13. Additional Notes</h3>
+      <p>• This disclaimer is a template and may need to be adapted to your specific platform and services.<br/>
+      • You should consult with an attorney to ensure that the disclaimer is legally sound and appropriate for your business.<br/>
+      • You may want to consider adding additional disclaimers or warnings, such as a disclaimer for financial advice or medical information.</p>
+
+      <p><strong>If you're a New York resident with a complaint, you can contact:</strong></p>
+      <p>
+        <strong>New York State Office of Attorney General:</strong><br/>
+        File online: <a href="https://ag.ny.gov/file-complaint" target="_blank" rel="noopener">https://ag.ny.gov/file-complaint</a><br/>
+        Call Helpline: 1-800-771-7755<br/>
+        Website: <a href="https://ag.ny.gov/" target="_blank" rel="noopener">https://ag.ny.gov/</a>
+      </p>
+      <p>
+        <strong>New York State Department of Consumer Protection:</strong><br/>
+        File online: <a href="https://ag.ny.gov/file-complaint/consumer" target="_blank" rel="noopener">https://ag.ny.gov/file-complaint/consumer</a><br/>
+        Call Helpline: 1-800-697-1220<br/>
+        Website: <a href="https://dos.ny.gov/consumer-protection" target="_blank" rel="noopener">https://dos.ny.gov/consumer-protection</a>
+      </p>
     </div>
   </div>
 

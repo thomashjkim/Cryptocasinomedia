@@ -31,126 +31,26 @@
     .content-box { background: var(--moonoh-card-bg); border: 1px solid var(--airbnb-border); border-radius: var(--radius-airbnb); padding: 32px; box-shadow: var(--airbnb-shadow); line-height: 1.75; color: var(--text-main); transition: transform 0.25s ease, box-shadow 0.25s ease; }
     .content-box:hover { transform: translateY(-2px); box-shadow: var(--airbnb-shadow-hover); }
     .content-box h3 { font-size: 16px; font-weight: 800; color: var(--moonoh-dark); margin-top: 24px; margin-bottom: 12px; }
+    .content-box h4 { font-size: 15px; font-weight: 700; color: var(--moonoh-dark); margin-top: 18px; margin-bottom: 8px; }
     .content-box p { font-size: 14.5px; color: var(--text-main); margin-top: 0; margin-bottom: 16px; }
+    .content-box ul { margin-bottom: 16px; padding-left: 24px; }
+    .content-box li { margin-bottom: 8px; font-size: 14.5px; }
+    .content-box a { color: #4F46E5; text-decoration: underline; }
     .footer-address { color: var(--text-muted); font-size: 13px; line-height: 1.6; margin-top: 10px; }
 
     @media (max-width: 768px) {
       .page-container { margin: 36px auto !important; padding: 0 16px !important; }
       .content-box { padding: 22px 18px !important; border-radius: 16px !important; }
     }
-  
-    
-    /* Mobile Navigation Fixes (<450px) */
-    @media (max-width: 450px) {
-      .navbar-content {
-        position: relative !important;
-        width: 100% !important;
-        height: 64px !important; /* Fixed height for absolute centering */
-        display: block !important;
-      }
-      .navbar .navbar-brand {
-        position: absolute !important;
-        left: 16px !important;
-        top: 50% !important;
-        transform: translateY(-50%) !important;
-        margin: 0 !important;
-        padding: 0 !important;
-        display: flex !important;
-        align-items: center !important;
-        float: none !important;
-      }
-      .navbar .logo, .navbar .logo a {
-        margin: 0 !important;
-        padding: 0 !important;
-        display: flex !important;
-        align-items: center !important;
-      }
-      .navbar .logo img, .navbar .vectors-wrapper-2 {
-        display: block !important;
-        max-width: 170px !important;
-        height: auto !important;
-        margin: 0 !important;
-        padding: 0 !important;
-      }
-      .navbar .w-nav-button {
-        position: absolute !important;
-        right: 16px !important;
-        top: 50% !important;
-        transform: translateY(-50%) !important;
-        background-color: transparent !important;
-        padding: 0 !important;
-        width: 48px !important;
-        height: 48px !important;
-        display: flex !important;
-        align-items: center !important;
-        justify-content: center !important;
-        float: none !important;
-      }
-      .navbar .w-nav-button.w--open {
-        background-color: transparent !important;
-      }
-      
-      /* Hamburger Menu Open State Styling */
-      .navbar .w-nav-menu {
-        background-color: #FAF9FF !important;
-        box-shadow: 0 8px 24px rgba(0,0,0,0.1) !important;
-        border-radius: 16px !important;
-        padding: 20px !important;
-        margin-top: 10px !important;
-      }
-      .w-nav-overlay {
-        background: transparent !important;
-        top: 64px !important; /* Start below navbar */
-      }
-      .navbar-link, .nav-link {
-        font-family: "Open Sans", sans-serif !important;
-        font-size: 18px !important;
-        font-weight: 700 !important;
-        color: #1A1A1A !important;
-        padding: 16px 20px !important;
-        text-align: center !important;
-        display: block !important;
-      }
-      .navbar .navbar-button {
-        background-color: #2F3CFF !important;
-        color: white !important;
-        padding: 16px 24px !important;
-        border-radius: 100px !important;
-        margin-top: 16px !important;
-        display: block !important;
-        text-align: center !important;
-      }
-      .navbar .navbar-button .text, .navbar .navbar-button div {
-        font-family: "Open Sans", sans-serif !important;
-        font-size: 18px !important;
-        font-weight: 800 !important;
-        color: white !important;
-      }
-      
-      /* Hamburger Icon toggles to X */
-      .navbar .w-nav-button.w--open .w-icon-nav-menu {
-        display: none !important;
-      }
-      .navbar .w-nav-button.w--open::after {
-        content: "✕" !important;
-        font-size: 32px !important;
-        color: #1A1A1A !important;
-        line-height: 1 !important;
-        position: absolute !important;
-        top: 50% !important;
-        left: 50% !important;
-        transform: translate(-50%, -50%) !important;
-      }
-    }
   </style>
 </head>
 <body>
-      <div data-animation="default" data-collapse="medium" data-duration="400" data-easing="ease" role="banner" class="navbar w-nav">
+  <div data-animation="default" data-collapse="medium" data-duration="400" data-easing="ease" role="banner" class="navbar w-nav">
     <div class="navbarcontainer w-container">
       <div class="navbar-content">
         <div class="navbar-brand">
           <aside class="logo">
-            <a href="/" aria-current="page" class="w-inline-block w--current">
+            <a href="/" class="w-inline-block">
               <img src="https://cdn.prod.website-files.com/65e3de602f703e1765199b30/65e51874e4a73ff20cb673ec_Logo.svg" loading="lazy" width="219" height="24" alt="moonoh logo" class="vectors-wrapper-2"/>
             </a>
           </aside>
@@ -161,9 +61,6 @@
           <a href="/contact" class="navbar-link w-nav-link">Contact</a>
           <a href="https://apps.apple.com/us/app/moonoh/id6477390079" target="_blank" class="navbar-button w-nav-link"><div class="text">Download app</div></a>
         </nav>
-        <div class="menu-button w-nav-button">
-          <div class="icon w-icon-nav-menu"></div>
-        </div>
       </div>
     </div>
   </div>
@@ -172,21 +69,123 @@
     <h1 class="page-title">Terms of Use</h1>
     <div class="content-box">
       <h3>1. Introduction</h3>
-      <p>Welcome to Moonoh, a neighborhood online marketplace connecting residents across New York City and New Jersey for local buy-and-sell discoveries. These Terms of Use govern your access to and use of Moonoh Inc. mobile applications and websites.</p>
+      <p>Welcome to moonoh, a vibrant online marketplace connecting you and your neighborhoods for smart decluttering and amazing discoveries. These Terms of Use govern your access to all features of the platform, including online buy and sell functionality, community forums, and secure messaging. By accessing, using, or registering on moonoh, you agree to be bound by these Terms.</p>
 
-      <h3>2. User Eligibility &amp; Accounts</h3>
-      <p>You must be at least 18 years old to register or execute transactions on Moonoh. Account registration requires accurate details. You are responsible for maintaining the confidentiality of your account credentials.</p>
+      <h3>2. User Eligibility</h3>
+      <p>You must be at least 18 years old and legally able to enter into binding contracts to use the Services. Residents of CRIMEA AND COVERED REGIONS OF UKRAINE, CUBA, IRAN, NORTH KOREA, and SYRIA are prohibited from using the platform. Additionally, users who have been previously banned for violating these Terms or engaging in harmful activities are not permitted.</p>
 
-      <h3>3. Platform Safety &amp; Moderation</h3>
-      <p>Moonoh Inc. maintains zero tolerance for abusive, prohibited, or fraudulent content. Users may block offensive users or report listings directly within the app or via email to info@moon-oh.com.</p>
+      <h3>3. Services</h3>
+      <p>We provide various services, including online buying and selling, community forums, and secure messaging. We reserve the right to change or interrupt services for maintenance or improvement.</p>
 
-      <h3>4. Corporate Information</h3>
-      <p>
-        <strong>Moonoh Inc.</strong><br/>
-        8 Spruce Street, New York, NY 10038<br/>
-        Phone: +1 (917) 584-5177<br/>
-        Email: info@moon-oh.com
-      </p>
+      <h4>3.1 User Membership</h4>
+      <p>Creating an account is optional, but certain features require registration. You agree to provide accurate and complete information. Users can request to cancel membership at any time, and we may restrict, suspend, or terminate membership for violations. We may restrict access to forums for inactivity or commercial purposes.</p>
+      
+      <p><strong>Location Permission</strong><br/>
+      We request your location permission to allow features like searching for nearby items and recommending sellers in your area. You can always disable location services in your phone's settings.</p>
+      
+      <p><strong>Personal Information</strong><br/>
+      • We strive to protect user information according to data privacy laws and our <a href="https://www.moon-oh.com/terms">Personal Information Protection Policy</a>.<br/>
+      • This policy explains what data we collect, how we use it, and how you can control your information.</p>
+
+      <h4>3.2 Notifications</h4>
+      <p>• We may send company messages and general announcements through specific channels like email and the platform bulletin board.</p>
+
+      <h4>3.3 Personal Information</h4>
+      <p>• We strive to protect user information, governed by data privacy laws and our <a href="https://www.moon-oh.com/privacy">Personal Information Protection Policy</a>.<br/>
+      • This policy explains what data we collect, how we use it, and how you can control your information.<br/>
+      • In order to provide you with a safe and secure experience, we collect some personal information when you register on our platform. This may include your email address (required), phone number (required), and name (optional). We use this information to manage your account, personalize your experience, and improve our services.<br/>
+      • We will never share your personal information with third-party advertisers or data brokers without your explicit consent. We may use your information to send you platform-related updates and product recommendations, but you can always opt-out of these communications through your account settings.<br/>
+      • You have the right to access, update, and delete your personal information at any time. You can do this by going to the "Edit Profile" section on your "My Page".</p>
+
+      <h3>4. Your Obligations</h3>
+      <p>• You agree to comply with all applicable laws, ethics, and these Terms.<br/>
+      • We will provide continuous, stable services, implement security measures, and compensate for damages caused by our intent or gross negligence.<br/>
+      • You are responsible for managing your User ID and password. Sharing credentials is strictly prohibited. Report any theft or misuse immediately.</p>
+
+      <h4>4.1 User Prohibitions</h4>
+      <ul>
+        <li>Providing false registration information. Modifying content without permission.</li>
+        <li>Infringing on intellectual property rights. Impersonating others.</li>
+        <li>Posting unsolicited or harmful content.</li>
+        <li>Violating laws or regulations. Engaging in inappropriate messaging.</li>
+        <li>Harming minors.</li>
+        <li>Posting content that is hateful, discriminatory, violent, threatening, harassing, defamatory, obscene, or illegal.</li>
+        <li>Engaging in spam or commercially motivated postings.</li>
+        <li>Users are liable for any damages caused by their actions.</li>
+      </ul>
+
+      <h4>4.2 User-Generated Content</h4>
+      <p>• You acknowledge that moonoh allows users to generate content, and you agree to be solely responsible for your own posts and any consequences that may result from them. We encourage respectful interactions within our community.</p>
+
+      <h4>4.3 Moderation and User Safety</h4>
+      <p>moonoh strives to maintain a safe and enjoyable environment for all users. We reserve the right to remove content that violates these Terms, including but not limited to:</p>
+      <ul>
+        <li>Content that violates intellectual property rights. Content that impersonates others.</li>
+        <li>Content that promotes illegal activity.</li>
+        <li>Content that exploits, abuses, or endangers children.</li>
+      </ul>
+      <p>We encourage users to report any content they find objectionable through the following methods:</p>
+      <ul>
+        <li>Flagging the content within the app itself (if this functionality is available).</li>
+        <li>Reporting the content or user directly to moonoh support at <a href="mailto:info@moon-oh.com">info@moon-oh.com</a> or "Report" button in app.</li>
+      </ul>
+      <p>• We will review reported content and take appropriate action, which may include removing the content, suspending or terminating the user's account, or contacting law enforcement.<br/>
+      • Users can also block other users from interacting with them through the app's functionality.</p>
+
+      <h3>5. Advertising and Transactions</h3>
+      <p>• You agree to view advertisements.<br/>
+      • We are not responsible for interactions with advertisers.<br/>
+      • We are not liable for losses from commercial transactions.</p>
+
+      <h3>6. Member Postings and Forum Use</h3>
+      <p>• You are responsible for your posts.<br/>
+      • We may remove inappropriate content.</p>
+
+      <h4>6.1 Restrictions and Suspension</h4>
+      <p>• We may restrict or suspend service for violations.<br/>
+      • We will notify members of restrictions or suspensions.<br/>
+      • We may terminate membership for violations.<br/>
+      • Users can request deletion or correction of infringing posts.<br/>
+      • Users can request restoration of temporarily removed posts.<br/>
+      • We may restrict access to posts based on legal action.</p>
+
+      <h3>7. Copyright and Restrictions</h3>
+      <p>• You own your post copyrights but grant the company a non-exclusive license.<br/>
+      • Using information for commercial purposes requires prior consent.<br/>
+      • We may disclose IP addresses to prevent misuse.<br/>
+      • You are solely responsible for your content and any liabilities.</p>
+
+      <h3>8. Paid Services and App Usage</h3>
+      <p>• Basic services are free.<br/>
+      • Paid content and services require payment.<br/>
+      • App recharge with company-approved methods.<br/>
+      • App expires upon member withdrawal, with no recovery or refund.<br/>
+      • No refunds for paid services.<br/>
+      • Unauthorized advertising will be deleted without notice or refund.</p>
+
+      <h3>9. Content Management Disclaimer</h3>
+      <p>• We don't guarantee material accuracy or reliability.<br/>
+      • Users determine trustworthiness of uploaded materials.<br/>
+      • We may modify or delete materials.<br/>
+      • Services and materials are provided "as is," with no warranties offered. We are not liable for damages from service or material use.<br/>
+      • We are not responsible for content accuracy, copyright compliance, legality, or morality.<br/>
+      • We may remove posts infringing on others' rights.<br/>
+      • Report copyright infringement to the administrator (<a href="mailto:info@moon-oh.com">info@moon-oh.com</a>).</p>
+
+      <h3>10. Term and Condition Amendments</h3>
+      <p>• We may revise these Terms. Revisions will be announced 14 days prior to implementation and displayed prominently on the platform.<br/>
+      • Revised Terms apply to all users, regardless of registration date.<br/>
+      • Users objecting to revisions may withdraw from the Service.</p>
+
+      <h3>11. Business Registration</h3>
+      <p>Register your business if you are selling multiple products commercially.</p>
+
+      <h3>12. Reasons for Post Removal</h3>
+      <p>Posts may be deleted if:</p>
+      <ul>
+        <li>The exact price of the item is not specified.</li>
+        <li>The post is not suitable for the category.</li>
+      </ul>
     </div>
   </div>
 
