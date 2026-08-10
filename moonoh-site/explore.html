@@ -1300,9 +1300,8 @@
         urlCategory = urlCategory || pathSegments[1];
       }
 
-      // Apply town from URL
+      // Highlight dropdown & filter pills based on URL without breaking SSR grid
       if (urlTown && locationSelect) {
-        // Match to dropdown option
         const opts = Array.from(locationSelect.options);
         const matched = opts.find(o => urlTown.toLowerCase().includes(o.value.toLowerCase()) && o.value !== '');
         if (matched) {
@@ -1311,13 +1310,11 @@
         }
       }
 
-      // Apply category from URL - find matching pill
       if (urlCategory) {
         const urlCatLower = urlCategory.toLowerCase();
         let matchedBtn = null;
         document.querySelectorAll('.filter-pill').forEach(btn => {
           const label = btn.textContent.trim().toLowerCase();
-          // Allow partial match (e.g. "electronics & appliances" matches "electronics")
           if (urlCatLower.includes(label.split(' ')[0]) || label.includes(urlCatLower.split(' ')[0])) {
             if (!matchedBtn) matchedBtn = btn;
           }
@@ -1325,17 +1322,11 @@
         if (matchedBtn) {
           document.querySelectorAll('.filter-pill').forEach(b => b.classList.remove('active'));
           matchedBtn.classList.add('active');
-          // Auto-expand filter container if matched category is in extra folded list
           if (matchedBtn.classList.contains('filter-pill-extra') && filterContainer) {
             filterContainer.classList.add('is-expanded');
             if (btnMoreText) btnMoreText.textContent = "Less";
           }
         }
-      }
-
-      // Trigger filter with URL params after items are loaded
-      if (urlTown || urlCategory) {
-        setTimeout(() => applyFilters(getActiveCategoryKeyword()), 100);
       }
     }
 

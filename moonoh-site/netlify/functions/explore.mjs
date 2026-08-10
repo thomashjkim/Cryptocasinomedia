@@ -6,7 +6,7 @@ const currentDir = path.dirname(fileURLToPath(import.meta.url));
 
 // Region Mapping
 const REGIONS = {
-  'manhattan': { name: 'Manhattan, NY', keywords: ['manhattan', 'all manhattan', 'upper east', 'upper west', 'downtown manhattan', 'midtown', 'harlem', 'tribeca', 'soho', 'lower east', 'east village', 'west village', 'chelsea', 'gramercy', 'inwood', 'washington heights', 'morningside', 'financial district', 'wall street', 'murray hill', 'kips bay', 'hell', 'flatiron'] },
+  'manhattan': { name: 'Manhattan, NY', keywords: ['manhattan', 'upper east', 'upper west', 'downtown manhattan', 'midtown', 'harlem', 'tribeca', 'soho', 'lower east', 'east village', 'west village', 'chelsea', 'gramercy', 'inwood', 'washington heights', 'morningside', 'financial district', 'wall street', 'murray hill', 'kips bay', 'flatiron'] },
   'queens': { name: 'Queens, NY', keywords: ['queens', 'bayside', 'flushing', 'astoria', 'jamaica', 'forest hills', 'jackson heights', 'woodside', 'ridgewood', 'ozone park', 'fresh meadows', 'corona', 'elmhurst', 'sunnyside', 'long island city', 'rego park', 'maspeth', 'howard beach', 'far rockaway', 'college point', 'whitestone', 'douglaston'] },
   'brooklyn': { name: 'Brooklyn, NY', keywords: ['brooklyn', 'park slope', 'williamsburg', 'bushwick', 'bed stuy', 'flatbush', 'crown heights', 'bay ridge', 'bensonhurst', 'canarsie', 'east new york', 'greenpoint', 'cobble hill', 'carroll gardens', 'boerum', 'sunset park', 'borough park', 'brighton beach', 'coney island', 'sheepshead', 'ditmas'] },
   'bronx': { name: 'The Bronx, NY', keywords: ['bronx'] },
@@ -26,7 +26,7 @@ const CATEGORIES = {
   'health-beauty': { name: 'Health & Beauty', keywords: ['health', 'beauty', 'cosmetics'] },
   'pet-supplies': { name: 'Pet Supplies', keywords: ['pet', 'dog', 'cat'] },
   'baby-kids': { name: 'Baby & Kids', keywords: ['baby & kids', 'baby', 'kids', 'stroller', 'toy'] },
-  'sports-leisure': { name: 'Sports & Leisure', keywords: ['sports', 'leisure', 'bike', 'ski', 'boots', 'exercise'] },
+  'sports-leisure': { name: 'Sports & Leisure', keywords: ['sports', 'leisure', 'bike', 'ski', 'exercise'] },
   'toys-games': { name: 'Toys & Games', keywords: ['toys', 'games', 'card', 'figure'] },
   'jewelry-watches': { name: 'Jewelry & Watches', keywords: ['jewelry', 'watches', 'ring', 'earrings'] },
   'luggages-bags': { name: 'Luggages & Bags', keywords: ['luggages', 'bags', 'pouch', 'backpack'] },
@@ -154,6 +154,49 @@ function getExploreTemplate() {
 export default async (req, context) => {
   try {
     const url = new URL(req.url);
+
+    // 1. Check for legacy query parameters and 301 Redirect to clean path URL
+    const qLocation = url.searchParams.get('location') || url.searchParams.get('town');
+    const qCategory = url.searchParams.get('category');
+
+    if (qLocation || qCategory) {
+      let rSlug = '';
+      let cSlug = '';
+
+      if (qLocation) {
+        const low = qLocation.toLowerCase();
+        for (const [key, obj] of Object.entries(REGIONS)) {
+          if (obj.keywords.some(kw => low.includes(kw)) || low.includes(key)) {
+            rSlug = key;
+            break;
+          }
+        }
+      }
+
+      if (qCategory) {
+        const low = qCategory.toLowerCase();
+        for (const [key, obj] of Object.entries(CATEGORIES)) {
+          if (obj.keywords.some(kw => low.includes(kw)) || low.includes(key)) {
+            cSlug = key;
+            break;
+          }
+        }
+      }
+
+      let redirectPath = '/explore';
+      if (rSlug && cSlug) redirectPath = `/explore/${rSlug}/${cSlug}`;
+      else if (rSlug) redirectPath = `/explore/${rSlug}`;
+      else if (cSlug) redirectPath = `/explore/${cSlug}`;
+
+      if (redirectPath !== url.pathname) {
+        return new Response(null, {
+          status: 301,
+          headers: { "Location": redirectPath }
+        });
+      }
+    }
+
+    // 2. Parse URL Path Segments
     const pathSegments = url.pathname.replace(/^\/explore\/?/, '').split('/').filter(Boolean);
 
     let regionSlug = null;
@@ -188,8 +231,8 @@ export default async (req, context) => {
       });
     }
 
-    // Thin Content Protection: 0 items for requested combination -> 404 Response
-    if ((regionSlug || categorySlug) && filteredItems.length === 0) {
+    // Thin Content Protection: If region or category specified and items < 3, return 404
+    if ((regionSlug || categorySlug) && filteredItems.length < 3) {
       return new Response("No listings found for this region/category combination", { status: 404 });
     }
 
@@ -250,7 +293,7 @@ export default async (req, context) => {
       `;
     });
 
-    // Interlinking Section (Internal Links Juice)
+    // Interlinking Section
     const relatedLinks = [
       { name: 'Electronics in Queens', url: '/explore/queens/electronics' },
       { name: 'Furniture in Brooklyn', url: '/explore/brooklyn/furniture' },
@@ -277,7 +320,7 @@ export default async (req, context) => {
       </div>
     `;
 
-    // JSON-LD Schemas (ItemList, BreadcrumbList, CollectionPage, FAQPage)
+    // JSON-LD Schemas
     const itemListSchema = {
       "@context": "https://schema.org",
       "@type": "ItemList",
@@ -360,7 +403,7 @@ export default async (req, context) => {
       .replace(/<link href=".*?" rel="canonical"\/>/i, `<link href="${canonicalUrl}" rel="canonical"/>`)
       .replace('</head>', `${schemaScript}</head>`);
 
-    // Inject Hero Section & Grid HTML
+    // Inject Hero Section & Grid HTML directly
     template = template.replace(
       '<div class="item-grid" id="moonoh-item-grid">',
       `${heroHtml}\n<div class="item-grid" id="moonoh-item-grid">\n${cardsHtml}`
