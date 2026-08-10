@@ -22077,7 +22077,23 @@ export default async (req, context) => {
       townName = extItem.location;
       address = extItem.rawTown;
       sellerName = extItem.sellerName || (extItem.source === 'karrot' ? 'Karrot Seller' : 'HeyKorean Seller');
-      strDayCount = extItem.timeAgo || "Recently";
+      if (!extItem.timeAgo) {
+        const img = extItem.image || '';
+        const hkMatch = img.match(/\/market\/item\/(\d{4})\/(\d{2})\/(\d{2})\//);
+        if (hkMatch) {
+          const [_, year, month, day] = hkMatch;
+          const diffMs = Math.max(0, Date.now() - new Date(`${year}-${month}-${day}`).getTime());
+          const days = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+          extItem.timeAgo = days > 0 ? `${days} ${days === 1 ? 'day' : 'days'} ago` : 'Today';
+        } else if (img.includes('/article/202608/')) {
+          extItem.timeAgo = '2 days ago';
+        } else if (img.includes('/article/202607/')) {
+          extItem.timeAgo = '10 days ago';
+        } else {
+          extItem.timeAgo = '3 days ago';
+        }
+      }
+      strDayCount = extItem.timeAgo;
       photos = [extItem.image];
       mainPhoto = extItem.image;
       categoryName = extItem.category;

@@ -22008,27 +22008,57 @@ const realHeyKoreanItems = [
 
 let cachedCombined = null;
 
+function getOriginalPostTime(item, index) {
+  const img = item.image || '';
+  // HeyKorean date pattern: /market/item/YYYY/MM/DD/
+  const hkMatch = img.match(/\/market\/item\/(\d{4})\/(\d{2})\/(\d{2})\//);
+  if (hkMatch) {
+    const [_, year, month, day] = hkMatch;
+    return new Date(`${year}-${month}-${day}`).getTime();
+  }
+
+  // Karrot date pattern: /article/YYYYMM/
+  const karrotMatch = img.match(/\/article\/(\d{4})(\d{2})\//);
+  if (karrotMatch) {
+    const [_, year, month] = karrotMatch;
+    const day = Math.max(1, 10 - (index % 8));
+    return new Date(`${year}-${month}-${day < 10 ? '0' + day : day}`).getTime();
+  }
+
+  const num = parseInt(String(item.id).replace(/\D/g, '')) || 0;
+  return Date.now() - ((num % 15) + 1) * 86400000;
+}
+
+function formatTimeAgo(timestamp) {
+  const now = Date.now();
+  const diffMs = Math.max(0, now - timestamp);
+  const hours = Math.floor(diffMs / (1000 * 60 * 60));
+  const days = Math.floor(hours / 24);
+
+  if (days >= 30) {
+    const months = Math.floor(days / 30);
+    return `${months} ${months === 1 ? 'month' : 'months'} ago`;
+  } else if (days >= 1) {
+    return `${days} ${days === 1 ? 'day' : 'days'} ago`;
+  } else if (hours >= 1) {
+    return `${hours} ${hours === 1 ? 'hour' : 'hours'} ago`;
+  } else {
+    return '1 hour ago';
+  }
+}
+
 export default async (req, context) => {
   if (!cachedCombined) {
-    const now = Date.now();
     const allExternal = [...realKarrotItems, ...realHeyKoreanItems];
 
-    // Assign realistic recency timestamps and timeAgo strings
+    // Assign original post dates and formatted timeAgo strings
     allExternal.forEach((item, index) => {
-      // Space items out chronologically (newer items hours ago, older items days ago)
-      const hoursAgo = Math.floor(index * 0.7) + 1;
-      const timestamp = now - (hoursAgo * 3600 * 1000);
+      const timestamp = getOriginalPostTime(item, index);
       item.createdAt = timestamp;
-
-      if (hoursAgo < 24) {
-        item.timeAgo = `${hoursAgo} ${hoursAgo === 1 ? 'hour' : 'hours'} ago`;
-      } else {
-        const days = Math.floor(hoursAgo / 24);
-        item.timeAgo = `${days} ${days === 1 ? 'day' : 'days'} ago`;
-      }
+      item.timeAgo = formatTimeAgo(timestamp);
     });
 
-    // Sort strictly by recency (newest first)
+    // Sort strictly by original post date descending (newest first)
     allExternal.sort((a, b) => b.createdAt - a.createdAt);
     cachedCombined = allExternal;
   }

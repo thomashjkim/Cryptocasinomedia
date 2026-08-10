@@ -226,29 +226,15 @@ export default async (req, context) => {
     let categorySlug = null;
     let isOthersPage = false;
     const isMainUserEntrypoint = pathSegments.length === 0;
-
-    if (pathSegments.includes('others') || pathSegments.includes('external')) {
-      isOthersPage = true;
-    }
-
-    if (pathSegments.length === 1) {
-      if (REGIONS[pathSegments[0]]) regionSlug = pathSegments[0];
-      else if (CATEGORIES[pathSegments[0]]) categorySlug = pathSegments[0];
-    } else if (pathSegments.length >= 2) {
-      if (REGIONS[pathSegments[0]]) regionSlug = pathSegments[0];
-      if (CATEGORIES[pathSegments[1]]) categorySlug = pathSegments[1];
-    }
-
-    const allItems = await fetchAllCombinedItems();
-    let filteredItems = allItems;
+    const isOthersFilter = isOthersPage || qSource === 'others';
 
     // Rule Distinction:
-    // 1. User Entrypoint (/explore): Show Moonoh native items ONLY by default (Brand Identity / Real Marketplace).
+    // 1. User Entrypoint (/explore): Show Moonoh native items ONLY by default unless ?source=others parameter is present.
     // 2. SEO Aggregation Pages (/explore/{region}/{category}): Merge Moonoh + Karrot + HeyKorean sorted by recency for maximum density.
-    if (isMainUserEntrypoint) {
-      filteredItems = filteredItems.filter(item => item.source === 'moonoh');
-    } else if (isOthersPage) {
+    if (isOthersFilter) {
       filteredItems = filteredItems.filter(item => item.source === 'karrot' || item.source === 'heykorean' || item.source === 'external');
+    } else if (isMainUserEntrypoint) {
+      filteredItems = filteredItems.filter(item => item.source === 'moonoh');
     }
 
     // Filter by Region (for aggregation pages)
