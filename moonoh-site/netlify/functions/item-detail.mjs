@@ -22244,6 +22244,7 @@ export default async (req, context) => {
     // Page URL & Canonical
     const currentSlug = generateSlug(title, address, productNo);
     const canonicalUrl = `https://moon-oh.com${currentSlug}`;
+    const absMainPhoto = mainPhoto.startsWith('http') ? mainPhoto : `https://moon-oh.com${mainPhoto}`;
 
     // Render HTML Page
     const html = `<!DOCTYPE HTML>
