@@ -102,6 +102,13 @@ async function buildSitemapXml() {
   const staticUrls = [
     'https://moon-oh.com/',
     'https://moon-oh.com/explore',
+    'https://moon-oh.com/explore/electronics',
+    'https://moon-oh.com/explore/furniture',
+    'https://moon-oh.com/explore/womens-fashion',
+    'https://moon-oh.com/explore/manhattan',
+    'https://moon-oh.com/explore/queens',
+    'https://moon-oh.com/explore/brooklyn',
+    'https://moon-oh.com/explore/new-jersey',
     'https://moon-oh.com/about',
     'https://moon-oh.com/press',
     'https://moon-oh.com/contact',

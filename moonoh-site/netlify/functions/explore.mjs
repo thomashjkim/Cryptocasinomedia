@@ -7,7 +7,7 @@ const currentDir = path.dirname(fileURLToPath(import.meta.url));
 // Serverless Cache for Items
 let cachedItems = null;
 let lastFetchTime = 0;
-const CACHE_TTL_MS = 10 * 60 * 1000; // 10 minutes
+const CACHE_TTL_MS = 15 * 1000; // 15 seconds cache for instant app upload updates
 
 async function fetchAllItems() {
   const now = Date.now();

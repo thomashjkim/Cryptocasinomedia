@@ -33,7 +33,7 @@ function generateSlug(title, locationStr, productNo) {
 // Global in-memory cache for serverless instance reuse
 let globalCachedItems = null;
 let lastCacheTimestamp = 0;
-const CACHE_DURATION_MS = 600000; // 10 minutes cache
+const CACHE_DURATION_MS = 15000; // 15 seconds cache so new app uploads appear almost instantly
 
 async function buildFullItemList() {
   const loginParams = new URLSearchParams();
@@ -160,7 +160,7 @@ export default async (req, context) => {
       headers: {
         "Content-Type": "application/json",
         "Access-Control-Allow-Origin": "*",
-        "Cache-Control": "public, max-age=600, s-maxage=1200, stale-while-revalidate=3600"
+        "Cache-Control": "public, max-age=10, s-maxage=15, stale-while-revalidate=30"
       }
     });
   }
@@ -172,7 +172,7 @@ export default async (req, context) => {
       headers: {
         "Content-Type": "application/json",
         "Access-Control-Allow-Origin": "*",
-        "Cache-Control": "public, max-age=600, s-maxage=1200, stale-while-revalidate=3600"
+        "Cache-Control": "public, max-age=10, s-maxage=15, stale-while-revalidate=30"
       }
     });
   } catch (error) {

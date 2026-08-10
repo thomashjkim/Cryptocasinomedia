@@ -1,5 +1,12 @@
 [
   {
+    "title": "Hotdog",
+    "price": 0,
+    "location": "1mi · etc",
+    "image": "http://52.44.113.58:8080/file/temp/1786154930142/thumbnail_IMG_2045.jpg",
+    "category": "Other"
+  },
+  {
     "title": "Oura ring 4. size 9.  brand new in fhe box. ",
     "price": 0,
     "location": "1mi · Bayside",
@@ -3491,12 +3498,5 @@
     "location": "1mi · etc",
     "image": "http://52.44.113.58:8080/file/temp/1733952756247/thumbnail_IMG_4337.jpg",
     "category": "Health & beauty"
-  },
-  {
-    "title": "iphone 14 pro 512GB",
-    "price": 0,
-    "location": "1mi · etc",
-    "image": "http://52.44.113.58:8080/file/temp/1733868381750/thumbnail_IMG_5717.jpg",
-    "category": "Electronics & appliances"
   }
 ]

@@ -30,7 +30,7 @@
   <script type="text/javascript">WebFont.load({ google: { families: ["Open Sans:300,300italic,400,400italic,600,600italic,700,700italic,800,800italic"] }});</script>
   <link href="https://cdn.prod.website-files.com/65e3de602f703e1765199b30/65e51609210be273428d7ad8_Moonoh%2032.png" rel="shortcut icon" type="image/x-icon"/>
   <link href="https://cdn.prod.website-files.com/65e3de602f703e1765199b30/65e5160db4ed57fef0507ca9_Moonoh%20256.png" rel="apple-touch-icon"/>
-  <link href="https://moon-oh.com/" rel="canonical"/>
+  <link rel="canonical" href="https://moon-oh.com/"/>
 
   <!-- Structured Data (JSON-LD) -->
   <script type="application/ld+json">
@@ -556,16 +556,138 @@
       gap: 6px;
     }
     .filter-container.is-expanded .filter-pill-more {
-      background-color: #111827;
-      color: #FFFFFF;
-      border-color: #111827;
-      font-weight: 600;
+      border-color: #9CA3AF;
+      color: #111827;
+      background-color: #FFFFFF;
     }
     .more-cat-caret {
       transition: transform 0.2s ease;
     }
     .filter-container.is-expanded .more-cat-caret {
       transform: rotate(180deg);
+    }
+    
+    /* Location Dropdown */
+    .location-bar {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+    .location-select-wrap {
+      position: relative;
+      display: inline-block;
+    }
+    .location-select-wrap select {
+      appearance: none;
+      -webkit-appearance: none;
+      background-color: #EEF2FF;
+      border: 1.5px solid #6366F1;
+      border-radius: 999px;
+      padding: 7px 34px 7px 16px;
+      font-size: 13px;
+      font-weight: 700;
+      color: #4F46E5;
+      cursor: pointer;
+      outline: none;
+      transition: all 0.2s ease;
+      font-family: inherit;
+    }
+    .location-select-wrap select:hover {
+      background-color: #E0E7FF;
+    }
+    .location-select-caret {
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      pointer-events: none;
+      color: #4F46E5;
+    }
+
+    /* Source Segment Switcher (Moonoh · Others) */
+    .source-segment-wrap {
+      display: inline-flex;
+      align-items: center;
+      background-color: #F3F4F6;
+      padding: 4px;
+      border-radius: 999px;
+      gap: 4px;
+      border: 1px solid #E5E7EB;
+      margin-left: auto;
+      flex-shrink: 0;
+    }
+    .source-tab-btn {
+      padding: 7px 20px;
+      border-radius: 999px;
+      font-size: 13.5px;
+      font-weight: 600;
+      color: #6B7280;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      outline: none;
+      -webkit-tap-highlight-color: transparent;
+      white-space: nowrap;
+    }
+    .source-tab-btn:focus {
+      outline: none;
+    }
+    .source-tab-btn.active {
+      background-color: #FFFFFF;
+      color: #111827;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+      font-weight: 700;
+    }
+
+    /* Mobile: keep filter bar on ONE single row */
+    @media (max-width: 480px) {
+      .location-bar {
+        gap: 6px;
+        flex-wrap: nowrap;
+      }
+      #location-select {
+        font-size: 12px;
+        padding: 7px 28px 7px 10px;
+        min-width: 0;
+        max-width: 130px;
+      }
+      .location-count {
+        display: none;
+      }
+      .source-segment-wrap {
+        padding: 3px;
+        gap: 2px;
+      }
+      .source-tab-btn {
+        padding: 6px 12px;
+        font-size: 12px;
+      }
+    }
+
+
+    /* Source Badges for Others Tab */
+    .item-card-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+      font-size: 11.5px;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 6px;
+      margin-top: 6px;
+      width: fit-content;
+    }
+    .badge-karrot {
+      background-color: #FFF1E6;
+      color: #FF6F0F;
+      border: 1px solid #FFD0B0;
+    }
+    .badge-heykorean {
+      background-color: #EBF4FF;
+      color: #2D8CFF;
+      border: 1px solid #B8D9FF;
     }
     
     /* Modal Styles */
@@ -713,6 +835,31 @@
     <!-- Dynamic Item Feed Section -->
     <section class="item-feed-section">
       <h2 class="item-feed-title" style="margin-bottom: 16px;">Buy and sell used items in your neighborhood</h2>
+      
+      <!-- Location Dropdown & Source Toggle Row -->
+      <div class="location-bar" style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 16px;">
+        <div class="location-select-wrap">
+          <select id="location-select" aria-label="Select location">
+            <option value="">New York area</option>
+            <option value="Manhattan">Manhattan, NY</option>
+            <option value="Bronx">Bronx, NY</option>
+            <option value="Brooklyn">Brooklyn, NY</option>
+            <option value="Queens">Queens, NY</option>
+            <option value="Staten Island">Staten Island, NY</option>
+            <option value="Bergen">Bergen County, NJ</option>
+            <option value="Hudson">Hudson County, NJ</option>
+          </select>
+          <svg class="location-select-caret" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+
+        <span class="location-count" id="location-count"></span>
+
+        <!-- Source Segment Switcher (Moonoh · Others) -->
+        <div class="source-segment-wrap" id="source-segment-wrap" style="margin-left: auto;">
+          <button class="source-tab-btn active" id="tab-source-moonoh" data-source="moonoh">Moonoh</button>
+          <button class="source-tab-btn" id="tab-source-others" data-source="others">Others</button>
+        </div>
+      </div>
       <div class="filter-container" id="filter-container">
         <button class="filter-pill active">All</button>
         <button class="filter-pill">Free</button>
@@ -799,17 +946,33 @@
     
     <!-- Modal -->
     <div class="moonoh-modal-overlay" id="moonoh-download-modal">
-      <div class="moonoh-modal">
-        <button class="moonoh-modal-close" onclick="closeModal()">×</button>
-        <img src="https://cdn.prod.website-files.com/65e3de602f703e1765199b30/65e51609210be273428d7ad8_Moonoh%2032.png" width="48" style="margin:0 auto; display:block;">
-        <h3 class="moonoh-modal-title">Get the Moonoh App</h3>
-        <p class="moonoh-modal-desc">Want to buy <span class="moonoh-modal-item-name" id="modal-item-name">this item</span>? Download the free Moonoh app to chat with the seller securely.</p>
-        <div style="display:flex; flex-direction:column; gap:12px;">
-          <a href="https://apps.apple.com/us/app/moonoh/id6477390079" target="_blank">
-            <img src="https://cdn.prod.website-files.com/65e3de602f703e1765199b30/65e3defb38f948f6f3f18a51_appstore.svg" width="100%" style="max-width:200px; margin:0 auto; display:block;">
-          </a>
-          <a href="https://play.google.com/store/apps/details?id=com.moonoh" target="_blank">
-            <img src="https://cdn.prod.website-files.com/65e3de602f703e1765199b30/66f20cadd9e770db9e8cf5d7_Google_Play_Store_badge_EN.svg%20(1).png" width="100%" style="max-width:230px; margin:0 auto; display:block;">
+      <div class="moonoh-modal" style="max-width: 440px; padding: 28px; border-radius: 20px; background: #FFFFFF; position: relative;">
+        <button class="moonoh-modal-close" onclick="closeModal()" style="position: absolute; top: 16px; right: 16px; background: none; border: none; font-size: 24px; color: #9CA3AF; cursor: pointer;">×</button>
+        
+        <!-- Native Moonoh Download View -->
+        <div id="modal-view-native">
+          <img src="https://cdn.prod.website-files.com/65e3de602f703e1765199b30/65e51609210be273428d7ad8_Moonoh%2032.png" width="48" style="margin:0 auto; display:block;">
+          <h3 class="moonoh-modal-title">Get the Moonoh App</h3>
+          <p class="moonoh-modal-desc">Want to buy <span class="moonoh-modal-item-name" id="modal-item-name">this item</span>? Download the free Moonoh app to chat with the seller securely.</p>
+          <div style="display:flex; flex-direction:column; gap:12px;">
+            <a href="https://apps.apple.com/us/app/moonoh/id6477390079" target="_blank">
+              <img src="https://cdn.prod.website-files.com/65e3de602f703e1765199b30/65e3defb38f948f6f3f18a51_appstore.svg" width="100%" style="max-width:200px; margin:0 auto; display:block;">
+            </a>
+            <a href="https://play.google.com/store/apps/details?id=com.moonoh" target="_blank">
+              <img src="https://cdn.prod.website-files.com/65e3de602f703e1765199b30/66f20cadd9e770db9e8cf5d7_Google_Play_Store_badge_EN.svg%20(1).png" width="100%" style="max-width:230px; margin:0 auto; display:block;">
+            </a>
+          </div>
+        </div>
+
+        <!-- External Listing View (Karrot & HeyKorean) -->
+        <div id="modal-view-external" style="display: none; text-align: center;">
+          <img id="modal-ext-image" src="" style="width: 100%; height: 220px; object-fit: cover; border-radius: 12px; margin-bottom: 16px;">
+          <div id="modal-ext-price" style="font-size: 22px; font-weight: 800; color: #111827; margin-bottom: 4px;"></div>
+          <h3 id="modal-ext-title" style="font-size: 16px; font-weight: 700; color: #111827; margin-bottom: 6px; line-height: 1.4;"></h3>
+          <div id="modal-ext-location" style="font-size: 13px; color: #6B7280; margin-bottom: 20px;"></div>
+
+          <a id="modal-ext-btn" href="#" target="_blank" rel="noopener noreferrer" style="display: inline-flex; align-items: center; justify-content: center; gap: 8px; width: 100%; background: #4F46E5; color: #FFFFFF; font-weight: 700; font-size: 15px; padding: 13px 24px; border-radius: 999px; text-decoration: none; transition: all 0.2s; box-shadow: 0 4px 14px rgba(79,70,229,0.3);">
+            <span id="modal-ext-btn-text">View Item &#8599;</span>
           </a>
         </div>
       </div>
@@ -996,13 +1159,44 @@
         const safeTitle = item.title.replace(/'/g, "\\'");
         const priceStr = item.price > 0 ? "$" + item.price.toLocaleString() : "Free";
         const targetUrl = item.url || `/item/item-${item.no}`;
+        const isExternal = item.source === 'karrot' || item.source === 'heykorean';
+        
+        let badgeHtml = '';
+        if (item.source === 'karrot') {
+          badgeHtml = `<div class="item-card-badge badge-karrot">Karrot</div>`;
+        } else if (item.source === 'heykorean') {
+          badgeHtml = `<div class="item-card-badge badge-heykorean">HeyKorean</div>`;
+        }
+
+        function generateExternalSlug(t, l, id) {
+          let clean = (t || 'item').toLowerCase().replace(/[^a-z0-9\s-]/g, '').trim().replace(/\s+/g, '-').replace(/-+/g, '-');
+          if (clean.length > 50) clean = clean.substring(0, 50).replace(/-$/, '');
+          let loc = 'nyc-ny';
+          if (l) {
+            let low = l.toLowerCase();
+            if (low.includes('bayside')) loc = 'bayside-queens-ny';
+            else if (low.includes('flushing')) loc = 'flushing-queens-ny';
+            else if (low.includes('astoria')) loc = 'astoria-queens-ny';
+            else if (low.includes('queens')) loc = 'queens-ny';
+            else if (low.includes('brooklyn')) loc = 'brooklyn-ny';
+            else if (low.includes('manhattan')) loc = 'manhattan-ny';
+            else if (low.includes('palisades')) loc = 'palisades-park-nj';
+            else if (low.includes('fort lee')) loc = 'fort-lee-nj';
+          }
+          return `/item/${clean}-${loc}-ext-${id}`;
+        }
+
+        const extSlug = isExternal ? generateExternalSlug(item.title, item.location, item.id) : targetUrl;
+        const clickAttr = `href="${extSlug}"`;
+
         html += `
-        <a class="item-card" href="${targetUrl}" style="text-decoration:none; color:inherit;">
-          <img src="${item.image}" alt="${item.title}" class="item-card-image" loading="lazy" onerror="this.onerror=null; this.src='data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';">
+        <a class="item-card" ${clickAttr} style="text-decoration:none; color:inherit;">
+          <img src="${item.image}" alt="${item.title}" class="item-card-image" loading="lazy" onerror="this.onerror=null; this.src='/images/default-item-placeholder.png';">
           <div class="item-card-content">
             <div class="item-card-price">${priceStr}</div>
             <div class="item-card-title">${item.title}</div>
             <div class="item-card-location">${item.location}</div>
+            ${badgeHtml}
           </div>
         </a>
         `;
@@ -1032,13 +1226,106 @@
         
         allItems = items; // store globally
         renderGrid(items.slice(0, 50));
+        
+        // Auto fetch fresh items
+        fetchFreshItems();
       } catch (e) {
         console.error("Error loading items:", e);
         grid.innerHTML = '<p style="text-align:center; color:#888; padding:40px; grid-column:1/-1;">Failed to load items.</p>';
       }
     }
 
+    async function fetchFreshItems() {
+      try {
+        const res = await fetch('/api/items?t=' + Date.now());
+        const freshItems = await res.json();
+        if (Array.isArray(freshItems) && freshItems.length > 0) {
+          const valid = freshItems.filter(item => item && item.image && !item.image.includes("ico_profile_empty.png"));
+          const oldTop = allItems.length > 0 ? allItems[0].no : 0;
+          const newTop = valid.length > 0 ? valid[0].no : 0;
+
+          allItems = valid;
+          if (oldTop !== newTop) {
+            renderGrid(allItems.slice(0, 50));
+          }
+        }
+      } catch (e) {}
+    }
+
+    function startAutoRefresh() {
+      // Auto-poll every 15 seconds so app uploads appear automatically without manual refresh
+      setInterval(fetchFreshItems, 15000);
+    }
+
+    let activeSource = 'moonoh';
+    let externalItemsList = [];
+
     function setupFilters() {
+      // Location dropdown
+      const locationSelect = document.getElementById('location-select');
+      if (locationSelect) {
+        locationSelect.addEventListener('change', function() {
+          const val = this.value.toLowerCase();
+          filterAndRender(val, getActiveCategoryKeyword());
+        });
+      }
+
+      // Source Segment Switcher
+      const btnMoonoh = document.getElementById('tab-source-moonoh');
+      const btnOthers = document.getElementById('tab-source-others');
+      
+      async function switchSource(source) {
+        activeSource = source;
+        if (btnMoonoh && btnOthers) {
+          btnMoonoh.classList.toggle('active', source === 'moonoh');
+          btnOthers.classList.toggle('active', source === 'others');
+        }
+        
+        if (source === 'others' && externalItemsList.length === 0) {
+          try {
+            let res = await fetch('/api/external-items');
+            if (!res.ok) res = await fetch('/.netlify/functions/external-items');
+            externalItemsList = await res.json();
+          } catch (e) {
+            console.error("Error loading external items:", e);
+          }
+        }
+        
+        const currentLoc = locationSelect ? locationSelect.value.toLowerCase() : '';
+        filterAndRender(currentLoc, getActiveCategoryKeyword());
+      }
+
+      if (btnMoonoh) btnMoonoh.addEventListener('click', () => switchSource('moonoh'));
+      if (btnOthers) btnOthers.addEventListener('click', () => switchSource('others'));
+
+      function getActiveCategoryKeyword() {
+        const activePill = document.querySelector('.filter-pill.active');
+        if (!activePill) return null;
+        const label = activePill.textContent.trim();
+        return categoryMap[label];
+      }
+
+      function filterAndRender(townVal, categoryKeyword) {
+        let pool = activeSource === 'others' ? externalItemsList : allItems;
+        let filtered = pool;
+
+        if (townVal) {
+          filtered = filtered.filter(item => {
+            const loc = ((item.rawTown || '') + ' ' + (item.location || '')).toLowerCase();
+            return loc.includes(townVal);
+          });
+        }
+
+        if (categoryKeyword === "FREE_FILTER") {
+          filtered = filtered.filter(item => item.price === 0);
+        } else if (categoryKeyword) {
+          filtered = filtered.filter(item =>
+            item.category && item.category.toLowerCase().includes(categoryKeyword)
+          );
+        }
+
+        renderGrid(filtered.slice(0, 50));
+      }
       // More Categories toggle button
       const btnMore = document.getElementById("btn-more-categories");
       const btnMoreText = document.getElementById("btn-more-text");
@@ -1051,11 +1338,10 @@
         });
       }
 
-      document.querySelectorAll('.filter-pill').forEach(btn => {
+      document.querySelectorAll('.filter-pill:not(.filter-pill-more)').forEach(btn => {
         btn.addEventListener('click', function() {
-          if (this.id === "btn-more-categories") return;
           // Toggle active state
-          document.querySelectorAll('.filter-pill').forEach(b => b.classList.remove('active'));
+          document.querySelectorAll('.filter-pill:not(.filter-pill-more)').forEach(b => b.classList.remove('active'));
           this.classList.add('active');
 
           const label = this.textContent.trim();
@@ -1078,9 +1364,46 @@
     }
 
     // Modal Logic
+    function openExternalModal(e, title, price, location, image, source, url) {
+      if (e) e.preventDefault();
+      
+      const nativeView = document.getElementById("modal-view-native");
+      const extView = document.getElementById("modal-view-external");
+      const modal = document.getElementById("moonoh-download-modal");
+      
+      if (nativeView) nativeView.style.display = "none";
+      if (extView) extView.style.display = "block";
+      
+      const imgEl = document.getElementById("modal-ext-image");
+      const priceEl = document.getElementById("modal-ext-price");
+      const titleEl = document.getElementById("modal-ext-title");
+      const locEl = document.getElementById("modal-ext-location");
+      const btn = document.getElementById("modal-ext-btn");
+      const btnText = document.getElementById("modal-ext-btn-text");
+
+      if (imgEl) imgEl.src = image;
+      if (priceEl) priceEl.textContent = price;
+      if (titleEl) titleEl.textContent = title;
+      if (locEl) locEl.textContent = location;
+      
+      const sourceName = source === "heykorean" ? "HeyKorean" : "Karrot";
+      if (btnText) btnText.innerHTML = `View on ${sourceName} &#8599;`;
+      if (btn) btn.href = url;
+      
+      if (modal) modal.classList.add("active");
+    }
+
     function openModal(itemName) {
-      document.getElementById("modal-item-name").innerText = itemName;
-      document.getElementById("moonoh-download-modal").classList.add("active");
+      const nativeView = document.getElementById("modal-view-native");
+      const extView = document.getElementById("modal-view-external");
+      const modal = document.getElementById("moonoh-download-modal");
+      
+      if (nativeView) nativeView.style.display = "block";
+      if (extView) extView.style.display = "none";
+      
+      const nameEl = document.getElementById("modal-item-name");
+      if (nameEl) nameEl.innerText = itemName;
+      if (modal) modal.classList.add("active");
     }
     
     function closeModal() {
@@ -1091,6 +1414,7 @@
     document.addEventListener("DOMContentLoaded", () => {
       renderItems();
       setupFilters();
+      startAutoRefresh();
       
       // Close modal on overlay click
       document.getElementById("moonoh-download-modal").addEventListener("click", function(e) {

@@ -34,25 +34,152 @@ function generateSlug(title, locationStr, productNo) {
   return `https://moon-oh.com/item/${cleanTitle}-${locSlug}-${productNo}`;
 }
 
-// Map Moonoh categories to Google Product Category IDs
-function getGoogleCategory(categoryName) {
+// Convert raw image paths (including .HEIC) to valid .jpg thumbnail URLs supported by Google
+function convertToJpgUrl(rawPath) {
+  if (!rawPath) return "";
+  if (rawPath.startsWith('http://') || rawPath.startsWith('https://')) {
+    if (rawPath.toLowerCase().endsWith('.heic')) {
+      const parts = rawPath.split('/');
+      const fileName = parts.pop();
+      const path = parts.join('/') + '/';
+      const dotIndex = fileName.lastIndexOf('.');
+      const baseName = dotIndex !== -1 ? fileName.substring(0, dotIndex) : fileName;
+      return `${path}thumbnail_${baseName}.jpg`;
+    }
+    return rawPath;
+  }
+
+  const parts = rawPath.split('/');
+  const fileName = parts.pop();
+  const path = parts.join('/') + (parts.length ? '/' : '');
+  const dotIndex = fileName.lastIndexOf('.');
+  const baseName = dotIndex !== -1 ? fileName.substring(0, dotIndex) : fileName;
+
+  return `https://moon-oh.com/image-proxy/${path}thumbnail_${baseName}.jpg`;
+}
+
+// Filter out policy-violating items (tobacco, prescription drugs, pet pharmaceuticals)
+function isPolicyViolatingItem(title, description, categoryName) {
+  const t = (title + " " + description + " " + categoryName).toLowerCase();
+  
+  // Tobacco & Nicotine Products (strictly prohibited on Google Merchant Center)
+  if (t.includes("marlboro") || t.includes("tobacco") || t.includes("cigarette") || t.includes("cigar") || t.includes("vape") || t.includes("nicotine") || t.includes("cbd")) {
+    return true;
+  }
+  
+  // Prescription Drugs & Pet Pharmaceuticals (requires special certification)
+  if (t.includes("cosequin") || t.includes("prescription") || t.includes("pharmaceutical") || t.includes("antibiotic")) {
+    return true;
+  }
+  
+  return false;
+}
+
+// Map Moonoh categories and product title to exact Google Product Category strings
+function getGoogleCategory(categoryName, title) {
   const cat = (categoryName || '').toLowerCase();
-  if (cat.includes('women') || cat.includes('men') || cat.includes('clothing') || cat.includes('fashion') || cat.includes('skirt') || cat.includes('shirt') || cat.includes('pants') || cat.includes('dress')) return 'Apparel & Accessories > Clothing';
-  if (cat.includes('shoe') || cat.includes('boot') || cat.includes('sneaker') || cat.includes('heel')) return 'Apparel & Accessories > Shoes';
-  if (cat.includes('bag') || cat.includes('luggage') || cat.includes('purse') || cat.includes('backpack') || cat.includes('wallet') || cat.includes('pouch')) return 'Apparel & Accessories > Handbags, Wallets & Cases';
-  if (cat.includes('jewelry') || cat.includes('necklace') || cat.includes('ring') || cat.includes('bracelet') || cat.includes('earring')) return 'Apparel & Accessories > Jewelry';
-  if (cat.includes('watch')) return 'Apparel & Accessories > Jewelry > Watches';
-  if (cat.includes('electronic') || cat.includes('phone') || cat.includes('laptop') || cat.includes('computer') || cat.includes('tablet') || cat.includes('camera')) return 'Electronics';
-  if (cat.includes('furniture') || cat.includes('sofa') || cat.includes('chair') || cat.includes('table') || cat.includes('desk') || cat.includes('bed')) return 'Furniture';
-  if (cat.includes('toy') || cat.includes('game') || cat.includes('kids') || cat.includes('baby') || cat.includes('child')) return 'Toys & Games';
-  if (cat.includes('book') || cat.includes('magazine')) return 'Media > Books';
-  if (cat.includes('sport') || cat.includes('fitness') || cat.includes('gym') || cat.includes('outdoor')) return 'Sporting Goods';
-  if (cat.includes('beauty') || cat.includes('health') || cat.includes('skincare') || cat.includes('makeup') || cat.includes('cosmetic')) return 'Health & Beauty';
-  if (cat.includes('kitchen') || cat.includes('cookware') || cat.includes('appliance') || cat.includes('home')) return 'Home & Garden';
-  if (cat.includes('art') || cat.includes('craft') || cat.includes('music') || cat.includes('instrument')) return 'Arts & Entertainment';
-  if (cat.includes('pet') || cat.includes('dog') || cat.includes('cat')) return 'Animals & Pet Supplies';
-  if (cat.includes('car') || cat.includes('vehicle') || cat.includes('auto')) return 'Vehicles & Parts';
-  return 'Apparel & Accessories'; // default safe fallback for secondhand marketplace
+  const t = (title || '').toLowerCase();
+
+  // 1. Skincare Cleansers & Cosmetics (prevent prescription drug misclassification)
+  if (t.includes('cleanser') || t.includes('toner') || t.includes('serum') || t.includes('moisturizer') || t.includes('cream') || t.includes('mask') || cat.includes('beauty')) {
+    return 'Health & Beauty > Skincare > Facial Cleansers';
+  }
+  // 2. Camera & Optical Accessories (lenses, filters, tripods, etc.)
+  if (t.includes('lens') || t.includes('filter') || t.includes('tripod') || t.includes('camera') || cat.includes('camera')) {
+    return 'Electronics > Cameras & Optics > Camera & Optic Accessories';
+  }
+  // 3. Musical Instruments & Accessories
+  if (t.includes('zither') || t.includes('gayageum') || t.includes('keyboard') || t.includes('piano') || t.includes('guitar') || t.includes('instrument') || t.includes('flute') || t.includes('violin') || t.includes('drum')) {
+    return 'Arts & Entertainment > Hobbies & Creative Arts > Musical Instruments';
+  }
+  // 4. Books & Magazines
+  if (t.includes('book') || t.includes('novel') || t.includes('textbook') || t.includes('magazine') || t.includes('manual')) {
+    return 'Media > Books';
+  }
+  // 5. Visual Arts & Collectibles
+  if (t.includes('painting') || t.includes('artwork') || t.includes('sculpture') || t.includes('kaws') || t.includes('figurine') || t.includes('collectible') || t.includes('souvenir') || cat.includes('antique')) {
+    return 'Arts & Entertainment > Visual Arts';
+  }
+  // 6. Clothing & Apparel
+  if (cat.includes('women') || cat.includes('men') || cat.includes('clothing') || cat.includes('fashion') || cat.includes('skirt') || cat.includes('shirt') || cat.includes('pants') || cat.includes('dress') || cat.includes('jacket') || cat.includes('coat') || cat.includes('sweater') || cat.includes('hoodie') || cat.includes('top') || cat.includes('vest') || cat.includes('beanie') || cat.includes('cap') || cat.includes('socks')) {
+    return 'Apparel & Accessories > Clothing';
+  }
+  // 7. Shoes
+  if (cat.includes('shoe') || cat.includes('boot') || cat.includes('sneaker') || cat.includes('heel') || cat.includes('sandal') || cat.includes('loafer') || t.includes('shoes') || t.includes('sneakers')) {
+    return 'Apparel & Accessories > Shoes';
+  }
+  // 8. Handbags & Bags
+  if (cat.includes('bag') || cat.includes('luggage') || cat.includes('purse') || cat.includes('backpack') || cat.includes('wallet') || cat.includes('pouch') || cat.includes('clutch') || t.includes('backpack') || t.includes('tote') || t.includes('clutch') || t.includes('bag')) {
+    return 'Apparel & Accessories > Handbags, Wallets & Cases';
+  }
+  // 9. Jewelry & Watches
+  if (cat.includes('jewelry') || cat.includes('necklace') || cat.includes('ring') || cat.includes('bracelet') || cat.includes('earring') || cat.includes('watch') || t.includes('ring') || t.includes('necklace') || t.includes('watch')) {
+    return 'Apparel & Accessories > Jewelry';
+  }
+  // 10. Electronics & Appliances
+  if (cat.includes('electronic') || cat.includes('phone') || cat.includes('laptop') || cat.includes('computer') || cat.includes('tablet') || t.includes('iphone') || t.includes('ipad') || t.includes('airpods') || t.includes('tv') || t.includes('ssd') || t.includes('headphone') || t.includes('speaker') || t.includes('monitor') || t.includes('kettle') || t.includes('iron') || t.includes('vacuum') || t.includes('curling') || t.includes('cooker')) {
+    return 'Electronics';
+  }
+  // 11. Furniture
+  if (cat.includes('furniture') || cat.includes('sofa') || cat.includes('chair') || cat.includes('table') || cat.includes('desk') || cat.includes('bed') || cat.includes('shelf') || cat.includes('drawer') || cat.includes('nightstand') || t.includes('table') || t.includes('chair') || t.includes('desk') || t.includes('shelf')) {
+    return 'Furniture';
+  }
+  // 12. Toys & Games
+  if (cat.includes('toy') || cat.includes('game') || cat.includes('kids') || cat.includes('baby') || cat.includes('child') || t.includes('figure') || t.includes('toy') || t.includes('puzzle') || t.includes('mat')) {
+    return 'Toys & Games';
+  }
+  // 13. Sporting Goods
+  if (cat.includes('sport') || cat.includes('fitness') || cat.includes('gym') || cat.includes('outdoor') || t.includes('golf') || t.includes('racket') || t.includes('ball') || t.includes('roller')) {
+    return 'Sporting Goods';
+  }
+  // 14. Home & Garden
+  if (cat.includes('kitchen') || cat.includes('cookware') || cat.includes('appliance') || cat.includes('home') || cat.includes('diy') || t.includes('mug') || t.includes('cup') || t.includes('lamp') || t.includes('rod') || t.includes('candle')) {
+    return 'Home & Garden';
+  }
+  // 15. Animals & Pet Supplies
+  if (cat.includes('pet') || cat.includes('dog') || cat.includes('cat') || t.includes('dog') || t.includes('cat') || t.includes('treat') || t.includes('leash') || t.includes('harness')) {
+    return 'Animals & Pet Supplies';
+  }
+
+  return 'Apparel & Accessories';
+}
+
+// Auto-extract required Google Merchant fashion attributes: age_group, gender, color, size
+function extractFashionAttributes(title, categoryName) {
+  const t = (title || '').toLowerCase();
+  
+  // Age Group
+  let ageGroup = "adult";
+  if (t.includes('kids') || t.includes('baby') || t.includes('child') || t.includes('toddler') || t.includes('infant') || t.includes('youth')) {
+    ageGroup = "kids";
+  }
+
+  // Gender
+  let gender = "unisex";
+  if (t.includes('women') || t.includes('womens') || t.includes('female') || t.includes('lady') || t.includes('ladies')) {
+    gender = "female";
+  } else if (t.includes('men') || t.includes('mens') || t.includes('male') || t.includes('man')) {
+    gender = "male";
+  }
+
+  // Color
+  let color = "Multicolor";
+  const colors = ["black", "white", "gray", "grey", "blue", "red", "green", "yellow", "brown", "pink", "purple", "orange", "silver", "gold", "beige", "navy", "tan", "coral", "cream"];
+  for (const c of colors) {
+    if (t.includes(c)) {
+      color = c.charAt(0).toUpperCase() + c.slice(1);
+      break;
+    }
+  }
+
+  // Size
+  let size = "Regular";
+  const sizeMatch = t.match(/\b(size\s*[:\s]*([0-9\.\s\/a-z]+)|xs|s|m|l|xl|xxl|2xl|3xl|[0-9]+(?:\.[0-9]+)?\s*(?:us|uk|eu)?)\b/i);
+  if (sizeMatch) {
+    size = sizeMatch[0].toUpperCase();
+  }
+
+  return { ageGroup, gender, color, size };
 }
 
 function escapeXml(str) {
@@ -65,13 +192,11 @@ function escapeXml(str) {
     .replace(/'/g, '&apos;');
 }
 
-// Global cache to avoid hammering the backend on every request
 let cachedXml = null;
 let cacheTimestamp = 0;
-const CACHE_DURATION_MS = 3600000; // 1 hour cache - Google only fetches once a day anyway
+const CACHE_DURATION_MS = 3600000;
 
 async function buildFeed() {
-  // 1. Login to admin
   const loginParams = new URLSearchParams();
   loginParams.append('kind', 'login');
   loginParams.append('id', 'admin');
@@ -86,7 +211,6 @@ async function buildFeed() {
   const cookieHeader = loginRes.headers.get('set-cookie') || '';
   const cookies = cookieHeader.split(';')[0] || '';
 
-  // 2. Get product list
   const dataParams = new URLSearchParams();
   dataParams.append('kind', 'getProductArray');
   dataParams.append('page', '0');
@@ -106,7 +230,6 @@ async function buildFeed() {
     ? data.productArray.filter(item => item && item.isShow === "Y")
     : [];
 
-  // 3. Fetch details for each item in batches of 50
   const chunkSize = 50;
   const feedItems = [];
 
@@ -117,7 +240,7 @@ async function buildFeed() {
         let realPrice = item.price || 0;
         let rawLocStr = item.productTownName || "";
         let description = item.title || "";
-        let imageUrl = "";
+        let rawPhotoPath = item.pictureUrl || "";
         let categoryName = item.categoryName || "";
 
         try {
@@ -138,36 +261,29 @@ async function buildFeed() {
             if (d.address || d.productTownName) rawLocStr = d.address || d.productTownName;
             if (d.categoryName) categoryName = d.categoryName;
 
-            // Get full-resolution main image (not thumbnail)
             if (d.strPictureUrlArray) {
               try {
                 const arr = JSON.parse(d.strPictureUrlArray);
                 if (arr.length > 0) {
-                  const path = arr[0].fileUrl || "";
-                  imageUrl = `https://moon-oh.com/image-proxy/${path}`;
+                  rawPhotoPath = arr[0].fileUrl || rawPhotoPath;
                 }
               } catch (e) {}
             }
-            if (!imageUrl && d.pictureUrl) {
-              imageUrl = `https://moon-oh.com/image-proxy/${d.pictureUrl}`;
+            if (!rawPhotoPath && d.pictureUrl) {
+              rawPhotoPath = d.pictureUrl;
             }
           }
         } catch (e) {}
 
-        // Fallback thumbnail image
-        if (!imageUrl && item.pictureUrl) {
-          const parts = item.pictureUrl.split('/');
-          const fileName = parts.pop();
-          const path = parts.join('/') + '/';
-          const dotIndex = fileName.lastIndexOf('.');
-          const thumbnailName = "thumbnail_" + (dotIndex !== -1 ? fileName.substring(0, dotIndex) : fileName) + ".jpg";
-          imageUrl = `https://moon-oh.com/image-proxy/${path}${thumbnailName}`;
+        if (isPolicyViolatingItem(item.title || "", description, categoryName)) {
+          return null; // Exclude policy violating items (tobacco, pharmaceuticals)
         }
 
+        const imageUrl = convertToJpgUrl(rawPhotoPath);
         const productUrl = generateSlug(item.title, rawLocStr, item.no);
-        const googleCategory = getGoogleCategory(categoryName);
+        const googleCategory = getGoogleCategory(categoryName, item.title);
+        const fashionAttr = extractFashionAttributes(item.title, categoryName);
 
-        // Build town display string
         let townDisplay = rawLocStr || "New York, NY";
         if (townDisplay.includes(',')) {
           const parts = townDisplay.split(',').map(p => p.trim());
@@ -183,6 +299,7 @@ async function buildFeed() {
           price: realPrice,
           categoryName: categoryName,
           googleCategory: googleCategory,
+          fashionAttr: fashionAttr,
           condition: "used",
           availability: "in_stock",
           brand: "Moonoh",
@@ -190,10 +307,9 @@ async function buildFeed() {
         };
       })
     );
-    feedItems.push(...chunkResults);
+    feedItems.push(...chunkResults.filter(Boolean));
   }
 
-  // 4. Build RSS 2.0 XML with Google Shopping namespace
   const now = new Date().toUTCString();
   let xml = `<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:g="http://base.google.com/ns/1.0">
@@ -206,11 +322,9 @@ async function buildFeed() {
 `;
 
   for (const item of feedItems) {
-    // Skip items with no image (Google requires image)
     if (!item.imageUrl) continue;
-    // Skip items with price = 0 (Google Merchant Center requires a price for standard listings)
     const priceVal = parseFloat(item.price) || 0;
-    const priceStr = priceVal > 0 ? `${priceVal.toFixed(2)} USD` : "1.00 USD"; // use $1 minimum for free items
+    const priceStr = priceVal > 0 ? `${priceVal.toFixed(2)} USD` : "1.00 USD";
 
     xml += `
     <item>
@@ -226,6 +340,10 @@ async function buildFeed() {
       <g:google_product_category>${escapeXml(item.googleCategory)}</g:google_product_category>
       <g:brand>${escapeXml(item.brand)}</g:brand>
       <g:identifier_exists>no</g:identifier_exists>
+      <g:age_group>${escapeXml(item.fashionAttr.ageGroup)}</g:age_group>
+      <g:gender>${escapeXml(item.fashionAttr.gender)}</g:gender>
+      <g:color>${escapeXml(item.fashionAttr.color)}</g:color>
+      <g:size>${escapeXml(item.fashionAttr.size)}</g:size>
       <g:shipping>
         <g:country>US</g:country>
         <g:service>Local Pickup</g:service>
@@ -245,7 +363,6 @@ async function buildFeed() {
 export default async (req, context) => {
   const now = Date.now();
 
-  // Return cached XML if fresh (1 hour cache)
   if (cachedXml && (now - cacheTimestamp) < CACHE_DURATION_MS) {
     return new Response(cachedXml, {
       status: 200,
@@ -260,7 +377,7 @@ export default async (req, context) => {
   try {
     const xml = await buildFeed();
     cachedXml = xml;
-    cacheTimestamp = Date.now();
+    cacheTimestamp = now;
 
     return new Response(xml, {
       status: 200,
@@ -272,21 +389,7 @@ export default async (req, context) => {
     });
   } catch (error) {
     console.error("merchant-feed.mjs error:", error);
-    // Return a minimal valid feed on error so Google doesn't mark the feed as broken
-    const errorXml = `<?xml version="1.0" encoding="UTF-8"?>
-<rss version="2.0" xmlns:g="http://base.google.com/ns/1.0">
-  <channel>
-    <title>Moonoh Marketplace</title>
-    <link>https://moon-oh.com</link>
-    <description>Moonoh local secondhand marketplace</description>
-  </channel>
-</rss>`;
-    return new Response(cachedXml || errorXml, {
-      status: 200,
-      headers: {
-        "Content-Type": "application/rss+xml; charset=UTF-8"
-      }
-    });
+    return new Response(`Error generating Merchant Feed: ${error.message}`, { status: 500 });
   }
 };
 

@@ -1,6 +1,36 @@
 [build]
   publish = "."
 
+# 301 Domain Canonicalization (www -> non-www)
+[[redirects]]
+  from = "https://www.moon-oh.com/*"
+  to = "https://moon-oh.com/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "http://www.moon-oh.com/*"
+  to = "https://moon-oh.com/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "http://moon-oh.com/*"
+  to = "https://moon-oh.com/:splat"
+  status = 301
+  force = true
+
+# App & Function Routes
+[[redirects]]
+  from = "/api/external-items"
+  to = "/.netlify/functions/external-items"
+  status = 200
+
+[[redirects]]
+  from = "/api/items"
+  to = "/.netlify/functions/items"
+  status = 200
+
 [[redirects]]
   from = "/item/*"
   to = "/.netlify/functions/item-detail"
@@ -10,7 +40,6 @@
   from = "/image-proxy/*"
   to = "http://52.44.113.58:8080/file/:splat"
   status = 200
-
 
 [[redirects]]
   from = "/about"
@@ -52,3 +81,11 @@
   to = "/.netlify/functions/explore"
   status = 200
   force = true
+
+# /explore/queens, /explore/queens/furniture etc:
+# Static index.html files take priority (Netlify serves them directly);
+# if no static file exists, fall through to the explore function.
+[[redirects]]
+  from = "/explore/*"
+  to = "/.netlify/functions/explore"
+  status = 200
