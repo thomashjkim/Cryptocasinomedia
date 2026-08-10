@@ -22033,6 +22033,9 @@ const allRealExternalItems = {
   }
 };
 
+function getExternalItemById(id) {
+  return allRealExternalItems[id];
+}
 
 export default async (req, context) => {
   try {
