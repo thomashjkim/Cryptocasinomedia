@@ -1071,6 +1071,7 @@
 
         const extSlug = isExternal ? generateExternalSlug(itemTitle, item.location || item.rawTown, item.id) : targetUrl;
         const clickAttr = `href="${extSlug}"`;
+        const imgSrc = item.image || item.photo || '/images/default-item-placeholder.png';
         const rawLoc = item.location || item.rawTown || 'NYC';
         const itemLoc = item.timeAgo ? `${item.timeAgo} · ${rawLoc}` : rawLoc;
 
@@ -1255,7 +1256,22 @@
             let res = await fetch('/api/external-items');
             if (!res.ok) res = await fetch('/.netlify/functions/external-items');
             const data = await res.json();
-            externalItemsList = Array.isArray(data) ? data : [];
+            if (Array.isArray(data)) {
+              externalItemsList = data.map(raw => ({
+                no: raw.id,
+                id: raw.id,
+                title: raw.title,
+                price: raw.price,
+                image: raw.image,
+                photo: raw.image,
+                location: raw.location,
+                rawTown: raw.rawTown || raw.location || '',
+                category: raw.category,
+                categoryName: raw.category,
+                source: raw.source || 'external',
+                timeAgo: raw.timeAgo || ''
+              }));
+            }
             if (activeSource === 'others') {
               applyFilters(getActiveCategoryKeyword());
             }
