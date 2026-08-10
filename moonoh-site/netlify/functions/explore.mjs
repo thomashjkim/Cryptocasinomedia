@@ -17,19 +17,19 @@ const REGIONS = {
 
 // Category Mapping
 const CATEGORIES = {
-  'electronics': { name: 'Electronics', keywords: ['electronics', 'phone', 'laptop', 'appliances', 'audio', 'gadget'] },
-  'furniture': { name: 'Furniture', keywords: ['furniture', 'sofa', 'table', 'chair', 'bed', 'desk', 'couch'] },
-  'womens-fashion': { name: "Women's Fashion", keywords: ["women's fashion", 'women', 'dress', 'handbag'] },
+  'electronics': { name: 'Electronics', keywords: ['electronics', 'phone', 'laptop', 'appliances', 'audio', 'gadget', 'ink', 'camera', 'tv', 'monitor', 'headphone', 'airpods', 'ipad', 'charger', 'speaker', 'printer', 'game', 'ps5', 'nintendo', 'xbox'] },
+  'furniture': { name: 'Furniture', keywords: ['furniture', 'sofa', 'table', 'chair', 'bed', 'desk', 'couch', 'dresser', 'mattress', 'shelf'] },
+  'womens-fashion': { name: "Women's Fashion", keywords: ["women's fashion", 'women', 'dress', 'handbag', 'skirt', 'coat'] },
   'mens-fashion': { name: "Men's Fashion", keywords: ["men's fashion", 'men', 'suit', 'jacket'] },
-  'shoes': { name: 'Shoes', keywords: ['shoes', 'sneakers', 'boots', 'sandals'] },
+  'shoes': { name: 'Shoes', keywords: ['shoes', 'sneakers', 'boots', 'sandals', 'shoe', 'nike', 'adidas'] },
   'home-garden': { name: 'Home & Garden', keywords: ['home, garden & diy', 'home', 'garden', 'kitchen', 'utensil', 'decor'] },
   'health-beauty': { name: 'Health & Beauty', keywords: ['health', 'beauty', 'cosmetics'] },
   'pet-supplies': { name: 'Pet Supplies', keywords: ['pet', 'dog', 'cat'] },
   'baby-kids': { name: 'Baby & Kids', keywords: ['baby & kids', 'baby', 'kids', 'stroller', 'toy'] },
   'sports-leisure': { name: 'Sports & Leisure', keywords: ['sports', 'leisure', 'bike', 'ski', 'exercise'] },
   'toys-games': { name: 'Toys & Games', keywords: ['toys', 'games', 'card', 'figure'] },
-  'jewelry-watches': { name: 'Jewelry & Watches', keywords: ['jewelry', 'watches', 'ring', 'earrings'] },
-  'luggages-bags': { name: 'Luggages & Bags', keywords: ['luggages', 'bags', 'pouch', 'backpack'] },
+  'jewelry-watches': { name: 'Jewelry & Watches', keywords: ['jewelry', 'watches', 'ring', 'earrings', 'watch'] },
+  'luggages-bags': { name: 'Luggages & Bags', keywords: ['luggages', 'bags', 'pouch', 'backpack', 'tote', 'wallet', 'bag'] },
   'antiques': { name: 'Antiques', keywords: ['antiques', 'vintage', 'collectible'] },
   'arts-books-music': { name: 'Arts, Books & Music', keywords: ['arts', 'books', 'music', 'book', 'print'] },
   'used-items': { name: 'Used Items', keywords: ['used items'] },
@@ -90,6 +90,24 @@ async function fetchAllCombinedItems() {
 
           const slug = `/item/${clean}-${loc}-ext-${raw.id}`;
 
+          let catName = raw.category || '';
+          if (!catName || catName === 'General' || catName === 'Used Items') {
+            const lowTitle = (raw.title || '').toLowerCase();
+            if (lowTitle.includes('phone') || lowTitle.includes('iphone') || lowTitle.includes('macbook') || lowTitle.includes('laptop') || lowTitle.includes('tv') || lowTitle.includes('camera') || lowTitle.includes('monitor') || lowTitle.includes('headphone') || lowTitle.includes('airpods') || lowTitle.includes('ipad') || lowTitle.includes('charger') || lowTitle.includes('speaker') || lowTitle.includes('printer') || lowTitle.includes('game') || lowTitle.includes('ps5') || lowTitle.includes('nintendo') || lowTitle.includes('xbox') || lowTitle.includes('ink')) {
+              catName = 'Electronics';
+            } else if (lowTitle.includes('sofa') || lowTitle.includes('couch') || lowTitle.includes('table') || lowTitle.includes('chair') || lowTitle.includes('bed') || lowTitle.includes('desk') || lowTitle.includes('dresser') || lowTitle.includes('mattress') || lowTitle.includes('shelf')) {
+              catName = 'Furniture';
+            } else if (lowTitle.includes('shoe') || lowTitle.includes('sneaker') || lowTitle.includes('boot') || lowTitle.includes('sandal') || lowTitle.includes('nike') || lowTitle.includes('adidas')) {
+              catName = 'Shoes';
+            } else if (lowTitle.includes('bag') || lowTitle.includes('pouch') || lowTitle.includes('backpack') || lowTitle.includes('tote') || lowTitle.includes('wallet')) {
+              catName = 'Luggages & Bags';
+            } else if (lowTitle.includes('ring') || lowTitle.includes('watch') || lowTitle.includes('jewelry') || lowTitle.includes('necklace')) {
+              catName = 'Jewelry & Watches';
+            } else {
+              catName = 'Used Items';
+            }
+          }
+
           return {
             id: raw.id,
             title: raw.title || "Secondhand Item",
@@ -97,7 +115,7 @@ async function fetchAllCombinedItems() {
             photo: raw.image || 'https://moon-oh.com/images/common/ico_profile_empty.png',
             townName: raw.location || 'NYC, NY',
             rawTown: raw.rawTown || raw.location || '',
-            categoryName: raw.category || 'Used Items',
+            categoryName: catName,
             detailUrl: `https://moon-oh.com${slug}`,
             source: raw.source || 'external'
           };
@@ -241,7 +259,7 @@ export default async (req, context) => {
     if (categorySlug && CATEGORIES[categorySlug]) {
       const kws = CATEGORIES[categorySlug].keywords;
       filteredItems = filteredItems.filter(item => {
-        const catStr = (item.categoryName || '').toLowerCase();
+        const catStr = (item.categoryName || '').toLowerCase() + ' ' + (item.title || '').toLowerCase();
         return kws.some(kw => catStr.includes(kw));
       });
     }

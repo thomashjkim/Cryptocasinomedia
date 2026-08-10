@@ -1123,6 +1123,11 @@
     }
 
     async function fetchFreshItems() {
+      // Do not overwrite pre-filtered SSR items on aggregation routes (/explore/{region}/{category})
+      const isAggregatedRoute = window.location.pathname !== '/explore' && window.location.pathname !== '/explore/';
+      if (isAggregatedRoute && window.__INITIAL_ITEMS__) {
+        return;
+      }
       try {
         const res = await fetch('/api/items?t=' + Date.now());
         const freshItems = await res.json();
