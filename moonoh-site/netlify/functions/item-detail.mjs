@@ -22077,6 +22077,7 @@ export default async (req, context) => {
       townName = extItem.location;
       address = extItem.rawTown;
       sellerName = extItem.sellerName || (extItem.source === 'karrot' ? 'Karrot Seller' : 'HeyKorean Seller');
+      strDayCount = extItem.timeAgo || "Recently";
       photos = [extItem.image];
       mainPhoto = extItem.image;
       categoryName = extItem.category;

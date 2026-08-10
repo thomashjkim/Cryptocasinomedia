@@ -1053,8 +1053,8 @@
 
         const extSlug = isExternal ? generateExternalSlug(itemTitle, item.location || item.rawTown, item.id) : targetUrl;
         const clickAttr = `href="${extSlug}"`;
-        const imgSrc = item.image || item.photo || '/images/default-item-placeholder.png';
-        const itemLoc = item.location || item.rawTown || 'NYC';
+        const rawLoc = item.location || item.rawTown || 'NYC';
+        const itemLoc = item.timeAgo ? `${item.timeAgo} · ${rawLoc}` : rawLoc;
 
         html += `
         <a class="item-card" ${clickAttr} style="text-decoration:none; color:inherit;">

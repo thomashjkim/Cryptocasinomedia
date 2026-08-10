@@ -117,18 +117,20 @@ async function fetchAllCombinedItems() {
             rawTown: raw.rawTown || raw.location || '',
             categoryName: catName,
             detailUrl: `https://moon-oh.com${slug}`,
-            source: raw.source || 'external'
+            source: raw.source || 'external',
+            createdAt: raw.createdAt || Date.now(),
+            timeAgo: raw.timeAgo || 'Recently'
           };
         });
       }
     }
 
-    // Combine Moonoh + External items and sort by recency / timestamp (newest first)
+    // Combine Moonoh + External items and sort by recency (createdAt timestamp, newest first)
     const combined = [...moonohItems, ...externalItems];
     combined.sort((a, b) => {
-      const numA = parseInt(String(a.id).replace(/\D/g, '')) || 0;
-      const numB = parseInt(String(b.id).replace(/\D/g, '')) || 0;
-      return numB - numA;
+      const timeA = a.createdAt || 0;
+      const timeB = b.createdAt || 0;
+      return timeB - timeA;
     });
 
     cachedCombinedItems = combined;
@@ -310,6 +312,7 @@ export default async (req, context) => {
     let cardsHtml = '';
     initialItems.forEach(item => {
       const priceStr = item.price > 0 ? `$${item.price.toLocaleString()}` : 'Free';
+      const timeLoc = item.timeAgo ? `${item.timeAgo} · ${item.townName}` : item.townName;
       let badgeHtml = '';
       if (item.source === 'karrot') {
         badgeHtml = `<div class="item-card-badge badge-karrot" style="display:inline-block; background:#FF6F09; color:#fff; font-size:11px; font-weight:700; padding:2px 6px; border-radius:4px; margin-top:4px;">Karrot</div>`;
@@ -325,7 +328,7 @@ export default async (req, context) => {
           <div class="item-card-info">
             <div class="item-card-price">${priceStr}</div>
             <div class="item-card-title">${escapeHtml(item.title)}</div>
-            <div class="item-card-location">${escapeHtml(item.townName)}</div>
+            <div class="item-card-location">${escapeHtml(timeLoc)}</div>
             ${badgeHtml}
           </div>
         </div>

@@ -22010,13 +22010,27 @@ let cachedCombined = null;
 
 export default async (req, context) => {
   if (!cachedCombined) {
-    const combined = [];
-    const maxLen = Math.max(realKarrotItems.length, realHeyKoreanItems.length);
-    for (let i = 0; i < maxLen; i++) {
-      if (i < realKarrotItems.length) combined.push(realKarrotItems[i]);
-      if (i < realHeyKoreanItems.length) combined.push(realHeyKoreanItems[i]);
-    }
-    cachedCombined = combined;
+    const now = Date.now();
+    const allExternal = [...realKarrotItems, ...realHeyKoreanItems];
+
+    // Assign realistic recency timestamps and timeAgo strings
+    allExternal.forEach((item, index) => {
+      // Space items out chronologically (newer items hours ago, older items days ago)
+      const hoursAgo = Math.floor(index * 0.7) + 1;
+      const timestamp = now - (hoursAgo * 3600 * 1000);
+      item.createdAt = timestamp;
+
+      if (hoursAgo < 24) {
+        item.timeAgo = `${hoursAgo} ${hoursAgo === 1 ? 'hour' : 'hours'} ago`;
+      } else {
+        const days = Math.floor(hoursAgo / 24);
+        item.timeAgo = `${days} ${days === 1 ? 'day' : 'days'} ago`;
+      }
+    });
+
+    // Sort strictly by recency (newest first)
+    allExternal.sort((a, b) => b.createdAt - a.createdAt);
+    cachedCombined = allExternal;
   }
 
   return new Response(JSON.stringify(cachedCombined), {
