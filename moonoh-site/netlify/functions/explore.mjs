@@ -4,44 +4,124 @@ import { fileURLToPath } from 'url';
 
 const currentDir = path.dirname(fileURLToPath(import.meta.url));
 
-// Serverless Cache for Items
-let cachedItems = null;
-let lastFetchTime = 0;
-const CACHE_TTL_MS = 15 * 1000; // 15 seconds cache for instant app upload updates
+// Region Mapping
+const REGIONS = {
+  'manhattan': { name: 'Manhattan, NY', keywords: ['manhattan', 'all manhattan', 'upper east', 'upper west', 'downtown manhattan', 'midtown', 'harlem', 'tribeca', 'soho', 'lower east', 'east village', 'west village', 'chelsea', 'gramercy', 'inwood', 'washington heights', 'morningside', 'financial district', 'wall street', 'murray hill', 'kips bay', 'hell', 'flatiron'] },
+  'queens': { name: 'Queens, NY', keywords: ['queens', 'bayside', 'flushing', 'astoria', 'jamaica', 'forest hills', 'jackson heights', 'woodside', 'ridgewood', 'ozone park', 'fresh meadows', 'corona', 'elmhurst', 'sunnyside', 'long island city', 'rego park', 'maspeth', 'howard beach', 'far rockaway', 'college point', 'whitestone', 'douglaston'] },
+  'brooklyn': { name: 'Brooklyn, NY', keywords: ['brooklyn', 'park slope', 'williamsburg', 'bushwick', 'bed stuy', 'flatbush', 'crown heights', 'bay ridge', 'bensonhurst', 'canarsie', 'east new york', 'greenpoint', 'cobble hill', 'carroll gardens', 'boerum', 'sunset park', 'borough park', 'brighton beach', 'coney island', 'sheepshead', 'ditmas'] },
+  'bronx': { name: 'The Bronx, NY', keywords: ['bronx'] },
+  'staten-island': { name: 'Staten Island, NY', keywords: ['staten island'] },
+  'bergen-county': { name: 'Bergen County, NJ', keywords: ['bergen', 'hackensack', 'paramus', 'fort lee', 'englewood', 'teaneck', 'palisades', 'fair lawn', 'garfield', 'ridgewood nj', 'rutherford'] },
+  'hudson-county': { name: 'Hudson County, NJ', keywords: ['hudson', 'jersey city', 'hoboken', 'bayonne', 'weehawken', 'union city', 'north bergen', 'secaucus', 'kearny'] }
+};
 
-async function fetchAllItems() {
+// Category Mapping
+const CATEGORIES = {
+  'electronics': { name: 'Electronics', keywords: ['electronics', 'phone', 'laptop', 'appliances', 'audio', 'gadget'] },
+  'furniture': { name: 'Furniture', keywords: ['furniture', 'sofa', 'table', 'chair', 'bed', 'desk', 'couch'] },
+  'womens-fashion': { name: "Women's Fashion", keywords: ["women's fashion", 'women', 'dress', 'handbag'] },
+  'mens-fashion': { name: "Men's Fashion", keywords: ["men's fashion", 'men', 'suit', 'jacket'] },
+  'shoes': { name: 'Shoes', keywords: ['shoes', 'sneakers', 'boots', 'sandals'] },
+  'home-garden': { name: 'Home & Garden', keywords: ['home, garden & diy', 'home', 'garden', 'kitchen', 'utensil', 'decor'] },
+  'health-beauty': { name: 'Health & Beauty', keywords: ['health', 'beauty', 'cosmetics'] },
+  'pet-supplies': { name: 'Pet Supplies', keywords: ['pet', 'dog', 'cat'] },
+  'baby-kids': { name: 'Baby & Kids', keywords: ['baby & kids', 'baby', 'kids', 'stroller', 'toy'] },
+  'sports-leisure': { name: 'Sports & Leisure', keywords: ['sports', 'leisure', 'bike', 'ski', 'boots', 'exercise'] },
+  'toys-games': { name: 'Toys & Games', keywords: ['toys', 'games', 'card', 'figure'] },
+  'jewelry-watches': { name: 'Jewelry & Watches', keywords: ['jewelry', 'watches', 'ring', 'earrings'] },
+  'luggages-bags': { name: 'Luggages & Bags', keywords: ['luggages', 'bags', 'pouch', 'backpack'] },
+  'antiques': { name: 'Antiques', keywords: ['antiques', 'vintage', 'collectible'] },
+  'arts-books-music': { name: 'Arts, Books & Music', keywords: ['arts', 'books', 'music', 'book', 'print'] },
+  'used-items': { name: 'Used Items', keywords: ['used items'] },
+  'other': { name: 'Other', keywords: ['other', 'general'] }
+};
+
+let cachedCombinedItems = null;
+let lastFetchTime = 0;
+const CACHE_TTL_MS = 15 * 1000;
+
+async function fetchAllCombinedItems() {
   const now = Date.now();
-  if (cachedItems && (now - lastFetchTime) < CACHE_TTL_MS) {
-    return cachedItems;
+  if (cachedCombinedItems && (now - lastFetchTime) < CACHE_TTL_MS) {
+    return cachedCombinedItems;
   }
 
   try {
-    const listRes = await fetch("https://moon-oh.com/api/items");
-    const itemsData = await listRes.json();
+    const [moonohRes, externalRes] = await Promise.allSettled([
+      fetch("https://moon-oh.com/api/items"),
+      fetch("https://moon-oh.com/api/external-items")
+    ]);
 
-    if (Array.isArray(itemsData) && itemsData.length > 0) {
-      const items = itemsData.map(raw => {
-        const id = raw.no || raw.id;
-        const title = raw.title || "Secondhand Item";
-        const price = raw.price || 0;
-        const photo = raw.image || 'https://moon-oh.com/images/common/ico_profile_empty.png';
-        const townName = raw.location || 'NYC, NY';
-        const rawTown = raw.rawTown || raw.location || '';
-        const categoryName = raw.category || 'General';
-        const detailUrl = raw.url ? `https://moon-oh.com${raw.url}` : `https://moon-oh.com/item/item-${id}`;
-
-        return { id, title, price, photo, townName, rawTown, categoryName, detailUrl };
-      });
-
-      cachedItems = items;
-      lastFetchTime = now;
-      return items;
+    let moonohItems = [];
+    if (moonohRes.status === 'fulfilled' && moonohRes.value.ok) {
+      const data = await moonohRes.value.json();
+      if (Array.isArray(data)) {
+        moonohItems = data.map(raw => ({
+          id: raw.no || raw.id,
+          title: raw.title || "Secondhand Item",
+          price: raw.price || 0,
+          photo: raw.image || 'https://moon-oh.com/images/common/ico_profile_empty.png',
+          townName: raw.location || 'NYC, NY',
+          rawTown: raw.rawTown || raw.location || '',
+          categoryName: raw.category || 'General',
+          detailUrl: raw.url ? `https://moon-oh.com${raw.url}` : `https://moon-oh.com/item/item-${raw.no || raw.id}`,
+          source: 'moonoh'
+        }));
+      }
     }
+
+    let externalItems = [];
+    if (externalRes.status === 'fulfilled' && externalRes.value.ok) {
+      const data = await externalRes.value.json();
+      if (Array.isArray(data)) {
+        externalItems = data.map(raw => {
+          let clean = (raw.title || 'item').toLowerCase().replace(/[^a-z0-9\s-]/g, '').trim().replace(/\s+/g, '-').replace(/-+/g, '-');
+          if (clean.length > 50) clean = clean.substring(0, 50).replace(/-$/, '');
+          let loc = 'nyc-ny';
+          let low = String(raw.rawTown || raw.location || '').toLowerCase();
+          if (low.includes('bayside')) loc = 'bayside-queens-ny';
+          else if (low.includes('flushing')) loc = 'flushing-queens-ny';
+          else if (low.includes('astoria')) loc = 'astoria-queens-ny';
+          else if (low.includes('queens')) loc = 'queens-ny';
+          else if (low.includes('brooklyn')) loc = 'brooklyn-ny';
+          else if (low.includes('manhattan')) loc = 'manhattan-ny';
+          else if (low.includes('palisades')) loc = 'palisades-park-nj';
+          else if (low.includes('fort lee')) loc = 'fort-lee-nj';
+
+          const slug = `/item/${clean}-${loc}-ext-${raw.id}`;
+
+          return {
+            id: raw.id,
+            title: raw.title || "Secondhand Item",
+            price: raw.price || 0,
+            photo: raw.image || 'https://moon-oh.com/images/common/ico_profile_empty.png',
+            townName: raw.location || 'NYC, NY',
+            rawTown: raw.rawTown || raw.location || '',
+            categoryName: raw.category || 'Used Items',
+            detailUrl: `https://moon-oh.com${slug}`,
+            source: raw.source || 'external'
+          };
+        });
+      }
+    }
+
+    // Interleave Moonoh + External items for balanced density
+    const combined = [];
+    const maxLen = Math.max(moonohItems.length, externalItems.length);
+    for (let i = 0; i < maxLen; i++) {
+      if (i < moonohItems.length) combined.push(moonohItems[i]);
+      if (i < externalItems.length) combined.push(externalItems[i]);
+    }
+
+    cachedCombinedItems = combined;
+    lastFetchTime = now;
+    return combined;
+
   } catch (err) {
-    console.error("Error fetching items in explore.mjs:", err);
+    console.error("Error in fetchAllCombinedItems:", err);
   }
 
-  return cachedItems || [];
+  return cachedCombinedItems || [];
 }
 
 function escapeHtml(str) {
@@ -73,39 +153,137 @@ function getExploreTemplate() {
 
 export default async (req, context) => {
   try {
-    const items = await fetchAllItems();
-    let template = getExploreTemplate();
+    const url = new URL(req.url);
+    const pathSegments = url.pathname.replace(/^\/explore\/?/, '').split('/').filter(Boolean);
 
+    let regionSlug = null;
+    let categorySlug = null;
+
+    if (pathSegments.length === 1) {
+      if (REGIONS[pathSegments[0]]) regionSlug = pathSegments[0];
+      else if (CATEGORIES[pathSegments[0]]) categorySlug = pathSegments[0];
+    } else if (pathSegments.length >= 2) {
+      if (REGIONS[pathSegments[0]]) regionSlug = pathSegments[0];
+      if (CATEGORIES[pathSegments[1]]) categorySlug = pathSegments[1];
+    }
+
+    const allItems = await fetchAllCombinedItems();
+    let filteredItems = allItems;
+
+    // Filter by Region
+    if (regionSlug && REGIONS[regionSlug]) {
+      const kws = REGIONS[regionSlug].keywords;
+      filteredItems = filteredItems.filter(item => {
+        const locStr = ((item.rawTown || '') + ' ' + (item.townName || '')).toLowerCase();
+        return kws.some(kw => locStr.includes(kw));
+      });
+    }
+
+    // Filter by Category
+    if (categorySlug && CATEGORIES[categorySlug]) {
+      const kws = CATEGORIES[categorySlug].keywords;
+      filteredItems = filteredItems.filter(item => {
+        const catStr = (item.categoryName || '').toLowerCase();
+        return kws.some(kw => catStr.includes(kw));
+      });
+    }
+
+    // Thin Content Protection: 0 items for requested combination -> 404 Response
+    if ((regionSlug || categorySlug) && filteredItems.length === 0) {
+      return new Response("No listings found for this region/category combination", { status: 404 });
+    }
+
+    let template = getExploreTemplate();
     if (!template) {
       return new Response("Error reading explore.html template", { status: 500 });
     }
 
-    // Generate SSR Item Grid HTML for first 30 items
-    const initialItems = items.slice(0, 36);
+    // Dynamic Title & Meta Setup
+    const regionObj = REGIONS[regionSlug];
+    const categoryObj = CATEGORIES[categorySlug];
+
+    const regionName = regionObj ? regionObj.name : "NYC & NJ";
+    const categoryName = categoryObj ? categoryObj.name : "Secondhand Items";
+
+    let pageTitle = "Explore Secondhand Items in NYC & NJ | Moonoh";
+    let h1Text = "Explore Local Secondhand Items";
+    let canonicalUrl = `https://moon-oh.com${url.pathname}`;
+
+    if (regionObj && categoryObj) {
+      pageTitle = `Used ${categoryName} in ${regionName} | Moonoh`;
+      h1Text = `Used ${categoryName} in ${regionName}`;
+    } else if (regionObj) {
+      pageTitle = `Secondhand Items in ${regionName} | Moonoh`;
+      h1Text = `Secondhand Items in ${regionName}`;
+    } else if (categoryObj) {
+      pageTitle = `Used ${categoryName} for Sale in NYC & NJ | Moonoh`;
+      h1Text = `Used ${categoryName} for Sale`;
+    }
+
+    const itemCount = filteredItems.length;
+    const introText = `Browse ${itemCount} verified ${categoryName.toLowerCase()} for sale in ${regionName} on Moonoh. Find local deals from individual sellers across neighborhoods — including listings aggregated from Karrot and HeyKorean. Meet up locally or contact sellers directly.`;
+
+    // SSR Grid Cards HTML
+    const initialItems = filteredItems.slice(0, 40);
     let cardsHtml = '';
     initialItems.forEach(item => {
-      const priceStr = item.price > 0 ? `$${item.price}` : 'Free';
+      const priceStr = item.price > 0 ? `$${item.price.toLocaleString()}` : 'Free';
+      let badgeHtml = '';
+      if (item.source === 'karrot') {
+        badgeHtml = `<div class="item-card-badge badge-karrot" style="display:inline-block; background:#FF6F09; color:#fff; font-size:11px; font-weight:700; padding:2px 6px; border-radius:4px; margin-top:4px;">Karrot</div>`;
+      } else if (item.source === 'heykorean') {
+        badgeHtml = `<div class="item-card-badge badge-heykorean" style="display:inline-block; background:#5B21B6; color:#fff; font-size:11px; font-weight:700; padding:2px 6px; border-radius:4px; margin-top:4px;">HeyKorean</div>`;
+      }
+
       cardsHtml += `
         <div class="item-card" onclick="location.href='${item.detailUrl}'" style="cursor:pointer;">
           <div class="item-card-img-wrap">
-            <img src="${escapeHtml(item.photo)}" alt="${escapeHtml(item.title)}" class="item-card-img" loading="lazy"/>
+            <img src="${escapeHtml(item.photo)}" alt="${escapeHtml(item.title)}" class="item-card-img" loading="lazy" onerror="this.onerror=null; this.src='/images/default-item-placeholder.png';"/>
           </div>
           <div class="item-card-info">
             <div class="item-card-price">${priceStr}</div>
             <div class="item-card-title">${escapeHtml(item.title)}</div>
             <div class="item-card-location">${escapeHtml(item.townName)}</div>
+            ${badgeHtml}
           </div>
         </div>
       `;
     });
 
-    // Generate ItemList JSON-LD schema
+    // Interlinking Section (Internal Links Juice)
+    const relatedLinks = [
+      { name: 'Electronics in Queens', url: '/explore/queens/electronics' },
+      { name: 'Furniture in Brooklyn', url: '/explore/brooklyn/furniture' },
+      { name: 'Shoes in Manhattan', url: '/explore/manhattan/shoes' },
+      { name: 'Baby & Kids in Bergen', url: '/explore/bergen-county/baby-kids' },
+      { name: 'Furniture in Queens', url: '/explore/queens/furniture' },
+      { name: 'Women\'s Fashion in Manhattan', url: '/explore/manhattan/womens-fashion' }
+    ].filter(l => l.url !== url.pathname);
+
+    const interlinkingHtml = `
+      <div class="agg-interlink-section" style="max-width: 1200px; margin: 40px auto 20px; padding: 20px 16px; border-top: 1px solid #E5E7EB;">
+        <h3 style="font-size: 16px; font-weight: 700; color: #1F2937; margin-bottom: 12px;">Explore Related Local Aggregations</h3>
+        <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+          ${relatedLinks.map(l => `<a href="${l.url}" style="display: inline-block; padding: 6px 14px; background: #F3F4F6; color: #4B5563; font-size: 13px; font-weight: 500; border-radius: 9999px; text-decoration: none;">${l.name}</a>`).join('')}
+        </div>
+      </div>
+    `;
+
+    // Hero Section HTML (H1 + Intro)
+    const heroHtml = `
+      <div class="agg-hero-section" style="max-width: 1200px; margin: 0 auto; padding: 24px 16px 12px;">
+        <h1 style="font-size: 28px; font-weight: 800; color: #111827; margin-bottom: 8px; tracking-tight;">${escapeHtml(h1Text)}</h1>
+        <p style="font-size: 15px; color: #4B5563; line-height: 1.6; margin-bottom: 16px; max-width: 800px;">${escapeHtml(introText)}</p>
+      </div>
+    `;
+
+    // JSON-LD Schemas (ItemList, BreadcrumbList, CollectionPage, FAQPage)
     const itemListSchema = {
       "@context": "https://schema.org",
       "@type": "ItemList",
-      "name": "Explore Secondhand Items in NYC & NJ",
-      "description": "Browse hundreds of verified local secondhand items in NYC & NJ on Moonoh.",
-      "numberOfItems": items.length,
+      "name": h1Text,
+      "description": introText,
+      "numberOfItems": filteredItems.length,
       "itemListElement": initialItems.map((item, index) => ({
         "@type": "ListItem",
         "position": index + 1,
@@ -115,16 +293,81 @@ export default async (req, context) => {
       }))
     };
 
-    const schemaScript = `\n  <script type="application/ld+json">\n  ${JSON.stringify(itemListSchema, null, 2)}\n  </script>\n  <script>window.__INITIAL_ITEMS__ = ${JSON.stringify(items)};</script>\n`;
+    const breadcrumbsElements = [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://moon-oh.com/" },
+      { "@type": "ListItem", "position": 2, "name": "Explore", "item": "https://moon-oh.com/explore" }
+    ];
 
-    // Inject JSON-LD & window.__INITIAL_ITEMS__ into head
-    template = template.replace('</head>', `${schemaScript}</head>`);
+    if (regionObj) {
+      breadcrumbsElements.push({
+        "@type": "ListItem",
+        "position": breadcrumbsElements.length + 1,
+        "name": regionName,
+        "item": `https://moon-oh.com/explore/${regionSlug}`
+      });
+    }
 
-    // Inject cardsHtml into #moonoh-item-grid
+    if (categoryObj) {
+      breadcrumbsElements.push({
+        "@type": "ListItem",
+        "position": breadcrumbsElements.length + 1,
+        "name": categoryName,
+        "item": canonicalUrl
+      });
+    }
+
+    const breadcrumbSchema = {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": breadcrumbsElements
+    };
+
+    const collectionSchema = {
+      "@context": "https://schema.org",
+      "@type": "CollectionPage",
+      "name": h1Text,
+      "description": introText,
+      "url": canonicalUrl
+    };
+
+    const faqSchema = {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": `Where can I buy used ${categoryName.toLowerCase()} in ${regionName}?`,
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": `You can browse ${itemCount} verified local secondhand ${categoryName.toLowerCase()} listings in ${regionName} on Moonoh, combining direct user uploads with aggregated listings from Karrot and HeyKorean.`
+          }
+        }
+      ]
+    };
+
+    const schemaScript = `
+  <script type="application/ld+json">${JSON.stringify(itemListSchema)}</script>
+  <script type="application/ld+json">${JSON.stringify(breadcrumbSchema)}</script>
+  <script type="application/ld+json">${JSON.stringify(collectionSchema)}</script>
+  <script type="application/ld+json">${JSON.stringify(faqSchema)}</script>
+  <script>window.__INITIAL_ITEMS__ = ${JSON.stringify(filteredItems)};</script>
+`;
+
+    // Inject Title, Canonical & Schemas into <head>
+    template = template
+      .replace(/<title>.*?<\/title>/i, `<title>${escapeHtml(pageTitle)}</title>`)
+      .replace(/<meta content=".*?" name="description"\/>/i, `<meta content="${escapeHtml(introText)}" name="description"/>`)
+      .replace(/<link href=".*?" rel="canonical"\/>/i, `<link href="${canonicalUrl}" rel="canonical"/>`)
+      .replace('</head>', `${schemaScript}</head>`);
+
+    // Inject Hero Section & Grid HTML
     template = template.replace(
       '<div class="item-grid" id="moonoh-item-grid">',
-      `<div class="item-grid" id="moonoh-item-grid">\n${cardsHtml}`
+      `${heroHtml}\n<div class="item-grid" id="moonoh-item-grid">\n${cardsHtml}`
     );
+
+    // Inject Interlinking Links before footer
+    template = template.replace('</main>', `${interlinkingHtml}\n</main>`);
 
     return new Response(template, {
       status: 200,
@@ -136,7 +379,6 @@ export default async (req, context) => {
 
   } catch (error) {
     console.error("Error in explore.mjs SSR:", error);
-    // Fallback to static explore.html
     const exploreHtmlPath = path.join(process.cwd(), 'explore.html');
     const html = fs.readFileSync(exploreHtmlPath, 'utf-8');
     return new Response(html, {

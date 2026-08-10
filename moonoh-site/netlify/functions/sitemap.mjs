@@ -99,16 +99,21 @@ async function buildSitemapXml() {
     itemUrls.push(...chunkResults);
   }
 
+  const regionSlugs = ['manhattan', 'queens', 'brooklyn', 'bronx', 'staten-island', 'bergen-county', 'hudson-county'];
+  const categorySlugs = ['electronics', 'furniture', 'womens-fashion', 'mens-fashion', 'shoes', 'home-garden', 'health-beauty', 'pet-supplies', 'baby-kids', 'sports-leisure', 'toys-games', 'jewelry-watches', 'luggages-bags', 'antiques', 'arts-books-music', 'used-items', 'other'];
+
+  const aggregationUrls = [];
+  regionSlugs.forEach(r => aggregationUrls.push(`https://moon-oh.com/explore/${r}`));
+  categorySlugs.forEach(c => aggregationUrls.push(`https://moon-oh.com/explore/${c}`));
+  regionSlugs.forEach(r => {
+    categorySlugs.forEach(c => {
+      aggregationUrls.push(`https://moon-oh.com/explore/${r}/${c}`);
+    });
+  });
+
   const staticUrls = [
     'https://moon-oh.com/',
     'https://moon-oh.com/explore',
-    'https://moon-oh.com/explore/electronics',
-    'https://moon-oh.com/explore/furniture',
-    'https://moon-oh.com/explore/womens-fashion',
-    'https://moon-oh.com/explore/manhattan',
-    'https://moon-oh.com/explore/queens',
-    'https://moon-oh.com/explore/brooklyn',
-    'https://moon-oh.com/explore/new-jersey',
     'https://moon-oh.com/about',
     'https://moon-oh.com/press',
     'https://moon-oh.com/contact',
@@ -121,6 +126,7 @@ async function buildSitemapXml() {
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 ${staticUrls.map(u => `  <url>\n    <loc>${u}</loc>\n    <changefreq>daily</changefreq>\n    <priority>0.9</priority>\n  </url>`).join('\n')}
+${aggregationUrls.map(u => `  <url>\n    <loc>${u}</loc>\n    <changefreq>daily</changefreq>\n    <priority>0.9</priority>\n  </url>`).join('\n')}
 ${itemUrls.map(u => `  <url>\n    <loc>${u}</loc>\n    <changefreq>daily</changefreq>\n    <priority>0.8</priority>\n  </url>`).join('\n')}
 </urlset>`;
 
