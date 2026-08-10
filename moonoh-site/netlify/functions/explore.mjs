@@ -202,20 +202,18 @@ export default async (req, context) => {
         }
       }
 
-      let redirectPath = '/explore';
-      if (qSource === 'others') {
-        redirectPath = rSlug ? `/explore/${rSlug}/others` : '/explore/others';
-      } else {
+      if (qLocation || qCategory) {
+        let redirectPath = '/explore';
         if (rSlug && cSlug) redirectPath = `/explore/${rSlug}/${cSlug}`;
         else if (rSlug) redirectPath = `/explore/${rSlug}`;
         else if (cSlug) redirectPath = `/explore/${cSlug}`;
-      }
 
-      if (redirectPath !== url.pathname) {
-        return new Response(null, {
-          status: 301,
-          headers: { "Location": redirectPath }
-        });
+        if (redirectPath !== url.pathname) {
+          return new Response(null, {
+            status: 301,
+            headers: { "Location": redirectPath }
+          });
+        }
       }
     }
 
