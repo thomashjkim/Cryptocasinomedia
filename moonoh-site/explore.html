@@ -474,15 +474,20 @@
     .item-card:hover {
       transform: translateY(-4px);
     }
-    .item-card-image {
+    .item-card-image,
+    .item-card-img {
       width: 100%;
       aspect-ratio: 1 / 1;
       background-color: #F3F4F6;
       object-fit: cover;
       border-radius: 12px;
+      margin-bottom: 8px;
+      display: block;
     }
-    .item-card-content {
-      padding: 12px 4px 0 4px;
+    .item-card-content,
+    .item-card-info {
+      padding: 4px 4px 0 4px;
+      margin-top: 4px;
       display: flex;
       flex-direction: column;
       flex-grow: 1;
@@ -763,6 +768,15 @@
     }
     @media (max-width: 479px) {
       .item-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+      .item-card-image,
+      .item-card-img {
+        margin-bottom: 6px !important;
+      }
+      .item-card-content,
+      .item-card-info {
+        padding-top: 4px !important;
+        margin-top: 4px !important;
+      }
     }
   </style>
 <script type="application/ld+json">
