@@ -839,10 +839,9 @@
 
         <span class="location-count" id="location-count"></span>
 
-        <!-- Source Segment Switcher (All · Moonoh · Others) -->
+        <!-- Source Segment Switcher (Moonoh · Others) -->
         <div class="source-segment-wrap" id="source-segment-wrap" style="margin-left: auto;">
-          <button class="source-tab-btn active" id="tab-source-all" data-source="all">All</button>
-          <button class="source-tab-btn" id="tab-source-moonoh" data-source="moonoh">Moonoh</button>
+          <button class="source-tab-btn active" id="tab-source-moonoh" data-source="moonoh">Moonoh</button>
           <button class="source-tab-btn" id="tab-source-others" data-source="others">Others</button>
         </div>
       </div>
@@ -1163,16 +1162,11 @@
 
     // Active town and source filter state
     let activeTown = ''; // '' = all areas
-    let activeSource = 'all'; // 'all' (default, merged Moonoh + Karrot + HeyKorean), 'moonoh', or 'others'
+    let activeSource = 'moonoh'; // 'moonoh' (default for user main page) or 'others'
     let externalItemsList = [];
 
     function applyFilters(categoryKeyword = null) {
-      let filtered = allItems;
-      if (activeSource === 'moonoh') {
-        filtered = allItems.filter(item => !item.source || item.source === 'moonoh');
-      } else if (activeSource === 'others') {
-        filtered = allItems.filter(item => item.source === 'karrot' || item.source === 'heykorean' || item.source === 'external');
-      }
+      let filtered = activeSource === 'others' ? externalItemsList : allItems;
 
       // Filter by town if selected
       if (activeTown && boroughKeywords[activeTown]) {
@@ -1233,8 +1227,7 @@
         });
       }
 
-      // Source Segment Switcher (All · Moonoh · Others)
-      const btnAll = document.getElementById('tab-source-all');
+      // Source Segment Switcher (Moonoh · Others)
       const btnMoonoh = document.getElementById('tab-source-moonoh');
       const btnOthers = document.getElementById('tab-source-others');
       
@@ -1245,6 +1238,9 @@
             if (!res.ok) res = await fetch('/.netlify/functions/external-items');
             const data = await res.json();
             externalItemsList = Array.isArray(data) ? data : [];
+            if (activeSource === 'others') {
+              applyFilters(getActiveCategoryKeyword());
+            }
           } catch (e) {
             console.error("Error loading external items:", e);
           }
@@ -1252,15 +1248,20 @@
       }
       preloadExternalItems();
 
-      function switchSource(source) {
+      async function switchSource(source) {
         activeSource = source;
-        if (btnAll) btnAll.classList.toggle('active', source === 'all');
-        if (btnMoonoh) btnMoonoh.classList.toggle('active', source === 'moonoh');
-        if (btnOthers) btnOthers.classList.toggle('active', source === 'others');
-        applyFilters(getActiveCategoryKeyword());
+        if (btnMoonoh && btnOthers) {
+          btnMoonoh.classList.toggle('active', source === 'moonoh');
+          btnOthers.classList.toggle('active', source === 'others');
+        }
+        
+        if (source === 'others' && externalItemsList.length === 0) {
+          await preloadExternalItems();
+        } else {
+          applyFilters(getActiveCategoryKeyword());
+        }
       }
 
-      if (btnAll) btnAll.addEventListener('click', () => switchSource('all'));
       if (btnMoonoh) btnMoonoh.addEventListener('click', () => switchSource('moonoh'));
       if (btnOthers) btnOthers.addEventListener('click', () => switchSource('others'));
 

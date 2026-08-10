@@ -225,6 +225,7 @@ export default async (req, context) => {
     let regionSlug = null;
     let categorySlug = null;
     let isOthersPage = false;
+    const isMainUserEntrypoint = pathSegments.length === 0;
 
     if (pathSegments.includes('others') || pathSegments.includes('external')) {
       isOthersPage = true;
@@ -241,12 +242,16 @@ export default async (req, context) => {
     const allItems = await fetchAllCombinedItems();
     let filteredItems = allItems;
 
-    // Filter by Source (Others/External)
-    if (isOthersPage) {
+    // Rule Distinction:
+    // 1. User Entrypoint (/explore): Show Moonoh native items ONLY by default (Brand Identity / Real Marketplace).
+    // 2. SEO Aggregation Pages (/explore/{region}/{category}): Merge Moonoh + Karrot + HeyKorean for maximum density.
+    if (isMainUserEntrypoint) {
+      filteredItems = filteredItems.filter(item => item.source === 'moonoh');
+    } else if (isOthersPage) {
       filteredItems = filteredItems.filter(item => item.source === 'karrot' || item.source === 'heykorean' || item.source === 'external');
     }
 
-    // Filter by Region
+    // Filter by Region (for aggregation pages)
     if (regionSlug && REGIONS[regionSlug]) {
       const kws = REGIONS[regionSlug].keywords;
       filteredItems = filteredItems.filter(item => {
@@ -255,7 +260,7 @@ export default async (req, context) => {
       });
     }
 
-    // Filter by Category
+    // Filter by Category (for aggregation pages)
     if (categorySlug && CATEGORIES[categorySlug]) {
       const kws = CATEGORIES[categorySlug].keywords;
       filteredItems = filteredItems.filter(item => {
@@ -329,7 +334,7 @@ export default async (req, context) => {
       `;
     });
 
-    // Interlinking Section (Internal Links Juice - clean SEO combinations only)
+    // Interlinking Section (Internal Links Juice)
     const relatedLinks = [
       { name: 'Electronics in Queens', url: '/explore/queens/electronics' },
       { name: 'Furniture in Brooklyn', url: '/explore/brooklyn/furniture' },
@@ -441,6 +446,14 @@ export default async (req, context) => {
       .replace(/<meta content=".*?" name="description"\/>/i, `<meta content="${escapeHtml(introText)}" name="description"/>`)
       .replace(/<link href=".*?" rel="canonical"\/>/i, `<link href="${canonicalUrl}" rel="canonical"/>`)
       .replace('</head>', `${schemaScript}${robotsMeta}</head>`);
+
+    // On aggregation landing pages, hide source tab switcher to avoid UI confusion
+    if (!isMainUserEntrypoint) {
+      template = template.replace(
+        'id="source-segment-wrap"',
+        'id="source-segment-wrap" style="display:none;"'
+      );
+    }
 
     // Inject Hero Section & Grid HTML directly
     template = template.replace(
