@@ -1018,10 +1018,12 @@
       const visibleItems = itemsToRender.slice(0, visibleCount);
       let html = "";
       visibleItems.forEach(item => {
-        const safeTitle = item.title.replace(/'/g, "\\'");
+        if (!item) return;
+        const itemTitle = item.title || 'Item';
+        const safeTitle = itemTitle.replace(/'/g, "\\'");
         const formatPrice = (p) => (!p || p <= 0 ? "Free" : (p % 1 !== 0 ? "$" + p.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}) : "$" + Math.round(p).toLocaleString()));
         const priceStr = formatPrice(item.price);
-        const targetUrl = item.url || `/item/item-${item.no}`;
+        const targetUrl = item.url || `/item/item-${item.no || item.id}`;
         const isExternal = item.source === 'karrot' || item.source === 'heykorean';
         
         let badgeHtml = '';
@@ -1036,7 +1038,7 @@
           if (clean.length > 50) clean = clean.substring(0, 50).replace(/-$/, '');
           let loc = 'nyc-ny';
           if (l) {
-            let low = l.toLowerCase();
+            let low = String(l).toLowerCase();
             if (low.includes('bayside')) loc = 'bayside-queens-ny';
             else if (low.includes('flushing')) loc = 'flushing-queens-ny';
             else if (low.includes('astoria')) loc = 'astoria-queens-ny';
@@ -1049,16 +1051,18 @@
           return `/item/${clean}-${loc}-ext-${id}`;
         }
 
-        const extSlug = isExternal ? generateExternalSlug(item.title, item.location, item.id) : targetUrl;
+        const extSlug = isExternal ? generateExternalSlug(itemTitle, item.location || item.rawTown, item.id) : targetUrl;
         const clickAttr = `href="${extSlug}"`;
+        const imgSrc = item.image || item.photo || '/images/default-item-placeholder.png';
+        const itemLoc = item.location || item.rawTown || 'NYC';
 
         html += `
         <a class="item-card" ${clickAttr} style="text-decoration:none; color:inherit;">
-          <img src="${item.image}" alt="${item.title}" class="item-card-image" loading="lazy" onerror="this.onerror=null; this.src='/images/default-item-placeholder.png';">
+          <img src="${imgSrc}" alt="${safeTitle}" class="item-card-image" loading="lazy" onerror="this.onerror=null; this.src='/images/default-item-placeholder.png';">
           <div class="item-card-content">
             <div class="item-card-price">${priceStr}</div>
-            <div class="item-card-title">${item.title}</div>
-            <div class="item-card-location">${item.location}</div>
+            <div class="item-card-title">${itemTitle}</div>
+            <div class="item-card-location">${itemLoc}</div>
             ${badgeHtml}
           </div>
         </a>
@@ -1222,6 +1226,23 @@
       const btnMoonoh = document.getElementById('tab-source-moonoh');
       const btnOthers = document.getElementById('tab-source-others');
       
+      async function preloadExternalItems() {
+        if (externalItemsList.length === 0) {
+          try {
+            let res = await fetch('/api/external-items');
+            if (!res.ok) res = await fetch('/.netlify/functions/external-items');
+            const data = await res.json();
+            externalItemsList = Array.isArray(data) ? data : [];
+            if (activeSource === 'others') {
+              applyFilters(getActiveCategoryKeyword());
+            }
+          } catch (e) {
+            console.error("Error loading external items:", e);
+          }
+        }
+      }
+      preloadExternalItems();
+
       async function switchSource(source) {
         activeSource = source;
         if (btnMoonoh && btnOthers) {
@@ -1230,16 +1251,10 @@
         }
         
         if (source === 'others' && externalItemsList.length === 0) {
-          try {
-            let res = await fetch('/api/external-items');
-            if (!res.ok) res = await fetch('/.netlify/functions/external-items');
-            externalItemsList = await res.json();
-          } catch (e) {
-            console.error("Error loading external items:", e);
-          }
+          await preloadExternalItems();
+        } else {
+          applyFilters(getActiveCategoryKeyword());
         }
-        
-        applyFilters(getActiveCategoryKeyword());
       }
 
       if (btnMoonoh) btnMoonoh.addEventListener('click', () => switchSource('moonoh'));
