@@ -1019,7 +1019,8 @@
       let html = "";
       visibleItems.forEach(item => {
         const safeTitle = item.title.replace(/'/g, "\\'");
-        const priceStr = item.price > 0 ? "$" + item.price.toLocaleString() : "Free";
+        const formatPrice = (p) => (!p || p <= 0 ? "Free" : (p % 1 !== 0 ? "$" + p.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}) : "$" + Math.round(p).toLocaleString()));
+        const priceStr = formatPrice(item.price);
         const targetUrl = item.url || `/item/item-${item.no}`;
         const isExternal = item.source === 'karrot' || item.source === 'heykorean';
         
