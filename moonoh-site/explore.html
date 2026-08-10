@@ -1315,12 +1315,12 @@
         }
       }
 
-      if (urlCategory) {
+      if (urlCategory && urlCategory.toLowerCase() !== 'others' && urlCategory.toLowerCase() !== 'external') {
         const urlCatLower = urlCategory.toLowerCase();
         let matchedBtn = null;
         document.querySelectorAll('.filter-pill').forEach(btn => {
           const label = btn.textContent.trim().toLowerCase();
-          if (urlCatLower.includes(label.split(' ')[0]) || label.includes(urlCatLower.split(' ')[0])) {
+          if (label !== 'other' && (urlCatLower.includes(label.split(' ')[0]) || label.includes(urlCatLower.split(' ')[0]))) {
             if (!matchedBtn) matchedBtn = btn;
           }
         });

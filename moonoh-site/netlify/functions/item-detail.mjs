@@ -22635,7 +22635,7 @@ export default async (req, context) => {
   <!-- Top Header -->
   <header class="header-nav">
     <div class="header-content">
-      <a href="${isExternal ? '/explore?source=others' : '/explore'}" class="header-back">
+      <a href="/explore" class="header-back">
         ← Back to Explore
       </a>
       <a href="/" class="header-logo">
@@ -22655,11 +22655,11 @@ export default async (req, context) => {
     <nav class="breadcrumb-bar" aria-label="Breadcrumb">
       <a href="/">Home</a>
       <span class="sep">›</span>
-      <a href="${isExternal ? '/explore?source=others' : '/explore'}">Explore</a>
+      <a href="/explore">Explore</a>
       <span class="sep">›</span>
-      <a href="/explore?town=${encodeURIComponent(townName)}${isExternal ? '&source=others' : ''}">${townName}</a>
+      <a href="/explore">${townName}</a>
       <span class="sep">›</span>
-      <a href="/explore?category=${encodeURIComponent(categoryName)}${isExternal ? '&source=others' : ''}">${categoryName}</a>
+      <a href="/explore">${categoryName}</a>
       <span class="sep">›</span>
       <span class="current">${title}</span>
     </nav>
