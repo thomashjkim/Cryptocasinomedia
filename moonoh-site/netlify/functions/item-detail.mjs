@@ -22153,92 +22153,142 @@ export default async (req, context) => {
       sellerPic = `/image-proxy/${d.sellerPictureUrl}`;
     }
 
-    // 2. Fetch Related Items from admin.do
+    // 2. Fetch Related Items
     let relatedHtml = "";
     try {
-      const loginParams = new URLSearchParams();
-      loginParams.append('kind', 'login');
-      loginParams.append('id', 'admin');
-      loginParams.append('password', '1234');
-      
-      const loginRes = await fetch("http://52.44.113.58:8080/admin.do", {
-        method: "POST",
-        headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body: loginParams
-      });
-      const cookies = loginRes.headers.get('set-cookie');
+      if (isExternal) {
+        // Handle External Related Items dynamically from allRealExternalItems
+        const allExt = Object.values(allRealExternalItems).filter(item => item && item.id !== extId);
+        
+        // 1. Same category items
+        const sameCategory = allExt.filter(item => item.category === categoryName);
+        // 2. Other items
+        const otherCategory = allExt.filter(item => item.category !== categoryName);
 
-      const dataParams = new URLSearchParams();
-      dataParams.append('kind', 'getProductArray');
-      dataParams.append('page', '0');
-      dataParams.append('viewCount', '12');
+        // Deterministic shuffle based on productNo so it stays consistent per item page but varies across items
+        let seed = 0;
+        for (let i = 0; i < productNo.length; i++) {
+          seed += productNo.charCodeAt(i);
+        }
+        const pseudoRandom = (i) => {
+          const x = Math.sin(seed + i) * 10000;
+          return x - Math.floor(x);
+        };
 
-      const dataRes = await fetch("http://52.44.113.58:8080/admin.do", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-          "Cookie": cookies || ""
-        },
-        body: dataParams
-      });
+        const customSort = (arr) => [...arr].sort((a, b) => pseudoRandom(a.id.length) - pseudoRandom(b.id.length));
 
-      const data = await dataRes.json();
-      const rawRelated = (data.productArray || [])
-        .filter(item => item && item.no !== productNo && item.isShow === "Y")
-        .sort((a, b) => {
-          const matchA = a.categoryName === categoryName ? 1 : 0;
-          const matchB = b.categoryName === categoryName ? 1 : 0;
-          return matchB - matchA;
-        })
-        .slice(0, 5);
+        const selected = [...customSort(sameCategory), ...customSort(otherCategory)].slice(0, 5);
 
-      const relatedWithDetails = await Promise.all(
-        rawRelated.map(async (rel) => {
-          let rPrice = rel.price || 0;
-          let rLoc = rel.productTownName || townName;
-          try {
-            const pParams = new URLSearchParams();
-            pParams.append('kind', 'getProductDetail');
-            pParams.append('productNo', rel.no);
-
-            const pRes = await fetch("http://52.44.113.58:8080/app.do", {
-              method: "POST",
-              headers: { "Content-Type": "application/x-www-form-urlencoded" },
-              body: pParams
-            });
-            const pData = await pRes.json();
-            if (pData) {
-              if (typeof pData.price === 'number') rPrice = pData.price;
-              if (pData.address || pData.productTownName) rLoc = pData.address || pData.productTownName;
-            }
-          } catch (e) {}
-
-          let relImg = "images/common/ico_profile_empty.png";
-          if (rel.pictureUrl) {
-            const parts = rel.pictureUrl.split('/');
-            const fileName = parts.pop();
-            const pPath = parts.join('/') + '/';
-            const dotIndex = fileName.lastIndexOf('.');
-            const thumb = "thumbnail_" + (dotIndex !== -1 ? fileName.substring(0, dotIndex) : fileName) + ".jpg";
-            relImg = `/image-proxy/${pPath}${thumb}`;
-          }
-          const relSlug = generateSlug(rel.title, rLoc, rel.no);
-          const relPriceStr = rPrice > 0 ? `$${rPrice.toLocaleString()}` : "Free";
+        relatedHtml = selected.map(rel => {
+          const rPriceStr = rel.price > 0 ? `$${rel.price.toLocaleString()}` : "Free";
           const safeRelTitle = (rel.title || "").replace(/"/g, '&quot;');
+          const relSlug = generateSlug(rel.title, rel.rawTown || rel.location, `ext-${rel.id}`);
+          const relImg = rel.image || "/images/default-item-placeholder.png";
 
           return `
             <a class="related-card" href="${relSlug}">
               <img src="${relImg}" class="related-card-img" alt="${safeRelTitle}" loading="lazy" onerror="this.onerror=null; this.src='/images/default-item-placeholder.png';"/>
               <div class="related-card-info">
-                <div class="related-card-price">${relPriceStr}</div>
+                <div class="related-card-price">${rPriceStr}</div>
                 <div class="related-card-name">${safeRelTitle}</div>
               </div>
             </a>
           `;
-        })
-      );
+        }).join('');
+      } else {
+        // Handle Internal Moonoh Related Items from admin.do API
+        const loginParams = new URLSearchParams();
+        loginParams.append('kind', 'login');
+        loginParams.append('id', 'admin');
+        loginParams.append('password', '1234');
+        
+        const loginRes = await fetch("http://52.44.113.58:8080/admin.do", {
+          method: "POST",
+          headers: { "Content-Type": "application/x-www-form-urlencoded" },
+          body: loginParams
+        });
+        const cookies = loginRes.headers.get('set-cookie');
 
-      relatedHtml = relatedWithDetails.join('');
+        const dataParams = new URLSearchParams();
+        dataParams.append('kind', 'getProductArray');
+        dataParams.append('page', '0');
+        dataParams.append('viewCount', '60');
+
+        const dataRes = await fetch("http://52.44.113.58:8080/admin.do", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+            "Cookie": cookies || ""
+          },
+          body: dataParams
+        });
+
+        const data = await dataRes.json();
+        const allItems = (data.productArray || []).filter(item => item && item.no !== productNo && item.isShow === "Y");
+
+        const sameCat = allItems.filter(item => item.categoryName === categoryName);
+        const diffCat = allItems.filter(item => item.categoryName !== categoryName);
+
+        let seed = 0;
+        for (let i = 0; i < productNo.length; i++) {
+          seed += productNo.charCodeAt(i);
+        }
+        const pseudoRandom = (i) => {
+          const x = Math.sin(seed + i) * 10000;
+          return x - Math.floor(x);
+        };
+        const customSort = (arr) => [...arr].sort((a, b) => pseudoRandom(parseInt(a.no, 10) || 0) - pseudoRandom(parseInt(b.no, 10) || 0));
+
+        const rawRelated = [...customSort(sameCat), ...customSort(diffCat)].slice(0, 5);
+
+        const relatedWithDetails = await Promise.all(
+          rawRelated.map(async (rel) => {
+            let rPrice = rel.price || 0;
+            let rLoc = rel.productTownName || townName;
+            try {
+              const pParams = new URLSearchParams();
+              pParams.append('kind', 'getProductDetail');
+              pParams.append('productNo', rel.no);
+
+              const pRes = await fetch("http://52.44.113.58:8080/app.do", {
+                method: "POST",
+                headers: { "Content-Type": "application/x-www-form-urlencoded" },
+                body: pParams
+              });
+              const pData = await pRes.json();
+              if (pData) {
+                if (typeof pData.price === 'number') rPrice = pData.price;
+                if (pData.address || pData.productTownName) rLoc = pData.address || pData.productTownName;
+              }
+            } catch (e) {}
+
+            let relImg = "images/common/ico_profile_empty.png";
+            if (rel.pictureUrl) {
+              const parts = rel.pictureUrl.split('/');
+              const fileName = parts.pop();
+              const pPath = parts.join('/') + '/';
+              const dotIndex = fileName.lastIndexOf('.');
+              const thumb = "thumbnail_" + (dotIndex !== -1 ? fileName.substring(0, dotIndex) : fileName) + ".jpg";
+              relImg = `/image-proxy/${pPath}${thumb}`;
+            }
+            const relSlug = generateSlug(rel.title, rLoc, rel.no);
+            const relPriceStr = rPrice > 0 ? `$${rPrice.toLocaleString()}` : "Free";
+            const safeRelTitle = (rel.title || "").replace(/"/g, '&quot;');
+
+            return `
+              <a class="related-card" href="${relSlug}">
+                <img src="${relImg}" class="related-card-img" alt="${safeRelTitle}" loading="lazy" onerror="this.onerror=null; this.src='/images/default-item-placeholder.png';"/>
+                <div class="related-card-info">
+                  <div class="related-card-price">${relPriceStr}</div>
+                  <div class="related-card-name">${safeRelTitle}</div>
+                </div>
+              </a>
+            `;
+          })
+        );
+
+        relatedHtml = relatedWithDetails.join('');
+      }
     } catch (e) {}
 
     // Page URL & Canonical
