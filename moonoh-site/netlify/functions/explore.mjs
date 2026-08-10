@@ -123,13 +123,13 @@ async function fetchAllCombinedItems() {
       }
     }
 
-    // Interleave Moonoh + External items for balanced density
-    const combined = [];
-    const maxLen = Math.max(moonohItems.length, externalItems.length);
-    for (let i = 0; i < maxLen; i++) {
-      if (i < moonohItems.length) combined.push(moonohItems[i]);
-      if (i < externalItems.length) combined.push(externalItems[i]);
-    }
+    // Combine Moonoh + External items and sort by recency / timestamp (newest first)
+    const combined = [...moonohItems, ...externalItems];
+    combined.sort((a, b) => {
+      const numA = parseInt(String(a.id).replace(/\D/g, '')) || 0;
+      const numB = parseInt(String(b.id).replace(/\D/g, '')) || 0;
+      return numB - numA;
+    });
 
     cachedCombinedItems = combined;
     lastFetchTime = now;
@@ -244,7 +244,7 @@ export default async (req, context) => {
 
     // Rule Distinction:
     // 1. User Entrypoint (/explore): Show Moonoh native items ONLY by default (Brand Identity / Real Marketplace).
-    // 2. SEO Aggregation Pages (/explore/{region}/{category}): Merge Moonoh + Karrot + HeyKorean for maximum density.
+    // 2. SEO Aggregation Pages (/explore/{region}/{category}): Merge Moonoh + Karrot + HeyKorean sorted by recency for maximum density.
     if (isMainUserEntrypoint) {
       filteredItems = filteredItems.filter(item => item.source === 'moonoh');
     } else if (isOthersPage) {
