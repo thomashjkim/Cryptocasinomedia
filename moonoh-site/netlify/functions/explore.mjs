@@ -158,8 +158,9 @@ export default async (req, context) => {
     // 1. Check for legacy query parameters and 301 Redirect to clean path URL
     const qLocation = url.searchParams.get('location') || url.searchParams.get('town');
     const qCategory = url.searchParams.get('category');
+    const qSource = url.searchParams.get('source');
 
-    if (qLocation || qCategory) {
+    if (qLocation || qCategory || qSource) {
       let rSlug = '';
       let cSlug = '';
 
@@ -184,9 +185,13 @@ export default async (req, context) => {
       }
 
       let redirectPath = '/explore';
-      if (rSlug && cSlug) redirectPath = `/explore/${rSlug}/${cSlug}`;
-      else if (rSlug) redirectPath = `/explore/${rSlug}`;
-      else if (cSlug) redirectPath = `/explore/${cSlug}`;
+      if (qSource === 'others') {
+        redirectPath = rSlug ? `/explore/${rSlug}/others` : '/explore/others';
+      } else {
+        if (rSlug && cSlug) redirectPath = `/explore/${rSlug}/${cSlug}`;
+        else if (rSlug) redirectPath = `/explore/${rSlug}`;
+        else if (cSlug) redirectPath = `/explore/${cSlug}`;
+      }
 
       if (redirectPath !== url.pathname) {
         return new Response(null, {
@@ -201,6 +206,11 @@ export default async (req, context) => {
 
     let regionSlug = null;
     let categorySlug = null;
+    let isOthersPage = false;
+
+    if (pathSegments.includes('others') || pathSegments.includes('external')) {
+      isOthersPage = true;
+    }
 
     if (pathSegments.length === 1) {
       if (REGIONS[pathSegments[0]]) regionSlug = pathSegments[0];
@@ -212,6 +222,11 @@ export default async (req, context) => {
 
     const allItems = await fetchAllCombinedItems();
     let filteredItems = allItems;
+
+    // Filter by Source (Others/External)
+    if (isOthersPage) {
+      filteredItems = filteredItems.filter(item => item.source === 'karrot' || item.source === 'heykorean' || item.source === 'external');
+    }
 
     // Filter by Region
     if (regionSlug && REGIONS[regionSlug]) {
@@ -231,8 +246,8 @@ export default async (req, context) => {
       });
     }
 
-    // Thin Content Protection: If region or category specified and items < 3, return 404
-    if ((regionSlug || categorySlug) && filteredItems.length < 3) {
+    // Thin Content Protection: If region/category/others specified and items < 3, return 404
+    if ((regionSlug || categorySlug || isOthersPage) && filteredItems.length < 3) {
       return new Response("No listings found for this region/category combination", { status: 404 });
     }
 
@@ -246,13 +261,16 @@ export default async (req, context) => {
     const categoryObj = CATEGORIES[categorySlug];
 
     const regionName = regionObj ? regionObj.name : "NYC & NJ";
-    const categoryName = categoryObj ? categoryObj.name : "Secondhand Items";
+    const categoryName = isOthersPage ? "Aggregated Items (Karrot & HeyKorean)" : (categoryObj ? categoryObj.name : "Secondhand Items");
 
     let pageTitle = "Explore Secondhand Items in NYC & NJ | Moonoh";
     let h1Text = "Explore Local Secondhand Items";
     let canonicalUrl = `https://moon-oh.com${url.pathname}`;
 
-    if (regionObj && categoryObj) {
+    if (isOthersPage) {
+      pageTitle = regionObj ? `Karrot & HeyKorean Items in ${regionName} | Moonoh` : `Aggregated Karrot & HeyKorean Secondhand Items | Moonoh`;
+      h1Text = regionObj ? `Karrot & HeyKorean Items in ${regionName}` : `Aggregated Karrot & HeyKorean Items`;
+    } else if (regionObj && categoryObj) {
       pageTitle = `Used ${categoryName} in ${regionName} | Moonoh`;
       h1Text = `Used ${categoryName} in ${regionName}`;
     } else if (regionObj) {
@@ -300,7 +318,7 @@ export default async (req, context) => {
       { name: 'Shoes in Manhattan', url: '/explore/manhattan/shoes' },
       { name: 'Baby & Kids in Bergen', url: '/explore/bergen-county/baby-kids' },
       { name: 'Furniture in Queens', url: '/explore/queens/furniture' },
-      { name: 'Women\'s Fashion in Manhattan', url: '/explore/manhattan/womens-fashion' }
+      { name: 'Aggregated Others Listings', url: '/explore/others' }
     ].filter(l => l.url !== url.pathname);
 
     const interlinkingHtml = `
