@@ -419,12 +419,17 @@ export default async (req, context) => {
     // If this is an external-only (/others) page, add noindex meta tag to head
     const robotsMeta = isOthersPage ? '\n  <meta name="robots" content="noindex, follow"/>' : '';
 
+    const extItemsForPreload = allItems.filter(item => item.source === 'karrot' || item.source === 'heykorean' || item.source === 'external');
+
     const schemaScript = `
   <script type="application/ld+json">${JSON.stringify(itemListSchema)}</script>
   <script type="application/ld+json">${JSON.stringify(breadcrumbSchema)}</script>
   <script type="application/ld+json">${JSON.stringify(collectionSchema)}</script>
   <script type="application/ld+json">${JSON.stringify(faqSchema)}</script>
-  <script>window.__INITIAL_ITEMS__ = ${JSON.stringify(filteredItems)};</script>
+  <script>
+    window.__INITIAL_ITEMS__ = ${JSON.stringify(filteredItems)};
+    window.__INITIAL_EXTERNAL_ITEMS__ = ${JSON.stringify(extItemsForPreload)};
+  </script>
 `;
 
     // Inject Title, Canonical & Schemas into <head>

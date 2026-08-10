@@ -1252,6 +1252,28 @@
       
       async function preloadExternalItems() {
         if (externalItemsList.length === 0) {
+          // Instant 0ms memory hydration if SSR preloaded external items
+          if (window.__INITIAL_EXTERNAL_ITEMS__ && Array.isArray(window.__INITIAL_EXTERNAL_ITEMS__) && window.__INITIAL_EXTERNAL_ITEMS__.length > 0) {
+            externalItemsList = window.__INITIAL_EXTERNAL_ITEMS__.map(raw => ({
+              no: raw.id || raw.no,
+              id: raw.id || raw.no,
+              title: raw.title,
+              price: raw.price,
+              image: raw.photo || raw.image,
+              photo: raw.photo || raw.image,
+              location: raw.townName || raw.location,
+              rawTown: raw.rawTown || raw.townName || raw.location || '',
+              category: raw.categoryName || raw.category,
+              categoryName: raw.categoryName || raw.category,
+              source: raw.source || 'external',
+              timeAgo: raw.timeAgo || ''
+            }));
+            if (activeSource === 'others') {
+              applyFilters(getActiveCategoryKeyword());
+            }
+            return;
+          }
+
           try {
             let res = await fetch('/api/external-items');
             if (!res.ok) res = await fetch('/.netlify/functions/external-items');
