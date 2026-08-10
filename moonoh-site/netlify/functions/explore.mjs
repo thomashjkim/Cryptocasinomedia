@@ -322,7 +322,7 @@ export default async (req, context) => {
     ].filter(l => l.url !== url.pathname);
 
     const interlinkingHtml = `
-      <div class="agg-interlink-section" style="max-width: 1200px; margin: 40px auto 20px; padding: 20px 16px; border-top: 1px solid #E5E7EB;">
+      <div class="agg-interlink-section" style="max-width: 1200px; margin: 40px auto 20px; padding: 20px 0; border-top: 1px solid #E5E7EB; width: 100%;">
         <h3 style="font-size: 16px; font-weight: 700; color: #1F2937; margin-bottom: 12px;">Explore Related Local Aggregations</h3>
         <div style="display: flex; flex-wrap: wrap; gap: 8px;">
           ${relatedLinks.map(l => `<a href="${l.url}" style="display: inline-block; padding: 6px 14px; background: #F3F4F6; color: #4B5563; font-size: 13px; font-weight: 500; border-radius: 9999px; text-decoration: none;">${l.name}</a>`).join('')}
@@ -330,11 +330,11 @@ export default async (req, context) => {
       </div>
     `;
 
-    // Hero Section HTML (H1 + Intro)
+    // Hero Section HTML (H1 + Intro - 24px Gap and Full Container Width)
     const heroHtml = `
-      <div class="agg-hero-section" style="max-width: 1200px; margin: 0 auto; padding: 24px 16px 12px;">
-        <h1 style="font-size: 28px; font-weight: 800; color: #111827; margin-bottom: 8px; tracking-tight;">${escapeHtml(h1Text)}</h1>
-        <p style="font-size: 15px; color: #4B5563; line-height: 1.6; margin-bottom: 16px; max-width: 800px;">${escapeHtml(introText)}</p>
+      <div class="agg-hero-section" style="margin-top: 24px; margin-bottom: 24px; width: 100%; box-sizing: border-box;">
+        <h1 style="font-size: 28px; font-weight: 800; color: #111827; margin-bottom: 8px; letter-spacing: -0.02em;">${escapeHtml(h1Text)}</h1>
+        <p style="font-size: 15px; color: #4B5563; line-height: 1.6; margin-bottom: 0; width: 100%; max-width: 100%;">${escapeHtml(introText)}</p>
       </div>
     `;
 
