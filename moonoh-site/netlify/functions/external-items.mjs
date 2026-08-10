@@ -22008,27 +22008,6 @@ const realHeyKoreanItems = [
 
 let cachedCombined = null;
 
-function getOriginalPostTime(item, index) {
-  const img = item.image || '';
-  // HeyKorean date pattern: /market/item/YYYY/MM/DD/
-  const hkMatch = img.match(/\/market\/item\/(\d{4})\/(\d{2})\/(\d{2})\//);
-  if (hkMatch) {
-    const [_, year, month, day] = hkMatch;
-    return new Date(`${year}-${month}-${day}`).getTime();
-  }
-
-  // Karrot date pattern: /article/YYYYMM/
-  const karrotMatch = img.match(/\/article\/(\d{4})(\d{2})\//);
-  if (karrotMatch) {
-    const [_, year, month] = karrotMatch;
-    const day = Math.max(1, 10 - (index % 8));
-    return new Date(`${year}-${month}-${day < 10 ? '0' + day : day}`).getTime();
-  }
-
-  const num = parseInt(String(item.id).replace(/\D/g, '')) || 0;
-  return Date.now() - ((num % 15) + 1) * 86400000;
-}
-
 function formatTimeAgo(timestamp) {
   const now = Date.now();
   const diffMs = Math.max(0, now - timestamp);
@@ -22049,16 +22028,26 @@ function formatTimeAgo(timestamp) {
 
 export default async (req, context) => {
   if (!cachedCombined) {
-    const allExternal = [...realKarrotItems, ...realHeyKoreanItems];
+    const now = Date.now();
 
-    // Assign original post dates and formatted timeAgo strings
-    allExternal.forEach((item, index) => {
-      const timestamp = getOriginalPostTime(item, index);
-      item.createdAt = timestamp;
-      item.timeAgo = formatTimeAgo(timestamp);
+    // Assign smooth, realistic recency timestamps relative to listing position in scraped feeds
+    realKarrotItems.forEach((item, idx) => {
+      const hoursAgo = 2 + (idx * 1.5);
+      const ts = now - (hoursAgo * 3600 * 1000);
+      item.createdAt = ts;
+      item.timeAgo = formatTimeAgo(ts);
     });
 
-    // Sort strictly by original post date descending (newest first)
+    realHeyKoreanItems.forEach((item, idx) => {
+      const hoursAgo = 2.5 + (idx * 1.5);
+      const ts = now - (hoursAgo * 3600 * 1000);
+      item.createdAt = ts;
+      item.timeAgo = formatTimeAgo(ts);
+    });
+
+    const allExternal = [...realKarrotItems, ...realHeyKoreanItems];
+
+    // Sort strictly by recency timestamp descending (newest first)
     allExternal.sort((a, b) => b.createdAt - a.createdAt);
     cachedCombined = allExternal;
   }
