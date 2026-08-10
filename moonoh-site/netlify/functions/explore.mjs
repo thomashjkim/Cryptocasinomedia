@@ -329,14 +329,14 @@ export default async (req, context) => {
       `;
     });
 
-    // Interlinking Section
+    // Interlinking Section (Internal Links Juice - clean SEO combinations only)
     const relatedLinks = [
       { name: 'Electronics in Queens', url: '/explore/queens/electronics' },
       { name: 'Furniture in Brooklyn', url: '/explore/brooklyn/furniture' },
       { name: 'Shoes in Manhattan', url: '/explore/manhattan/shoes' },
       { name: 'Baby & Kids in Bergen', url: '/explore/bergen-county/baby-kids' },
       { name: 'Furniture in Queens', url: '/explore/queens/furniture' },
-      { name: 'Aggregated Others Listings', url: '/explore/others' }
+      { name: 'Women\'s Fashion in Manhattan', url: '/explore/manhattan/womens-fashion' }
     ].filter(l => l.url !== url.pathname);
 
     const interlinkingHtml = `
@@ -424,6 +424,9 @@ export default async (req, context) => {
       ]
     };
 
+    // If this is an external-only (/others) page, add noindex meta tag to head
+    const robotsMeta = isOthersPage ? '\n  <meta name="robots" content="noindex, follow"/>' : '';
+
     const schemaScript = `
   <script type="application/ld+json">${JSON.stringify(itemListSchema)}</script>
   <script type="application/ld+json">${JSON.stringify(breadcrumbSchema)}</script>
@@ -437,7 +440,7 @@ export default async (req, context) => {
       .replace(/<title>.*?<\/title>/i, `<title>${escapeHtml(pageTitle)}</title>`)
       .replace(/<meta content=".*?" name="description"\/>/i, `<meta content="${escapeHtml(introText)}" name="description"/>`)
       .replace(/<link href=".*?" rel="canonical"\/>/i, `<link href="${canonicalUrl}" rel="canonical"/>`)
-      .replace('</head>', `${schemaScript}</head>`);
+      .replace('</head>', `${schemaScript}${robotsMeta}</head>`);
 
     // Inject Hero Section & Grid HTML directly
     template = template.replace(
