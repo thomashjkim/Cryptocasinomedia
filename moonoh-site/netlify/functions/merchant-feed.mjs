@@ -56,20 +56,51 @@ function convertToJpgUrl(rawPath) {
   return `https://moon-oh.com/image-proxy/${path}thumbnail_${baseName}.jpg`;
 }
 
-// Filter out policy-violating items (tobacco, prescription drugs, pet pharmaceuticals)
+// Filter out policy-violating items (tobacco, prescription drugs, weapons, adult, counterfeit, etc.)
 function isPolicyViolatingItem(title, description, categoryName) {
   const t = (title + " " + description + " " + categoryName).toLowerCase();
   
-  // Tobacco & Nicotine Products (strictly prohibited on Google Merchant Center)
-  if (t.includes("marlboro") || t.includes("tobacco") || t.includes("cigarette") || t.includes("cigar") || t.includes("vape") || t.includes("nicotine") || t.includes("cbd")) {
+  // 1. Tobacco & Nicotine Products (strictly prohibited)
+  if (t.includes("marlboro") || t.includes("tobacco") || t.includes("cigarette") || t.includes("cigar") || t.includes("vape") || t.includes("nicotine") || t.includes("cbd") || t.includes("e-cig")) {
     return true;
   }
   
-  // Prescription Drugs & Pet Pharmaceuticals (requires special certification)
-  if (t.includes("cosequin") || t.includes("prescription") || t.includes("pharmaceutical") || t.includes("antibiotic")) {
+  // 2. Prescription Drugs, Pet Pharmaceuticals & Medical Devices
+  if (t.includes("cosequin") || t.includes("prescription") || t.includes("pharmaceutical") || t.includes("antibiotic") || t.includes("cpap") || t.includes("syringe") || t.includes("needle")) {
     return true;
   }
-  
+
+  // 3. Weapons, Ammunition & Explosives
+  if (t.includes("gun") || t.includes("rifle") || t.includes("pistol") || t.includes("firearm") || t.includes("ammo") || t.includes("bullet") || t.includes("knife") || t.includes("sword") || t.includes("weapon") || t.includes("explosive") || t.includes("firework") || t.includes("pepper spray")) {
+    // Exceptions for toys or kitchen knives might be needed, but broad filter is safer for GMC compliance.
+    if (!t.includes("toy") && !t.includes("water gun") && !t.includes("kitchen knife") && !t.includes("chef knife")) {
+      return true;
+    }
+  }
+
+  // 4. Adult Content & Inappropriate Content
+  if (t.includes("porn") || t.includes("sex toy") || t.includes("vibrator") || t.includes("dildo") || t.includes("erotic") || t.includes("fetish")) {
+    return true;
+  }
+
+  // 5. Counterfeit & Fake Goods
+  if (t.includes("fake") || t.includes("replica") || t.includes("knockoff") || t.includes("counterfeit") || t.includes("clone")) {
+    return true;
+  }
+
+  // 6. Alcohol
+  if (t.includes("alcohol") || t.includes("liquor") || t.includes("whiskey") || t.includes("vodka") || t.includes("rum") || t.includes("beer") || t.includes("wine")) {
+    // Exclude wine glasses or racks
+    if (!t.includes("glass") && !t.includes("rack") && !t.includes("cooler") && !t.includes("opener")) {
+      return true;
+    }
+  }
+
+  // 7. Live Animals
+  if (t.includes("live animal") || t.includes("puppy for sale") || t.includes("kitten for sale")) {
+    return true;
+  }
+
   return false;
 }
 
