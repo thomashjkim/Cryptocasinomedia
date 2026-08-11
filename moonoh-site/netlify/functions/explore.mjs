@@ -154,6 +154,14 @@ async function fetchAllCombinedItems() {
             rawTown: raw.rawTown || raw.location || '',
             categoryName: catName,
             detailUrl: `https://moon-oh.com${slug}`,
+            source: raw.source || 'external',
+            createdAt: raw.createdAt || 0,
+            timeAgo: raw.timeAgo || 'Recently'
+          };
+        });
+      }
+    }
+
     // Assign stable descending timestamps to external items to preserve Karrot & HeyKorean interleaving
     const baseTime = Date.now();
     const externalItemsWithTime = externalItems.map((item, idx) => ({
