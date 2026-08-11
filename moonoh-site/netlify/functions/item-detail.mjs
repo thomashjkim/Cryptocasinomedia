@@ -22536,6 +22536,11 @@ export default async (req, context) => {
     }
     .header-logo img { height: 24px; display: block; }
     .header-back { font-size: 14px; font-weight: 600; color: #4B5563; display: flex; align-items: center; gap: 6px; }
+    .back-text-short { display: none; }
+    @media (max-width: 768px) {
+      .back-text-full { display: none; }
+      .back-text-short { display: inline; }
+    }
 
     .item-detail-container {
       max-width: 940px; margin: 12px auto 0; padding: 0 20px;
@@ -22695,7 +22700,7 @@ export default async (req, context) => {
   <header class="header-nav">
     <div class="header-content">
       <a href="${isExternal ? '/explore?source=others' : '/explore'}" class="header-back">
-        ← Back to Explore
+        ← <span class="back-text-full">Back to Explore</span><span class="back-text-short">Back</span>
       </a>
       <a href="/" class="header-logo">
         <img src="https://cdn.prod.website-files.com/65e3de602f703e1765199b30/65e51874e4a73ff20cb673ec_Logo.svg" alt="moonoh logo"/>
