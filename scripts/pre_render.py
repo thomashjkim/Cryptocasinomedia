@@ -530,16 +530,14 @@ def renderArticlePage(slug):
                                 """
                                 
     ADSENSE_IN_ARTICLE = '''
-<!-- Ad_01 - In-Article Mid Display Ad -->
-<div class="my-8" aria-label="Advertisement">
-  <ins class="adsbygoogle"
-       style="display:block"
-       data-ad-client="ca-pub-1468812481841371"
-       data-ad-slot="2743614767"
-       data-ad-format="auto"
-       data-full-width-responsive="true"></ins>
-  <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-</div>
+<!-- In-article Ad (fluid) -->
+<ins class="adsbygoogle"
+     style="display:block; text-align:center"
+     data-ad-layout="in-article"
+     data-ad-format="fluid"
+     data-ad-client="ca-pub-1468812481841371"
+     data-ad-slot="5804892373"></ins>
+<script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
 '''
     bodyHtml = f'<section id="core-announcement" data-semantic-role="body" data-key-entities="{", ".join(article["topics"])}">'
     for idx, p in enumerate(article['body'][1:]):
