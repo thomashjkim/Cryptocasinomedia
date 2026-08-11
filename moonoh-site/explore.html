@@ -699,6 +699,11 @@
       color: #2D8CFF;
       border: 1px solid #B8D9FF;
     }
+    .badge-moonoh {
+      background-color: #EDEFFC;
+      color: #3a46e2;
+      border: 1px solid #C7CEFA;
+    }
     
     /* Modal Styles */
     .moonoh-modal-overlay {
@@ -1051,6 +1056,8 @@
           badgeHtml = `<div class="item-card-badge badge-karrot">Karrot</div>`;
         } else if (item.source === 'heykorean') {
           badgeHtml = `<div class="item-card-badge badge-heykorean">HeyKorean</div>`;
+        } else {
+          badgeHtml = `<div class="item-card-badge badge-moonoh">Moonoh</div>`;
         }
 
         function generateExternalSlug(t, l, id) {

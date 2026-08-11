@@ -405,6 +405,8 @@ export default async (req, context) => {
         badgeHtml = `<div class="item-card-badge badge-karrot" style="display:inline-block; background:#FFF1E6; color:#FF6F0F; border:1px solid #FFD0B0; font-size:10.5px; font-weight:700; padding:1px 6px; border-radius:4px; margin-top:4px; line-height:1.2;">Karrot</div>`;
       } else if (item.source === 'heykorean') {
         badgeHtml = `<div class="item-card-badge badge-heykorean" style="display:inline-block; background:#EBF4FF; color:#2D8CFF; border:1px solid #B8D9FF; font-size:10.5px; font-weight:700; padding:1px 6px; border-radius:4px; margin-top:4px; line-height:1.2;">HeyKorean</div>`;
+      } else {
+        badgeHtml = `<div class="item-card-badge badge-moonoh" style="display:inline-block; background:#EDEFFC; color:#3a46e2; border:1px solid #C7CEFA; font-size:10.5px; font-weight:700; padding:1px 6px; border-radius:4px; margin-top:4px; line-height:1.2;">Moonoh</div>`;
       }
 
       cardsHtml += `
