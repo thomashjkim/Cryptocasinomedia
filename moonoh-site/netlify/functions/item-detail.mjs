@@ -22059,11 +22059,12 @@ export default async (req, context) => {
     let productNo = "";
     let photos = [];
     let mainPhoto = "";
+    let extId = "";
 
     const extMatch = url.pathname.match(/-ext-(karrot-[a-z0-9_-]+|heykorean-[a-z0-9_-]+)/i);
     if (extMatch) {
       isExternal = true;
-      const extId = extMatch[1].toLowerCase();
+      extId = extMatch[1].toLowerCase();
       productNo = extId;
       const extItem = getExternalItemById(extId);
       if (!extItem) {
@@ -22192,7 +22193,7 @@ export default async (req, context) => {
           return x - Math.floor(x);
         };
 
-        const customSort = (arr) => [...arr].sort((a, b) => pseudoRandom(a.id.length) - pseudoRandom(b.id.length));
+        const customSort = (arr) => [...arr].sort((a, b) => pseudoRandom(arr.indexOf(a)) - pseudoRandom(arr.indexOf(b)));
 
         const selected = [...customSort(sameCategory), ...customSort(otherCategory)].slice(0, 5);
 
