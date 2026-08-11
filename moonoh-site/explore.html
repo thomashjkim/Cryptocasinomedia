@@ -530,18 +530,18 @@
       -webkit-appearance: none;
       padding: 9px 36px 9px 16px;
       border-radius: 999px;
-      border: 1.5px solid #4F46E5;
+      border: 1.5px solid #3a46e2;
       font-size: 14px;
       font-weight: 600;
-      color: #4F46E5;
-      background: #EEF2FF;
+      color: #3a46e2;
+      background: #EDEFFC;
       cursor: pointer;
       outline: none;
       transition: border-color 0.2s, background 0.2s;
       min-width: 180px;
     }
     #location-select:hover {
-      background: #E0E7FF;
+      background: #D9DCF9;
     }
     .location-select-caret {
       position: absolute;
@@ -689,14 +689,18 @@
       width: fit-content;
     }
     .badge-karrot {
-      background-color: #FFF1E6;
+      background-color: rgba(255, 241, 230, 0.92);
       color: #FF6F0F;
       border: 1px solid #FFD0B0;
+      backdrop-filter: blur(4px);
+      box-shadow: 0 1px 4px rgba(0,0,0,0.15);
     }
     .badge-heykorean {
-      background-color: #EBF4FF;
+      background-color: rgba(235, 244, 255, 0.92);
       color: #2D8CFF;
       border: 1px solid #B8D9FF;
+      backdrop-filter: blur(4px);
+      box-shadow: 0 1px 4px rgba(0,0,0,0.15);
     }
     
     /* Modal Styles */
@@ -1078,12 +1082,14 @@
 
         html += `
         <a class="item-card" ${clickAttr} style="text-decoration:none; color:inherit;">
-          <img src="${imgSrc}" alt="${safeTitle}" class="item-card-image" loading="lazy" onerror="this.onerror=null; this.src='/images/default-item-placeholder.png';">
+          <div class="item-card-img-wrap" style="position:relative;">
+            <img src="${imgSrc}" alt="${safeTitle}" class="item-card-image" loading="lazy" onerror="this.onerror=null; this.src='/images/default-item-placeholder.png';">
+            ${badgeHtml ? `<div style="position:absolute; bottom:6px; left:6px;">${badgeHtml}</div>` : ''}
+          </div>
           <div class="item-card-content">
             <div class="item-card-price">${priceStr}</div>
             <div class="item-card-title">${itemTitle}</div>
             <div class="item-card-location">${itemLoc}</div>
-            ${badgeHtml}
           </div>
         </a>
         `;

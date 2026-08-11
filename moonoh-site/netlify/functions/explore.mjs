@@ -402,14 +402,14 @@ export default async (req, context) => {
 
       cardsHtml += `
         <div class="item-card" onclick="location.href='${item.detailUrl}'" style="cursor:pointer;">
-          <div class="item-card-img-wrap">
+          <div class="item-card-img-wrap" style="position:relative;">
             <img src="${escapeHtml(item.photo)}" alt="${escapeHtml(item.title)}" class="item-card-img" loading="lazy" onerror="this.onerror=null; this.src='/images/default-item-placeholder.png';"/>
+            ${badgeHtml ? `<div style="position:absolute; bottom:6px; left:6px;">${badgeHtml}</div>` : ''}
           </div>
           <div class="item-card-info">
             <div class="item-card-price">${priceStr}</div>
             <div class="item-card-title">${escapeHtml(item.title)}</div>
             <div class="item-card-location">${escapeHtml(timeLoc)}</div>
-            ${badgeHtml}
           </div>
         </div>
       `;
@@ -528,7 +528,7 @@ export default async (req, context) => {
         ${medianPrice > 0 ? `<div class="stat-chip" style="display:flex; align-items:center; gap:6px; background:#F3F4F6; border-radius:9999px; padding:6px 14px; font-size:13px; font-weight:600; color:#111827;"><span style="color:#059669;">💰</span> ${avgPriceStr}</div>` : ''}
         ${(minPrice > 0 && maxPrice > 0) ? `<div class="stat-chip" style="display:flex; align-items:center; gap:6px; background:#F3F4F6; border-radius:9999px; padding:6px 14px; font-size:13px; color:#4B5563;">Range: ${priceRangeStr}</div>` : ''}
         <div class="stat-chip" style="display:flex; align-items:center; gap:6px; background:#F3F4F6; border-radius:9999px; padding:6px 14px; font-size:13px; color:#4B5563;">🕐 Last listed: ${lastListedStr}</div>
-        ${moonohCount > 0 ? `<div class="stat-chip" style="display:flex; align-items:center; gap:6px; background:#E8F0FE; border-radius:9999px; padding:6px 14px; font-size:12px; color:#0047AB; font-weight:600;">Moonoh: ${moonohCount}</div>` : ''}
+        ${moonohCount > 0 ? `<div class="stat-chip" style="display:flex; align-items:center; gap:6px; background:#EDEFFC; border-radius:9999px; padding:6px 14px; font-size:12px; color:#3a46e2; font-weight:600;">Moonoh: ${moonohCount}</div>` : ''}
         ${karrotCount > 0 ? `<div class="stat-chip" style="display:flex; align-items:center; gap:6px; background:#FFF7ED; border-radius:9999px; padding:6px 14px; font-size:12px; color:#C2410C;">Karrot: ${karrotCount}</div>` : ''}
         ${heykoreanCount > 0 ? `<div class="stat-chip" style="display:flex; align-items:center; gap:6px; background:#EBF4FF; border-radius:9999px; padding:6px 14px; font-size:12px; color:#2D8CFF;">HeyKorean: ${heykoreanCount}</div>` : ''}
       </div>` : '';
