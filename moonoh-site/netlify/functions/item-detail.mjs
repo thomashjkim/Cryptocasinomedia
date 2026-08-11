@@ -22732,6 +22732,13 @@ export default async (req, context) => {
           <span>${townName}</span>
         </div>
 
+        ${isExternal ? `
+        <div style="background:#FFF7ED; border:1px solid #FFEDD5; border-radius:12px; padding:12px 16px; margin-bottom:20px; font-size:13px; color:#C2410C; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:8px;">
+          <span>🔗 <strong>External Listing (${externalSource === 'heykorean' ? 'HeyKorean' : 'Karrot'})</strong> · Last verified ${new Date().toLocaleDateString('en-US', {month:'short', day:'numeric', year:'numeric'})}</span>
+          <a href="${externalUrl}" target="_blank" rel="noopener noreferrer" onclick="if(typeof gtag==='function')gtag('event','click_external_source',{source:'${externalSource}',item_url:'${externalUrl}'});" style="color:#C2410C; font-weight:700; text-decoration:underline;">View original source ↗</a>
+        </div>
+        ` : ''}
+
         <div class="divider"></div>
 
         <!-- Description -->
@@ -22761,8 +22768,8 @@ export default async (req, context) => {
           <h2 class="section-title" style="margin-top:0; font-size:16px; color:#111827;">How to Purchase</h2>
           <p style="font-size:14px; color:#4B5563; margin-bottom:14px; line-height:1.5;">${isExternal ? `This item is listed on ${externalSource === 'heykorean' ? 'HeyKorean' : 'Karrot'}. Click below to view the listing and contact the seller directly.` : `Download the free Moonoh app to chat directly with ${sellerName}, arrange local meetup in ${townName}, and purchase with zero fees.`}</p>
           ${isExternal 
-            ? `<a href="${externalUrl}" target="_blank" rel="noopener noreferrer" style="width:100%; background:#4F46E5; color:#FFFFFF; border:none; padding:14px; border-radius:12px; font-weight:700; font-size:15px; cursor:pointer; display:inline-flex; align-items:center; justify-content:center; gap:8px; text-decoration:none;"><span>Buy / View Listing</span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></a>`
-            : `<button onclick="openModal()" style="width:100%; background:#4F46E5; color:#FFFFFF; border:none; padding:14px; border-radius:12px; font-weight:700; font-size:15px; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:8px;"><span>Buy / Chat on App</span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg></button>`
+            ? `<a href="${externalUrl}" target="_blank" rel="noopener noreferrer" onclick="if(typeof gtag==='function')gtag('event','click_external_source',{source:'${externalSource}',item_url:'${externalUrl}'});" style="width:100%; background:#4F46E5; color:#FFFFFF; border:none; padding:14px; border-radius:12px; font-weight:700; font-size:15px; cursor:pointer; display:inline-flex; align-items:center; justify-content:center; gap:8px; text-decoration:none;"><span>Buy / View Listing</span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></a>`
+            : `<button onclick="if(typeof gtag==='function')gtag('event','click_buy_chat',{item_id:'${productNo}'});openModal();" style="width:100%; background:#4F46E5; color:#FFFFFF; border:none; padding:14px; border-radius:12px; font-weight:700; font-size:15px; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:8px;"><span>Buy / Chat on App</span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg></button>`
           }
         </div>
 
@@ -22800,8 +22807,8 @@ export default async (req, context) => {
         <div class="bottom-price-label">Initial price</div>
       </div>
       ${isExternal 
-        ? `<a href="${externalUrl}" target="_blank" rel="noopener noreferrer" class="chat-btn" style="display:inline-flex; align-items:center; justify-content:center; gap:6px; text-decoration:none;">Buy on ${externalSource === "heykorean" ? "HeyKorean" : "Karrot"} <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></a>`
-        : `<button class="chat-btn" onclick="openModal()">Buy / Chat on App</button>`
+        ? `<a href="${externalUrl}" target="_blank" rel="noopener noreferrer" onclick="if(typeof gtag==='function')gtag('event','click_external_source',{source:'${externalSource}',item_url:'${externalUrl}'});" class="chat-btn" style="display:inline-flex; align-items:center; justify-content:center; gap:6px; text-decoration:none;">Buy on ${externalSource === "heykorean" ? "HeyKorean" : "Karrot"} <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></a>`
+        : `<button class="chat-btn" onclick="if(typeof gtag==='function')gtag('event','click_buy_chat',{item_id:'${productNo}'});openModal();">Buy / Chat on App</button>`
       }
     </div>
   </div>
@@ -22813,10 +22820,10 @@ export default async (req, context) => {
       <h3 style="font-size:22px; font-weight:800; color:#111827; margin-bottom:12px;">Get the Moonoh App</h3>
       <p style="font-size:14px; color:#6B7280; margin-bottom:28px; line-height:1.5;">Want to chat with <strong style="color:#111827;">${sellerName}</strong> to buy this item?<br/>Download the free Moonoh app to start secure chat.</p>
       <div style="display:flex; flex-direction:column; gap:12px;">
-        <a href="https://apps.apple.com/us/app/moonoh/id6477390079" target="_blank">
+        <a href="https://apps.apple.com/us/app/moonoh/id6477390079" target="_blank" onclick="if(typeof gtag==='function')gtag('event','click_app_store',{platform:'ios'});">
           <img src="https://cdn.prod.website-files.com/65e3de602f703e1765199b30/65e3defb38f948f6f3f18a51_appstore.svg" width="100%" style="max-width:220px; margin:0 auto; display:block;">
         </a>
-        <a href="https://play.google.com/store/apps/details?id=com.moonoh" target="_blank">
+        <a href="https://play.google.com/store/apps/details?id=com.moonoh" target="_blank" onclick="if(typeof gtag==='function')gtag('event','click_google_play',{platform:'android'});">
           <img src="https://cdn.prod.website-files.com/65e3de602f703e1765199b30/66f20cadd9e770db9e8cf5d7_Google_Play_Store_badge_EN.svg%20(1).png" width="100%" style="max-width:220px; margin:0 auto; display:block;">
         </a>
       </div>

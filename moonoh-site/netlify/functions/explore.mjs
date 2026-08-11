@@ -292,8 +292,8 @@ export default async (req, context) => {
       });
     }
 
-    // Thin Content Protection: If region/category/others specified and items < 3, return 404
-    if ((regionSlug || categorySlug || isOthersPage) && filteredItems.length < 3) {
+    // Thin Content Protection
+    if ((regionSlug || categorySlug || isOthersPage) && filteredItems.length === 0) {
       return new Response("No listings found for this region/category combination", { status: 404 });
     }
 
@@ -328,9 +328,45 @@ export default async (req, context) => {
     }
 
     const itemCount = filteredItems.length;
-    const introText = `Browse ${itemCount} verified ${categoryName.toLowerCase()} for sale in ${regionName} on Moonoh. Find local deals from individual sellers across neighborhoods — including listings aggregated from Karrot and HeyKorean. Meet up locally or contact sellers directly.`;
 
-    // SSR Grid Cards HTML
+    // ── Stats Computation ──────────────────────────────────────────────────────
+    const pricedItems = filteredItems.filter(i => i.price > 0);
+    const prices = pricedItems.map(i => i.price).sort((a, b) => a - b);
+    const medianPrice = prices.length > 0
+      ? (prices.length % 2 === 0 ? (prices[prices.length / 2 - 1] + prices[prices.length / 2]) / 2 : prices[Math.floor(prices.length / 2)])
+      : 0;
+    const minPrice = prices.length > 0 ? prices[0] : 0;
+    const maxPrice = prices.length > 0 ? prices[prices.length - 1] : 0;
+    const freeCount = filteredItems.filter(i => i.price <= 0).length;
+
+    const moonohCount = filteredItems.filter(i => i.source === 'moonoh').length;
+    const karrotCount = filteredItems.filter(i => i.source === 'karrot').length;
+    const heykoreanCount = filteredItems.filter(i => i.source === 'heykorean').length;
+
+    // Most recently listed
+    const sortedByRecent = [...filteredItems].sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
+    const mostRecentItem = sortedByRecent[0];
+    let lastListedStr = 'Recently';
+    if (mostRecentItem && mostRecentItem.timeAgo) {
+      lastListedStr = mostRecentItem.timeAgo;
+    }
+
+    const avgPriceStr = medianPrice > 0 ? `$${Math.round(medianPrice).toLocaleString()} median` : 'Free items available';
+    const priceRangeStr = (minPrice > 0 && maxPrice > 0)
+      ? `$${Math.round(minPrice).toLocaleString()} – $${Math.round(maxPrice).toLocaleString()}`
+      : (freeCount > 0 ? 'Free & paid items' : 'Prices vary');
+
+    // ── robots meta: 3-4 items → noindex, 0-2 → 404 ───────────────────────────
+    let robotsMeta = '';
+    if (isOthersPage) {
+      robotsMeta = '\n  <meta name="robots" content="noindex, follow"/>';
+    } else if ((regionSlug || categorySlug) && itemCount > 0 && itemCount < 5) {
+      robotsMeta = '\n  <meta name="robots" content="noindex, follow"/>';
+    }
+
+    const introText = `Browse ${itemCount} verified ${categoryName.toLowerCase()} for sale in ${regionName} on Moonoh. Find local deals from individual sellers — including listings from Karrot and HeyKorean. ${avgPriceStr}. Meet up safely with local sellers across ${regionName} neighborhoods.`;
+
+    // ── SSR Grid Cards ─────────────────────────────────────────────────────────
     const initialItems = filteredItems.slice(0, 40);
     let cardsHtml = '';
     initialItems.forEach(item => {
@@ -358,34 +394,162 @@ export default async (req, context) => {
       `;
     });
 
-    // Interlinking Section (Internal Links Juice)
-    const relatedLinks = [
-      { name: 'Electronics in Queens', url: '/explore/queens/electronics' },
-      { name: 'Furniture in Brooklyn', url: '/explore/brooklyn/furniture' },
-      { name: 'Shoes in Manhattan', url: '/explore/manhattan/shoes' },
-      { name: 'Baby & Kids in Bergen', url: '/explore/bergen-county/baby-kids' },
-      { name: 'Furniture in Queens', url: '/explore/queens/furniture' },
-      { name: 'Women\'s Fashion in Manhattan', url: '/explore/manhattan/womens-fashion' }
-    ].filter(l => l.url !== url.pathname);
+    // ── Dynamic Interlinking ───────────────────────────────────────────────────
+    const ALL_REGIONS = ['manhattan', 'queens', 'brooklyn', 'bronx', 'staten-island', 'bergen-county', 'hudson-county'];
+    const ALL_CATS = ['electronics', 'furniture', 'shoes', 'womens-fashion', 'mens-fashion', 'home-garden', 'baby-kids', 'sports-leisure', 'toys-games', 'jewelry-watches', 'luggages-bags', 'arts-books-music', 'health-beauty', 'pet-supplies'];
 
+    let relatedLinks = [];
+    if (regionSlug && categorySlug) {
+      // Region+Category page: link to same category in other regions + same region other categories
+      ALL_REGIONS.filter(r => r !== regionSlug).slice(0, 4).forEach(r => {
+        relatedLinks.push({ name: `${CATEGORIES[categorySlug].name} in ${REGIONS[r].name.split(',')[0]}`, url: `/explore/${r}/${categorySlug}` });
+      });
+      ALL_CATS.filter(c => c !== categorySlug).slice(0, 4).forEach(c => {
+        relatedLinks.push({ name: `${CATEGORIES[c].name} in ${regionObj.name.split(',')[0]}`, url: `/explore/${regionSlug}/${c}` });
+      });
+    } else if (regionSlug) {
+      // Region page: link to top categories in this region
+      ALL_CATS.slice(0, 8).forEach(c => {
+        relatedLinks.push({ name: `${CATEGORIES[c].name} in ${regionObj.name.split(',')[0]}`, url: `/explore/${regionSlug}/${c}` });
+      });
+      ALL_REGIONS.filter(r => r !== regionSlug).slice(0, 4).forEach(r => {
+        relatedLinks.push({ name: `Items in ${REGIONS[r].name.split(',')[0]}`, url: `/explore/${r}` });
+      });
+    } else if (categorySlug) {
+      // Category page: link to this category in each region
+      ALL_REGIONS.forEach(r => {
+        relatedLinks.push({ name: `${categoryObj.name} in ${REGIONS[r].name.split(',')[0]}`, url: `/explore/${r}/${categorySlug}` });
+      });
+      ALL_CATS.filter(c => c !== categorySlug).slice(0, 5).forEach(c => {
+        relatedLinks.push({ name: `Used ${CATEGORIES[c].name} — NYC & NJ`, url: `/explore/${c}` });
+      });
+    } else {
+      relatedLinks = [
+        { name: 'Electronics in Queens', url: '/explore/queens/electronics' },
+        { name: 'Furniture in Brooklyn', url: '/explore/brooklyn/furniture' },
+        { name: 'Shoes in Manhattan', url: '/explore/manhattan/shoes' },
+        { name: 'Baby & Kids in Bergen County', url: '/explore/bergen-county/baby-kids' },
+        { name: 'Furniture in Queens', url: '/explore/queens/furniture' },
+        { name: "Women's Fashion in Manhattan", url: '/explore/manhattan/womens-fashion' }
+      ];
+    }
+    relatedLinks = relatedLinks.filter(l => l.url !== url.pathname).slice(0, 12);
+
+    // ── Dynamic FAQ (3-4 items per page type) ─────────────────────────────────
+    const lastVerifiedDate = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+    let faqItems = [];
+
+    if (regionObj && categoryObj) {
+      faqItems = [
+        {
+          q: `Where can I buy used ${categoryName} in ${regionName}?`,
+          a: `You can browse ${itemCount} verified used ${categoryName.toLowerCase()} listings in ${regionName} on Moonoh. Listings come from local sellers on Moonoh, Karrot, and HeyKorean — all aggregated in one place. Prices range from ${priceRangeStr}. Last verified: ${lastVerifiedDate}.`
+        },
+        {
+          q: `What is the average price for used ${categoryName} in ${regionName}?`,
+          a: `Based on ${pricedItems.length} active listings in ${regionName}, the median price for used ${categoryName.toLowerCase()} is ${avgPriceStr}. Prices range from ${priceRangeStr}. ${freeCount > 0 ? `${freeCount} item${freeCount > 1 ? 's are' : ' is'} listed for free.` : ''} Prices are updated as sellers post new listings.`
+        },
+        {
+          q: `How do I safely buy used ${categoryName} locally in ${regionName}?`,
+          a: `Moonoh recommends meeting in a public place such as a coffee shop, library, or police station parking lot in ${regionName.split(',')[0]}. Always view the item in person before paying. Use Moonoh's in-app chat to communicate securely with the seller. Never send payment before inspecting the item.`
+        },
+        {
+          q: `How do I sell used ${categoryName} in ${regionName} on Moonoh?`,
+          a: `Download the free Moonoh app (iOS or Android), create a listing with photos and a price, and choose your preferred meetup neighborhood in ${regionName.split(',')[0]}. Your listing will appear to buyers searching for ${categoryName.toLowerCase()} in ${regionName}. Moonoh charges 0% seller fees.`
+        }
+      ];
+    } else if (regionObj) {
+      // Compute top categories in this region from filteredItems
+      const catCounts = {};
+      filteredItems.forEach(item => {
+        const cn = item.categoryName || 'Other';
+        catCounts[cn] = (catCounts[cn] || 0) + 1;
+      });
+      const topCats = Object.entries(catCounts).sort((a, b) => b[1] - a[1]).slice(0, 3).map(([n]) => n).join(', ');
+
+      faqItems = [
+        {
+          q: `What secondhand items are for sale in ${regionName} right now?`,
+          a: `There are currently ${itemCount} verified secondhand items listed in ${regionName} on Moonoh. Popular categories include ${topCats || 'electronics, furniture, and fashion'}. Prices range from ${priceRangeStr}. New listings are added daily from local sellers and aggregated from Karrot and HeyKorean.`
+        },
+        {
+          q: `How do I find local deals near me in ${regionName}?`,
+          a: `Moonoh aggregates secondhand listings from local sellers in ${regionName} alongside listings from Karrot and HeyKorean. Browse by category using the filters above, or download the Moonoh app to get real-time notifications for new items near you in ${regionName.split(',')[0]}.`
+        },
+        {
+          q: `Is Moonoh available in ${regionName}?`,
+          a: `Yes — Moonoh serves buyers and sellers throughout ${regionName}, covering neighborhoods including ${(REGIONS[regionSlug]?.keywords || []).slice(0, 4).join(', ')}. With ${itemCount} active listings, it is one of the most active local marketplaces for secondhand goods in the area.`
+        }
+      ];
+    } else if (categoryObj) {
+      faqItems = [
+        {
+          q: `Where can I find used ${categoryName} for sale near me in NYC & NJ?`,
+          a: `Moonoh currently has ${itemCount} verified used ${categoryName.toLowerCase()} listings across NYC and NJ, including Manhattan, Queens, Brooklyn, The Bronx, Staten Island, Bergen County, and Hudson County. Listings come from local sellers and are aggregated from Karrot and HeyKorean. Last verified: ${lastVerifiedDate}.`
+        },
+        {
+          q: `What is the average price for used ${categoryName} in New York?`,
+          a: `Based on ${pricedItems.length} active listings across NYC & NJ, the median price for used ${categoryName.toLowerCase()} is ${avgPriceStr}. Prices range from ${priceRangeStr}. ${freeCount > 0 ? `${freeCount} items are listed for free.` : ''}`
+        },
+        {
+          q: `How do I buy used ${categoryName} safely through Moonoh?`,
+          a: `Browse listings on Moonoh's explore page, then use the in-app chat to contact the seller. Arrange to meet at a public location in your neighborhood. Inspect the item before any payment. Moonoh recommends meeting at police station parking lots or busy public areas for safe local exchanges. Never wire money or send payment before inspecting.`
+        }
+      ];
+    }
+
+    // ── Stats Bar HTML ─────────────────────────────────────────────────────────
+    const statsBarHtml = (regionSlug || categorySlug || isOthersPage) ? `
+      <div class="agg-stats-bar" style="display:flex; flex-wrap:wrap; gap:12px; margin-bottom:20px; margin-top:4px;">
+        <div class="stat-chip" style="display:flex; align-items:center; gap:6px; background:#F3F4F6; border-radius:9999px; padding:6px 14px; font-size:13px; font-weight:600; color:#111827;">
+          <span style="color:#4F46E5;">📦</span> ${itemCount.toLocaleString()} items
+        </div>
+        ${medianPrice > 0 ? `<div class="stat-chip" style="display:flex; align-items:center; gap:6px; background:#F3F4F6; border-radius:9999px; padding:6px 14px; font-size:13px; font-weight:600; color:#111827;"><span style="color:#059669;">💰</span> ${avgPriceStr}</div>` : ''}
+        ${(minPrice > 0 && maxPrice > 0) ? `<div class="stat-chip" style="display:flex; align-items:center; gap:6px; background:#F3F4F6; border-radius:9999px; padding:6px 14px; font-size:13px; color:#4B5563;">Range: ${priceRangeStr}</div>` : ''}
+        <div class="stat-chip" style="display:flex; align-items:center; gap:6px; background:#F3F4F6; border-radius:9999px; padding:6px 14px; font-size:13px; color:#4B5563;">🕐 Last listed: ${lastListedStr}</div>
+        ${moonohCount > 0 ? `<div class="stat-chip" style="display:flex; align-items:center; gap:6px; background:#EFF6FF; border-radius:9999px; padding:6px 14px; font-size:12px; color:#1D4ED8;">Moonoh: ${moonohCount}</div>` : ''}
+        ${karrotCount > 0 ? `<div class="stat-chip" style="display:flex; align-items:center; gap:6px; background:#FFF7ED; border-radius:9999px; padding:6px 14px; font-size:12px; color:#C2410C;">Karrot: ${karrotCount}</div>` : ''}
+        ${heykoreanCount > 0 ? `<div class="stat-chip" style="display:flex; align-items:center; gap:6px; background:#F5F3FF; border-radius:9999px; padding:6px 14px; font-size:12px; color:#7C3AED;">HeyKorean: ${heykoreanCount}</div>` : ''}
+      </div>` : '';
+
+    // ── Hero Section ───────────────────────────────────────────────────────────
+    const heroHtml = `
+      <div class="agg-hero-section" style="margin-top:24px; margin-bottom:24px; width:100%; box-sizing:border-box;">
+        <h1 style="font-size:28px; font-weight:800; color:#111827; margin-bottom:8px; letter-spacing:-0.02em;">${escapeHtml(h1Text)}</h1>
+        <p style="font-size:15px; color:#4B5563; line-height:1.6; margin-bottom:16px; width:100%; max-width:100%;">${escapeHtml(introText)}</p>
+        ${statsBarHtml}
+      </div>
+    `;
+
+    // ── Visual FAQ Section ─────────────────────────────────────────────────────
+    const faqHtml = faqItems.length > 0 ? `
+      <div class="agg-faq-section" style="max-width:1200px; margin:48px auto 0; padding:0 0 40px; border-top:1px solid #E5E7EB; width:100%;">
+        <h2 style="font-size:20px; font-weight:700; color:#111827; margin-bottom:20px; margin-top:28px;">Frequently Asked Questions</h2>
+        <div style="display:flex; flex-direction:column; gap:16px;">
+          ${faqItems.map(f => `
+            <details style="background:#F9FAFB; border:1px solid #E5E7EB; border-radius:12px; padding:16px 20px; cursor:pointer;">
+              <summary style="font-size:15px; font-weight:600; color:#111827; list-style:none; display:flex; justify-content:space-between; align-items:center;">
+                ${escapeHtml(f.q)}
+                <span style="font-size:20px; color:#9CA3AF; margin-left:12px; flex-shrink:0;">+</span>
+              </summary>
+              <p style="font-size:14px; color:#4B5563; line-height:1.7; margin-top:12px; margin-bottom:0;">${escapeHtml(f.a)}</p>
+            </details>
+          `).join('')}
+        </div>
+      </div>
+    ` : '';
+
+    // ── Interlinking Section ───────────────────────────────────────────────────
     const interlinkingHtml = `
-      <div class="agg-interlink-section" style="max-width: 1200px; margin: 40px auto 20px; padding: 20px 0; border-top: 1px solid #E5E7EB; width: 100%;">
-        <h3 style="font-size: 16px; font-weight: 700; color: #1F2937; margin-bottom: 12px;">Explore Related Local Aggregations</h3>
-        <div style="display: flex; flex-wrap: wrap; gap: 8px;">
-          ${relatedLinks.map(l => `<a href="${l.url}" style="display: inline-block; padding: 6px 14px; background: #F3F4F6; color: #4B5563; font-size: 13px; font-weight: 500; border-radius: 9999px; text-decoration: none;">${l.name}</a>`).join('')}
+      <div class="agg-interlink-section" style="max-width:1200px; margin:32px auto 20px; padding:20px 0; border-top:1px solid #E5E7EB; width:100%;">
+        <h3 style="font-size:16px; font-weight:700; color:#1F2937; margin-bottom:12px;">Explore Related Categories & Neighborhoods</h3>
+        <div style="display:flex; flex-wrap:wrap; gap:8px;">
+          ${relatedLinks.map(l => `<a href="${l.url}" style="display:inline-block; padding:6px 14px; background:#F3F4F6; color:#4B5563; font-size:13px; font-weight:500; border-radius:9999px; text-decoration:none;">${l.name}</a>`).join('')}
         </div>
       </div>
     `;
 
-    // Hero Section HTML (H1 + Intro - 24px Gap and Full Container Width)
-    const heroHtml = `
-      <div class="agg-hero-section" style="margin-top: 24px; margin-bottom: 24px; width: 100%; box-sizing: border-box;">
-        <h1 style="font-size: 28px; font-weight: 800; color: #111827; margin-bottom: 8px; letter-spacing: -0.02em;">${escapeHtml(h1Text)}</h1>
-        <p style="font-size: 15px; color: #4B5563; line-height: 1.6; margin-bottom: 0; width: 100%; max-width: 100%;">${escapeHtml(introText)}</p>
-      </div>
-    `;
-
-    // JSON-LD Schemas
+    // ── JSON-LD Schemas ────────────────────────────────────────────────────────
     const itemListSchema = {
       "@context": "https://schema.org",
       "@type": "ItemList",
@@ -435,26 +599,19 @@ export default async (req, context) => {
       "@type": "CollectionPage",
       "name": h1Text,
       "description": introText,
-      "url": canonicalUrl
+      "url": canonicalUrl,
+      "dateModified": new Date().toISOString()
     };
 
-    const faqSchema = {
+    const faqSchema = faqItems.length > 0 ? {
       "@context": "https://schema.org",
       "@type": "FAQPage",
-      "mainEntity": [
-        {
-          "@type": "Question",
-          "name": `Where can I buy used ${categoryName.toLowerCase()} in ${regionName}?`,
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": `You can browse ${itemCount} verified local secondhand ${categoryName.toLowerCase()} listings in ${regionName} on Moonoh, combining direct user uploads with aggregated listings from Karrot and HeyKorean.`
-          }
-        }
-      ]
-    };
-
-    // If this is an external-only (/others) page, add noindex meta tag to head
-    const robotsMeta = isOthersPage ? '\n  <meta name="robots" content="noindex, follow"/>' : '';
+      "mainEntity": faqItems.map(f => ({
+        "@type": "Question",
+        "name": f.q,
+        "acceptedAnswer": { "@type": "Answer", "text": f.a }
+      }))
+    } : null;
 
     const extItemsForPreload = allItems.filter(item => item.source === 'karrot' || item.source === 'heykorean' || item.source === 'external');
 
@@ -462,21 +619,21 @@ export default async (req, context) => {
   <script type="application/ld+json">${JSON.stringify(itemListSchema)}</script>
   <script type="application/ld+json">${JSON.stringify(breadcrumbSchema)}</script>
   <script type="application/ld+json">${JSON.stringify(collectionSchema)}</script>
-  <script type="application/ld+json">${JSON.stringify(faqSchema)}</script>
+  ${faqSchema ? `<script type="application/ld+json">${JSON.stringify(faqSchema)}</script>` : ''}
   <script>
     window.__INITIAL_ITEMS__ = ${JSON.stringify(filteredItems)};
     window.__INITIAL_EXTERNAL_ITEMS__ = ${JSON.stringify(extItemsForPreload)};
   </script>
 `;
 
-    // Inject Title, Canonical & Schemas into <head>
+    // ── Inject into Template ───────────────────────────────────────────────────
     template = template
       .replace(/<title>.*?<\/title>/i, `<title>${escapeHtml(pageTitle)}</title>`)
       .replace(/<meta content=".*?" name="description"\/>/i, `<meta content="${escapeHtml(introText)}" name="description"/>`)
       .replace(/<link [^>]*rel="canonical"[^>]*\/>/i, `<link rel="canonical" href="${canonicalUrl}"/>`)
       .replace('</head>', `${schemaScript}${robotsMeta}</head>`);
 
-    // On aggregation landing pages, hide source tab switcher to avoid UI confusion
+    // On aggregation landing pages, hide source tab switcher
     if (!isMainUserEntrypoint) {
       template = template.replace(
         'id="source-segment-wrap"',
@@ -484,14 +641,14 @@ export default async (req, context) => {
       );
     }
 
-    // Inject Hero Section & Grid HTML directly
+    // Inject Hero Section + Grid
     template = template.replace(
       '<div class="item-grid" id="moonoh-item-grid">',
       `${heroHtml}\n<div class="item-grid" id="moonoh-item-grid">\n${cardsHtml}`
     );
 
-    // Inject Interlinking Links before footer
-    template = template.replace('</main>', `${interlinkingHtml}\n</main>`);
+    // Inject FAQ + Interlinking before </main>
+    template = template.replace('</main>', `${faqHtml}\n${interlinkingHtml}\n</main>`);
 
     return new Response(template, {
       status: 200,
