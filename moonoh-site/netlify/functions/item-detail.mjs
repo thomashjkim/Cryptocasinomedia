@@ -22490,7 +22490,7 @@ export default async (req, context) => {
 
     .breadcrumb-bar {
       display: flex; align-items: center; gap: 6px; flex-wrap: wrap;
-      font-size: 13px; color: #6B7280; font-weight: 500; margin-bottom: 16px;
+      font-size: 13px; color: #6B7280; font-weight: 500; margin-top: 4px; margin-bottom: 16px;
     }
     .breadcrumb-bar a { color: #4F46E5; text-decoration: none; font-weight: 600; transition: color 0.15s; }
     .breadcrumb-bar a:hover { color: #3730A3; text-decoration: underline; }
@@ -22502,7 +22502,7 @@ export default async (req, context) => {
     }
     @media (max-width: 768px) {
       .item-detail-layout { grid-template-columns: 1fr; gap: 24px; }
-      .item-detail-container { padding: 0 16px; margin-top: 0; }
+      .item-detail-container { padding: 0 16px; margin-top: 4px; }
     }
 
     .gallery-container {
@@ -22596,10 +22596,10 @@ export default async (req, context) => {
       font-size: 16px; font-weight: 700;
       padding: 12px 48px; border-radius: 999px;
       border: none; cursor: pointer;
-      box-shadow: 0 4px 14px rgba(79, 70, 229, 0.35);
-      transition: background 0.2s, transform 0.1s, box-shadow 0.2s;
+      box-shadow: none;
+      transition: background 0.2s, transform 0.1s;
     }
-    .chat-btn:hover { background: #4338CA; box-shadow: 0 6px 18px rgba(79, 70, 229, 0.45); }
+    .chat-btn:hover { background: #4338CA; box-shadow: none; }
     .chat-btn:active { transform: scale(0.97); }
 
     .related-section { max-width: 940px; margin: 48px auto 0; padding: 0 20px; }
@@ -22808,7 +22808,7 @@ export default async (req, context) => {
           <span>Share via Email</span>
         </a>
 
-        <button id="share-copy-btn" onclick="copyShareLink()" style="display:flex; align-items:center; justify-content:center; gap:10px; background:#4F46E5; color:#FFFFFF; border:none; padding:12px; border-radius:12px; font-weight:600; font-size:14px; cursor:pointer; transition:all 0.2s; box-shadow: 0 4px 12px rgba(79,70,229,0.25);">
+        <button id="share-copy-btn" onclick="copyShareLink()" style="display:flex; align-items:center; justify-content:center; gap:10px; background:#4F46E5; color:#FFFFFF; border:none; padding:12px; border-radius:12px; font-weight:600; font-size:14px; cursor:pointer; transition:all 0.2s;">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
           <span id="copy-btn-text">Copy Link</span>
         </button>

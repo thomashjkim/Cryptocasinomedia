@@ -63,7 +63,7 @@
     }
     @media (max-width: 768px) {
       .item-detail-layout { grid-template-columns: 1fr; gap: 24px; }
-      .item-detail-container { padding: 0 16px; margin-top: 0; }
+      .item-detail-container { padding: 0 16px; margin-top: 4px; }
     }
 
     /* Gallery / Carousel Section (High-Res 4K Crisp Display) */
@@ -178,10 +178,10 @@
       font-size: 16px; font-weight: 700;
       padding: 12px 48px; border-radius: 999px; /* Pill Rounded Shape */
       border: none; cursor: pointer;
-      box-shadow: 0 4px 14px rgba(79, 70, 229, 0.35);
-      transition: background 0.2s, transform 0.1s, box-shadow 0.2s;
+      box-shadow: none;
+      transition: background 0.2s, transform 0.1s;
     }
-    .chat-btn:hover { background: #4338CA; box-shadow: 0 6px 18px rgba(79, 70, 229, 0.45); }
+    .chat-btn:hover { background: #4338CA; box-shadow: none; }
     .chat-btn:active { transform: scale(0.97); }
 
     /* Related Items Section */
