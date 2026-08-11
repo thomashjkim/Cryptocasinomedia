@@ -213,7 +213,7 @@ def renderFooter():
                     <div class="border-t border-gray-800 pt-8 text-xs text-gray-500 space-y-4 leading-relaxed">
                         <p><strong>Disclaimer:</strong> CryptoCasinoMedia is a B2B news and editorial publisher. We are not a casino operator. The content published on this site is intended for informational and industry analysis purposes only.</p>
                         <p><strong>Responsible Gambling:</strong> If you or someone you know has a gambling problem, crisis counseling and referral services can be accessed by calling 1-800-GAMBLER.</p>
-                        <p><strong>Corporate Info:</strong> CryptoCasinoMedia Group LLC, 1209 North Orange Street, Wilmington, DE 19801, USA. Tel: +1 (302) 200-3498. Email: cryptocasinomedia@gmail.com. For direct support, please use our <a href="/contact" class="text-gray-400 hover:text-white transition-colors underline font-medium">Contact Form</a>.</p>
+                        <p><strong>Corporate Info:</strong> CryptoCasinoMedia Group LLC, 1209 North Orange Street, Wilmington, DE 19801, USA. Tel: +1 (302) 200-3498. Email: desk@cryptocasinomedia.com For direct support, please use our <a href="/contact" class="text-gray-400 hover:text-white transition-colors underline font-medium">Contact Form</a>.</p>
                         <p>&copy; {current_year} CryptoCasinoMedia. All rights reserved.</p>
                     </div>
                 </div>
@@ -305,6 +305,7 @@ def renderHomePage():
 
     return f"""
                 <div class="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8 py-8 animate-fade-in">
+                    <h1 class="sr-only">Crypto Casino & iGaming Industry News, Regulations, and Analysis</h1>
                     <div class="flex flex-col lg:flex-row gap-8 lg:gap-12">
                         <div class="lg:w-[70%]">
                             <a href="/press-releases/{leadStory['slug']}" class="group block mb-10">
@@ -312,9 +313,9 @@ def renderHomePage():
                                     <img src="{leadStory['thumbnailUrl']}" alt="{leadStory['title']}" fetchpriority="high" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
                                 </div>
                                 {renderArticleMeta(leadStory)}
-                                <h1 class="text-3xl sm:text-4xl font-semibold tracking-tight text-gray-900 group-hover:text-blue-700 transition-colors leading-tight mb-3">
+                                <h2 class="text-3xl sm:text-4xl font-semibold tracking-tight text-gray-900 group-hover:text-blue-700 transition-colors leading-tight mb-3">
                                     {leadStory['title']}
-                                </h1>
+                                </h2>
                                 <p class="text-base text-gray-600 line-clamp-2 sm:line-clamp-3 leading-relaxed">
                                     {leadStory['lede']}
                                 </p>
@@ -1533,7 +1534,7 @@ for article in articles_sorted:
         "publisher": {
             "@id": "https://cryptocasinomedia.com/#organization"
         },
-        "image": [image_16_9, image_4_3, image_1_1],
+        "image": list(dict.fromkeys([image_16_9, image_4_3, image_1_1])),
         "articleSection": "Press Releases",
         "keywords": ", ".join(article['topics']),
         "articleBody": " ".join(article['body']),
@@ -1930,7 +1931,7 @@ authors_list = [
         "role": "Lead iGaming Analyst",
         "bio": "Marcus Vance is a leading B2B iGaming analyst with over 8 years of experience covering sportsbooks, crypto casinos, and digital asset integration. Previously, he served as a market research analyst and has been cited in major interactive gaming publications globally. At CryptoCasinoMedia, he focuses on transaction analytics, platform liquidity, and predictive market volumes.",
         "avatar": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=300",
-        "email": "cryptocasinomedia@gmail.com"
+        "email": "desk@cryptocasinomedia.com"
     },
     {
         "slug": "sophia-chen",
@@ -1938,7 +1939,7 @@ authors_list = [
         "role": "Regulatory Editor",
         "bio": "Sophia Chen is a regulatory editor specializing in international gambling compliance, sweepstakes laws, and digital asset frameworks. Formerly a compliance advisor for European gaming operators, she leads CryptoCasinoMedia's regulatory desk, auditing licensing transitions, AML policies, and the impact of the EU AI Act.",
         "avatar": "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&q=80&w=300",
-        "email": "cryptocasinomedia@gmail.com"
+        "email": "desk@cryptocasinomedia.com"
     }
 ]
 
@@ -1970,6 +1971,24 @@ for author in authors_list:
     with open(os.path.join(out_dir, "index.html"), "w", encoding="utf-8") as f:
         f.write(html)
     pages_generated += 1
+
+# 6.5 Render 404.html for Netlify
+not_found_body = """
+<div class="max-w-[800px] mx-auto px-4 sm:px-6 lg:px-8 py-24 text-center animate-fade-in">
+    <span class="text-xs uppercase tracking-widest font-semibold text-blue-700 mb-3 block">404 Error</span>
+    <h1 class="text-4xl sm:text-5xl font-semibold tracking-tight text-gray-900 mb-4">Page Not Found</h1>
+    <p class="text-lg text-gray-600 mb-8 max-w-lg mx-auto">The page you are looking for does not exist or has been moved. Explore our latest B2B news, regulation updates, and industry analysis below.</p>
+    <div class="flex flex-wrap justify-center gap-4 mb-12">
+        <a href="/" class="px-6 py-3 bg-gray-900 text-white text-sm font-semibold hover:bg-blue-700 transition-colors">Return to Home</a>
+        <a href="/press-releases/" class="px-6 py-3 bg-gray-100 text-gray-900 text-sm font-semibold hover:bg-gray-200 transition-colors">Latest Releases</a>
+        <a href="/guides/" class="px-6 py-3 bg-gray-100 text-gray-900 text-sm font-semibold hover:bg-gray-200 transition-colors">Industry Guides</a>
+    </div>
+</div>
+"""
+not_found_html = build_static_page(template_content, "/404.html", "404 - Page Not Found — CryptoCasinoMedia", "The requested page was not found.", not_found_body)
+with open(os.path.join(output_base_dir, "404.html"), "w", encoding="utf-8") as f:
+    f.write(not_found_html)
+pages_generated += 1
 
 # 7. Overwrite index/index.html to pre-render the homepage statically
 home_title = "CryptoCasinoMedia — B2B iGaming & Crypto Casino News"
@@ -2009,7 +2028,7 @@ home_website_schema = {
 }
 
 home_body = renderHomePage()
-home_html = build_static_page(template_content, "/", home_title, home_description, home_body, [home_org_schema, home_website_schema])
+home_html = build_static_page(template_content, "/", home_title, home_description, home_body)
 
 with open(os.path.join(output_base_dir, "index.html"), "w", encoding="utf-8") as f:
     f.write(home_html)

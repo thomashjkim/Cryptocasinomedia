@@ -19,7 +19,8 @@ articles_data = [
     "dateline": "NEW YORK, NY, Aug. 11, 2026",
     "lede": "A class-action complaint filed in New York Supreme Court alleges Stake.com and Coinbase facilitated underage gambling access through aggressive influencer marketing campaigns and VPN-enabled mirror site loopholes.",
     "body": [
-      "In a landmark legal development that could reshape marketing compliance standards across the global crypto casino industry, a class-action complaint was filed in New York Supreme Court on July 29, 2026 against Stake.com and Coinbase. The suit alleges that Stake.com unlawfully recruited a minor through influencer-driven promotions on social media platforms, and facilitated continued platform access via VPN bypass routes and geo-unblocked mirror domains that circumvented U.S. state-level gambling restrictions.",
+      "<em>Correction Note (August 11, 2026): A previous version of this article incorrectly stated the lawsuit was filed on July 29, 2026. The lawsuit was actually filed on April 7, 2026. We have updated the text to reflect this.</em>",
+      "In a landmark legal development that could reshape marketing compliance standards across the global crypto casino industry, a class-action complaint was filed in New York Supreme Court on April 7, 2026 against Stake.com and Coinbase. The suit alleges that Stake.com unlawfully recruited a minor through influencer-driven promotions on social media platforms, and facilitated continued platform access via VPN bypass routes and geo-unblocked mirror domains that circumvented U.S. state-level gambling restrictions.",
       "The plaintiff's legal team contends that Stake's affiliate network—which includes partnerships with high-profile social media personalities boasting combined followings in excess of 150 million users—constitutes a systematic pattern of exposing underage audiences to gambling content without adequate age verification controls. The complaint specifically cites the use of promo codes distributed via YouTube Shorts and TikTok videos that directed viewers directly to Stake's real-money wagering interface.",
       "Coinbase's inclusion in the lawsuit stems from its role as a fiat-to-crypto on-ramp that allegedly processed deposits from minors without triggering age verification flags. Legal experts note that the case could set a precedent for how digital asset exchanges share liability for downstream platform misuse, particularly in jurisdictions where crypto casino access is not explicitly illegal but remains legally ambiguous.",
       "\"This case represents the most significant legal challenge to influencer-driven crypto casino marketing in U.S. history,\" said Sophia Chen, Regulatory Editor at CryptoCasinoMedia. \"It will force operators and their affiliate networks to implement robust minor-protection frameworks or face compounding liability across multiple jurisdictions. The industry is watching closely.\""
@@ -28,7 +29,7 @@ articles_data = [
     "primaryCategory": "regulation",
     "company": "New York Supreme Court",
     "region": "USA",
-    "contact": "cryptocasinomedia@gmail.com",
+    "contact": "desk@cryptocasinomedia.com",
     "excerpt": "New York Supreme Court class-action suit alleges Stake.com and Coinbase enabled underage gambling via influencer promotions and VPN-accessible mirror sites."
   },
   {
@@ -51,7 +52,7 @@ articles_data = [
     "primaryCategory": "crypto-casinos",
     "company": "Roobet",
     "region": "Canada / Global",
-    "contact": "cryptocasinomedia@gmail.com",
+    "contact": "desk@cryptocasinomedia.com",
     "excerpt": "Roobet integrates a native prediction market into its casino wallet, enabling USDT-based bets on politics and pop culture events without leaving the gaming platform."
   },
   {
@@ -74,7 +75,7 @@ articles_data = [
     "primaryCategory": "regulation",
     "company": "UAE Virtual Assets Regulatory Authority (VARA)",
     "region": "UAE / Middle East",
-    "contact": "cryptocasinomedia@gmail.com",
+    "contact": "desk@cryptocasinomedia.com",
     "excerpt": "UAE VARA issues enforcement actions against unlicensed crypto casino operators and mandates real-time Proof of Reserves disclosure for all registered platforms by September 2026."
   },
   {
@@ -98,7 +99,7 @@ articles_data = [
     "primaryCategory": "press-releases",
     "company": "Google Trends B2B Index",
     "region": "Global",
-    "contact": "cryptocasinomedia@gmail.com",
+    "contact": "desk@cryptocasinomedia.com",
     "excerpt": "Google Trends analytics reveal a 180% YoY spike in search interest for crypto casino no deposit bonuses and Telegram casino bots in Q3 2026."
   },
   {
@@ -121,7 +122,7 @@ articles_data = [
     "primaryCategory": "payments",
     "company": "Payment Rail Analytics",
     "region": "Europe / North America",
-    "contact": "cryptocasinomedia@gmail.com",
+    "contact": "desk@cryptocasinomedia.com",
     "excerpt": "On-chain data confirms USDT and USDC now handle over 70% of crypto casino deposits, outstripping BTC and ETH volume."
   },
   {
@@ -144,7 +145,7 @@ articles_data = [
     "primaryCategory": "regulation",
     "company": "GCB Regulatory Oversight",
     "region": "Latin America & Caribbean",
-    "contact": "cryptocasinomedia@gmail.com",
+    "contact": "desk@cryptocasinomedia.com",
     "excerpt": "Curacao GCB enforces mandatory physical presence and direct LOK licensing for all crypto casino operators by Q4 2026."
   },
   {
@@ -167,7 +168,7 @@ articles_data = [
     "primaryCategory": "press-releases",
     "company": "CCM Research",
     "region": "Global",
-    "contact": "cryptocasinomedia@gmail.com",
+    "contact": "desk@cryptocasinomedia.com",
     "excerpt": "An in-depth look at Provably Fair 2.0 cryptographic verification standards, detailing Server/Client seed generation and HMAC-SHA256 math for crypto casinos."
   },
   {
@@ -190,7 +191,7 @@ articles_data = [
     "primaryCategory": "sportsbook",
     "company": "TON Foundation",
     "region": "Global",
-    "contact": "cryptocasinomedia@gmail.com",
+    "contact": "desk@cryptocasinomedia.com",
     "excerpt": "A technical guide detailing TON Connect 2.0 SDK integration, smart contract settlements, and non-custodial wallet setups in Telegram sportsbooks."
   },
   {
@@ -213,7 +214,7 @@ articles_data = [
     "primaryCategory": "regulation",
     "company": "LatAm Gaming Council",
     "region": "Brazil",
-    "contact": "cryptocasinomedia@gmail.com",
+    "contact": "desk@cryptocasinomedia.com",
     "excerpt": "An analysis of Brazil's national iGaming licensing rules, Pix payment gateway compliance, CPF verification, and regulations for foreign operators."
   },
   {
@@ -629,7 +630,7 @@ articles_data = [
     "primaryCategory": "crypto-casinos",
     "company": "TG.Casino & Mega Dice",
     "region": "Middle East",
-    "contact": "cryptocasinomedia@gmail.com",
+    "contact": "desk@cryptocasinomedia.com",
     "excerpt": "Telegram-based crypto casinos and GambleFi bots see capital surge as they prepare live-betting APIs for the 2026 World Cup."
   },
   {
@@ -675,7 +676,7 @@ articles_data = [
     "primaryCategory": "regulation",
     "company": "Consortium of Gaming Regulators",
     "region": "Global",
-    "contact": "cryptocasinomedia@gmail.com",
+    "contact": "desk@cryptocasinomedia.com",
     "excerpt": "Regulators from the EU, UK, and US form a joint task force targeting unlicensed crypto sportsbooks during the 2026 World Cup."
   },
   {
@@ -721,7 +722,7 @@ articles_data = [
     "primaryCategory": "regulation",
     "company": "CryptoCasinoMedia Security Desk",
     "region": "Global",
-    "contact": "cryptocasinomedia@gmail.com",
+    "contact": "desk@cryptocasinomedia.com",
     "excerpt": "Cybersecurity researchers have identified a coordinated network of template scam casinos, including Hiorax and Riowex, falsely claiming affiliation with Elon Musk. The sites lure victims with a fake $2,500 'BOSS' promo code, promising instant withdrawals to trick users into depositing funds."
   },
   {
@@ -1585,7 +1586,7 @@ articles_data = [
     "primaryCategory": "payments",
     "company": "CryptoCasinoMedia Research",
     "region": "Global",
-    "contact": "cryptocasinomedia@gmail.com",
+    "contact": "desk@cryptocasinomedia.com",
     "excerpt": "USDT overtakes Bitcoin at crypto casinos in Q1 2026, commanding 38% of deposit volume and $18.4B in operator transactions as stablecoin wagering reaches mainstream scale."
   },
   {
@@ -1633,7 +1634,7 @@ articles_data = [
     "primaryCategory": "regulation",
     "company": "CryptoCasinoMedia Research",
     "region": "Global",
-    "contact": "cryptocasinomedia@gmail.com",
+    "contact": "desk@cryptocasinomedia.com",
     "excerpt": "Curacao's 2026 National Ordinance on Games of Hazard eliminates the master-license model, requiring all 380+ crypto casino operators to obtain direct licenses with full AML and fund segregation compliance by September 2026."
   },
   {
@@ -1657,7 +1658,7 @@ articles_data = [
     "primaryCategory": "crypto-casinos",
     "company": "CryptoCasinoMedia Research",
     "region": "Global",
-    "contact": "cryptocasinomedia@gmail.com",
+    "contact": "desk@cryptocasinomedia.com",
     "excerpt": "Ethereum NFT casino platforms hit $2.1B monthly wager volume in May 2026, with on-chain asset ownership reshaping player economics and attracting $87M in institutional VC investment."
   },
   {
@@ -1705,7 +1706,7 @@ articles_data = [
     "primaryCategory": "crypto-casinos",
     "company": "CryptoCasinoMedia Research",
     "region": "Global",
-    "contact": "cryptocasinomedia@gmail.com",
+    "contact": "desk@cryptocasinomedia.com",
     "excerpt": "Bitcoin's approach to $120,000 has driven a 28% surge in crypto casino deposit volume, with new player registrations up 34% and operators implementing stablecoin hedging to manage BTC price volatility."
   },
   {
@@ -1729,7 +1730,7 @@ articles_data = [
     "primaryCategory": "regulation",
     "company": "CryptoCasinoMedia Research",
     "region": "Europe",
-    "contact": "cryptocasinomedia@gmail.com",
+    "contact": "desk@cryptocasinomedia.com",
     "excerpt": "The EU AI Act's August 2026 deadline may classify iGaming personalization and bonus AI systems as high-risk, requiring audit trails, human oversight, and \u20ac500K-\u20ac2M compliance investment per operator."
   },
   {

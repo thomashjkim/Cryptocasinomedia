@@ -12,30 +12,34 @@ except ImportError as e:
 PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sitemap_path = os.path.join(PROJECT_ROOT, "index/sitemap.xml")
 
-# Standard core pages
+import datetime
+
+today_date = datetime.date.today().isoformat()
+
+# Standard core pages with dynamic build date
 core_pages = [
-    ("https://cryptocasinomedia.com/", "2026-05-20", "daily", "1.0"),
-    ("https://cryptocasinomedia.com/press-releases/", "2026-05-20", "daily", "0.9"),
-    ("https://cryptocasinomedia.com/crypto-casinos/", "2026-05-20", "daily", "0.8"),
-    ("https://cryptocasinomedia.com/sportsbook/", "2026-05-20", "daily", "0.8"),
-    ("https://cryptocasinomedia.com/regulation/", "2026-05-20", "weekly", "0.8"),
-    ("https://cryptocasinomedia.com/payments/", "2026-05-20", "weekly", "0.7"),
-    ("https://cryptocasinomedia.com/sweepstakes/", "2026-05-20", "weekly", "0.7"),
-    ("https://cryptocasinomedia.com/guides/", "2026-05-20", "weekly", "0.7"),
-    ("https://cryptocasinomedia.com/about/", "2026-05-20", "monthly", "0.7"),
-    ("https://cryptocasinomedia.com/editorial-standards/", "2026-05-20", "monthly", "0.6"),
-    ("https://cryptocasinomedia.com/advertise/", "2026-05-20", "monthly", "0.7"),
-    ("https://cryptocasinomedia.com/submit/", "2026-05-20", "monthly", "0.7"),
-    ("https://cryptocasinomedia.com/contact/", "2026-05-20", "monthly", "0.7"),
-    ("https://cryptocasinomedia.com/industry/crypto/", "2026-05-20", "weekly", "0.8"),
-    ("https://cryptocasinomedia.com/industry/igaming/", "2026-05-20", "weekly", "0.8"),
-    ("https://cryptocasinomedia.com/how-crypto-casino-news-works/", "2026-05-20", "monthly", "0.7"),
-    ("https://cryptocasinomedia.com/aeo-best-practices/", "2026-05-20", "monthly", "0.7"),
-    ("https://cryptocasinomedia.com/press-release-seo/", "2026-05-20", "monthly", "0.7"),
-    ("https://cryptocasinomedia.com/agent/", "2026-05-21", "weekly", "0.7"),
-    ("https://cryptocasinomedia.com/guides/regulation-2026/", "2026-06-08", "monthly", "0.9"),
-    ("https://cryptocasinomedia.com/guides/sweepstakes-market/", "2026-06-08", "monthly", "0.9"),
-    ("https://cryptocasinomedia.com/guides/gamblefi-telegram/", "2026-06-08", "monthly", "0.9")
+    ("https://cryptocasinomedia.com/", today_date, "daily", "1.0"),
+    ("https://cryptocasinomedia.com/press-releases/", today_date, "daily", "0.9"),
+    ("https://cryptocasinomedia.com/crypto-casinos/", today_date, "daily", "0.8"),
+    ("https://cryptocasinomedia.com/sportsbook/", today_date, "daily", "0.8"),
+    ("https://cryptocasinomedia.com/regulation/", today_date, "weekly", "0.8"),
+    ("https://cryptocasinomedia.com/payments/", today_date, "weekly", "0.7"),
+    ("https://cryptocasinomedia.com/sweepstakes/", today_date, "weekly", "0.7"),
+    ("https://cryptocasinomedia.com/guides/", today_date, "weekly", "0.7"),
+    ("https://cryptocasinomedia.com/about/", "2026-08-11", "monthly", "0.7"),
+    ("https://cryptocasinomedia.com/editorial-standards/", "2026-08-11", "monthly", "0.6"),
+    ("https://cryptocasinomedia.com/advertise/", "2026-08-11", "monthly", "0.7"),
+    ("https://cryptocasinomedia.com/submit/", "2026-08-11", "monthly", "0.7"),
+    ("https://cryptocasinomedia.com/contact/", "2026-08-11", "monthly", "0.7"),
+    ("https://cryptocasinomedia.com/industry/crypto/", today_date, "weekly", "0.8"),
+    ("https://cryptocasinomedia.com/industry/igaming/", today_date, "weekly", "0.8"),
+    ("https://cryptocasinomedia.com/how-crypto-casino-news-works/", "2026-08-11", "monthly", "0.7"),
+    ("https://cryptocasinomedia.com/aeo-best-practices/", "2026-08-11", "monthly", "0.7"),
+    ("https://cryptocasinomedia.com/press-release-seo/", "2026-08-11", "monthly", "0.7"),
+    ("https://cryptocasinomedia.com/agent/", today_date, "weekly", "0.7"),
+    ("https://cryptocasinomedia.com/guides/regulation-2026/", today_date, "monthly", "0.9"),
+    ("https://cryptocasinomedia.com/guides/sweepstakes-market/", today_date, "monthly", "0.9"),
+    ("https://cryptocasinomedia.com/guides/gamblefi-telegram/", today_date, "monthly", "0.9")
 ]
 
 xml_lines = [
