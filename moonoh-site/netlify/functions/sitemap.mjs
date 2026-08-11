@@ -35,68 +35,28 @@ let lastCacheTimestamp = 0;
 const CACHE_DURATION_MS = 3600000; // 1 hour cache for sitemap
 
 async function buildSitemapXml() {
-  const loginParams = new URLSearchParams();
-  loginParams.append('kind', 'login');
-  loginParams.append('id', 'admin');
-  loginParams.append('password', '1234');
-
-  const loginRes = await fetch("http://52.44.113.58:8080/admin.do", {
-    method: "POST",
-    headers: { "Content-Type": "application/x-www-form-urlencoded" },
-    body: loginParams
-  });
-
-  const cookieHeader = loginRes.headers.get('set-cookie') || '';
-  const cookies = cookieHeader.split(';')[0] || '';
-
-  const dataParams = new URLSearchParams();
-  dataParams.append('kind', 'getProductArray');
-  dataParams.append('page', '0');
-  dataParams.append('viewCount', '1000');
-
-  const dataRes = await fetch("http://52.44.113.58:8080/admin.do", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/x-www-form-urlencoded",
-      "Cookie": cookies
-    },
-    body: dataParams
-  });
-
-  const data = await dataRes.json();
-  const rawItems = (data && data.productArray)
-    ? data.productArray.filter(item => item && item.isShow === "Y")
-    : [];
-
-  // Fetch detail address for exact URL slugs in batches of 80
-  const chunkSize = 80;
   const itemUrls = [];
 
-  for (let i = 0; i < rawItems.length; i += chunkSize) {
-    const chunk = rawItems.slice(i, i + chunkSize);
-    const chunkResults = await Promise.all(
-      chunk.map(async (item) => {
-        let rawLocStr = item.productTownName || "";
-        try {
-          const detailParams = new URLSearchParams();
-          detailParams.append('kind', 'getProductDetail');
-          detailParams.append('productNo', item.no);
-
-          const detailRes = await fetch("http://52.44.113.58:8080/app.do", {
-            method: "POST",
-            headers: { "Content-Type": "application/x-www-form-urlencoded" },
-            body: detailParams
-          });
-          const detailData = await detailRes.json();
-          if (detailData && (detailData.address || detailData.productTownName)) {
-            rawLocStr = detailData.address || detailData.productTownName;
+  try {
+    const res = await fetch("https://moon-oh.com/api/items", {
+      signal: AbortSignal.timeout(8000)
+    });
+    if (res.ok) {
+      const items = await res.json();
+      if (Array.isArray(items)) {
+        items.forEach(item => {
+          if (item) {
+            const itemNo = item.no || item.id;
+            const itemTitle = item.title || 'item';
+            const itemLoc = item.location || item.townName || 'NYC';
+            const slug = item.url ? `https://moon-oh.com${item.url}` : generateSlug(itemTitle, itemLoc, itemNo);
+            itemUrls.push(slug);
           }
-        } catch (e) {}
-
-        return generateSlug(item.title, rawLocStr, item.no);
-      })
-    );
-    itemUrls.push(...chunkResults);
+        });
+      }
+    }
+  } catch (e) {
+    console.warn("Backend fetch warning in sitemap.mjs, serving aggregation and static URLs:", e.message);
   }
 
   const regionSlugs = ['manhattan', 'queens', 'brooklyn', 'bronx', 'staten-island', 'bergen-county', 'hudson-county'];
@@ -161,7 +121,22 @@ export default async (req, context) => {
     });
   } catch (error) {
     console.error("sitemap.mjs error:", error);
-    return new Response(`Error generating sitemap: ${error.message}`, { status: 500 });
+    if (cachedXml) {
+      return new Response(cachedXml, {
+        status: 200,
+        headers: { "Content-Type": "application/xml; charset=utf-8" }
+      });
+    }
+    const todayIso = new Date().toISOString();
+    const fallbackXml = `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://moon-oh.com/</loc><lastmod>${todayIso}</lastmod><priority>1.0</priority></url>
+  <url><loc>https://moon-oh.com/explore</loc><lastmod>${todayIso}</lastmod><priority>0.9</priority></url>
+</urlset>`;
+    return new Response(fallbackXml, {
+      status: 200,
+      headers: { "Content-Type": "application/xml; charset=utf-8" }
+    });
   }
 };
 

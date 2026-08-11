@@ -226,117 +226,58 @@ let cacheTimestamp = 0;
 const CACHE_DURATION_MS = 3600000;
 
 async function buildFeed() {
-  const loginParams = new URLSearchParams();
-  loginParams.append('kind', 'login');
-  loginParams.append('id', 'admin');
-  loginParams.append('password', '1234');
+  let feedItems = [];
 
-  const loginRes = await fetch("http://52.44.113.58:8080/admin.do", {
-    method: "POST",
-    headers: { "Content-Type": "application/x-www-form-urlencoded" },
-    body: loginParams
-  });
+  try {
+    const res = await fetch("https://moon-oh.com/api/items", {
+      signal: AbortSignal.timeout(10000)
+    });
+    if (res.ok) {
+      const items = await res.json();
+      if (Array.isArray(items)) {
+        items.forEach(item => {
+          if (!item) return;
+          const itemNo = item.no || item.id;
+          const itemTitle = item.title || "Secondhand Item";
+          const description = item.description || itemTitle;
+          const categoryName = item.categoryName || item.category || "General";
+          const rawLocStr = item.location || item.townName || "NYC, NY";
+          const realPrice = item.price || 0;
+          const rawPhotoPath = item.photo || item.image || "";
 
-  const cookieHeader = loginRes.headers.get('set-cookie') || '';
-  const cookies = cookieHeader.split(';')[0] || '';
+          if (isPolicyViolatingItem(itemTitle, description, categoryName)) return;
 
-  const dataParams = new URLSearchParams();
-  dataParams.append('kind', 'getProductArray');
-  dataParams.append('page', '0');
-  dataParams.append('viewCount', '1000');
+          const imageUrl = convertToJpgUrl(rawPhotoPath);
+          const productUrl = generateSlug(itemTitle, rawLocStr, itemNo);
+          const googleCategory = getGoogleCategory(categoryName, itemTitle);
+          const fashionAttr = extractFashionAttributes(itemTitle, categoryName);
 
-  const dataRes = await fetch("http://52.44.113.58:8080/admin.do", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/x-www-form-urlencoded",
-      "Cookie": cookies
-    },
-    body: dataParams
-  });
-
-  const data = await dataRes.json();
-  const rawItems = (data && data.productArray)
-    ? data.productArray.filter(item => item && item.isShow === "Y")
-    : [];
-
-  const chunkSize = 50;
-  const feedItems = [];
-
-  for (let i = 0; i < rawItems.length; i += chunkSize) {
-    const chunk = rawItems.slice(i, i + chunkSize);
-    const chunkResults = await Promise.all(
-      chunk.map(async (item) => {
-        let realPrice = item.price || 0;
-        let rawLocStr = item.productTownName || "";
-        let description = item.title || "";
-        let rawPhotoPath = item.pictureUrl || "";
-        let categoryName = item.categoryName || "";
-
-        try {
-          const detailParams = new URLSearchParams();
-          detailParams.append('kind', 'getProductDetail');
-          detailParams.append('productNo', item.no);
-
-          const detailRes = await fetch("http://52.44.113.58:8080/app.do", {
-            method: "POST",
-            headers: { "Content-Type": "application/x-www-form-urlencoded" },
-            body: detailParams
-          });
-          const d = await detailRes.json();
-
-          if (d) {
-            if (typeof d.price === 'number') realPrice = d.price;
-            if (d.content) description = d.content;
-            if (d.address || d.productTownName) rawLocStr = d.address || d.productTownName;
-            if (d.categoryName) categoryName = d.categoryName;
-
-            if (d.strPictureUrlArray) {
-              try {
-                const arr = JSON.parse(d.strPictureUrlArray);
-                if (arr.length > 0) {
-                  rawPhotoPath = arr[0].fileUrl || rawPhotoPath;
-                }
-              } catch (e) {}
-            }
-            if (!rawPhotoPath && d.pictureUrl) {
-              rawPhotoPath = d.pictureUrl;
-            }
+          let townDisplay = rawLocStr || "New York, NY";
+          if (townDisplay.includes(',')) {
+            const parts = townDisplay.split(',').map(p => p.trim());
+            townDisplay = parts.slice(0, 2).join(', ');
           }
-        } catch (e) {}
 
-        if (isPolicyViolatingItem(item.title || "", description, categoryName)) {
-          return null; // Exclude policy violating items (tobacco, pharmaceuticals)
-        }
-
-        const imageUrl = convertToJpgUrl(rawPhotoPath);
-        const productUrl = generateSlug(item.title, rawLocStr, item.no);
-        const googleCategory = getGoogleCategory(categoryName, item.title);
-        const fashionAttr = extractFashionAttributes(item.title, categoryName);
-
-        let townDisplay = rawLocStr || "New York, NY";
-        if (townDisplay.includes(',')) {
-          const parts = townDisplay.split(',').map(p => p.trim());
-          townDisplay = parts.slice(0, 2).join(', ');
-        }
-
-        return {
-          id: `moonoh-${item.no}`,
-          title: item.title || "Secondhand Item",
-          description: description,
-          link: productUrl,
-          imageUrl: imageUrl,
-          price: realPrice,
-          categoryName: categoryName,
-          googleCategory: googleCategory,
-          fashionAttr: fashionAttr,
-          condition: "used",
-          availability: "in_stock",
-          brand: "Moonoh",
-          location: townDisplay
-        };
-      })
-    );
-    feedItems.push(...chunkResults.filter(Boolean));
+          feedItems.push({
+            id: `moonoh-${itemNo}`,
+            title: itemTitle,
+            description: description,
+            link: productUrl,
+            imageUrl: imageUrl,
+            price: realPrice,
+            categoryName: categoryName,
+            googleCategory: googleCategory,
+            fashionAttr: fashionAttr,
+            condition: "used",
+            availability: "in_stock",
+            brand: "Moonoh",
+            location: townDisplay
+          });
+        });
+      }
+    }
+  } catch (e) {
+    console.warn("Backend fetch warning in merchant-feed.mjs:", e.message);
   }
 
   const now = new Date().toUTCString();
@@ -418,7 +359,26 @@ export default async (req, context) => {
     });
   } catch (error) {
     console.error("merchant-feed.mjs error:", error);
-    return new Response(`Error generating Merchant Feed: ${error.message}`, { status: 500 });
+    if (cachedXml) {
+      return new Response(cachedXml, {
+        status: 200,
+        headers: { "Content-Type": "application/rss+xml; charset=UTF-8" }
+      });
+    }
+    const nowRss = new Date().toUTCString();
+    const fallbackRss = `<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:g="http://base.google.com/ns/1.0">
+  <channel>
+    <title>Moonoh Marketplace</title>
+    <link>https://moon-oh.com</link>
+    <description>Local Secondhand Marketplace</description>
+    <lastBuildDate>${nowRss}</lastBuildDate>
+  </channel>
+</rss>`;
+    return new Response(fallbackRss, {
+      status: 200,
+      headers: { "Content-Type": "application/rss+xml; charset=UTF-8" }
+    });
   }
 };
 
