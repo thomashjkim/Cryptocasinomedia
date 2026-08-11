@@ -320,11 +320,6 @@ export default async (req, context) => {
       });
     }
 
-    // Thin Content Protection
-    if ((regionSlug || categorySlug || isOthersPage) && filteredItems.length === 0) {
-      return new Response("No listings found for this region/category combination", { status: 404 });
-    }
-
     let template = getExploreTemplate();
     if (!template) {
       return new Response("Error reading explore.html template", { status: 500 });
@@ -384,45 +379,60 @@ export default async (req, context) => {
       ? `$${Math.round(minPrice).toLocaleString()} – $${Math.round(maxPrice).toLocaleString()}`
       : (freeCount > 0 ? 'Free & paid items' : 'Prices vary');
 
-    // ── robots meta: 3-4 items → noindex, 0-2 → 404 ───────────────────────────
+    // ── robots meta: 0-4 items → noindex, follow ───────────────────────────
     let robotsMeta = '';
-    if (isOthersPage) {
-      robotsMeta = '\n  <meta name="robots" content="noindex, follow"/>';
-    } else if ((regionSlug || categorySlug) && itemCount > 0 && itemCount < 5) {
+    if (isOthersPage || (regionSlug || categorySlug) && itemCount < 5) {
       robotsMeta = '\n  <meta name="robots" content="noindex, follow"/>';
     }
 
-    const introText = `Browse ${itemCount} verified ${categoryName.toLowerCase()} for sale in ${regionName} on Moonoh. Find local deals from individual sellers — including listings from Karrot and HeyKorean. ${avgPriceStr}. Meet up safely with local sellers across ${regionName} neighborhoods.`;
+    const introText = itemCount > 0
+      ? `Browse ${itemCount} verified ${categoryName.toLowerCase()} for sale in ${regionName} on Moonoh. Find local deals from individual sellers — including listings from Karrot and HeyKorean. ${avgPriceStr}. Meet up safely with local sellers across ${regionName} neighborhoods.`
+      : `Explore verified secondhand ${categoryName.toLowerCase()} in ${regionName} on Moonoh. Connect with local sellers across ${regionName} neighborhoods.`;
 
     // ── SSR Grid Cards ─────────────────────────────────────────────────────────
     const initialItems = filteredItems.slice(0, 40);
     let cardsHtml = '';
-    initialItems.forEach(item => {
-      const priceStr = item.price > 0 ? `$${item.price.toLocaleString()}` : 'Free';
-      const timeLoc = item.timeAgo ? `${item.timeAgo} · ${item.townName}` : item.townName;
-      let badgeHtml = '';
-      if (item.source === 'karrot') {
-        badgeHtml = `<div class="item-card-badge badge-karrot" style="display:inline-block; background:#FFF1E6; color:#FF6F0F; border:1px solid #FFD0B0; font-size:10.5px; font-weight:700; padding:1px 6px; border-radius:4px; margin-top:4px; line-height:1.2;">Karrot</div>`;
-      } else if (item.source === 'heykorean') {
-        badgeHtml = `<div class="item-card-badge badge-heykorean" style="display:inline-block; background:#EBF4FF; color:#2D8CFF; border:1px solid #B8D9FF; font-size:10.5px; font-weight:700; padding:1px 6px; border-radius:4px; margin-top:4px; line-height:1.2;">HeyKorean</div>`;
-      } else {
-        badgeHtml = `<div class="item-card-badge badge-moonoh" style="display:inline-block; background:#EDEFFC; color:#3a46e2; border:1px solid #C7CEFA; font-size:10.5px; font-weight:700; padding:1px 6px; border-radius:4px; margin-top:4px; line-height:1.2;">Moonoh</div>`;
-      }
 
-      cardsHtml += `
-        <div class="item-card" onclick="location.href='${item.detailUrl}'" style="cursor:pointer;">
-          <div class="item-card-img-wrap">
-            <img src="${escapeHtml(item.photo)}" alt="${escapeHtml(item.title)}" class="item-card-img" loading="lazy" onerror="this.onerror=null; this.src='/images/default-item-placeholder.png';"/>
-          </div>
-          <div class="item-card-info">
-            <div class="item-card-price">${priceStr}</div>
-            <div class="item-card-title">${escapeHtml(item.title)}</div>
-            <div class="item-card-location">${escapeHtml(timeLoc)}</div>
-            ${badgeHtml}
+    if (initialItems.length === 0) {
+      cardsHtml = `
+        <div style="text-align:center; padding:50px 20px; grid-column:1/-1; background:#F9FAFB; border-radius:16px; border:1px dashed #E5E7EB; margin:16px 0;">
+          <div style="font-size:44px; margin-bottom:12px;">📦</div>
+          <h3 style="font-size:20px; font-weight:700; color:#111827; margin-bottom:8px;">No ${escapeHtml(categoryName)} items in ${escapeHtml(regionName)} right now</h3>
+          <p style="color:#6B7280; font-size:15px; max-width:480px; margin:0 auto 24px; line-height:1.5;">We couldn't find any listings matching this filter right now. Check back soon or explore nearby areas.</p>
+          <div style="display:flex; justify-content:center; gap:12px; flex-wrap:wrap;">
+            ${regionSlug ? `<a href="/explore/${regionSlug}" style="display:inline-block; background:#3a46e2; color:#fff; font-weight:600; padding:10px 22px; border-radius:999px; text-decoration:none; font-size:14px;">Browse all items in ${escapeHtml(regionName)}</a>` : ''}
+            <a href="/explore" style="display:inline-block; background:#F3F4F6; color:#374151; font-weight:600; padding:10px 22px; border-radius:999px; text-decoration:none; font-size:14px;">Explore all NYC items</a>
           </div>
         </div>
       `;
-    });
+    } else {
+      initialItems.forEach(item => {
+        const priceStr = item.price > 0 ? `$${item.price.toLocaleString()}` : 'Free';
+        const timeLoc = item.timeAgo ? `${item.timeAgo} · ${item.townName}` : item.townName;
+        let badgeHtml = '';
+        if (item.source === 'karrot') {
+          badgeHtml = `<div class="item-card-badge badge-karrot" style="display:inline-block; background:#FFF1E6; color:#FF6F0F; border:1px solid #FFD0B0; font-size:10.5px; font-weight:700; padding:1px 6px; border-radius:4px; margin-top:4px; line-height:1.2;">Karrot</div>`;
+        } else if (item.source === 'heykorean') {
+          badgeHtml = `<div class="item-card-badge badge-heykorean" style="display:inline-block; background:#EBF4FF; color:#2D8CFF; border:1px solid #B8D9FF; font-size:10.5px; font-weight:700; padding:1px 6px; border-radius:4px; margin-top:4px; line-height:1.2;">HeyKorean</div>`;
+        } else {
+          badgeHtml = `<div class="item-card-badge badge-moonoh" style="display:inline-block; background:#EDEFFC; color:#3a46e2; border:1px solid #C7CEFA; font-size:10.5px; font-weight:700; padding:1px 6px; border-radius:4px; margin-top:4px; line-height:1.2;">Moonoh</div>`;
+        }
+
+        cardsHtml += `
+          <div class="item-card" onclick="location.href='${item.detailUrl}'" style="cursor:pointer;">
+            <div class="item-card-img-wrap">
+              <img src="${escapeHtml(item.photo)}" alt="${escapeHtml(item.title)}" class="item-card-img" loading="lazy" onerror="this.onerror=null; this.src='/images/default-item-placeholder.png';"/>
+            </div>
+            <div class="item-card-info">
+              <div class="item-card-price">${priceStr}</div>
+              <div class="item-card-title">${escapeHtml(item.title)}</div>
+              <div class="item-card-location">${escapeHtml(timeLoc)}</div>
+              ${badgeHtml}
+            </div>
+          </div>
+        `;
+      });
+    }
 
     // ── Dynamic Interlinking ───────────────────────────────────────────────────
     const ALL_REGIONS = ['manhattan', 'queens', 'brooklyn', 'bronx', 'staten-island', 'bergen-county', 'hudson-county'];
