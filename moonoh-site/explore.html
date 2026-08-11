@@ -1252,10 +1252,12 @@
       document.querySelectorAll('.filter-pill:not(.filter-pill-more)').forEach(btn => {
         btn.addEventListener('click', function() {
           const label = this.textContent.trim();
-          const isAggregationPage = window.location.pathname.replace(/^\/explore\/?/, '').split('/').filter(Boolean).length >= 1
+          const _p1 = window.location.pathname;
+          const _stripped1 = _p1.startsWith('/explore') ? _p1.slice('/explore'.length).replace(/^\//, '') : _p1;
+          const isAggregationPage = _stripped1.split('/').filter(Boolean).length >= 1
             && window.__INITIAL_ITEMS__ != null;
           if (isAggregationPage) {
-            const currentSegments = window.location.pathname.replace(/^\/explore\/?/, '').split('/').filter(Boolean);
+            const currentSegments = _stripped1.split('/').filter(Boolean);
             const currentRegionSlug = currentSegments.length >= 1 ? currentSegments[0] : '';
             const newCatSlug = pillLabelToSlug[label];
             if (label === 'All' && currentRegionSlug) {
@@ -1294,12 +1296,14 @@
       };
       if (locationSelect) {
         locationSelect.addEventListener('change', function() {
-          const isAggregationPage = window.location.pathname.replace(/^\\/explore\\/?/, '').split('/').filter(Boolean).length >= 1
+          const _p2 = window.location.pathname;
+          const _stripped2 = _p2.startsWith('/explore') ? _p2.slice('/explore'.length).replace(/^\//, '') : _p2;
+          const isAggregationPage = _stripped2.split('/').filter(Boolean).length >= 1
             && window.__INITIAL_ITEMS__ != null;
           if (isAggregationPage) {
             // Navigate to correct URL for this region+category combo
             const newRegionSlug = regionToSlug[this.value];
-            const currentSegments = window.location.pathname.replace(/^\\/explore\\/?/, '').split('/').filter(Boolean);
+            const currentSegments = _stripped2.split('/').filter(Boolean);
             const currentCategorySlug = currentSegments.length >= 2 ? currentSegments[1] : (currentSegments[0] || '');
             if (newRegionSlug && currentCategorySlug) {
               window.location.href = `/explore/${newRegionSlug}/${currentCategorySlug}`;

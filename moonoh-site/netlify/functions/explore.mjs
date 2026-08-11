@@ -394,10 +394,10 @@ export default async (req, context) => {
       const priceStr = item.price > 0 ? `$${item.price.toLocaleString()}` : 'Free';
       const timeLoc = item.timeAgo ? `${item.timeAgo} · ${item.townName}` : item.townName;
       let badgeHtml = '';
-      if (item.source === 'karrot') {
-        badgeHtml = `<div class="item-card-badge badge-karrot" style="display:inline-block; background:#FF6F09; color:#fff; font-size:11px; font-weight:700; padding:2px 6px; border-radius:4px; margin-top:4px;">Karrot</div>`;
+      } else if (item.source === 'karrot') {
+        badgeHtml = `<div class="item-card-badge badge-karrot" style="display:inline-block; background:#FFF1E6; color:#FF6F0F; border:1px solid #FFD0B0; font-size:11px; font-weight:700; padding:2px 6px; border-radius:4px; margin-top:4px;">Karrot</div>`;
       } else if (item.source === 'heykorean') {
-        badgeHtml = `<div class="item-card-badge badge-heykorean" style="display:inline-block; background:#5B21B6; color:#fff; font-size:11px; font-weight:700; padding:2px 6px; border-radius:4px; margin-top:4px;">HeyKorean</div>`;
+        badgeHtml = `<div class="item-card-badge badge-heykorean" style="display:inline-block; background:#EBF4FF; color:#2D8CFF; border:1px solid #B8D9FF; font-size:11px; font-weight:700; padding:2px 6px; border-radius:4px; margin-top:4px;">HeyKorean</div>`;
       }
 
       cardsHtml += `
@@ -528,9 +528,9 @@ export default async (req, context) => {
         ${medianPrice > 0 ? `<div class="stat-chip" style="display:flex; align-items:center; gap:6px; background:#F3F4F6; border-radius:9999px; padding:6px 14px; font-size:13px; font-weight:600; color:#111827;"><span style="color:#059669;">💰</span> ${avgPriceStr}</div>` : ''}
         ${(minPrice > 0 && maxPrice > 0) ? `<div class="stat-chip" style="display:flex; align-items:center; gap:6px; background:#F3F4F6; border-radius:9999px; padding:6px 14px; font-size:13px; color:#4B5563;">Range: ${priceRangeStr}</div>` : ''}
         <div class="stat-chip" style="display:flex; align-items:center; gap:6px; background:#F3F4F6; border-radius:9999px; padding:6px 14px; font-size:13px; color:#4B5563;">🕐 Last listed: ${lastListedStr}</div>
-        ${moonohCount > 0 ? `<div class="stat-chip" style="display:flex; align-items:center; gap:6px; background:#EFF6FF; border-radius:9999px; padding:6px 14px; font-size:12px; color:#1D4ED8;">Moonoh: ${moonohCount}</div>` : ''}
+        ${moonohCount > 0 ? `<div class="stat-chip" style="display:flex; align-items:center; gap:6px; background:#E8F0FE; border-radius:9999px; padding:6px 14px; font-size:12px; color:#0047AB; font-weight:600;">Moonoh: ${moonohCount}</div>` : ''}
         ${karrotCount > 0 ? `<div class="stat-chip" style="display:flex; align-items:center; gap:6px; background:#FFF7ED; border-radius:9999px; padding:6px 14px; font-size:12px; color:#C2410C;">Karrot: ${karrotCount}</div>` : ''}
-        ${heykoreanCount > 0 ? `<div class="stat-chip" style="display:flex; align-items:center; gap:6px; background:#F5F3FF; border-radius:9999px; padding:6px 14px; font-size:12px; color:#7C3AED;">HeyKorean: ${heykoreanCount}</div>` : ''}
+        ${heykoreanCount > 0 ? `<div class="stat-chip" style="display:flex; align-items:center; gap:6px; background:#EBF4FF; border-radius:9999px; padding:6px 14px; font-size:12px; color:#2D8CFF;">HeyKorean: ${heykoreanCount}</div>` : ''}
       </div>` : '';
 
     // ── Hero Section ───────────────────────────────────────────────────────────
