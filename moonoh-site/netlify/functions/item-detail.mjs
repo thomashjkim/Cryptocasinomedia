@@ -22159,9 +22159,9 @@ export default async (req, context) => {
     } else {
       const pathParts = url.pathname.split('-');
       const productNoStr = pathParts.pop() || pathParts.pop(); // last part of slug is productNo
-      const productNo = parseInt(productNoStr, 10);
+      productNo = productNoStr;
 
-      if (isNaN(productNo)) {
+      if (!productNo || isNaN(parseInt(productNo, 10))) {
         return new Response("Product Not Found", { status: 404 });
       }
 
@@ -22372,9 +22372,8 @@ export default async (req, context) => {
       }
     } catch (e) {}
 
-    // Page URL & Canonical
-    const currentSlug = generateSlug(title, address, productNo);
-    const canonicalUrl = `https://moon-oh.com${currentSlug}`;
+    // Page URL & Canonical (Guaranteed exact match with request URL)
+    const canonicalUrl = `https://moon-oh.com${url.pathname}`;
     const absMainPhoto = mainPhoto.startsWith('http') ? mainPhoto : `https://moon-oh.com${mainPhoto}`;
     const absPhotos = (photos && photos.length > 0) 
       ? photos.map(p => p.startsWith('http') ? p : `https://moon-oh.com${p}`) 
@@ -22445,35 +22444,6 @@ export default async (req, context) => {
         "applicableCountry": "US",
         "returnPolicyCategory": "https://schema.org/MerchantReturnNotPermitted",
         "merchantReturnLink": "https://moon-oh.com/return-policy"
-      },
-      "shippingDetails": {
-        "@type": "OfferShippingDetails",
-        "shippingRate": {
-          "@type": "MonetaryAmount",
-          "value": "0.00",
-          "currency": "USD"
-        },
-        "shippingDestination": {
-          "@type": "DefinedRegion",
-          "addressCountry": "US"
-        },
-        "deliveryTime": {
-          "@type": "ShippingDeliveryTime",
-          "handlingTime": {
-            "@type": "QuantitativeValue",
-            "minValue": 0,
-            "maxValue": 1,
-            "unitCode": "DAY",
-            "unitText": "DAY"
-          },
-          "transitTime": {
-            "@type": "QuantitativeValue",
-            "minValue": 0,
-            "maxValue": 1,
-            "unitCode": "DAY",
-            "unitText": "DAY"
-          }
-        }
       }
     }
   }

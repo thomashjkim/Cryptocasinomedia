@@ -473,7 +473,7 @@ export default async (req, context) => {
     template = template
       .replace(/<title>.*?<\/title>/i, `<title>${escapeHtml(pageTitle)}</title>`)
       .replace(/<meta content=".*?" name="description"\/>/i, `<meta content="${escapeHtml(introText)}" name="description"/>`)
-      .replace(/<link href=".*?" rel="canonical"\/>/i, `<link href="${canonicalUrl}" rel="canonical"/>`)
+      .replace(/<link [^>]*rel="canonical"[^>]*\/>/i, `<link rel="canonical" href="${canonicalUrl}"/>`)
       .replace('</head>', `${schemaScript}${robotsMeta}</head>`);
 
     // On aggregation landing pages, hide source tab switcher to avoid UI confusion
