@@ -22026,6 +22026,59 @@ export default async (req, context) => {
       item.timeAgo = formatTimeAgo(days);
     });
 
+function inferCategoryFromText(title = '', description = '', rawCategory = '') {
+  const text = (title + ' ' + description).toLowerCase();
+
+  if (/table|chair|sofa|desk|bed|couch|dresser|mattress|shelf|cabinet|stand|lamp|light|furniture|테이블|스탠드|조명|의자|소파|침대|책상|서랍|가구|식탁/i.test(text)) {
+    return 'Furniture';
+  }
+  if (/phone|iphone|galaxy|ipad|macbook|laptop|computer|monitor|tv|television|speaker|headphone|airpods|camera|printer|cartridge|ink|charger|appliance|fridge|microwave|vacuum|닌텐도|게임|nintendo|ps5|xbox|appliances|electronics/i.test(text)) {
+    return 'Electronics';
+  }
+  if (/shoe|shoes|sneaker|sneakers|boot|boots|sandal|sandals|nike|adidas|jordan|heel|heels|신발|운동화|구두|부츠/i.test(text)) {
+    return 'Shoes';
+  }
+  if (/women|dress|skirt|blouse|handbag|purse|bra|leggings|원피스|스커트|여성|핸드백/i.test(text)) {
+    return "Women's Fashion";
+  }
+  if (/men|suit|jacket|coat|tuxedo|남성|정장|자켓/i.test(text)) {
+    return "Men's Fashion";
+  }
+  if (/baby|kid|kids|stroller|crib|diaper|toy|toys|lego|유아|아동|유모차|장난감|레고/i.test(text)) {
+    return 'Baby & Kids';
+  }
+  if (/bike|bicycle|bmx|ski|snowboard|golf|racket|exercise|treadmill|dumbbell|tent|camping|자전거|골프|스키|운동/i.test(text)) {
+    return 'Sports & Leisure';
+  }
+  if (/kitchen|utensil|pan|pot|cookware|dish|towel|plant|garden|decor|frame|art|curtain|mug|cup|주방|냄비|그릇|화분|인테리어|액자/i.test(text)) {
+    return 'Home & Garden';
+  }
+  if (/bag|backpack|luggage|suitcase|tote|pouch|wallet|가방|백팩|캐리어|지갑/i.test(text)) {
+    return 'Luggages & Bags';
+  }
+  if (/game|card|trading|collectible|figure|board game|카드|보드게임|피규어/i.test(text)) {
+    return 'Toys & Games';
+  }
+  if (/book|novel|dvd|cd|vinyl|album|art|print|painting|책|음반|소설/i.test(text)) {
+    return 'Arts, Books & Music';
+  }
+  if (/watch|ring|necklace|bracelet|jewelry|시계|반지|목걸이|보석/i.test(text)) {
+    return 'Jewelry & Watches';
+  }
+  if (/dog|cat|pet|leash|crate|강아지|고양이|반려동물/i.test(text)) {
+    return 'Pet Supplies';
+  }
+  if (/beauty|cosmetic|perfume|cream|lotion|화장품|향수/i.test(text)) {
+    return 'Health & Beauty';
+  }
+
+  if (rawCategory && rawCategory.toLowerCase() !== 'used items' && rawCategory.toLowerCase() !== 'general') {
+    return rawCategory;
+  }
+
+  return 'Other';
+}
+
     // Interleave Karrot and HeyKorean listings evenly (1 Karrot, 1 HeyKorean)
     const combined = [];
     const maxLen = Math.max(realKarrotItems.length, realHeyKoreanItems.length);
@@ -22034,7 +22087,10 @@ export default async (req, context) => {
       if (i < realHeyKoreanItems.length) combined.push(realHeyKoreanItems[i]);
     }
 
-    cachedCombined = combined;
+    cachedCombined = combined.map(item => ({
+      ...item,
+      category: inferCategoryFromText(item.title, item.description, item.category)
+    }));
   }
 
   return new Response(JSON.stringify(cachedCombined), {
