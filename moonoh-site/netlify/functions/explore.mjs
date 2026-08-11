@@ -282,6 +282,10 @@ export default async (req, context) => {
 
     const isOthersFilter = isOthersPage || qSource === 'others';
 
+    // 3. Fetch ALL combined items (Moonoh + Karrot + HeyKorean)
+    const allItems = await fetchAllCombinedItems();
+    let filteredItems = [...allItems];
+
     // Rule Distinction:
     // 1. User Entrypoint (/explore): Show Moonoh native items ONLY by default unless ?source=others parameter is present.
     // 2. SEO Aggregation Pages (/explore/{region}/{category}): Merge Moonoh + Karrot + HeyKorean sorted by recency for maximum density.
