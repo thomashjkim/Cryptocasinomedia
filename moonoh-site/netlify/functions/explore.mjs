@@ -263,6 +263,23 @@ export default async (req, context) => {
     let categorySlug = null;
     let isOthersPage = false;
     const isMainUserEntrypoint = pathSegments.length === 0;
+
+    if (pathSegments.length === 1) {
+      const seg = pathSegments[0].toLowerCase();
+      if (seg === 'others') {
+        isOthersPage = true;
+      } else if (REGIONS[seg]) {
+        regionSlug = seg;
+      } else if (CATEGORIES[seg]) {
+        categorySlug = seg;
+      }
+    } else if (pathSegments.length >= 2) {
+      const seg1 = pathSegments[0].toLowerCase();
+      const seg2 = pathSegments[1].toLowerCase();
+      if (REGIONS[seg1]) regionSlug = seg1;
+      if (CATEGORIES[seg2]) categorySlug = seg2;
+    }
+
     const isOthersFilter = isOthersPage || qSource === 'others';
 
     // Rule Distinction:

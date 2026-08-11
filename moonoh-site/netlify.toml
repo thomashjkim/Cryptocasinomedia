@@ -89,3 +89,4 @@
   from = "/explore/*"
   to = "/.netlify/functions/explore"
   status = 200
+  force = true
