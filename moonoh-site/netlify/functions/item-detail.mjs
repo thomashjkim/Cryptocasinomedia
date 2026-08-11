@@ -22402,7 +22402,8 @@ export default async (req, context) => {
       "hasMerchantReturnPolicy": {
         "@type": "MerchantReturnPolicy",
         "applicableCountry": "US",
-        "returnPolicyCategory": "https://schema.org/MerchantReturnNotPermitted"
+        "returnPolicyCategory": "https://schema.org/MerchantReturnNotPermitted",
+        "merchantReturnLink": "https://moon-oh.com/return-policy"
       },
       "shippingDetails": {
         "@type": "OfferShippingDetails",
