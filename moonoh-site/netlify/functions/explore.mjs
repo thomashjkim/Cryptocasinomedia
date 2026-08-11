@@ -154,16 +154,15 @@ async function fetchAllCombinedItems() {
             rawTown: raw.rawTown || raw.location || '',
             categoryName: catName,
             detailUrl: `https://moon-oh.com${slug}`,
-            source: raw.source || 'external',
-            createdAt: raw.createdAt || Date.now(),
-            timeAgo: raw.timeAgo || 'Recently'
-          };
-        });
-      }
-    }
+    // Assign stable descending timestamps to external items to preserve Karrot & HeyKorean interleaving
+    const baseTime = Date.now();
+    const externalItemsWithTime = externalItems.map((item, idx) => ({
+      ...item,
+      createdAt: item.createdAt || (baseTime - idx * 1000)
+    }));
 
-    // Combine Moonoh + External items and sort by recency (createdAt timestamp, newest first)
-    const combined = [...moonohItems, ...externalItems];
+    // Combine Moonoh + External items and sort by recency
+    const combined = [...moonohItems, ...externalItemsWithTime];
     combined.sort((a, b) => {
       const timeA = a.createdAt || 0;
       const timeB = b.createdAt || 0;
@@ -395,21 +394,21 @@ export default async (req, context) => {
       const timeLoc = item.timeAgo ? `${item.timeAgo} · ${item.townName}` : item.townName;
       let badgeHtml = '';
       if (item.source === 'karrot') {
-        badgeHtml = `<div class="item-card-badge badge-karrot" style="display:inline-block; background:#FFF1E6; color:#FF6F0F; border:1px solid #FFD0B0; font-size:11px; font-weight:700; padding:2px 6px; border-radius:4px; margin-top:4px;">Karrot</div>`;
+        badgeHtml = `<div class="item-card-badge badge-karrot" style="display:inline-block; background:#FFF1E6; color:#FF6F0F; border:1px solid #FFD0B0; font-size:10.5px; font-weight:700; padding:1px 6px; border-radius:4px; margin-top:4px; line-height:1.2;">Karrot</div>`;
       } else if (item.source === 'heykorean') {
-        badgeHtml = `<div class="item-card-badge badge-heykorean" style="display:inline-block; background:#EBF4FF; color:#2D8CFF; border:1px solid #B8D9FF; font-size:11px; font-weight:700; padding:2px 6px; border-radius:4px; margin-top:4px;">HeyKorean</div>`;
+        badgeHtml = `<div class="item-card-badge badge-heykorean" style="display:inline-block; background:#EBF4FF; color:#2D8CFF; border:1px solid #B8D9FF; font-size:10.5px; font-weight:700; padding:1px 6px; border-radius:4px; margin-top:4px; line-height:1.2;">HeyKorean</div>`;
       }
 
       cardsHtml += `
         <div class="item-card" onclick="location.href='${item.detailUrl}'" style="cursor:pointer;">
-          <div class="item-card-img-wrap" style="position:relative;">
+          <div class="item-card-img-wrap">
             <img src="${escapeHtml(item.photo)}" alt="${escapeHtml(item.title)}" class="item-card-img" loading="lazy" onerror="this.onerror=null; this.src='/images/default-item-placeholder.png';"/>
-            ${badgeHtml ? `<div style="position:absolute; bottom:6px; left:6px;">${badgeHtml}</div>` : ''}
           </div>
           <div class="item-card-info">
             <div class="item-card-price">${priceStr}</div>
             <div class="item-card-title">${escapeHtml(item.title)}</div>
             <div class="item-card-location">${escapeHtml(timeLoc)}</div>
+            ${badgeHtml}
           </div>
         </div>
       `;

@@ -681,26 +681,23 @@
       display: inline-flex;
       align-items: center;
       gap: 3px;
-      font-size: 11.5px;
+      font-size: 10.5px;
       font-weight: 700;
-      padding: 3px 8px;
-      border-radius: 6px;
-      margin-top: 6px;
+      padding: 1px 6px;
+      border-radius: 4px;
+      margin-top: 4px;
       width: fit-content;
+      line-height: 1.2;
     }
     .badge-karrot {
-      background-color: rgba(255, 241, 230, 0.92);
+      background-color: #FFF1E6;
       color: #FF6F0F;
       border: 1px solid #FFD0B0;
-      backdrop-filter: blur(4px);
-      box-shadow: 0 1px 4px rgba(0,0,0,0.15);
     }
     .badge-heykorean {
-      background-color: rgba(235, 244, 255, 0.92);
+      background-color: #EBF4FF;
       color: #2D8CFF;
       border: 1px solid #B8D9FF;
-      backdrop-filter: blur(4px);
-      box-shadow: 0 1px 4px rgba(0,0,0,0.15);
     }
     
     /* Modal Styles */
@@ -1082,14 +1079,14 @@
 
         html += `
         <a class="item-card" ${clickAttr} style="text-decoration:none; color:inherit;">
-          <div class="item-card-img-wrap" style="position:relative;">
+          <div class="item-card-img-wrap">
             <img src="${imgSrc}" alt="${safeTitle}" class="item-card-image" loading="lazy" onerror="this.onerror=null; this.src='/images/default-item-placeholder.png';">
-            ${badgeHtml ? `<div style="position:absolute; bottom:6px; left:6px;">${badgeHtml}</div>` : ''}
           </div>
           <div class="item-card-content">
             <div class="item-card-price">${priceStr}</div>
             <div class="item-card-title">${itemTitle}</div>
             <div class="item-card-location">${itemLoc}</div>
+            ${badgeHtml}
           </div>
         </a>
         `;
@@ -1117,13 +1114,15 @@
         if (window.__INITIAL_ITEMS__ && Array.isArray(window.__INITIAL_ITEMS__) && window.__INITIAL_ITEMS__.length > 0) {
           items = window.__INITIAL_ITEMS__.map(raw => ({
             no: raw.id,
+            id: raw.id,
             title: raw.title,
             price: raw.price,
             image: raw.photo,
             location: raw.townName,
             rawTown: raw.rawTown || raw.townName || '',
             category: raw.categoryName,
-            url: raw.detailUrl
+            url: raw.detailUrl,
+            source: raw.source || 'external'
           }));
         }
 
