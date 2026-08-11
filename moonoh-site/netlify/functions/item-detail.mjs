@@ -22740,6 +22740,18 @@ export default async (req, context) => {
 
         <div class="divider"></div>
 
+        <!-- How to Purchase / Buy Button -->
+        <div class="section-block" style="background:#F9FAFB; border:1px solid #E5E7EB; border-radius:16px; padding:20px; margin-top:8px; margin-bottom:8px;">
+          <h2 class="section-title" style="margin-top:0; font-size:16px; color:#111827;">How to Purchase</h2>
+          <p style="font-size:14px; color:#4B5563; margin-bottom:14px; line-height:1.5;">${isExternal ? `This item is listed on ${externalSource === 'heykorean' ? 'HeyKorean' : 'Karrot'}. Click below to view the listing and contact the seller directly.` : `Download the free Moonoh app to chat directly with ${sellerName}, arrange local meetup in ${townName}, and purchase with zero fees.`}</p>
+          ${isExternal 
+            ? `<a href="${externalUrl}" target="_blank" rel="noopener noreferrer" style="width:100%; background:#4F46E5; color:#FFFFFF; border:none; padding:14px; border-radius:12px; font-weight:700; font-size:15px; cursor:pointer; display:inline-flex; align-items:center; justify-content:center; gap:8px; text-decoration:none;"><span>Buy / View Listing</span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></a>`
+            : `<button onclick="openModal()" style="width:100%; background:#4F46E5; color:#FFFFFF; border:none; padding:14px; border-radius:12px; font-weight:700; font-size:15px; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:8px;"><span>Buy / Chat on App</span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg></button>`
+          }
+        </div>
+
+        <div class="divider"></div>
+
         <!-- Meetup Preference & Map -->
         <div class="section-block">
           <h2 class="section-title">Meetup preference</h2>
@@ -22772,8 +22784,8 @@ export default async (req, context) => {
         <div class="bottom-price-label">Initial price</div>
       </div>
       ${isExternal 
-        ? `<a href="${externalUrl}" target="_blank" rel="noopener noreferrer" class="chat-btn" style="display:inline-flex; align-items:center; justify-content:center; gap:6px; text-decoration:none;">View on ${externalSource === "heykorean" ? "HeyKorean" : "Karrot"} <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></a>`
-        : `<button class="chat-btn" onclick="openModal()">Chat</button>`
+        ? `<a href="${externalUrl}" target="_blank" rel="noopener noreferrer" class="chat-btn" style="display:inline-flex; align-items:center; justify-content:center; gap:6px; text-decoration:none;">Buy on ${externalSource === "heykorean" ? "HeyKorean" : "Karrot"} <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></a>`
+        : `<button class="chat-btn" onclick="openModal()">Buy / Chat on App</button>`
       }
     </div>
   </div>
