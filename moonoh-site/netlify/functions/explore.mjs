@@ -394,7 +394,7 @@ export default async (req, context) => {
       const priceStr = item.price > 0 ? `$${item.price.toLocaleString()}` : 'Free';
       const timeLoc = item.timeAgo ? `${item.timeAgo} · ${item.townName}` : item.townName;
       let badgeHtml = '';
-      } else if (item.source === 'karrot') {
+      if (item.source === 'karrot') {
         badgeHtml = `<div class="item-card-badge badge-karrot" style="display:inline-block; background:#FFF1E6; color:#FF6F0F; border:1px solid #FFD0B0; font-size:11px; font-weight:700; padding:2px 6px; border-radius:4px; margin-top:4px;">Karrot</div>`;
       } else if (item.source === 'heykorean') {
         badgeHtml = `<div class="item-card-badge badge-heykorean" style="display:inline-block; background:#EBF4FF; color:#2D8CFF; border:1px solid #B8D9FF; font-size:11px; font-weight:700; padding:2px 6px; border-radius:4px; margin-top:4px;">HeyKorean</div>`;
