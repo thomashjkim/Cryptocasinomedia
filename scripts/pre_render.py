@@ -528,7 +528,19 @@ def renderArticlePage(slug):
                                     </p>
                                 </section>
                                 """
-
+                                
+    ADSENSE_IN_ARTICLE = '''
+<!-- Ad_01 - In-Article Mid Display Ad -->
+<div class="my-8" aria-label="Advertisement">
+  <ins class="adsbygoogle"
+       style="display:block"
+       data-ad-client="ca-pub-1468812481841371"
+       data-ad-slot="2743614767"
+       data-ad-format="auto"
+       data-full-width-responsive="true"></ins>
+  <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+</div>
+'''
     bodyHtml = f'<section id="core-announcement" data-semantic-role="body" data-key-entities="{", ".join(article["topics"])}">'
     for idx, p in enumerate(article['body'][1:]):
         p_formatted = inject_sponsored_rel(p)
@@ -536,6 +548,9 @@ def renderArticlePage(slug):
             bodyHtml += f'<blockquote id="quote-{idx+1}" data-semantic-role="editorial-quote" class="pl-4 border-l-4 border-blue-600 italic my-6 text-gray-700 font-serif font-medium text-lg leading-relaxed">{p_formatted}</blockquote>'
         else:
             bodyHtml += f'<p id="p-{idx+1}" data-semantic-role="narrative-chunk" class="mt-6 font-serif text-[17px] text-gray-800 leading-relaxed">{p_formatted}</p>'
+        # Insert ad after 2nd paragraph (index 1)
+        if idx == 1:
+            bodyHtml += ADSENSE_IN_ARTICLE
     bodyHtml += '</section>'
 
     # FAQ structured blocks for AEO
@@ -747,6 +762,17 @@ def renderArticlePage(slug):
                                     <div class="flex flex-col space-y-4">
                                         {relatedHtml}
                                     </div>
+                                </div>
+
+                                <!-- Ad_01 - Sidebar Display Ad -->
+                                <div class="mt-8" aria-label="Advertisement">
+                                    <ins class="adsbygoogle"
+                                         style="display:block"
+                                         data-ad-client="ca-pub-1468812481841371"
+                                         data-ad-slot="2743614767"
+                                         data-ad-format="auto"
+                                         data-full-width-responsive="true"></ins>
+                                    <script>(adsbygoogle = window.adsbygoogle || []).push({{}});</script>
                                 </div>
 
                                 <div class="mt-8">
