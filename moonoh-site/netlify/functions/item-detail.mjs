@@ -22364,30 +22364,6 @@ export default async (req, context) => {
     "description": ${JSON.stringify(description)},
     "category": ${JSON.stringify(categoryName)},
     "sku": ${JSON.stringify(`MOONOH-${productNo}`)},
-    "mpn": ${JSON.stringify(`MOONOH-${productNo}`)},
-    "brand": {
-      "@type": "Brand",
-      "name": "Moonoh"
-    },
-    "aggregateRating": {
-      "@type": "AggregateRating",
-      "ratingValue": "5.0",
-      "reviewCount": "5",
-      "bestRating": "5",
-      "worstRating": "1"
-    },
-    "review": [{
-      "@type": "Review",
-      "reviewRating": {
-        "@type": "Rating",
-        "ratingValue": "5",
-        "bestRating": "5"
-      },
-      "author": {
-        "@type": "Person",
-        "name": "Verified Local Buyer"
-      }
-    }],
     "offers": {
       "@type": "Offer",
       "url": ${JSON.stringify(canonicalUrl)},
@@ -22397,8 +22373,9 @@ export default async (req, context) => {
       "itemCondition": "https://schema.org/UsedCondition",
       "areaServed": ["New York City", "New Jersey", "Queens", "Brooklyn", "Manhattan"],
       "seller": {
-        "@type": "Person",
-        "name": ${JSON.stringify(sellerName)}
+        "@type": "Organization",
+        "name": "Moonoh",
+        "url": "https://moon-oh.com"
       },
       "hasMerchantReturnPolicy": {
         "@type": "MerchantReturnPolicy",
