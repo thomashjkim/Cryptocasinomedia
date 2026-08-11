@@ -22176,30 +22176,40 @@ export default async (req, context) => {
     try {
       if (isExternal) {
         // Handle External Related Items dynamically from allRealExternalItems
-        const allExt = Object.values(allRealExternalItems).filter(item => item && item.id !== extId);
+        const allItemsArr = Object.values(allRealExternalItems || {});
+        const allExt = allItemsArr.filter(item => item && item.id && item.id !== extId);
         
-        // 1. Same category items
-        const sameCategory = allExt.filter(item => item.category === categoryName);
-        // 2. Other items
-        const otherCategory = allExt.filter(item => item.category !== categoryName);
-
-        // Deterministic shuffle based on productNo so it stays consistent per item page but varies across items
-        let seed = 0;
-        for (let i = 0; i < productNo.length; i++) {
-          seed += productNo.charCodeAt(i);
-        }
-        const pseudoRandom = (i) => {
-          const x = Math.sin(seed + i) * 10000;
-          return x - Math.floor(x);
+        // Simple deterministic hash sort helper
+        const getHash = (str) => {
+          let h = 0;
+          const s = String(str || '');
+          for (let i = 0; i < s.length; i++) {
+            h = (Math.imul(31, h) + s.charCodeAt(i)) | 0;
+          }
+          return Math.abs(h);
         };
 
-        const customSort = (arr) => [...arr].sort((a, b) => pseudoRandom(arr.indexOf(a)) - pseudoRandom(arr.indexOf(b)));
+        const currentSeed = getHash(extId || 'default');
 
-        const selected = [...customSort(sameCategory), ...customSort(otherCategory)].slice(0, 5);
+        // 1. Same category items (case-insensitive)
+        const currentCat = String(categoryName || '').trim().toLowerCase();
+        const sameCategory = allExt.filter(item => item.category && String(item.category).trim().toLowerCase() === currentCat);
+        // 2. Other items
+        const sameCatIds = new Set(sameCategory.map(i => i.id));
+        const otherCategory = allExt.filter(item => !sameCatIds.has(item.id));
+
+        // Sort items deterministically based on product ID and current item seed
+        const sortFn = (a, b) => (getHash(a.id) ^ currentSeed) - (getHash(b.id) ^ currentSeed);
+
+        sameCategory.sort(sortFn);
+        otherCategory.sort(sortFn);
+
+        const selected = [...sameCategory, ...otherCategory].slice(0, 5);
 
         relatedHtml = selected.map(rel => {
-          const rPriceStr = rel.price > 0 ? `$${rel.price.toLocaleString()}` : "Free";
-          const safeRelTitle = (rel.title || "").replace(/"/g, '&quot;');
+          const p = Number(rel.price) || 0;
+          const rPriceStr = p > 0 ? (p % 1 !== 0 ? `$${p.toFixed(2)}` : `$${Math.round(p).toLocaleString()}`) : "Free";
+          const safeRelTitle = String(rel.title || "Item").replace(/"/g, '&quot;');
           const relSlug = generateSlug(rel.title, rel.rawTown || rel.location, `ext-${rel.id}`);
           const relImg = rel.image || "/images/default-item-placeholder.png";
 
