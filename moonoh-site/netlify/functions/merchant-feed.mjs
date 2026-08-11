@@ -34,18 +34,16 @@ function generateSlug(title, locationStr, productNo) {
   return `https://moon-oh.com/item/${cleanTitle}-${locSlug}-${productNo}`;
 }
 
-// Convert raw image paths (including .HEIC) to valid .jpg thumbnail URLs supported by Google
+// Convert raw image paths to valid HTTPS thumbnail URLs supported by Google Merchant Center
 function convertToJpgUrl(rawPath) {
   if (!rawPath) return "";
-  if (rawPath.startsWith('http://') || rawPath.startsWith('https://')) {
-    if (rawPath.toLowerCase().endsWith('.heic')) {
-      const parts = rawPath.split('/');
-      const fileName = parts.pop();
-      const path = parts.join('/') + '/';
-      const dotIndex = fileName.lastIndexOf('.');
-      const baseName = dotIndex !== -1 ? fileName.substring(0, dotIndex) : fileName;
-      return `${path}thumbnail_${baseName}.jpg`;
-    }
+  
+  if (rawPath.startsWith('http://52.44.113.58')) {
+    const relativePath = rawPath.replace(/^http:\/\/52\.44\.113\.58:8080\//, '');
+    return convertToJpgUrl(relativePath);
+  }
+
+  if (rawPath.startsWith('https://')) {
     return rawPath;
   }
 
