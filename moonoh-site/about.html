@@ -117,11 +117,21 @@
       .navbar-link, .nav-link {
         font-family: "Open Sans", sans-serif !important;
         font-size: 18px !important;
-        font-weight: 700 !important;
+        font-weight: 500 !important;
         color: #1A1A1A !important;
         padding: 16px 20px !important;
         text-align: center !important;
         display: block !important;
+        transition: color 0.15s ease !important;
+      }
+      .navbar-link:hover, .navbar-link:focus, .nav-link:hover, .nav-link:focus {
+        color: #4F46E5 !important;
+        font-weight: 700 !important;
+      }
+      .navbar-link.w--current, .nav-link.w--current,
+      .navbar-link[aria-current], .nav-link[aria-current] {
+        color: #4F46E5 !important;
+        font-weight: 700 !important;
       }
       .navbar .navbar-button {
         background-color: #2F3CFF !important;
