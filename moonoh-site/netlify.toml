@@ -93,9 +93,8 @@
 
 [[redirects]]
   from = "/sitemap-food-rescue.xml"
-  to = "/.netlify/functions/sitemap-food-rescue"
+  to = "/sitemap-food-rescue.xml"
   status = 200
-  force = true
 
 [[redirects]]
   from = "/sitemap-local-shops.xml"
