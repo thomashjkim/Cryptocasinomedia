@@ -515,9 +515,7 @@
       position: relative !important;
     }
     .item-card-img-wrap img,
-    .item-card-image,
-    .item-card-img,
-    .item-card > img {
+    .item-card-img-wrap .item-card-image {
       width: 100% !important;
       max-width: 100% !important;
       height: 100% !important;
@@ -2005,7 +2003,9 @@
 
         html += `
         <a class="item-card" ${clickAttr} style="text-decoration:none; color:inherit;">
-          <img src="${itemImg}" alt="${safeTitle}" class="item-card-image" loading="lazy" onerror="this.onerror=null; this.src='/images/default-item-placeholder.png';">
+          <div class="item-card-img-wrap">
+            <img src="${itemImg}" alt="${safeTitle}" class="item-card-image" loading="lazy" onerror="this.onerror=null; this.src='/images/default-item-placeholder.png';">
+          </div>
           <div class="item-card-content">
             <div class="item-card-price">${priceStr}</div>
             <div class="item-card-title">${safeTitle}</div>
