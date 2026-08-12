@@ -412,9 +412,28 @@ ${breadcrumbScript}
 </head>`);
 
     // Inject AEO Summary Card & Cleanly Replace Entire Grid Block
-    const gridBlockRegex = /<div class="item-grid" id="moonoh-item-grid">[\s\S]*?<\/div>/i;
-    const newGridContent = (aeoSummaryHtml ? `${aeoSummaryHtml}\n` : '') + `<div class="item-grid" id="moonoh-item-grid">\n${cardsHtml}\n</div>`;
-    template = template.replace(gridBlockRegex, newGridContent);
+    // Use string split to correctly replace the full grid (regex non-greedy fails on nested divs)
+    const gridOpenTag = '<div class="item-grid" id="moonoh-item-grid">';
+    const gridOpenIdx = template.indexOf(gridOpenTag);
+    if (gridOpenIdx !== -1) {
+      // Find the matching closing </div> by counting div depth
+      let depth = 0;
+      let i = gridOpenIdx;
+      let gridCloseIdx = -1;
+      while (i < template.length) {
+        if (template.substring(i, i + 4) === '<div') { depth++; i++; continue; }
+        if (template.substring(i, i + 6) === '</div>') {
+          depth--;
+          if (depth === 0) { gridCloseIdx = i + 6; break; }
+          i += 6; continue;
+        }
+        i++;
+      }
+      if (gridCloseIdx !== -1) {
+        const newGridContent = (aeoSummaryHtml ? `${aeoSummaryHtml}\n` : '') + `${gridOpenTag}\n${cardsHtml}\n</div>`;
+        template = template.substring(0, gridOpenIdx) + newGridContent + template.substring(gridCloseIdx);
+      }
+    }
 
     return new Response(template, {
       status: 200,
