@@ -92,6 +92,11 @@
   force = true
 
 [[redirects]]
+  from = "/api/indexnow"
+  to = "/.netlify/functions/indexnow"
+  status = 200
+
+[[redirects]]
   from = "/explore"
   to = "/.netlify/functions/explore"
   status = 200
