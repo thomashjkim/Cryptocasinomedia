@@ -22093,21 +22093,39 @@ function getExternalItemById(id) {
   if (Array.isArray(realFoodRescueItems)) {
     const found = realFoodRescueItems.find(i => i.id === id);
     if (found) {
+      const origP = found.compareAtPrice && found.compareAtPrice > found.price ? found.compareAtPrice : Math.round(found.price * 1.2 * 100) / 100;
+      const pct = origP > found.price ? Math.round(((origP - found.price) / origP) * 100) : 15;
+      
+      let cleanSlug = (found.title || 'item')
+        .toLowerCase()
+        .replace(/[^a-z0-9\s-]/g, '')
+        .trim()
+        .replace(/\s+/g, '-')
+        .replace(/-+/g, '-');
+      if (cleanSlug.length > 50) cleanSlug = cleanSlug.substring(0, 50).replace(/-$/, '');
+
+      const utmUrl = `https://kimcmarket.com/products/${found.handle || 'item'}?utm_source=moonoh&utm_medium=referral&utm_campaign=food_rescue&utm_content=${cleanSlug}`;
+
       return {
         id: found.id,
         title: found.title,
         price: found.price,
+        compareAtPrice: origP,
+        discountPercent: pct,
         location: found.location || '1mi · Brooklyn, NY',
         rawTown: found.rawTown || 'Brooklyn, NY',
-        lat: 40.6782,
-        lng: -73.9442,
+        address: 'Building 303, 399 Sands St, Brooklyn, NY 11205',
+        lat: 40.7001,
+        lng: -73.9782,
         category: found.categoryName || 'Food & Groceries',
         image: found.image,
         sellerName: "Kim'C Market",
-        description: `${found.title} available on Kim'C Market in Brooklyn, NY. Fight Food Waste item.`,
+        vendor: found.vendor || "Kim'C Market",
+        description: `${found.title} — Premium Korean gourmet food rescue deal available at Kim'C Market in Brooklyn Navy Yard, NY.\n\n• Price: $${found.price.toFixed(2)} (Original: $${origP.toFixed(2)}, Save ${pct}% OFF!)\n• Why Food Rescue: Near sell-by date stock sourced directly from Kim'C Market to prevent local NYC food waste.\n• Storage Tip: Store in a cool, dry place. Seal tightly after opening.\n• Moonoh Recommendation: Hand-selected authentic Korean gourmet item available for local pickup or fast delivery in New York.`,
         source: 'kimc',
         sourceName: "Kim'C Market",
-        url: found.detailUrl || `https://kimcmarket.com/products/${found.handle}`,
+        url: utmUrl,
+        rawUrl: `https://kimcmarket.com/products/${found.handle || 'item'}`,
         timeAgo: 'Food Rescue'
       };
     }
@@ -22130,6 +22148,7 @@ export default async (req, context) => {
     let address = "New York, NY, USA";
     let strDayCount = "Recently";
     let sellerName = "Moonoh User";
+    let vendorName = "Moonoh";
     let likeCount = 1;
     let categoryName = "Other";
     let lat = 40.7128;
@@ -22178,6 +22197,7 @@ export default async (req, context) => {
       categoryName = inferCategoryFromText(title, description, extItem.category);
       externalUrl = extItem.url;
       externalSource = extItem.source;
+      vendorName = extItem.vendor || extItem.sellerName || "Moonoh";
       // Use real coordinates from scraped data if available
       if (extItem.lat && extItem.lng) { lat = extItem.lat; lng = extItem.lng; }
       // sellerName already set above from extItem.sellerName
@@ -22477,7 +22497,7 @@ export default async (req, context) => {
     "sku": ${JSON.stringify(`MOONOH-${productNo}`)},
     "brand": {
       "@type": "Brand",
-      "name": ${JSON.stringify(sellerName || "Moonoh")}
+      "name": ${JSON.stringify(vendorName || sellerName || "Moonoh")}
     },
     "aggregateRating": {
       "@type": "AggregateRating",
@@ -22500,22 +22520,22 @@ export default async (req, context) => {
           "bestRating": "5",
           "worstRating": "1"
         },
-        "reviewBody": ${JSON.stringify(`Verified secondhand listing for ${title} in ${townName}.`)}
+        "reviewBody": ${JSON.stringify(`Verified food rescue listing for ${title} in ${townName}.`)}
       }
     ],
     "offers": {
       "@type": "Offer",
-      "url": ${JSON.stringify(canonicalUrl)},
+      "url": ${JSON.stringify(isExternal ? externalUrl : canonicalUrl)},
       "priceCurrency": "USD",
       "price": "${price}",
       "priceValidUntil": "2027-12-31",
       "availability": "https://schema.org/InStock",
-      "itemCondition": "https://schema.org/UsedCondition",
+      "itemCondition": ${JSON.stringify(externalSource === 'kimc' ? 'https://schema.org/NewCondition' : 'https://schema.org/UsedCondition')},
       "areaServed": ["New York City", "New Jersey", "Queens", "Brooklyn", "Manhattan"],
       "seller": {
         "@type": "Organization",
-        "name": "Moonoh",
-        "url": "https://moon-oh.com"
+        "name": ${JSON.stringify(sellerName || "Moonoh")},
+        "url": ${JSON.stringify(externalSource === 'kimc' ? 'https://kimcmarket.com' : (externalSource === 'heykorean' ? 'https://market.heykorean.com' : (externalSource === 'karrot' ? 'https://us.karrotmarket.com' : 'https://moon-oh.com')))}
       },
       "shippingDetails": {
         "@type": "OfferShippingDetails",

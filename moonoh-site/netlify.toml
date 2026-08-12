@@ -86,6 +86,12 @@
   status = 200
 
 [[redirects]]
+  from = "/sitemap-food-rescue.xml"
+  to = "/.netlify/functions/sitemap-food-rescue"
+  status = 200
+  force = true
+
+[[redirects]]
   from = "/explore"
   to = "/.netlify/functions/explore"
   status = 200
