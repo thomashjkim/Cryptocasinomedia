@@ -30,7 +30,7 @@ const REGIONS = {
 // Category Mapping
 const CATEGORIES = {
   'electronics': { name: 'Electronics', kw: 'electronics', keywords: ['electronics', 'phone', 'laptop', 'appliances', 'audio', 'gadget', 'ink', 'camera', 'tv', 'monitor', 'headphone', 'airpods', 'ipad', 'charger', 'speaker', 'printer', 'game', 'ps5', 'nintendo', 'xbox'] },
-  'furniture': { name: 'Furniture', kw: 'furniture', keywords: ['furniture', 'sofa', 'table', 'chair', 'bed', 'desk', 'couch', 'dresser', 'mattress', 'shelf', 'nightstand', 'cabinet', 'stool', 'bench', 'ottoman', 'headboard', 'storage', 'lamp', 'bookcase'] },
+  'furniture': { name: 'Furniture', kw: 'furniture', keywords: ['furniture', 'sofa', 'table', 'chair', 'bed', 'desk', 'couch', 'dresser', 'mattress', 'shelf', 'nightstand', 'cabinet', 'stool', 'bench', 'ottoman', 'headboard', 'drawers', '소파', '침대', '식탁', '의자', '책상', '서랍', '매트리스', '선반', '테이블', '가구'], excludes: ['pillow', 'hanger', 'curtain rod', 'fan', 'keyboard', 'monitor', 'massager', 'phone stand', 'photo printer', 'gymnastic', 'printer'] },
   'womens-fashion': { name: "Women's Fashion", kw: 'women', keywords: ["women's fashion", 'women', 'dress', 'handbag', 'skirt', 'coat'] },
   'mens-fashion': { name: "Men's Fashion", kw: 'men', keywords: ["men's fashion", 'men', 'suit', 'jacket'] },
   'shoes': { name: 'Shoes', kw: 'shoe', keywords: ['shoes', 'sneakers', 'boots', 'sandals', 'shoe', 'nike', 'adidas'] },
@@ -261,10 +261,11 @@ export default async (req, context) => {
         filteredItems = filteredItems.filter(item => {
           const mainCat = (item.categoryName || item.category || '').toLowerCase();
           const titleStr = (item.title || '').toLowerCase();
-          // If main category matches directly
+          if (targetCategoryObj.excludes && targetCategoryObj.excludes.some(ex => titleStr.includes(ex))) {
+            return false;
+          }
           if (mainCat.includes(targetCategoryObj.kw)) return true;
-          // Or if title explicitly contains targeted keywords (excluding generic terms)
-          return targetCategoryObj.keywords.some(kw => titleStr.includes(kw));
+          return targetCategoryObj.keywords.some(kw => titleStr.includes(kw) || mainCat.includes(kw));
         });
       }
     }
@@ -379,6 +380,9 @@ export default async (req, context) => {
     if (targetRegionObj && targetRegionObj.shortName) {
       const regName = targetRegionObj.shortName;
       // Hide Source Tabs on AEO Aggregation Pages (/explore/{region}/{category}) so all items are combined with source badges
+    if (targetRegionObj || targetCategoryObj) {
+      template = template.replace('id="source-segment-wrap"', 'id="source-segment-wrap" style="display:none !important;"');
+    }
     
 
     template = template.replace(`<option value="${regName}">`, `<option value="${regName}" selected="selected">`);
