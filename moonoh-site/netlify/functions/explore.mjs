@@ -95,6 +95,9 @@ async function fetchAllCombinedItems() {
           function inferCategoryFromText(title = '', description = '', rawCategory = '') {
             const text = (title + ' ' + description).toLowerCase();
 
+            if (/food|snack|chip|chips|cookie|cookies|noodle|noodles|ramen|rice|tea|sauce|kimchi|drink|beverage|gourmet|grocer|식품|과자|라면|햇반|김치/i.test(text) || (rawCategory && /food|grocery|groceries|gourmet/i.test(rawCategory))) {
+              return 'Food & Groceries';
+            }
             if (/table|chair|sofa|desk|bed|couch|dresser|mattress|shelf|cabinet|stand|lamp|light|furniture|테이블|스탠드|조명|의자|소파|침대|책상|서랍|가구|식탁/i.test(text)) {
               return 'Furniture';
             }
@@ -104,10 +107,10 @@ async function fetchAllCombinedItems() {
             if (/shoe|shoes|sneaker|sneakers|boot|boots|sandal|sandals|nike|adidas|jordan|heel|heels|신발|운동화|구두|부츠/i.test(text)) {
               return 'Shoes';
             }
-            if (/women|dress|skirt|blouse|handbag|purse|bra|leggings|원피스|스커트|여성|핸드백/i.test(text)) {
+            if (/\bwomen\b|\bwomens\b|\bwomen's\b|dress|skirt|blouse|handbag|purse|bra|leggings|원피스|스커트|여성|핸드백/i.test(text)) {
               return "Women's Fashion";
             }
-            if (/men|suit|jacket|coat|tuxedo|남성|정장|자켓/i.test(text)) {
+            if (/\bmen\b|\bmens\b|\bmen's\b|suit|jacket|coat|tuxedo|남성|정장|자켓/i.test(text)) {
               return "Men's Fashion";
             }
             if (/baby|kid|kids|stroller|crib|diaper|toy|toys|lego|유아|아동|유모차|장난감|레고/i.test(text)) {
