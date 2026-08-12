@@ -369,6 +369,11 @@ export default async (req, context) => {
     const breadcrumbScript = `<script type="application/ld+json">${JSON.stringify(breadcrumbSchema)}</script>`;
     const initialItemsScript = `<script>window.__INITIAL_ITEMS__ = ${JSON.stringify(initialItems)};</script>`;
 
+    if (targetRegionObj && targetRegionObj.shortName) {
+      const regName = targetRegionObj.shortName;
+      template = template.replace(`<option value="${regName}">`, `<option value="${regName}" selected="selected">`);
+    }
+
     template = template
       .replace(/<title>.*?<\/title>/i, `<title>${escapeHtml(pageTitle)}</title>`)
       .replace(/<meta content=".*?" name="description"\/>/i, `<meta content="${escapeHtml(metaDesc)}" name="description"/>`)
