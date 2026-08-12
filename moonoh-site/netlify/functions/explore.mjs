@@ -399,13 +399,11 @@ export default async (req, context) => {
 
     let introText = "";
     if (isFoodRescuePage) {
-      introText = `Browse ${itemCount} verified Food Rescue & Sell-by deals from Kim'C Market in Brooklyn, NY. Save authentic Korean gourmet items near sell-by date with deep discounts while fighting local NYC food waste.`;
+      introText = `Browse verified Food Rescue & Sell-by deals from Kim'C Market in Brooklyn, NY. Save authentic Korean gourmet items near sell-by date with deep discounts while fighting local NYC food waste.`;
     } else if (isOthersPage) {
       introText = `Browse aggregated local marketplace items for sale in ${regionName} from Karrot and HeyKorean.`;
-    } else if (itemCount > 0) {
-      introText = `Browse ${itemCount} verified items for sale in ${regionName} on Moonoh. Find local deals from neighbors — including listings from Karrot and HeyKorean. ${avgPriceStr}. Meet up safely across ${regionName} neighborhoods.`;
     } else {
-      introText = `Explore verified items in ${regionName} on Moonoh. Connect with local sellers across ${regionName} neighborhoods.`;
+      introText = `Browse verified items for sale in ${regionName} on Moonoh. Find local deals from neighbors — including listings from Karrot and HeyKorean. Meet up safely across ${regionName} neighborhoods.`;
     }
 
     // ── SSR Grid Cards ─────────────────────────────────────────────────────────
