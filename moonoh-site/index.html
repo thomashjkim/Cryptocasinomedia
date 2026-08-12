@@ -1238,7 +1238,8 @@
             fetch('/api/items'),
             fetch('/api/food-rescue')
           ]);
-          const moonohData = moonohRes.status === 'fulfilled' ? await moonohRes.value.json() : [];
+          const moonohRaw = moonohRes.status === 'fulfilled' ? await moonohRes.value.json() : [];
+          const moonohData = (Array.isArray(moonohRaw) ? moonohRaw : []).map(m => ({ ...m, source: 'moonoh' }));
           const foodRescueData = foodRescueRes.status === 'fulfilled' ? await foodRescueRes.value.json() : [];
           const parsedFoodRescue = (Array.isArray(foodRescueData) ? foodRescueData : []).map(r => ({
             no: r.id,
@@ -1251,7 +1252,7 @@
             source: 'kimc',
             url: `/item/${r.handle || 'item'}-brooklyn-ny-ext-${r.id}`
           }));
-          items = [...(Array.isArray(moonohData) ? moonohData : []), ...parsedFoodRescue];
+          items = [...moonohData, ...parsedFoodRescue];
         } catch (e) {}
 
         if (!Array.isArray(items) || items.length === 0) {

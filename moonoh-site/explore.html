@@ -865,13 +865,17 @@
 
         <span class="location-count" id="location-count"></span>
 
-        <!-- Source Segment Switcher (Moonoh · Food Rescue · Marketplaces) -->
-        <div class="source-segment-wrap" id="source-segment-wrap" style="margin-left: auto;">
-          <button class="source-tab-btn active" id="tab-source-moonoh" data-source="moonoh">Moonoh</button>
-          <button class="source-tab-btn tab-foodrescue" id="tab-source-foodrescue" data-source="foodrescue">Food Rescue</button>
-          <button class="source-tab-btn" id="tab-source-marketplaces" data-source="marketplaces">Marketplaces</button>
-        </div>
+        <!-- Source Segment Switcher (4 Mobile Tabs: Moonoh · Rescue · Local · Markets) -->
+        <nav class="source-segment-wrap" id="source-segment-wrap" role="tablist" aria-label="Explore discovery sections" style="margin-left: auto; display: flex; gap: 4px; background: #F3F4F6; padding: 4px; border-radius: 9999px; max-width: 100%; box-sizing: border-box; overflow-x: auto;">
+          <a href="/explore" class="source-tab-btn active" id="tab-source-moonoh" data-source="moonoh" role="tab" aria-selected="true" style="min-height: 44px; display: inline-flex; align-items: center; justify-content: center; padding: 8px 14px; border-radius: 9999px; text-decoration: none; font-weight: 700; font-size: 13px; white-space: nowrap;">Moonoh</a>
+          <a href="/explore/food-rescue" class="source-tab-btn" id="tab-source-foodrescue" data-source="foodrescue" role="tab" aria-selected="false" style="min-height: 44px; display: inline-flex; align-items: center; justify-content: center; padding: 8px 14px; border-radius: 9999px; text-decoration: none; font-weight: 700; font-size: 13px; white-space: nowrap;">Rescue</a>
+          <a href="/explore/local-shops" class="source-tab-btn" id="tab-source-localshops" data-source="localshops" role="tab" aria-selected="false" style="min-height: 44px; display: inline-flex; align-items: center; justify-content: center; padding: 8px 14px; border-radius: 9999px; text-decoration: none; font-weight: 700; font-size: 13px; white-space: nowrap;">Local</a>
+          <a href="/explore/marketplaces" class="source-tab-btn" id="tab-source-marketplaces" data-source="marketplaces" role="tab" aria-selected="false" style="min-height: 44px; display: inline-flex; align-items: center; justify-content: center; padding: 8px 14px; border-radius: 9999px; text-decoration: none; font-weight: 700; font-size: 13px; white-space: nowrap;">Markets</a>
+        </nav>
       </div>
+
+      <!-- Complete Section Title below Segmented Control -->
+      <div id="section-subtitle-label" style="font-size: 15px; font-weight: 800; color: #111827; margin-top: 4px; margin-bottom: 16px;">Moonoh Marketplace</div>
 
       <div class="filter-container" id="filter-container">
         <button class="filter-pill active">All</button>
@@ -1469,10 +1473,38 @@
 
       // Override applyFilters to handle foodrescue source
       const origApplyFilters = applyFilters;
+      let localShopsItemsList = [];
+      async function preloadLocalShopsItems() {
+        if (localShopsItemsList.length > 0) return;
+        try {
+          const res = await fetch('/local_shops_data.json');
+          if (res.ok) {
+            const data = await res.json();
+            localShopsItemsList = (data.products || []).map(p => ({
+              id: p.id,
+              no: p.id,
+              title: p.title,
+              price: p.current_price,
+              photo: p.image_source_url,
+              image: p.image_source_url,
+              townName: p.availability_context || 'NYC',
+              rawTown: 'NYC',
+              location: 'NYC',
+              category: p.moonoh_category || 'Grocery',
+              categoryName: p.moonoh_category || 'Grocery',
+              source: 'localshops',
+              url: `/local-product/${p.shop_id}/${p.slug}`
+            }));
+          }
+        } catch (e) {}
+      }
+
       applyFilters = function(categoryKeyword = null) {
         let filtered = allItems;
         if (activeSource === 'foodrescue') {
           filtered = foodRescueItemsList;
+        } else if (activeSource === 'localshops') {
+          filtered = localShopsItemsList;
         } else if (activeSource === 'marketplaces' || activeSource === 'others') {
           filtered = externalItemsList;
         } else {
@@ -1505,13 +1537,24 @@
 
       async function switchSource(source) {
         activeSource = source;
+        const btnMoonoh = document.getElementById('tab-source-moonoh');
+        const btnFoodRescue = document.getElementById('tab-source-foodrescue');
+        const btnLocalShops = document.getElementById('tab-source-localshops');
+        const btnMarketplaces = document.getElementById('tab-source-marketplaces');
+
         if (btnMoonoh) btnMoonoh.classList.toggle('active', source === 'moonoh');
         if (btnFoodRescue) btnFoodRescue.classList.toggle('active', source === 'foodrescue');
+        if (btnLocalShops) btnLocalShops.classList.toggle('active', source === 'localshops');
         if (btnMarketplaces) btnMarketplaces.classList.toggle('active', source === 'marketplaces' || source === 'others');
 
-        const titleEl = document.querySelector('.agg-hero-section h1') || document.querySelector('.item-feed-title');
-        const descEl = document.querySelector('.agg-hero-section p');
-        if (titleEl) {
+        const subtitleLabel = document.getElementById('section-subtitle-label');
+        if (subtitleLabel) {
+          if (source === 'foodrescue') subtitleLabel.textContent = "Food Rescue";
+          else if (source === 'localshops') subtitleLabel.textContent = "Local Shops";
+          else if (source === 'marketplaces' || source === 'others') subtitleLabel.textContent = "Other Marketplaces";
+          else subtitleLabel.textContent = "Moonoh Marketplace";
+        }
+
         const foodRescueBanner = document.getElementById("food-rescue-banner");
         if (foodRescueBanner) {
           foodRescueBanner.style.display = source === 'foodrescue' ? 'flex' : 'none';
@@ -1519,11 +1562,13 @@
 
         const filterContainer = document.getElementById("filter-container");
         if (filterContainer) {
-          filterContainer.style.display = source === 'foodrescue' ? 'none' : 'flex';
+          filterContainer.style.display = (source === 'foodrescue' || source === 'localshops') ? 'none' : 'flex';
         }
 
         if (source === 'foodrescue' && foodRescueItemsList.length === 0) {
           await preloadFoodRescueItems();
+        } else if (source === 'localshops' && localShopsItemsList.length === 0) {
+          await preloadLocalShopsItems();
         } else if ((source === 'marketplaces' || source === 'others') && externalItemsList.length === 0) {
           await preloadExternalItems();
         }
@@ -1531,9 +1576,15 @@
         applyFilters(getActiveCategoryKeyword());
       }
 
-      if (btnMoonoh) btnMoonoh.addEventListener('click', () => switchSource('moonoh'));
-      if (btnFoodRescue) btnFoodRescue.addEventListener('click', () => switchSource('foodrescue'));
-      if (btnMarketplaces) btnMarketplaces.addEventListener('click', () => switchSource('marketplaces'));
+      const btnMoonoh = document.getElementById('tab-source-moonoh');
+      const btnFoodRescue = document.getElementById('tab-source-foodrescue');
+      const btnLocalShops = document.getElementById('tab-source-localshops');
+      const btnMarketplaces = document.getElementById('tab-source-marketplaces');
+
+      if (btnMoonoh) btnMoonoh.addEventListener('click', (e) => { e.preventDefault(); switchSource('moonoh'); history.pushState(null, '', '/explore'); });
+      if (btnFoodRescue) btnFoodRescue.addEventListener('click', (e) => { e.preventDefault(); switchSource('foodrescue'); history.pushState(null, '', '/explore/food-rescue'); });
+      if (btnLocalShops) btnLocalShops.addEventListener('click', (e) => { e.preventDefault(); switchSource('localshops'); history.pushState(null, '', '/explore/local-shops'); });
+      if (btnMarketplaces) btnMarketplaces.addEventListener('click', (e) => { e.preventDefault(); switchSource('marketplaces'); history.pushState(null, '', '/explore/marketplaces'); });
 
       // Load more
       // More Categories toggle button

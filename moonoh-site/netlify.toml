@@ -86,8 +86,38 @@
   status = 200
 
 [[redirects]]
+  from = "/sitemap-moonoh-items.xml"
+  to = "/.netlify/functions/sitemap-moonoh-items"
+  status = 200
+  force = true
+
+[[redirects]]
   from = "/sitemap-food-rescue.xml"
   to = "/.netlify/functions/sitemap-food-rescue"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/sitemap-local-shops.xml"
+  to = "/.netlify/functions/sitemap-local-shops"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/sitemap-marketplaces.xml"
+  to = "/.netlify/functions/sitemap-marketplaces"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/local-shops/*"
+  to = "/.netlify/functions/explore"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/local-product/*"
+  to = "/.netlify/functions/item-detail"
   status = 200
   force = true
 
@@ -102,9 +132,6 @@
   status = 200
   force = true
 
-# /explore/queens, /explore/queens/furniture etc:
-# Static index.html files take priority (Netlify serves them directly);
-# if no static file exists, fall through to the explore function.
 [[redirects]]
   from = "/explore/*"
   to = "/.netlify/functions/explore"
