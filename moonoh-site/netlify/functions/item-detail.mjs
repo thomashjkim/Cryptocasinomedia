@@ -22161,8 +22161,39 @@ export default async (req, context) => {
     let mainPhoto = "";
     let extId = "";
 
-    const extMatch = url.pathname.match(/-ext-(karrot-[a-z0-9_-]+|heykorean-[a-z0-9_-]+|kimc-[a-z0-9_-]+)/i);
-    if (extMatch) {
+    const localProductMatch = url.pathname.match(/\/local-product\/([^\/]+)\/([^\/]+)/i);
+    if (localProductMatch) {
+      const shopSlug = localProductMatch[1];
+      const prodSlug = localProductMatch[2];
+      let localItem = null;
+      try {
+        const jsonPath = path.join(currentDir, '../../local_shops_data.json');
+        if (fs.existsSync(jsonPath)) {
+          const localDb = JSON.parse(fs.readFileSync(jsonPath, 'utf8'));
+          localItem = (localDb.products || []).find(p => p.shop_id === shopSlug && p.slug === prodSlug);
+        }
+      } catch (e) {}
+
+      if (localItem) {
+        isExternal = true;
+        title = localItem.title;
+        price = localItem.current_price || 0;
+        priceStr = price > 0 ? (price % 1 !== 0 ? `$${price.toFixed(2)}` : `$${Math.round(price)}`) : "Check price at retailer";
+        description = localItem.moonoh_summary || `${localItem.title} from ${localItem.brand || shopSlug}.`;
+        townName = shopSlug === 'happier-grocery' ? 'Soho, NY' : (shopSlug === 'big-night' ? 'Greenpoint, NY' : 'NYC, NY');
+        address = "New York, NY";
+        sellerName = localItem.brand || shopSlug;
+        vendorName = localItem.brand || shopSlug;
+        photos = [localItem.image_source_url];
+        mainPhoto = localItem.image_source_url;
+        categoryName = localItem.moonoh_category || "Grocery";
+        externalUrl = localItem.source_url;
+        externalSource = shopSlug;
+        strDayCount = "Local Shop";
+      }
+    } else {
+      const extMatch = url.pathname.match(/-ext-(karrot-[a-z0-9_-]+|heykorean-[a-z0-9_-]+|kimc-[a-z0-9_-]+)/i);
+      if (extMatch) {
       isExternal = true;
       extId = extMatch[1].toLowerCase();
       productNo = extId;

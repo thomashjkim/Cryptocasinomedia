@@ -242,24 +242,34 @@ export default async (req, context) => {
     let metaDesc = "Browse secondhand items listed directly by Moonoh users. Chat with local sellers and arrange a safe neighborhood exchange.";
     let h1Text = "Buy and Sell with Your NYC & NJ Neighbors";
     let canonicalUrl = `https://moon-oh.com${fullPath || '/explore'}`;
+    let themeColor = "#4F46E5";
+    let sectionName = "Moonoh Marketplace";
 
     if (isFoodRescuePage) {
       pageTitle = "Save Quality Food from Going to Waste | Moonoh Food Rescue";
       metaDesc = "Discover discounted food from trusted local shops before it goes to waste. Purchases are completed directly with each participating retailer.";
       h1Text = "Buy and Sell with Your NYC & NJ Neighbors";
+      themeColor = "#006853";
+      sectionName = "Food Rescue";
     } else if (isLocalShopsPage) {
       pageTitle = "Discover Independent Shops in NYC | Moonoh Local Shops";
       metaDesc = "Explore distinctive groceries, pantry goods and home products from independent New York shops. Purchases are completed directly with each retailer.";
       h1Text = "Buy and Sell with Your NYC & NJ Neighbors";
+      themeColor = "#05452E";
+      sectionName = "Local Shops";
     } else if (isMarketplacesPage) {
       pageTitle = "Explore Listings Across Local Marketplaces | Moonoh";
       metaDesc = "Browse secondhand items found across NYC and NJ marketplace communities. Complete each transaction through the original marketplace.";
       h1Text = "Buy and Sell with Your NYC & NJ Neighbors";
+      themeColor = "#2563EB";
+      sectionName = "Other Marketplaces";
     } else if (isShopProfile && shopProfileSlug && localShopsData.shops[shopProfileSlug]) {
       const shop = localShopsData.shops[shopProfileSlug];
       pageTitle = `${shop.name} - Independent NYC Local Shop | Moonoh`;
       metaDesc = shop.business_description;
       h1Text = shop.name;
+      themeColor = shop.theme_color || "#4F46E5";
+      sectionName = shop.name;
     }
 
     // Render Items using EXACT standard Moonoh <a class="item-card"> format
@@ -278,11 +288,11 @@ export default async (req, context) => {
       } else if (item.source === 'kimc') {
         badgeHtml = `<div class="item-card-badge badge-kimc">Kim'C Market</div>`;
       } else if (item.source === 'happier-grocery' || item.badgeName === 'Happier Grocery') {
-        badgeHtml = `<div class="item-card-badge" style="background:#05452E; color:#fff;">Happier Grocery</div>`;
+        badgeHtml = `<div class="item-card-badge badge-happier">Happier Grocery</div>`;
       } else if (item.source === 'pop-up-grocer' || item.badgeName === 'Pop Up Grocer') {
-        badgeHtml = `<div class="item-card-badge" style="background:#FF5722; color:#fff;">Pop Up Grocer</div>`;
+        badgeHtml = `<div class="item-card-badge badge-popup">Pop Up Grocer</div>`;
       } else if (item.source === 'big-night' || item.badgeName === 'Big Night') {
-        badgeHtml = `<div class="item-card-badge" style="background:#D9381E; color:#fff;">Big Night</div>`;
+        badgeHtml = `<div class="item-card-badge badge-bignight">Big Night</div>`;
       } else {
         badgeHtml = `<div class="item-card-badge badge-moonoh">Moonoh</div>`;
       }
@@ -302,10 +312,46 @@ export default async (req, context) => {
       `;
     }).join('');
 
+    // JSON-LD Breadcrumbs & Shop Profile Schema
+    const breadcrumbSchema = {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://moon-oh.com/" },
+        { "@type": "ListItem", "position": 2, "name": "Explore", "item": "https://moon-oh.com/explore" },
+        { "@type": "ListItem", "position": 3, "name": sectionName, "item": canonicalUrl }
+      ]
+    };
+
+    let shopSchemaHtml = '';
+    if (isShopProfile && shopProfileSlug && localShopsData.shops[shopProfileSlug]) {
+      const shop = localShopsData.shops[shopProfileSlug];
+      const shopSchema = {
+        "@context": "https://schema.org",
+        "@type": "LocalBusiness",
+        "name": shop.name,
+        "description": shop.business_description,
+        "url": shop.website_url,
+        "image": shop.logo_url || shop.primary_image_url,
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": shop.address_line_1,
+          "addressLocality": shop.city,
+          "addressRegion": shop.state,
+          "postalCode": shop.postal_code,
+          "addressCountry": "US"
+        }
+      };
+      shopSchemaHtml = `<script type="application/ld+json">${JSON.stringify(shopSchema)}</script>`;
+    }
+
+    const breadcrumbScript = `<script type="application/ld+json">${JSON.stringify(breadcrumbSchema)}</script>`;
+
     template = template
       .replace(/<title>.*?<\/title>/i, `<title>${escapeHtml(pageTitle)}</title>`)
       .replace(/<meta content=".*?" name="description"\/>/i, `<meta content="${escapeHtml(metaDesc)}" name="description"/>`)
-      .replace(/<link [^>]*rel="canonical"[^>]*\/>/i, `<link rel="canonical" href="${canonicalUrl}"/>`);
+      .replace(/<link [^>]*rel="canonical"[^>]*\/>/i, `<link rel="canonical" href="${canonicalUrl}"/>`)
+      .replace('</head>', `<meta name="theme-color" content="${themeColor}"/>\n${breadcrumbScript}\n${shopSchemaHtml}\n</head>`);
 
     // Replace Grid
     template = template.replace(
