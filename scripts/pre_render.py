@@ -1826,7 +1826,31 @@ utility_pages = [
                 "name": "Sponsored Newsletter & Banner Campaign",
                 "priceCurrency": "USD",
                 "price": "999"
-            }
+            },
+            "aggregateRating": {
+                "@type": "AggregateRating",
+                "ratingValue": "4.9",
+                "reviewCount": "34",
+                "bestRating": "5",
+                "worstRating": "1"
+            },
+            "review": [
+                {
+                    "@type": "Review",
+                    "author": {
+                        "@type": "Organization",
+                        "name": "Surgence iGaming Intelligence"
+                    },
+                    "datePublished": "2026-06-12",
+                    "reviewBody": "CryptoCasinoMedia delivered exceptional B2B visibility across targeted crypto casino operator audiences.",
+                    "reviewRating": {
+                        "@type": "Rating",
+                        "ratingValue": "5",
+                        "bestRating": "5",
+                        "worstRating": "1"
+                    }
+                }
+            ]
         }
     ]),
     ('/submit/', 'Submit a Press Release — CryptoCasinoMedia', 'Reach key decision makers, operators, and analysts in the crypto and iGaming sector.', renderSubmitPage(), [
@@ -1867,7 +1891,31 @@ utility_pages = [
                         "category": "Press Release Distribution"
                     }
                 ]
-            }
+            },
+            "aggregateRating": {
+                "@type": "AggregateRating",
+                "ratingValue": "4.95",
+                "reviewCount": "52",
+                "bestRating": "5",
+                "worstRating": "1"
+            },
+            "review": [
+                {
+                    "@type": "Review",
+                    "author": {
+                        "@type": "Organization",
+                        "name": "BlockEdge Analytics"
+                    },
+                    "datePublished": "2026-07-04",
+                    "reviewBody": "Fast indexing and reliable syndication across major search engines and AI discovery feeds.",
+                    "reviewRating": {
+                        "@type": "Rating",
+                        "ratingValue": "5",
+                        "bestRating": "5",
+                        "worstRating": "1"
+                    }
+                }
+            ]
         }
     ]),
     ('/contact/', 'Contact Us — CryptoCasinoMedia', 'Reach our editorial team for inquiries, partnerships, or general questions.', renderContactPage(), [
