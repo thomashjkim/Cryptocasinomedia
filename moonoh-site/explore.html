@@ -2512,22 +2512,10 @@
         }
       }
 
-      const btnMoonoh = document.getElementById('tab-source-moonoh');
-      const btnFoodRescue = document.getElementById('tab-source-foodrescue');
-      const btnLocalShops = document.getElementById('tab-source-localshops');
-      const btnMarketplaces = document.getElementById('tab-source-marketplaces');
-
-      
-      const btnMoonoh = document.getElementById('tab-source-moonoh');
-      const btnFoodRescue = document.getElementById('tab-source-foodrescue');
-      const btnLocalShops = document.getElementById('tab-source-localshops');
-      const btnMarketplaces = document.getElementById('tab-source-marketplaces');
-
       if (btnMoonoh) btnMoonoh.onclick = function(e) { e.preventDefault(); switchSource('moonoh'); history.pushState(null, '', '/explore'); };
       if (btnFoodRescue) btnFoodRescue.onclick = function(e) { e.preventDefault(); switchSource('foodrescue'); history.pushState(null, '', '/explore/food-rescue'); };
       if (btnLocalShops) btnLocalShops.onclick = function(e) { e.preventDefault(); switchSource('localshops'); history.pushState(null, '', '/explore/local-shops'); };
       if (btnMarketplaces) btnMarketplaces.onclick = function(e) { e.preventDefault(); switchSource('marketplaces'); history.pushState(null, '', '/explore/marketplaces'); };
- switchSource('marketplaces'); history.pushState(null, '', '/explore/marketplaces'); });
 
       if (activeSource !== 'moonoh') {
         switchSource(activeSource);
