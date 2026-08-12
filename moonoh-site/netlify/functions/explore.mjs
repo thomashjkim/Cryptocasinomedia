@@ -338,7 +338,7 @@ export default async (req, context) => {
     const categoryObj = CATEGORIES[categorySlug];
 
     const regionName = regionObj ? regionObj.name : "NYC & NJ";
-    const categoryName = isOthersPage ? "Aggregated Items (Karrot & HeyKorean)" : (categoryObj ? categoryObj.name : "Secondhand Items");
+    const categoryName = isOthersPage ? "Marketplace Items" : (categoryObj ? categoryObj.name : "Local Items");
 
     let pageTitle = "Explore Local Marketplace Items in NYC & NJ | Moonoh";
     let h1Text = "Buy and sell used items in your neighborhood";
@@ -354,8 +354,8 @@ export default async (req, context) => {
       pageTitle = `Used ${categoryName} in ${regionName} | Moonoh`;
       h1Text = `Used ${categoryName} in ${regionName}`;
     } else if (regionObj) {
-      pageTitle = `Secondhand Items in ${regionName} | Moonoh`;
-      h1Text = `Secondhand Items in ${regionName}`;
+      pageTitle = `Marketplace Items in ${regionName} | Moonoh`;
+      h1Text = `Marketplace Items in ${regionName}`;
     } else if (categoryObj) {
       pageTitle = `Used ${categoryName} for Sale in NYC & NJ | Moonoh`;
       h1Text = `Used ${categoryName} for Sale`;
@@ -400,10 +400,12 @@ export default async (req, context) => {
     let introText = "";
     if (isFoodRescuePage) {
       introText = `Browse ${itemCount} verified Food Rescue & Sell-by deals from Kim'C Market in Brooklyn, NY. Save authentic Korean gourmet items near sell-by date with deep discounts while fighting local NYC food waste.`;
+    } else if (isOthersPage) {
+      introText = `Browse aggregated local marketplace items for sale in ${regionName} from Karrot and HeyKorean.`;
     } else if (itemCount > 0) {
-      introText = `Browse ${itemCount} verified ${categoryName.toLowerCase()} for sale in ${regionName} on Moonoh. Find local deals from individual sellers — including listings from Karrot and HeyKorean. ${avgPriceStr}. Meet up safely with local sellers across ${regionName} neighborhoods.`;
+      introText = `Browse ${itemCount} verified items for sale in ${regionName} on Moonoh. Find local deals from neighbors — including listings from Karrot and HeyKorean. ${avgPriceStr}. Meet up safely across ${regionName} neighborhoods.`;
     } else {
-      introText = `Explore verified ${categoryName.toLowerCase()} in ${regionName} on Moonoh. Connect with local sellers across ${regionName} neighborhoods.`;
+      introText = `Explore verified items in ${regionName} on Moonoh. Connect with local sellers across ${regionName} neighborhoods.`;
     }
 
     // ── SSR Grid Cards ─────────────────────────────────────────────────────────

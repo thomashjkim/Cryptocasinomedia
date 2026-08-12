@@ -1311,14 +1311,24 @@
         if (btnFoodRescue) btnFoodRescue.classList.toggle('active', source === 'foodrescue');
         if (btnMarketplaces) btnMarketplaces.classList.toggle('active', source === 'others');
 
-        const titleEl = document.querySelector('.item-feed-title');
+        const titleEl = document.querySelector('.agg-hero-section h1') || document.querySelector('.item-feed-title');
+        const descEl = document.querySelector('.agg-hero-section p');
         if (titleEl) {
           if (source === 'foodrescue') {
             titleEl.textContent = "Fight Food Waste with Kim'C Market Food Rescue";
           } else if (source === 'others') {
-            titleEl.textContent = "Explore Local Marketplace Listings";
+            titleEl.textContent = "Explore Aggregated Local Marketplace Listings";
           } else {
             titleEl.textContent = "Buy and sell used items in your neighborhood";
+          }
+        }
+        if (descEl) {
+          if (source === 'foodrescue') {
+            descEl.textContent = "Browse 15 verified Food Rescue & Sell-by deals from Kim'C Market in Brooklyn, NY. Save authentic Korean gourmet items near sell-by date with deep discounts while fighting local NYC food waste.";
+          } else if (source === 'others') {
+            descEl.textContent = "Browse aggregated local secondhand listings from Karrot and HeyKorean across NYC & NJ neighborhoods.";
+          } else {
+            descEl.textContent = "Browse verified items listed by neighbors in NYC & NJ on Moonoh. Connect directly with sellers, chat in-app, and meet up safely with zero fees.";
           }
         }
 
