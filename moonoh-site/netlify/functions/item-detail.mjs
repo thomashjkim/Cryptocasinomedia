@@ -22194,48 +22194,46 @@ export default async (req, context) => {
     } else {
       const extMatch = url.pathname.match(/-ext-(karrot-[a-z0-9_-]+|heykorean-[a-z0-9_-]+|kimc-[a-z0-9_-]+)/i);
       if (extMatch) {
-      isExternal = true;
-      extId = extMatch[1].toLowerCase();
-      productNo = extId;
-      const extItem = getExternalItemById(extId);
-      if (!extItem) {
-        return new Response("Product Not Found", { status: 404 });
-      }
-
-      title = extItem.title;
-      price = extItem.price;
-      priceStr = price > 0 ? (price % 1 !== 0 ? `$${price.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}` : `$${Math.round(price).toLocaleString()}`) : "Free";
-      description = extItem.description || `${extItem.title} listed in ${extItem.rawTown || extItem.location}. Originally posted on ${extItem.sourceName}.`;
-      townName = extItem.location;
-      address = extItem.rawTown;
-      sellerName = extItem.sellerName || (extItem.source === 'karrot' ? 'Karrot Seller' : 'HeyKorean Seller');
-      if (!extItem.timeAgo) {
-        const img = extItem.image || '';
-        const hkMatch = img.match(/\/market\/item\/(\d{4})\/(\d{2})\/(\d{2})\//);
-        if (hkMatch) {
-          const [_, year, month, day] = hkMatch;
-          const diffMs = Math.max(0, Date.now() - new Date(`${year}-${month}-${day}`).getTime());
-          const days = Math.floor(diffMs / (1000 * 60 * 60 * 24));
-          extItem.timeAgo = days > 0 ? `${days} ${days === 1 ? 'day' : 'days'} ago` : 'Today';
-        } else if (img.includes('/article/202608/')) {
-          extItem.timeAgo = '2 days ago';
-        } else if (img.includes('/article/202607/')) {
-          extItem.timeAgo = '10 days ago';
-        } else {
-          extItem.timeAgo = '3 days ago';
+        isExternal = true;
+        extId = extMatch[1].toLowerCase();
+        productNo = extId;
+        const extItem = getExternalItemById(extId);
+        if (!extItem) {
+          return new Response("Product Not Found", { status: 404 });
         }
-      }
-      strDayCount = extItem.timeAgo;
-      photos = [extItem.image];
-      mainPhoto = extItem.image;
-      categoryName = inferCategoryFromText(title, description, extItem.category);
-      externalUrl = extItem.url;
-      externalSource = extItem.source;
-      vendorName = extItem.vendor || extItem.sellerName || "Moonoh";
-      // Use real coordinates from scraped data if available
-      if (extItem.lat && extItem.lng) { lat = extItem.lat; lng = extItem.lng; }
-      // sellerName already set above from extItem.sellerName
-    } else {
+
+        title = extItem.title;
+        price = extItem.price;
+        priceStr = price > 0 ? (price % 1 !== 0 ? `$${price.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}` : `$${Math.round(price).toLocaleString()}`) : "Free";
+        description = extItem.description || `${extItem.title} listed in ${extItem.rawTown || extItem.location}. Originally posted on ${extItem.sourceName}.`;
+        townName = extItem.location;
+        address = extItem.rawTown;
+        sellerName = extItem.sellerName || (extItem.source === 'karrot' ? 'Karrot Seller' : 'HeyKorean Seller');
+        if (!extItem.timeAgo) {
+          const img = extItem.image || '';
+          const hkMatch = img.match(/\/market\/item\/(\d{4})\/(\d{2})\/(\d{2})\//);
+          if (hkMatch) {
+            const [_, year, month, day] = hkMatch;
+            const diffMs = Math.max(0, Date.now() - new Date(`${year}-${month}-${day}`).getTime());
+            const days = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+            extItem.timeAgo = days > 0 ? `${days} ${days === 1 ? 'day' : 'days'} ago` : 'Today';
+          } else if (img.includes('/article/202608/')) {
+            extItem.timeAgo = '2 days ago';
+          } else if (img.includes('/article/202607/')) {
+            extItem.timeAgo = '10 days ago';
+          } else {
+            extItem.timeAgo = '3 days ago';
+          }
+        }
+        strDayCount = extItem.timeAgo;
+        photos = [extItem.image];
+        mainPhoto = extItem.image;
+        categoryName = inferCategoryFromText(title, description, extItem.category);
+        externalUrl = extItem.url;
+        externalSource = extItem.source;
+        vendorName = extItem.vendor || extItem.sellerName || "Moonoh";
+        if (extItem.lat && extItem.lng) { lat = extItem.lat; lng = extItem.lng; }
+      } else {
       const pathParts = url.pathname.split('-');
       const productNoStr = pathParts.pop() || pathParts.pop(); // last part of slug is productNo
       productNo = productNoStr;
