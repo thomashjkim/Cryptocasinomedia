@@ -898,7 +898,16 @@
           <svg class="more-cat-caret" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
         </button>
       </div>
-      <div class="item-grid" id="moonoh-item-grid">
+      <!-- Food Rescue Informational Banner (Compact Category Pill Bar Size) -->
+      <div id="food-rescue-banner" style="display:none; background:#E6F5F0; border:1px solid #99D6C4; border-radius:9999px; padding:4px 16px; margin-bottom:24px; min-height:42px; box-sizing:border-box; align-items:center; justify-content:space-between; gap:12px;">
+        <div style="display:flex; align-items:center; gap:8px; overflow:hidden; white-space:nowrap;">
+          <span style="background:#006853; color:#fff; font-weight:700; font-size:12px; padding:3px 10px; border-radius:9999px; display:inline-flex; align-items:center; gap:4px; flex-shrink:0;">🌱 Kim'C Market</span>
+          <span style="font-size:13px; color:#006853; font-weight:600; text-overflow:ellipsis; overflow:hidden; white-space:nowrap;">Peak quality Korean foods near sell-by date at special discounts</span>
+        </div>
+        <a href="https://kimcmarket.com/blogs/korean-food-blog/understanding-sell-by-dates" target="_blank" rel="noopener noreferrer" style="display:inline-flex; align-items:center; gap:4px; background:#006853; color:#ffffff; font-weight:700; font-size:12px; padding:5px 14px; border-radius:9999px; text-decoration:none; white-space:nowrap; flex-shrink:0;">
+          Sell-By Guide ↗
+        </a>
+      </div>
         <!-- JS will populate cards here -->
       </div>
     </section>
@@ -1311,25 +1320,9 @@
         if (btnFoodRescue) btnFoodRescue.classList.toggle('active', source === 'foodrescue');
         if (btnMarketplaces) btnMarketplaces.classList.toggle('active', source === 'others');
 
-        const titleEl = document.querySelector('.agg-hero-section h1') || document.querySelector('.item-feed-title');
-        const descEl = document.querySelector('.agg-hero-section p');
-        if (titleEl) {
-          if (source === 'foodrescue') {
-            titleEl.textContent = "Fight Food Waste with Kim'C Market Food Rescue";
-          } else if (source === 'others') {
-            titleEl.textContent = "Explore Aggregated Local Marketplace Listings";
-          } else {
-            titleEl.textContent = "Buy and sell used items in your neighborhood";
-          }
-        }
-        if (descEl) {
-          if (source === 'foodrescue') {
-            descEl.textContent = "Browse verified Food Rescue & Sell-by deals from Kim'C Market in Brooklyn, NY. Save authentic Korean gourmet items near sell-by date with deep discounts while fighting local NYC food waste.";
-          } else if (source === 'others') {
-            descEl.textContent = "Browse aggregated local secondhand listings from Karrot and HeyKorean across NYC & NJ neighborhoods.";
-          } else {
-            descEl.textContent = "Browse verified items listed by neighbors in NYC & NJ on Moonoh. Connect directly with sellers, chat in-app, and meet up safely with zero fees.";
-          }
+        const foodRescueBanner = document.getElementById("food-rescue-banner");
+        if (foodRescueBanner) {
+          foodRescueBanner.style.display = source === 'foodrescue' ? 'flex' : 'none';
         }
 
         const filterContainer = document.getElementById("filter-container");

@@ -904,17 +904,14 @@
         </button>
       </div>
 
-      <!-- Food Rescue Informational Banner -->
-      <div id="food-rescue-banner" style="display:none; background:#E6F5F0; border:1.5px solid #99D6C4; border-radius:16px; padding:16px 20px; margin-bottom:24px; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap;">
-        <div style="display:flex; align-items:center; gap:12px; flex:1; min-width:260px;">
-          <div style="background:#006853; color:#fff; width:38px; height:38px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:20px; flex-shrink:0;">🌱</div>
-          <div>
-            <div style="font-weight:700; font-size:15px; color:#006853; margin-bottom:2px;">Fight Food Waste with Kim'C Market</div>
-            <div style="font-size:13.5px; color:#1F2937; line-height:1.4;">Premium Korean foods approaching Best-Before or Sell-By dates. Peak quality &amp; 100% safe to enjoy at special discounted prices!</div>
-          </div>
+      <!-- Food Rescue Informational Banner (Compact Category Pill Bar Size) -->
+      <div id="food-rescue-banner" style="display:none; background:#E6F5F0; border:1px solid #99D6C4; border-radius:9999px; padding:4px 16px; margin-bottom:24px; min-height:42px; box-sizing:border-box; align-items:center; justify-content:space-between; gap:12px;">
+        <div style="display:flex; align-items:center; gap:8px; overflow:hidden; white-space:nowrap;">
+          <span style="background:#006853; color:#fff; font-weight:700; font-size:12px; padding:3px 10px; border-radius:9999px; display:inline-flex; align-items:center; gap:4px; flex-shrink:0;">🌱 Kim'C Market</span>
+          <span style="font-size:13px; color:#006853; font-weight:600; text-overflow:ellipsis; overflow:hidden; white-space:nowrap;">Peak quality Korean foods near sell-by date at special discounts</span>
         </div>
-        <a href="https://kimcmarket.com/blogs/korean-food-blog/understanding-sell-by-dates" target="_blank" rel="noopener noreferrer" style="display:inline-flex; align-items:center; gap:4px; background:#006853; color:#ffffff; font-weight:600; font-size:13px; padding:8px 16px; border-radius:999px; text-decoration:none; white-space:nowrap; flex-shrink:0;">
-          Understanding Sell-By Dates ↗
+        <a href="https://kimcmarket.com/blogs/korean-food-blog/understanding-sell-by-dates" target="_blank" rel="noopener noreferrer" style="display:inline-flex; align-items:center; gap:4px; background:#006853; color:#ffffff; font-weight:700; font-size:12px; padding:5px 14px; border-radius:9999px; text-decoration:none; white-space:nowrap; flex-shrink:0;">
+          Sell-By Guide ↗
         </a>
       </div>
 
@@ -1515,24 +1512,7 @@
         const titleEl = document.querySelector('.agg-hero-section h1') || document.querySelector('.item-feed-title');
         const descEl = document.querySelector('.agg-hero-section p');
         if (titleEl) {
-          if (source === 'foodrescue') {
-            titleEl.textContent = "Fight Food Waste with Kim'C Market Food Rescue";
-          } else if (source === 'marketplaces' || source === 'others') {
-            titleEl.textContent = "Explore Aggregated Local Marketplace Listings";
-          } else {
-            titleEl.textContent = "Buy and sell used items in your neighborhood";
-          }
-        }
-        if (descEl) {
-          if (source === 'foodrescue') {
-            descEl.textContent = "Browse verified Food Rescue & Sell-by deals from Kim'C Market in Brooklyn, NY. Save authentic Korean gourmet items near sell-by date with deep discounts while fighting local NYC food waste.";
-          } else if (source === 'marketplaces' || source === 'others') {
-            descEl.textContent = "Browse aggregated local secondhand listings from Karrot and HeyKorean across NYC & NJ neighborhoods.";
-          } else {
-            descEl.textContent = "Browse verified items listed by neighbors in NYC & NJ on Moonoh. Connect directly with sellers, chat in-app, and meet up safely with zero fees.";
-          }
-        }
-
+        const foodRescueBanner = document.getElementById("food-rescue-banner");
         if (foodRescueBanner) {
           foodRescueBanner.style.display = source === 'foodrescue' ? 'flex' : 'none';
         }
