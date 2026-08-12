@@ -316,8 +316,12 @@ async function buildFeed() {
       <g:size>${escapeXml(item.fashionAttr.size)}</g:size>
       <g:shipping>
         <g:country>US</g:country>
-        <g:service>Local Pickup</g:service>
+        <g:service>Local Pickup &amp; Neighborhood Delivery</g:service>
         <g:price>0.00 USD</g:price>
+        <g:min_handling_time>0</g:min_handling_time>
+        <g:max_handling_time>1</g:max_handling_time>
+        <g:min_transit_time>0</g:min_transit_time>
+        <g:max_transit_time>2</g:max_transit_time>
       </g:shipping>
       <g:shipping_label>local_pickup</g:shipping_label>
     </item>`;
