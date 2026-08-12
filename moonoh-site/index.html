@@ -862,11 +862,12 @@
 
         <span class="location-count" id="location-count"></span>
 
-        <!-- Source Segment Switcher (3 Tabs: Moonoh · Food Rescue · Marketplaces) -->
+        <!-- Source Segment Switcher (4 Tabs: Moonoh · Food Rescue · Local Shops · Marketplaces) -->
         <div class="source-segment-wrap" id="source-segment-wrap" style="margin-left: auto;">
           <button class="source-tab-btn active" id="tab-source-moonoh" data-source="moonoh">Moonoh</button>
           <button class="source-tab-btn tab-foodrescue" id="tab-source-foodrescue" data-source="foodrescue">Food Rescue</button>
-          <button class="source-tab-btn" id="tab-source-marketplaces" data-source="others">Marketplaces</button>
+          <button class="source-tab-btn" id="tab-source-localshops" data-source="localshops">Local Shops</button>
+          <button class="source-tab-btn" id="tab-source-marketplaces" data-source="marketplaces">Marketplaces</button>
         </div>
       </div>
       <div class="filter-container" id="filter-container">
@@ -1314,14 +1315,42 @@
       // Source Segment Switcher (3 Tabs)
       const btnMoonoh = document.getElementById('tab-source-moonoh');
       const btnFoodRescue = document.getElementById('tab-source-foodrescue');
+      const btnLocalShops = document.getElementById('tab-source-localshops');
       const btnMarketplaces = document.getElementById('tab-source-marketplaces');
       let foodRescueItemsList = [];
+      let localShopsItemsList = [];
+
+      async function preloadLocalShopsOnIndex() {
+        if (localShopsItemsList.length > 0) return;
+        try {
+          const res = await fetch('/local_shops_data.json');
+          if (res.ok) {
+            const data = await res.json();
+            localShopsItemsList = (data.products || []).map(p => ({
+              id: p.id,
+              no: p.id,
+              title: p.title,
+              price: p.current_price,
+              image: p.image_source_url,
+              photo: p.image_source_url,
+              location: p.availability_context || 'NYC',
+              rawTown: 'NYC',
+              category: p.moonoh_category || 'Grocery',
+              categoryName: p.moonoh_category || 'Grocery',
+              source: p.shop_id,
+              badgeName: p.brand || 'Local Shop',
+              url: `/local-product/${p.shop_id}/${p.slug}`
+            }));
+          }
+        } catch (e) {}
+      }
       
       async function switchSource(source) {
         activeSource = source;
         if (btnMoonoh) btnMoonoh.classList.toggle('active', source === 'moonoh');
         if (btnFoodRescue) btnFoodRescue.classList.toggle('active', source === 'foodrescue');
-        if (btnMarketplaces) btnMarketplaces.classList.toggle('active', source === 'others');
+        if (btnLocalShops) btnLocalShops.classList.toggle('active', source === 'localshops');
+        if (btnMarketplaces) btnMarketplaces.classList.toggle('active', source === 'marketplaces' || source === 'others');
 
         const foodRescueBanner = document.getElementById("food-rescue-banner");
         if (foodRescueBanner) {
@@ -1330,10 +1359,10 @@
 
         const filterContainer = document.getElementById("filter-container");
         if (filterContainer) {
-          filterContainer.style.display = source === 'foodrescue' ? 'none' : 'flex';
+          filterContainer.style.display = (source === 'foodrescue' || source === 'localshops') ? 'none' : 'flex';
         }
         
-        if (source === 'others' && externalItemsList.length === 0) {
+        if ((source === 'marketplaces' || source === 'others') && externalItemsList.length === 0) {
           try {
             let res = await fetch('/api/external-items');
             if (!res.ok) res = await fetch('/.netlify/functions/external-items');
@@ -1341,6 +1370,8 @@
           } catch (e) {
             console.error("Error loading external items:", e);
           }
+        } else if (source === 'localshops' && localShopsItemsList.length === 0) {
+          await preloadLocalShopsOnIndex();
         } else if (source === 'foodrescue' && foodRescueItemsList.length === 0) {
           try {
             let res = await fetch('/api/food-rescue');
@@ -1364,12 +1395,13 @@
         }
         
         const currentLoc = locationSelect ? locationSelect.value.toLowerCase() : '';
-        filterAndRender(currentLoc, activeSource === 'foodrescue' ? null : getActiveCategoryKeyword());
+        filterAndRender(currentLoc, (source === 'foodrescue' || source === 'localshops') ? null : getActiveCategoryKeyword());
       }
 
       if (btnMoonoh) btnMoonoh.addEventListener('click', () => switchSource('moonoh'));
       if (btnFoodRescue) btnFoodRescue.addEventListener('click', () => switchSource('foodrescue'));
-      if (btnMarketplaces) btnMarketplaces.addEventListener('click', () => switchSource('others'));
+      if (btnLocalShops) btnLocalShops.addEventListener('click', () => switchSource('localshops'));
+      if (btnMarketplaces) btnMarketplaces.addEventListener('click', () => switchSource('marketplaces'));
 
       function getActiveCategoryKeyword() {
         const activePill = document.querySelector('.filter-pill.active');
@@ -1380,8 +1412,9 @@
 
       function filterAndRender(townVal, categoryKeyword) {
         let pool = allItems;
-        if (activeSource === 'others') pool = externalItemsList;
+        if (activeSource === 'marketplaces' || activeSource === 'others') pool = externalItemsList;
         else if (activeSource === 'foodrescue') pool = foodRescueItemsList;
+        else if (activeSource === 'localshops') pool = localShopsItemsList;
         else pool = allItems.filter(i => !i.source || i.source === 'moonoh');
         let filtered = pool;
 

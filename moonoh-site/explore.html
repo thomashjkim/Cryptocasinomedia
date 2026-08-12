@@ -1356,9 +1356,20 @@
         });
       }
 
-      // Source Segment Switcher (Moonoh · Food Rescue · Marketplaces)
+      let activePath = window.location.pathname.toLowerCase();
+      let activeSource = 'moonoh';
+      if (activePath.includes('food-rescue') || activePath.includes('foodrescue')) {
+        activeSource = 'foodrescue';
+      } else if (activePath.includes('local-shops') || activePath.includes('localshops') || activePath.includes('local')) {
+        activeSource = 'localshops';
+      } else if (activePath.includes('marketplaces') || activePath.includes('others')) {
+        activeSource = 'marketplaces';
+      }
+
+      // Source Segment Switcher (Moonoh · Food Rescue · Local Shops · Marketplaces)
       const btnMoonoh = document.getElementById('tab-source-moonoh');
       const btnFoodRescue = document.getElementById('tab-source-foodrescue');
+      const btnLocalShops = document.getElementById('tab-source-localshops');
       const btnMarketplaces = document.getElementById('tab-source-marketplaces');
       const foodRescueBanner = document.getElementById('food-rescue-banner');
       
@@ -1586,6 +1597,10 @@
       if (btnFoodRescue) btnFoodRescue.addEventListener('click', (e) => { e.preventDefault(); switchSource('foodrescue'); history.pushState(null, '', '/explore/food-rescue'); });
       if (btnLocalShops) btnLocalShops.addEventListener('click', (e) => { e.preventDefault(); switchSource('localshops'); history.pushState(null, '', '/explore/local-shops'); });
       if (btnMarketplaces) btnMarketplaces.addEventListener('click', (e) => { e.preventDefault(); switchSource('marketplaces'); history.pushState(null, '', '/explore/marketplaces'); });
+
+      if (activeSource !== 'moonoh') {
+        switchSource(activeSource);
+      }
 
       // Load more
       // More Categories toggle button
