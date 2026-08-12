@@ -473,59 +473,58 @@
     }
     } /* Missing closing brace added here */
     
-    /* Dynamic Item Grid & Modal CSS */
-    .item-feed-section {
-      max-width: var(--container-max-width) !important;
-      margin: 96px auto 64px auto !important;
-      padding: 0 20px !important;
-      width: 100% !important;
-      box-sizing: border-box !important;
-    }
-    .item-feed-title {
-      font-size: 24px;
-      font-weight: 800;
-      color: var(--moonoh-dark);
-      letter-spacing: -0.02em;
-      margin-bottom: 24px;
-    }
+        /* Unbreakable 1:1 Square Grid & Card Layout */
     .item-grid {
-      display: grid;
-      grid-template-columns: repeat(5, 1fr);
-      gap: 20px;
+      display: grid !important;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)) !important;
+      gap: 20px !important;
+      width: 100% !important;
+      box-sizing: border-radius !important;
+    }
+    @media (max-width: 640px) {
+      .item-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 12px !important;
+      }
     }
     .item-card {
-      background: transparent;
-      border: none;
-      cursor: pointer;
-      transition: transform 0.2s ease;
-      display: flex;
-      flex-direction: column;
-    }
-    .item-card:hover {
-      transform: translateY(-4px);
-    }
-            .item-card-img-wrap {
       width: 100% !important;
+      max-width: 100% !important;
+      box-sizing: border-box !important;
+      overflow: hidden !important;
+      display: flex !important;
+      flex-direction: column !important;
+      text-decoration: none !important;
+      color: inherit !important;
+    }
+    .item-card-img-wrap {
+      width: 100% !important;
+      max-width: 100% !important;
       aspect-ratio: 1 / 1 !important;
+      height: 0 !important;
+      padding-bottom: 100% !important;
+      position: relative !important;
       border-radius: 12px !important;
       overflow: hidden !important;
       background-color: #F3F4F6 !important;
       margin-bottom: 8px !important;
       display: block !important;
-      position: relative !important;
     }
     .item-card-img-wrap img,
     .item-card-image,
     .item-card-img,
     .item-card > img {
+      position: absolute !important;
+      top: 0 !important;
+      left: 0 !important;
       width: 100% !important;
-      max-width: 100% !important;
       height: 100% !important;
-      aspect-ratio: 1 / 1 !important;
+      max-width: 100% !important;
+      max-height: 100% !important;
       object-fit: cover !important;
-      display: block !important;
       border-radius: 12px !important;
-      margin-bottom: 0 !important;
+      display: block !important;
+      margin: 0 !important;
     }
     .item-card-content,
     .item-card-info {

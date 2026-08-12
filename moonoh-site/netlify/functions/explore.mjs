@@ -398,17 +398,10 @@ export default async (req, context) => {
 ${breadcrumbScript}
 </head>`);
 
-    // Inject AEO Summary Card & Replace Grid
-    if (aeoSummaryHtml) {
-      template = template.replace('<div class="item-grid" id="moonoh-item-grid">', `${aeoSummaryHtml}
-<div class="item-grid" id="moonoh-item-grid">`);
-    }
-
-    template = template.replace(
-      '<div class="item-grid" id="moonoh-item-grid">',
-      `<div class="item-grid" id="moonoh-item-grid">
-${cardsHtml}`
-    );
+    // Inject AEO Summary Card & Cleanly Replace Entire Grid Block
+    const gridBlockRegex = /<div class="item-grid" id="moonoh-item-grid">[\s\S]*?<\/div>/i;
+    const newGridContent = (aeoSummaryHtml ? `${aeoSummaryHtml}\n` : '') + `<div class="item-grid" id="moonoh-item-grid">\n${cardsHtml}\n</div>`;
+    template = template.replace(gridBlockRegex, newGridContent);
 
     return new Response(template, {
       status: 200,
