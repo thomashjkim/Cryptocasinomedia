@@ -642,27 +642,25 @@
     }
 
     /* Mobile: keep filter bar on ONE single row */
-    @media (max-width: 480px) {
+    /* Mobile (under 475px): full width 3-tab switcher */
+    @media (max-width: 475px) {
       .location-bar {
-        gap: 6px;
-        flex-wrap: nowrap;
-      }
-      #location-select {
-        font-size: 12px;
-        padding: 7px 28px 7px 10px;
-        min-width: 0;
-        max-width: 130px;
-      }
-      .location-count {
-        display: none;
+        flex-wrap: wrap !important;
+        gap: 10px !important;
       }
       .source-segment-wrap {
-        padding: 3px;
-        gap: 2px;
+        width: 100% !important;
+        display: flex !important;
+        justify-content: space-between !important;
+        margin-left: 0 !important;
+        box-sizing: border-box !important;
+        padding: 3px !important;
       }
-      .source-tab-btn {
-        padding: 6px 12px;
-        font-size: 12px;
+      .source-segment-wrap .source-tab-btn {
+        flex: 1 1 0% !important;
+        text-align: center !important;
+        padding: 8px 4px !important;
+        font-size: 12.5px !important;
       }
     }
 
