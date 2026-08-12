@@ -2,7 +2,7 @@
 // Served at: https://moon-oh.com/merchant-feed.xml
 // Format: Google Shopping compatible RSS 2.0 with g: namespace
 
-import { realFoodRescueItems } from './food-rescue-items.mjs';
+
 
 function generateSlug(title, locationStr, productNo) {
   let cleanTitle = (title || 'item')
@@ -229,39 +229,6 @@ const CACHE_DURATION_MS = 3600000;
 
 async function buildFeed() {
   let feedItems = [];
-
-  // Include Kim'C Market Food Rescue items in Google Merchant Feed
-  if (Array.isArray(realFoodRescueItems)) {
-    realFoodRescueItems.forEach(item => {
-      if (!item || !item.id) return;
-      const cleanTitle = (item.title || 'item')
-        .toLowerCase()
-        .replace(/[^a-z0-9\s-]/g, '')
-        .trim()
-        .replace(/\s+/g, '-')
-        .replace(/-+/g, '-');
-      const slugTitle = cleanTitle.length > 50 ? cleanTitle.substring(0, 50).replace(/-$/, '') : cleanTitle;
-      const productUrl = `https://moon-oh.com/item/${slugTitle}-brooklyn-ny-ext-${item.id}`;
-      const googleCategory = 'Food, Beverages & Tobacco > Food Items';
-      const fashionAttr = { ageGroup: 'adult', gender: 'unisex', color: 'Multicolor', size: 'Regular' };
-
-      feedItems.push({
-        id: `moonoh-${item.id}`,
-        title: item.title,
-        description: `${item.title} available on Kim'C Market in Brooklyn, NY. Fight Food Waste item.`,
-        link: productUrl,
-        imageUrl: item.image,
-        price: item.price || 0,
-        categoryName: "Food & Groceries",
-        googleCategory: googleCategory,
-        fashionAttr: fashionAttr,
-        condition: "new",
-        availability: "in_stock",
-        brand: "Kim'C Market",
-        location: "Brooklyn, NY"
-      });
-    });
-  }
 
   try {
     const res = await fetch("https://moon-oh.com/api/items", {
