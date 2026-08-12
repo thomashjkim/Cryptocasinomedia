@@ -865,17 +865,14 @@
 
         <span class="location-count" id="location-count"></span>
 
-        <!-- Source Segment Switcher (4 Mobile Tabs: Moonoh · Rescue · Local · Markets) -->
-        <nav class="source-segment-wrap" id="source-segment-wrap" role="tablist" aria-label="Explore discovery sections" style="margin-left: auto; display: flex; gap: 4px; background: #F3F4F6; padding: 4px; border-radius: 9999px; max-width: 100%; box-sizing: border-box; overflow-x: auto;">
-          <a href="/explore" class="source-tab-btn active" id="tab-source-moonoh" data-source="moonoh" role="tab" aria-selected="true" style="min-height: 44px; display: inline-flex; align-items: center; justify-content: center; padding: 8px 14px; border-radius: 9999px; text-decoration: none; font-weight: 700; font-size: 13px; white-space: nowrap;">Moonoh</a>
-          <a href="/explore/food-rescue" class="source-tab-btn" id="tab-source-foodrescue" data-source="foodrescue" role="tab" aria-selected="false" style="min-height: 44px; display: inline-flex; align-items: center; justify-content: center; padding: 8px 14px; border-radius: 9999px; text-decoration: none; font-weight: 700; font-size: 13px; white-space: nowrap;">Rescue</a>
-          <a href="/explore/local-shops" class="source-tab-btn" id="tab-source-localshops" data-source="localshops" role="tab" aria-selected="false" style="min-height: 44px; display: inline-flex; align-items: center; justify-content: center; padding: 8px 14px; border-radius: 9999px; text-decoration: none; font-weight: 700; font-size: 13px; white-space: nowrap;">Local</a>
-          <a href="/explore/marketplaces" class="source-tab-btn" id="tab-source-marketplaces" data-source="marketplaces" role="tab" aria-selected="false" style="min-height: 44px; display: inline-flex; align-items: center; justify-content: center; padding: 8px 14px; border-radius: 9999px; text-decoration: none; font-weight: 700; font-size: 13px; white-space: nowrap;">Markets</a>
-        </nav>
+        <!-- Source Segment Switcher (Moonoh · Food Rescue · Local Shops · Marketplaces) -->
+        <div class="source-segment-wrap" id="source-segment-wrap" style="margin-left: auto;">
+          <button class="source-tab-btn active" id="tab-source-moonoh" data-source="moonoh">Moonoh</button>
+          <button class="source-tab-btn tab-foodrescue" id="tab-source-foodrescue" data-source="foodrescue">Food Rescue</button>
+          <button class="source-tab-btn" id="tab-source-localshops" data-source="localshops">Local Shops</button>
+          <button class="source-tab-btn" id="tab-source-marketplaces" data-source="marketplaces">Marketplaces</button>
+        </div>
       </div>
-
-      <!-- Complete Section Title below Segmented Control -->
-      <div id="section-subtitle-label" style="font-size: 15px; font-weight: 800; color: #111827; margin-top: 4px; margin-bottom: 16px;">Moonoh Marketplace</div>
 
       <div class="filter-container" id="filter-container">
         <button class="filter-pill active">All</button>
@@ -1079,6 +1076,12 @@
           badgeHtml = `<div class="item-card-badge badge-heykorean">HeyKorean</div>`;
         } else if (item.source === 'kimc') {
           badgeHtml = `<div class="item-card-badge badge-kimc">Kim'C Market</div>`;
+        } else if (item.source === 'happier-grocery' || item.badgeName === 'Happier Grocery') {
+          badgeHtml = `<div class="item-card-badge" style="background:#05452E; color:#fff;">Happier Grocery</div>`;
+        } else if (item.source === 'pop-up-grocer' || item.badgeName === 'Pop Up Grocer') {
+          badgeHtml = `<div class="item-card-badge" style="background:#FF5722; color:#fff;">Pop Up Grocer</div>`;
+        } else if (item.source === 'big-night' || item.badgeName === 'Big Night') {
+          badgeHtml = `<div class="item-card-badge" style="background:#D9381E; color:#fff;">Big Night</div>`;
         } else {
           badgeHtml = `<div class="item-card-badge badge-moonoh">Moonoh</div>`;
         }
