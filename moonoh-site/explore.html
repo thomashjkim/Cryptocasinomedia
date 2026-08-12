@@ -719,49 +719,48 @@
     }
 
     
-    /* Source Badges */
+    /* Source Badges - Clean, Bold, Unified Design */
     .item-card-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 3px;
-      padding: 1px 6px;
-      border-radius: 999px;
-      font-size: 10.5px;
-      font-weight: 600;
-      margin-top: 4px;
-      line-height: 1.2;
-      width: fit-content;
+      display: inline-flex !important;
+      align-items: center !important;
+      padding: 4px 10px !important;
+      border-radius: 6px !important;
+      font-size: 12px !important;
+      font-weight: 700 !important;
+      color: #FFFFFF !important;
+      margin-top: 6px !important;
+      line-height: 1.2 !important;
+      width: fit-content !important;
+      letter-spacing: 0.2px !important;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.06) !important;
     }
     .badge-moonoh {
-      background-color: #EEF2FF;
-      color: #4F46E5;
+      background-color: #4F46E5 !important;
+      color: #FFFFFF !important;
     }
     .badge-karrot {
-      background-color: #FFF3E0;
-      color: #E65100;
+      background-color: #FF6F0F !important;
+      color: #FFFFFF !important;
     }
     .badge-heykorean {
-      border: 1px solid #C7CEFA;
+      background-color: #2D8CFF !important;
+      color: #FFFFFF !important;
     }
     .badge-kimc {
-      background-color: #E6F5F0;
-      color: #006853;
-      border: 1px solid #99D6C4;
+      background-color: #006853 !important;
+      color: #FFFFFF !important;
     }
     .badge-happier {
-      background-color: #E8F5E9;
-      color: #2E7D32;
-      border: 1px solid #A5D6A7;
+      background-color: #2E7D32 !important;
+      color: #FFFFFF !important;
     }
     .badge-popup {
-      background-color: #FFF3E0;
-      color: #E65100;
-      border: 1px solid #FFCC80;
+      background-color: #E65100 !important;
+      color: #FFFFFF !important;
     }
     .badge-bignight {
-      background-color: #F3E5F5;
-      color: #7B1FA2;
-      border: 1px solid #CE93D8;
+      background-color: #7B1FA2 !important;
+      color: #FFFFFF !important;
     }
     
     /* Modal Styles */
@@ -2517,7 +2516,15 @@
       if (btnLocalShops) btnLocalShops.onclick = function(e) { e.preventDefault(); switchSource('localshops'); history.pushState(null, '', '/explore/local-shops'); };
       if (btnMarketplaces) btnMarketplaces.onclick = function(e) { e.preventDefault(); switchSource('marketplaces'); history.pushState(null, '', '/explore/marketplaces'); };
 
-      if (activeSource !== 'moonoh') {
+      // Initial tab focus from URL path
+      const currentPath = window.location.pathname.toLowerCase();
+      if (currentPath.includes('/explore/marketplaces') || currentPath.includes('/explore/others')) {
+        switchSource('marketplaces');
+      } else if (currentPath.includes('/explore/food-rescue')) {
+        switchSource('foodrescue');
+      } else if (currentPath.includes('/explore/local')) {
+        switchSource('localshops');
+      } else if (activeSource !== 'moonoh') {
         switchSource(activeSource);
       }
 
