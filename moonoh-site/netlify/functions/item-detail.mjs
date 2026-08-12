@@ -22404,6 +22404,8 @@ export default async (req, context) => {
       ? photos.map(p => p.startsWith('http') ? p : `https://moon-oh.com${p}`) 
       : [absMainPhoto];
 
+    const sourceDisplayName = externalSource === 'heykorean' ? 'HeyKorean' : (externalSource === 'kimc' ? "Kim'C Market" : 'Karrot');
+
     // Render HTML Page
     const html = `<!DOCTYPE HTML>
 <html lang="en">
@@ -22751,7 +22753,7 @@ export default async (req, context) => {
   <!-- Top Header -->
   <header class="header-nav">
     <div class="header-content">
-      <a href="${isExternal ? '/explore?source=others' : '/explore'}" class="header-back">
+      <a href="${isExternal ? (externalSource === 'kimc' ? '/explore?source=foodrescue' : '/explore?source=others') : '/explore'}" class="header-back">
         ← <span class="back-text-full">Back to Explore</span><span class="back-text-short">Back</span>
       </a>
       <a href="/" class="header-logo">
@@ -22771,7 +22773,7 @@ export default async (req, context) => {
     <nav class="breadcrumb-bar" aria-label="Breadcrumb">
       <a href="/">Home</a>
       <span class="sep">›</span>
-      <a href="${isExternal ? '/explore?source=others' : '/explore'}">Explore</a>
+      <a href="${isExternal ? (externalSource === 'kimc' ? '/explore?source=foodrescue' : '/explore?source=others') : '/explore'}">Explore</a>
       <span class="sep">›</span>
       <a href="/explore">${townName}</a>
       <span class="sep">›</span>
@@ -22816,7 +22818,7 @@ export default async (req, context) => {
 
         ${isExternal ? `
         <div style="background:#FFF7ED; border:1px solid #FFEDD5; border-radius:12px; padding:12px 16px; margin-bottom:20px; font-size:13px; color:#C2410C; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:8px;">
-          <span>🔗 <strong>External Listing (${externalSource === 'heykorean' ? 'HeyKorean' : 'Karrot'})</strong> · Last verified ${new Date().toLocaleDateString('en-US', {month:'short', day:'numeric', year:'numeric'})}</span>
+          <span>🔗 <strong>External Listing (${sourceDisplayName})</strong> · Last verified ${new Date().toLocaleDateString('en-US', {month:'short', day:'numeric', year:'numeric'})}</span>
           <a href="${externalUrl}" target="_blank" rel="noopener noreferrer" onclick="if(typeof gtag==='function')gtag('event','click_external_source',{source:'${externalSource}',item_url:'${externalUrl}'});" style="color:#C2410C; font-weight:700; text-decoration:underline;">View original source ↗</a>
         </div>
         ` : ''}
@@ -22848,7 +22850,7 @@ export default async (req, context) => {
         <!-- How to Purchase / Buy Button -->
         <div class="section-block" style="background:#F9FAFB; border:1px solid #E5E7EB; border-radius:16px; padding:20px; margin-top:8px; margin-bottom:8px;">
           <h2 class="section-title" style="margin-top:0; font-size:16px; color:#111827;">How to Purchase</h2>
-          <p style="font-size:14px; color:#4B5563; margin-bottom:14px; line-height:1.5;">${isExternal ? `This item is listed on ${externalSource === 'heykorean' ? 'HeyKorean' : 'Karrot'}. Click below to view the listing and contact the seller directly.` : `Download the free Moonoh app to chat directly with ${sellerName}, arrange local meetup in ${townName}, and purchase with zero fees.`}</p>
+          <p style="font-size:14px; color:#4B5563; margin-bottom:14px; line-height:1.5;">${isExternal ? `This item is listed on ${sourceDisplayName}. Click below to view the listing and contact the seller directly.` : `Download the free Moonoh app to chat directly with ${sellerName}, arrange local meetup in ${townName}, and purchase with zero fees.`}</p>
           ${isExternal 
             ? `<a href="${externalUrl}" target="_blank" rel="noopener noreferrer" onclick="if(typeof gtag==='function')gtag('event','click_external_source',{source:'${externalSource}',item_url:'${externalUrl}'});" style="width:100%; background:#4F46E5; color:#FFFFFF; border:none; padding:14px; border-radius:12px; font-weight:700; font-size:15px; cursor:pointer; display:inline-flex; align-items:center; justify-content:center; gap:8px; text-decoration:none;"><span>Buy / View Listing</span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></a>`
             : `<a href="https://apps.apple.com/us/app/moonoh/id6477390079" target="_blank" rel="noopener noreferrer" onclick="if(typeof gtag==='function')gtag('event','click_buy_chat',{item_id:'${productNo}'});" style="width:100%; background:#4F46E5; color:#FFFFFF; border:none; padding:14px; border-radius:12px; font-weight:700; font-size:15px; cursor:pointer; display:inline-flex; align-items:center; justify-content:center; gap:8px; text-decoration:none;"><span>Buy / Chat on App</span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg></a>`
