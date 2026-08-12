@@ -157,6 +157,26 @@
     * { box-sizing: border-box; }
     html, body { overflow-x: hidden; width: 100%; margin: 0; padding: 0; background-color: var(--moonoh-light-bg); color: var(--text-main); }
 
+    /* === NAVBAR LINK THEME OVERRIDES (moonoh violet, all breakpoints) === */
+    .navbar-link.w-nav-link,
+    a.navbar-link {
+      color: #1A1A1A !important;
+      font-weight: 500 !important;
+      transition: color 0.15s ease, font-weight 0.1s ease !important;
+    }
+    .navbar-link.w-nav-link:hover,
+    .navbar-link.w-nav-link:focus,
+    a.navbar-link:hover,
+    a.navbar-link:focus {
+      color: #4F46E5 !important;
+      font-weight: 700 !important;
+    }
+    .navbar-link.w-nav-link.w--current,
+    a.navbar-link.w--current {
+      color: #4F46E5 !important;
+      font-weight: 700 !important;
+    }
+
     /* UNIFIED CONTAINER ALIGNMENT ACROSS ALL SECTIONS */
     .hero-heading-left .container,
     .tldr-box,
@@ -403,11 +423,21 @@
       .navbar-link, .nav-link {
         font-family: "Open Sans", sans-serif !important;
         font-size: 18px !important;
-        font-weight: 700 !important;
+        font-weight: 500 !important;
         color: #1A1A1A !important;
         padding: 16px 20px !important;
         text-align: center !important;
         display: block !important;
+        transition: color 0.15s ease !important;
+      }
+      .navbar-link:hover, .navbar-link:focus, .nav-link:hover, .nav-link:focus {
+        color: #4F46E5 !important;
+        font-weight: 700 !important;
+      }
+      .navbar-link.w--current, .nav-link.w--current,
+      .navbar-link[aria-current], .nav-link[aria-current] {
+        color: #4F46E5 !important;
+        font-weight: 700 !important;
       }
       .navbar .navbar-button {
         background-color: #2F3CFF !important;
