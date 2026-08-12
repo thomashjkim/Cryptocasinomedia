@@ -1479,7 +1479,7 @@
         } else if (activeSource === 'marketplaces' || activeSource === 'others') {
           filtered = externalItemsList;
         } else {
-          filtered = allItems.filter(i => i.source === 'moonoh');
+          filtered = allItems.filter(i => !i.source || i.source === 'moonoh');
         }
 
         if (activeTown && boroughKeywords[activeTown]) {
@@ -1490,12 +1490,14 @@
           });
         }
 
-        if (categoryKeyword === "FREE_FILTER") {
-          filtered = filtered.filter(item => item.price === 0);
-        } else if (categoryKeyword) {
-          filtered = filtered.filter(item =>
-            item.category && item.category.toLowerCase().includes(categoryKeyword)
-          );
+        if (activeSource !== 'foodrescue') {
+          if (categoryKeyword === "FREE_FILTER") {
+            filtered = filtered.filter(item => item.price === 0);
+          } else if (categoryKeyword) {
+            filtered = filtered.filter(item =>
+              item.category && item.category.toLowerCase().includes(categoryKeyword)
+            );
+          }
         }
 
         currentFiltered = filtered;
@@ -1514,13 +1516,18 @@
           foodRescueBanner.style.display = source === 'foodrescue' ? 'flex' : 'none';
         }
 
+        const filterContainer = document.getElementById("filter-container");
+        if (filterContainer) {
+          filterContainer.style.display = source === 'foodrescue' ? 'none' : 'flex';
+        }
+
         if (source === 'foodrescue' && foodRescueItemsList.length === 0) {
           await preloadFoodRescueItems();
         } else if ((source === 'marketplaces' || source === 'others') && externalItemsList.length === 0) {
           await preloadExternalItems();
-        } else {
-          applyFilters(getActiveCategoryKeyword());
         }
+
+        applyFilters(getActiveCategoryKeyword());
       }
 
       if (btnMoonoh) btnMoonoh.addEventListener('click', () => switchSource('moonoh'));
