@@ -377,7 +377,7 @@ export default async (req, context) => {
 ${breadcrumbScript}
 </head>`);
 
-    # Inject AEO Summary Card & Replace Grid
+    // Inject AEO Summary Card & Replace Grid
     if (aeoSummaryHtml) {
       template = template.replace('<div class="item-grid" id="moonoh-item-grid">', `${aeoSummaryHtml}
 <div class="item-grid" id="moonoh-item-grid">`);
