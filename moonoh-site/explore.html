@@ -2566,17 +2566,34 @@
         switchSource('others');
       }
 
+      const regionSlugMap = {
+        'manhattan': 'Manhattan',
+        'queens': 'Queens',
+        'brooklyn': 'Brooklyn',
+        'bronx': 'Bronx',
+        'staten-island': 'Staten Island',
+        'bergen-county': 'Bergen',
+        'hudson-county': 'Hudson'
+      };
+
       if (pathSegments.length === 1) {
-        urlCategory = urlCategory || pathSegments[0];
+        const seg = pathSegments[0].toLowerCase();
+        if (regionSlugMap[seg]) {
+          urlTown = regionSlugMap[seg];
+        } else if (seg !== 'food-rescue' && seg !== 'local-shops' && seg !== 'marketplaces') {
+          urlCategory = seg;
+        }
       } else if (pathSegments.length >= 2) {
-        urlTown = urlTown || pathSegments[0];
-        urlCategory = urlCategory || pathSegments[1];
+        const seg1 = pathSegments[0].toLowerCase();
+        const seg2 = pathSegments[1].toLowerCase();
+        if (regionSlugMap[seg1]) urlTown = regionSlugMap[seg1];
+        if (seg2 !== 'food-rescue' && seg2 !== 'local-shops' && seg2 !== 'marketplaces') urlCategory = seg2;
       }
 
       // Highlight dropdown & filter pills based on URL without breaking SSR grid
       if (urlTown && locationSelect) {
         const opts = Array.from(locationSelect.options);
-        const matched = opts.find(o => urlTown.toLowerCase().includes(o.value.toLowerCase()) && o.value !== '');
+        const matched = opts.find(o => o.value.toLowerCase() === urlTown.toLowerCase() || urlTown.toLowerCase().includes(o.value.toLowerCase()) && o.value !== '');
         if (matched) {
           locationSelect.value = matched.value;
           activeTown = matched.value;
