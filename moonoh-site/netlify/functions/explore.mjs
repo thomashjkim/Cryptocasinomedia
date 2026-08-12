@@ -259,8 +259,12 @@ export default async (req, context) => {
       // Filter by Category if present
       if (targetCategoryObj) {
         filteredItems = filteredItems.filter(item => {
-          const catStr = ((item.categoryName || item.category || '') + ' ' + (item.title || '')).toLowerCase();
-          return targetCategoryObj.keywords.some(kw => catStr.includes(kw));
+          const mainCat = (item.categoryName || item.category || '').toLowerCase();
+          const titleStr = (item.title || '').toLowerCase();
+          // If main category matches directly
+          if (mainCat.includes(targetCategoryObj.kw)) return true;
+          // Or if title explicitly contains targeted keywords (excluding generic terms)
+          return targetCategoryObj.keywords.some(kw => titleStr.includes(kw));
         });
       }
     }
@@ -339,6 +343,8 @@ export default async (req, context) => {
         badgeHtml = `<div class="item-card-badge badge-popup">Pop Up Grocer</div>`;
       } else if (item.source === 'big-night' || item.badgeName === 'Big Night') {
         badgeHtml = `<div class="item-card-badge badge-bignight">Big Night</div>`;
+      } else {
+        badgeHtml = `<div class="item-card-badge badge-moonoh">Moonoh</div>`;
       }
 
       return `
@@ -373,9 +379,7 @@ export default async (req, context) => {
     if (targetRegionObj && targetRegionObj.shortName) {
       const regName = targetRegionObj.shortName;
       // Hide Source Tabs on AEO Aggregation Pages (/explore/{region}/{category}) so all items are combined with source badges
-    if (targetRegionObj || targetCategoryObj) {
-      template = template.replace('<div class="source-tab-container">', '<div class="source-tab-container" style="display:none !important;">');
-    }
+    
 
     template = template.replace(`<option value="${regName}">`, `<option value="${regName}" selected="selected">`);
     }
