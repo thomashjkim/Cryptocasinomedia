@@ -1922,7 +1922,7 @@
         const isExternal = item.source === 'karrot' || item.source === 'heykorean' || item.source === 'kimc';
         
         let badgeHtml = '';
-        if (activeSource !== 'moonoh' && item.source && item.source !== 'moonoh') {
+        if (item.source && item.source !== 'moonoh') {
           if (item.source === 'karrot') {
             badgeHtml = `<div class="item-card-badge badge-karrot">Karrot</div>`;
           } else if (item.source === 'heykorean') {
