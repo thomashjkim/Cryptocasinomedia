@@ -504,15 +504,25 @@
     .item-card:hover {
       transform: translateY(-4px);
     }
-    .item-card-image,
-    .item-card-img {
+        .item-card-img-wrap {
       width: 100%;
       aspect-ratio: 1 / 1;
-      background-color: #F3F4F6;
-      object-fit: cover;
       border-radius: 12px;
+      overflow: hidden;
+      background-color: #F3F4F6;
       margin-bottom: 8px;
       display: block;
+    }
+    .item-card-image,
+    .item-card-img,
+    .item-card > img {
+      width: 100% !important;
+      max-width: 100% !important;
+      height: 100% !important;
+      aspect-ratio: 1 / 1 !important;
+      object-fit: cover !important;
+      display: block !important;
+      border-radius: 12px !important;
     }
     .item-card-content,
     .item-card-info {
@@ -1731,6 +1741,66 @@
       'Other': null
     };
 
+    
+    const pillSlugToLabel = {
+      'food-groceries': 'Food & Groceries',
+      'furniture': 'Furniture',
+      'electronics': 'Electronics & Appliances',
+      'health-beauty': 'Health & beauty',
+      'womens-fashion': "Women's fashion",
+      'mens-fashion': "Men's fashion",
+      'shoes': 'Shoes',
+      'baby-kids': 'Baby & kids',
+      'sports-leisure': 'Sports & leisure',
+      'toys-games': 'Toys & Games',
+      'home-garden': 'Home, garden & DIY',
+      'jewelry-watches': 'Jewelry & watches',
+      'luggages-bags': 'Luggages & bags',
+      'arts-books-music': 'Arts, books, music, movies & tickets',
+      'pet-supplies': 'Pet supplies'
+    };
+
+    function initCategoryFromUrl() {
+      const params = new URLSearchParams(window.location.search);
+      let catParam = params.get('category') || params.get('cat') || params.get('c');
+      
+      const pathname = window.location.pathname.toLowerCase();
+      const parts = pathname.replace(/^\/explore\/?/, '').split('/').filter(Boolean);
+      let pathCatSlug = null;
+      if (parts.length === 1 && pillSlugToLabel[parts[0]]) {
+        pathCatSlug = parts[0];
+      } else if (parts.length >= 2 && pillSlugToLabel[parts[1]]) {
+        pathCatSlug = parts[1];
+      }
+
+      let targetLabel = null;
+      if (catParam) {
+        let clean = decodeURIComponent(catParam).trim().toLowerCase();
+        document.querySelectorAll('.filter-pill:not(.filter-pill-more)').forEach(btn => {
+          let label = btn.textContent.trim();
+          let lowLabel = label.toLowerCase();
+          let slug = pillLabelToSlug[label];
+          if (clean === lowLabel || clean === slug || clean.includes(lowLabel) || lowLabel.includes(clean) || (clean.includes('bag') && lowLabel.includes('bag'))) {
+            targetLabel = label;
+          }
+        });
+      } else if (pathCatSlug && pillSlugToLabel[pathCatSlug]) {
+        targetLabel = pillSlugToLabel[pathCatSlug];
+      }
+
+      if (targetLabel) {
+        document.querySelectorAll('.filter-pill:not(.filter-pill-more)').forEach(b => {
+          if (b.textContent.trim().toLowerCase() === targetLabel.toLowerCase()) {
+            b.classList.add('active');
+          } else {
+            b.classList.remove('active');
+          }
+        });
+        const keyword = categoryMap[targetLabel];
+        applyFilters(keyword !== undefined ? keyword : null);
+      }
+    }
+
     function setupFilters() {
       // Category pill clicks (exclude More Categories button from active state toggle)
       document.querySelectorAll('.filter-pill:not(.filter-pill-more)').forEach(btn => {
@@ -2178,6 +2248,7 @@
     document.addEventListener("DOMContentLoaded", () => {
       renderItems();
       setupFilters();
+      initCategoryFromUrl();
       startAutoRefresh();
 
       const modal = document.getElementById("moonoh-download-modal");
