@@ -1929,21 +1929,23 @@
         const isExternal = item.source === 'karrot' || item.source === 'heykorean' || item.source === 'kimc';
         
         let badgeHtml = '';
-        const isAggPage = window.location.pathname !== '/explore' && window.location.pathname !== '/explore/' && !window.location.pathname.includes('/explore/food-rescue') && !window.location.pathname.includes('/explore/local') && !window.location.pathname.includes('/explore/marketplaces');
-        if (activeSource === 'marketplaces' || activeSource === 'others' || isAggPage) {
-          if (item.source === 'karrot') {
-            badgeHtml = `<div class="item-card-badge badge-karrot">Karrot</div>`;
-          } else if (item.source === 'heykorean') {
-            badgeHtml = `<div class="item-card-badge badge-heykorean">HeyKorean</div>`;
-          } else if (item.source === 'kimc') {
-            badgeHtml = `<div class="item-card-badge badge-kimc">Kim'C Market</div>`;
-          } else if (item.source === 'happier-grocery' || item.badgeName === 'Happier Grocery') {
-            badgeHtml = `<div class="item-card-badge badge-happier">Happier Grocery</div>`;
-          } else if (item.source === 'pop-up-grocer' || item.badgeName === 'Pop Up Grocer') {
-            badgeHtml = `<div class="item-card-badge badge-popup">Pop Up Grocer</div>`;
-          } else if (item.source === 'big-night' || item.badgeName === 'Big Night') {
-            badgeHtml = `<div class="item-card-badge badge-bignight">Big Night</div>`;
-          }
+        const sourceVal = (item.source || item.badgeName || '').toLowerCase();
+        const shopId = (item.shop_id || '').toLowerCase();
+        
+        if (sourceVal === 'karrot' || shopId === 'karrot') {
+          badgeHtml = `<div class="item-card-badge badge-karrot">Karrot</div>`;
+        } else if (sourceVal === 'heykorean' || shopId === 'heykorean') {
+          badgeHtml = `<div class="item-card-badge badge-heykorean">HeyKorean</div>`;
+        } else if (sourceVal === 'kimc' || sourceVal === 'food-rescue' || shopId === 'kimc') {
+          badgeHtml = `<div class="item-card-badge badge-kimc">Kim'C Market</div>`;
+        } else if (sourceVal.includes('happier') || shopId.includes('happier') || item.badgeName === 'Happier Grocery') {
+          badgeHtml = `<div class="item-card-badge badge-happier">Happier Grocery</div>`;
+        } else if (sourceVal.includes('pop') || shopId.includes('pop') || item.badgeName === 'Pop Up Grocer') {
+          badgeHtml = `<div class="item-card-badge badge-popup">Pop Up Grocer</div>`;
+        } else if (sourceVal.includes('big') || shopId.includes('big') || item.badgeName === 'Big Night') {
+          badgeHtml = `<div class="item-card-badge badge-bignight">Big Night</div>`;
+        } else if (activeSource === 'marketplaces' && (sourceVal === 'external' || sourceVal === 'others')) {
+          badgeHtml = `<div class="item-card-badge badge-heykorean">Marketplace</div>`;
         }
 
         function generateExternalSlug(t, l, id) {
@@ -2426,7 +2428,9 @@
               location: 'NYC',
               category: p.moonoh_category || 'Grocery',
               categoryName: p.moonoh_category || 'Grocery',
-              source: 'localshops',
+              source: p.shop_id,
+              shop_id: p.shop_id,
+              badgeName: p.brand || (data.shops && data.shops[p.shop_id] ? data.shops[p.shop_id].name : 'Local Shop'),
               url: `/local-product/${p.shop_id}/${p.slug}`
             }));
           }
