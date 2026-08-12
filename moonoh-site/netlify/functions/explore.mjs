@@ -281,20 +281,20 @@ export default async (req, context) => {
       const targetUrl = item.detailUrl || `/item/item-${item.id}`;
       
       let badgeHtml = '';
-      if (item.source === 'karrot') {
-        badgeHtml = `<div class="item-card-badge badge-karrot">Karrot</div>`;
-      } else if (item.source === 'heykorean') {
-        badgeHtml = `<div class="item-card-badge badge-heykorean">HeyKorean</div>`;
-      } else if (item.source === 'kimc') {
-        badgeHtml = `<div class="item-card-badge badge-kimc">Kim'C Market</div>`;
-      } else if (item.source === 'happier-grocery' || item.badgeName === 'Happier Grocery') {
-        badgeHtml = `<div class="item-card-badge badge-happier">Happier Grocery</div>`;
-      } else if (item.source === 'pop-up-grocer' || item.badgeName === 'Pop Up Grocer') {
-        badgeHtml = `<div class="item-card-badge badge-popup">Pop Up Grocer</div>`;
-      } else if (item.source === 'big-night' || item.badgeName === 'Big Night') {
-        badgeHtml = `<div class="item-card-badge badge-bignight">Big Night</div>`;
-      } else {
-        badgeHtml = `<div class="item-card-badge badge-moonoh">Moonoh</div>`;
+      if (isFoodRescueFilter || isLocalShopsFilter || isMarketplacesFilter || isShopProfile) {
+        if (item.source === 'karrot') {
+          badgeHtml = `<div class="item-card-badge badge-karrot">Karrot</div>`;
+        } else if (item.source === 'heykorean') {
+          badgeHtml = `<div class="item-card-badge badge-heykorean">HeyKorean</div>`;
+        } else if (item.source === 'kimc') {
+          badgeHtml = `<div class="item-card-badge badge-kimc">Kim'C Market</div>`;
+        } else if (item.source === 'happier-grocery' || item.badgeName === 'Happier Grocery') {
+          badgeHtml = `<div class="item-card-badge badge-happier">Happier Grocery</div>`;
+        } else if (item.source === 'pop-up-grocer' || item.badgeName === 'Pop Up Grocer') {
+          badgeHtml = `<div class="item-card-badge badge-popup">Pop Up Grocer</div>`;
+        } else if (item.source === 'big-night' || item.badgeName === 'Big Night') {
+          badgeHtml = `<div class="item-card-badge badge-bignight">Big Night</div>`;
+        }
       }
 
       return `
