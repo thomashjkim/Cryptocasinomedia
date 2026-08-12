@@ -401,9 +401,9 @@ export default async (req, context) => {
     if (isFoodRescuePage) {
       introText = `Browse verified Food Rescue & Sell-by deals from Kim'C Market in Brooklyn, NY. Save authentic Korean gourmet items near sell-by date with deep discounts while fighting local NYC food waste.`;
     } else if (isOthersPage) {
-      introText = `Browse aggregated local marketplace items for sale in ${regionName} from Karrot and HeyKorean.`;
+      introText = `Browse aggregated local secondhand listings from Karrot and HeyKorean across NYC & NJ neighborhoods.`;
     } else {
-      introText = `Browse verified items for sale in ${regionName} on Moonoh. Find local deals from neighbors — including listings from Karrot and HeyKorean. Meet up safely across ${regionName} neighborhoods.`;
+      introText = `Browse verified items listed by neighbors in NYC & NJ on Moonoh. Connect directly with sellers, chat in-app, and meet up safely with zero fees.`;
     }
 
     // ── SSR Grid Cards ─────────────────────────────────────────────────────────
