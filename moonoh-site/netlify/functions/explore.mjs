@@ -245,7 +245,8 @@ export default async (req, context) => {
         badgeName: p.brand || (localShopsData.shops[p.shop_id] ? localShopsData.shops[p.shop_id].name : 'Local Shop')
       }));
     } else {
-      filteredItems = allItems.filter(item => !item.source || item.source === 'moonoh');
+      // Include ALL sources across Moonoh, Marketplaces, Food Rescue & Local Shops for aggregate region/category pages
+      filteredItems = allItems;
 
       // Filter by Region if present
       if (targetRegionObj) {
