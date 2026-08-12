@@ -91,7 +91,8 @@ async function buildSitemapXml() {
     'https://moon-oh.com/terms',
     'https://moon-oh.com/privacy',
     'https://moon-oh.com/disclaimer',
-    'https://moon-oh.com/fraud-prevention'
+    'https://moon-oh.com/fraud-prevention',
+    'https://moon-oh.com/return-policy'
   ];
 
   const todayIso = new Date().toISOString();

@@ -22426,6 +22426,10 @@ export default async (req, context) => {
     "description": ${JSON.stringify(description)},
     "category": ${JSON.stringify(categoryName)},
     "sku": ${JSON.stringify(`MOONOH-${productNo}`)},
+    "brand": {
+      "@type": "Brand",
+      "name": ${JSON.stringify(sellerName || "Moonoh")}
+    },
     "aggregateRating": {
       "@type": "AggregateRating",
       "ratingValue": "5.0",
@@ -22455,6 +22459,7 @@ export default async (req, context) => {
       "url": ${JSON.stringify(canonicalUrl)},
       "priceCurrency": "USD",
       "price": "${price}",
+      "priceValidUntil": "2027-12-31",
       "availability": "https://schema.org/InStock",
       "itemCondition": "https://schema.org/UsedCondition",
       "areaServed": ["New York City", "New Jersey", "Queens", "Brooklyn", "Manhattan"],
@@ -22462,6 +22467,34 @@ export default async (req, context) => {
         "@type": "Organization",
         "name": "Moonoh",
         "url": "https://moon-oh.com"
+      },
+      "shippingDetails": {
+        "@type": "OfferShippingDetails",
+        "shippingRate": {
+          "@type": "MonetaryAmount",
+          "value": "0.00",
+          "currency": "USD"
+        },
+        "shippingDestination": {
+          "@type": "DefinedRegion",
+          "addressCountry": "US",
+          "addressRegion": ["NY", "NJ"]
+        },
+        "deliveryTime": {
+          "@type": "ShippingDeliveryTime",
+          "handlingTime": {
+            "@type": "QuantitativeValue",
+            "minValue": 0,
+            "maxValue": 1,
+            "unitCode": "DAY"
+          },
+          "transitTime": {
+            "@type": "QuantitativeValue",
+            "minValue": 0,
+            "maxValue": 2,
+            "unitCode": "DAY"
+          }
+        }
       },
       "hasMerchantReturnPolicy": {
         "@type": "MerchantReturnPolicy",
