@@ -30,6 +30,8 @@ function generateSlug(title, locationStr, productNo) {
   return `/item/${cleanTitle}-${locSlug}-${productNo}`;
 }
 
+import { realFoodRescueItems } from './food-rescue-items.mjs';
+
 const allRealExternalItems = {
   "karrot-vf1p9fqnn45j": {
     "id": "karrot-vf1p9fqnn45j",
@@ -22087,7 +22089,30 @@ function inferCategoryFromText(title = '', description = '', rawCategory = '') {
 }
 
 function getExternalItemById(id) {
-  return allRealExternalItems[id];
+  if (allRealExternalItems[id]) return allRealExternalItems[id];
+  if (Array.isArray(realFoodRescueItems)) {
+    const found = realFoodRescueItems.find(i => i.id === id);
+    if (found) {
+      return {
+        id: found.id,
+        title: found.title,
+        price: found.price,
+        location: found.location || '1mi · Brooklyn, NY',
+        rawTown: found.rawTown || 'Brooklyn, NY',
+        lat: 40.6782,
+        lng: -73.9442,
+        category: found.categoryName || 'Food & Groceries',
+        image: found.image,
+        sellerName: "Kim'C Market",
+        description: `${found.title} available on Kim'C Market in Brooklyn, NY. Fight Food Waste item.`,
+        source: 'kimc',
+        sourceName: "Kim'C Market",
+        url: found.detailUrl || `https://kimcmarket.com/products/${found.handle}`,
+        timeAgo: 'Food Rescue'
+      };
+    }
+  }
+  return null;
 }
 
 export default async (req, context) => {
@@ -22114,7 +22139,7 @@ export default async (req, context) => {
     let mainPhoto = "";
     let extId = "";
 
-    const extMatch = url.pathname.match(/-ext-(karrot-[a-z0-9_-]+|heykorean-[a-z0-9_-]+)/i);
+    const extMatch = url.pathname.match(/-ext-(karrot-[a-z0-9_-]+|heykorean-[a-z0-9_-]+|kimc-[a-z0-9_-]+)/i);
     if (extMatch) {
       isExternal = true;
       extId = extMatch[1].toLowerCase();
@@ -22864,7 +22889,7 @@ export default async (req, context) => {
         <div class="bottom-price-label">Initial price</div>
       </div>
       ${isExternal 
-        ? `<a href="${externalUrl}" target="_blank" rel="noopener noreferrer" onclick="if(typeof gtag==='function')gtag('event','click_external_source',{source:'${externalSource}',item_url:'${externalUrl}'});" class="chat-btn" style="display:inline-flex; align-items:center; justify-content:center; gap:6px; text-decoration:none;">Buy on ${externalSource === "heykorean" ? "HeyKorean" : "Karrot"} <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></a>`
+        ? `<a href="${externalUrl}" target="_blank" rel="noopener noreferrer" onclick="if(typeof gtag==='function')gtag('event','click_external_source',{source:'${externalSource}',item_url:'${externalUrl}'});" class="chat-btn" style="display:inline-flex; align-items:center; justify-content:center; gap:6px; text-decoration:none;">Buy on ${externalSource === "heykorean" ? "HeyKorean" : (externalSource === "kimc" ? "Kim'C Market" : "Karrot")} <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></a>`
         : `<button class="chat-btn" onclick="if(typeof gtag==='function')gtag('event','click_buy_chat',{item_id:'${productNo}'});openModal();">Buy / Chat on App</button>`
       }
     </div>

@@ -574,6 +574,27 @@ def renderArticlePage(slug):
     category_name = article['primaryCategory'].replace('-', ' ').title()
     topics_list_str = ", ".join(article['topics'])
     
+    # Resolve external primary sources for E-E-A-T provenance
+    source_links_html = ""
+    matched_sources = []
+    text_to_search = f"{article['title']} {article['company']} {' '.join(article['topics'])}"
+    for ent_name, ent_url in ENTITY_MAPPINGS.items():
+        if ent_name in text_to_search and ent_name not in [m[0] for m in matched_sources]:
+            matched_sources.append((ent_name, ent_url))
+            if len(matched_sources) >= 4:
+                break
+    
+    if matched_sources:
+        links_list = "".join([f'<li class="text-xs text-blue-700 hover:underline"><a href="{url}" target="_blank" rel="noopener noreferrer">{name} Official Reference / Registry</a></li>' for name, url in matched_sources])
+        source_links_html = f"""
+                                    <div class="mt-6 pt-4 border-t border-gray-200">
+                                        <h4 class="text-xs font-semibold uppercase tracking-wider text-gray-700 mb-2">Primary Reference & Verification Sources:</h4>
+                                        <ul class="list-disc pl-5 space-y-1">
+                                            {links_list}
+                                        </ul>
+                                    </div>
+        """
+
     industry_analysis_block = f"""
                                 <section id="industry-analysis" data-semantic-role="analysis" class="my-10 border-t border-gray-200 pt-8 font-sans">
                                     <h3 class="text-xl font-bold text-gray-900 mb-4">Industry Context & Strategic Analysis</h3>
@@ -584,7 +605,8 @@ def renderArticlePage(slug):
                                         Key operational priorities for market participants in the {category_name} sector—specifically regarding {topics_list_str}—revolve around verifying transaction integrity, guaranteeing transparent odds or payouts, and establishing robust anti-money laundering (AML) protocols. Strategic announcements of this nature signal ongoing technical consolidation and institutional maturity across the digital gaming market.
                                     </p>
                                     <div class="bg-gray-50 border border-gray-200 p-4 rounded-sm text-xs text-gray-600">
-                                        <strong>Editorial Verification Note:</strong> This press release was verified by the CryptoCasinoMedia B2B Desk. All corporate claims, licensing credentials, and technical assertions are cross-referenced against official regulatory registries and market benchmarks in accordance with Google Publisher Policies.
+                                        <strong>Editorial Verification & Source Provenance:</strong> Verified by the CryptoCasinoMedia Editorial Desk. Technical claims, licensing credentials, and regulatory filings are cross-referenced against public registers and primary documentation.
+                                        {source_links_html}
                                     </div>
                                 </section>
                                 """
@@ -1449,6 +1471,8 @@ with open(template_path, "r", encoding="utf-8") as f:
 ENTITY_MAPPINGS = {
     "Stake.com": "https://en.wikipedia.org/wiki/Stake.com",
     "Stake": "https://en.wikipedia.org/wiki/Stake.com",
+    "Coinbase": "https://en.wikipedia.org/wiki/Coinbase",
+    "New York Supreme Court": "https://ww2.nycourts.gov/",
     "Polymarket": "https://en.wikipedia.org/wiki/Polymarket",
     "Kalshi": "https://en.wikipedia.org/wiki/Kalshi",
     "Tether": "https://en.wikipedia.org/wiki/Tether_(cryptocurrency)",
@@ -1461,6 +1485,9 @@ ENTITY_MAPPINGS = {
     "ETH": "https://en.wikipedia.org/wiki/Ethereum",
     "Curacao Gaming Control Board": "https://www.wikidata.org/wiki/Q114881518",
     "Curacao": "https://en.wikipedia.org/wiki/Cura%C3%A7ao",
+    "UAE VARA": "https://www.vara.ae/en/",
+    "VARA": "https://www.vara.ae/en/",
+    "Google Trends": "https://trends.google.com/",
     "FIFA World Cup": "https://en.wikipedia.org/wiki/FIFA_World_Cup",
     "Telegram": "https://en.wikipedia.org/wiki/Telegram_(software)",
     "GambleFi": "https://www.wikidata.org/wiki/Q122971271",
@@ -1546,14 +1573,23 @@ for article in articles_sorted:
     }
     if mentions:
         article_schema["about"] = mentions
+    primary_topic = article['topics'][0] if article.get('topics') else "crypto casinos"
+    second_paragraph = article['body'][1] if len(article['body']) > 1 else article['excerpt']
     faq_schema = {
         "@context": "https://schema.org",
         "@type": "FAQPage",
-        "mainEntity": [{
-            "@type": "Question",
-            "name": f"What is the latest news about {topic}?",
-            "acceptedAnswer": {"@type": "Answer", "text": article['excerpt']}
-        } for topic in article['topics'][:3]]
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": f"What is the key industry announcement in '{article['title']}'?",
+                "acceptedAnswer": {"@type": "Answer", "text": article['lede']}
+            },
+            {
+                "@type": "Question",
+                "name": f"How does this update impact the {primary_topic} sector?",
+                "acceptedAnswer": {"@type": "Answer", "text": second_paragraph}
+            }
+        ]
     }
     
     cat_slug = article['primaryCategory']

@@ -39,11 +39,18 @@ const CACHE_DURATION_MS = 3600000; // 1 hour cache for sitemap
 async function buildSitemapXml() {
   const itemUrls = [];
 
-  // Add Kim C Market Food Rescue items to Sitemap
+  // Add Kim C Market Food Rescue items to Sitemap with internal moon-oh.com URLs in Brooklyn, NY
   if (Array.isArray(realFoodRescueItems)) {
     realFoodRescueItems.forEach(item => {
-      if (item && (item.detailUrl || item.handle)) {
-        itemUrls.push(item.detailUrl || `https://kimcmarket.com/products/${item.handle}`);
+      if (item && item.id) {
+        let cleanTitle = (item.title || 'item')
+          .toLowerCase()
+          .replace(/[^a-z0-9\s-]/g, '')
+          .trim()
+          .replace(/\s+/g, '-')
+          .replace(/-+/g, '-');
+        if (cleanTitle.length > 50) cleanTitle = cleanTitle.substring(0, 50).replace(/-$/, '');
+        itemUrls.push(`https://moon-oh.com/item/${cleanTitle}-brooklyn-ny-ext-${item.id}`);
       }
     });
   }

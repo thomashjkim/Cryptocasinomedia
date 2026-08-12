@@ -679,6 +679,16 @@
       margin-top: 6px;
       width: fit-content;
     }
+    .badge-moonoh {
+      background-color: #EDEFFC;
+      color: #3a46e2;
+      border: 1px solid #C7CEFA;
+    }
+    .badge-kimc {
+      background-color: #E6F5F0;
+      color: #006853;
+      border: 1px solid #99D6C4;
+    }
     .badge-karrot {
       background-color: #FFF1E6;
       color: #FF6F0F;
@@ -1168,6 +1178,8 @@
           badgeHtml = `<div class="item-card-badge badge-karrot">Karrot</div>`;
         } else if (item.source === 'heykorean') {
           badgeHtml = `<div class="item-card-badge badge-heykorean">HeyKorean</div>`;
+        } else if (item.source === 'kimc') {
+          badgeHtml = `<div class="item-card-badge badge-kimc">Kim'C Market</div>`;
         }
 
         function generateExternalSlug(t, l, id) {
@@ -1214,8 +1226,24 @@
       try {
         let items = [];
         try {
-          const res = await fetch('/api/items');
-          items = await res.json();
+          const [moonohRes, foodRescueRes] = await Promise.allSettled([
+            fetch('/api/items'),
+            fetch('/api/food-rescue')
+          ]);
+          const moonohData = moonohRes.status === 'fulfilled' ? await moonohRes.value.json() : [];
+          const foodRescueData = foodRescueRes.status === 'fulfilled' ? await foodRescueRes.value.json() : [];
+          const parsedFoodRescue = (Array.isArray(foodRescueData) ? foodRescueData : []).map(r => ({
+            no: r.id,
+            id: r.id,
+            title: r.title,
+            price: r.price,
+            image: r.image,
+            location: r.location || '1mi · Brooklyn, NY',
+            category: r.categoryName || 'Food & Groceries',
+            source: 'kimc',
+            url: `/item/${r.handle || 'item'}-brooklyn-ny-ext-${r.id}`
+          }));
+          items = [...(Array.isArray(moonohData) ? moonohData : []), ...parsedFoodRescue];
         } catch (e) {}
 
         if (!Array.isArray(items) || items.length === 0) {
