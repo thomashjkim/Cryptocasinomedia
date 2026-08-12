@@ -22215,7 +22215,7 @@ export default async (req, context) => {
         description = localItem.moonoh_summary || `${localItem.title} from ${localItem.brand || shopSlug}.`;
         townName = shopSlug === 'happier-grocery' ? 'Soho, NY' : (shopSlug === 'big-night' ? 'Greenpoint, NY' : 'West Village, NY');
         const shopTitle = shopSlug === 'happier-grocery' ? 'Happier Grocery' : (shopSlug === 'big-night' ? 'Big Night' : 'Pop Up Grocer');
-        sourceDisplayName = shopTitle;
+        
         sellerName = localItem.brand || shopTitle;
         vendorName = localItem.brand || shopTitle;
         address = "New York, NY";
@@ -22495,7 +22495,12 @@ export default async (req, context) => {
       ? photos.map(p => p.startsWith('http') ? p : `https://moon-oh.com${p}`) 
       : [absMainPhoto];
 
-    const sourceDisplayName = externalSource === 'heykorean' ? 'HeyKorean' : (externalSource === 'kimc' ? "Kim'C Market" : 'Karrot');
+    let sourceDisplayName = "Karrot";
+    if (externalSource === 'heykorean') sourceDisplayName = "HeyKorean";
+    else if (externalSource === 'kimc') sourceDisplayName = "Kim'C Market";
+    else if (externalSource === 'happier-grocery') sourceDisplayName = "Happier Grocery";
+    else if (externalSource === 'big-night') sourceDisplayName = "Big Night";
+    else if (externalSource === 'pop-up-grocer') sourceDisplayName = "Pop Up Grocer";
 
     let bannerBg = "#FFF7ED";
     let bannerBorder = "#FFEDD5";
@@ -22507,6 +22512,21 @@ export default async (req, context) => {
       bannerBorder = "#99D6C4";
       bannerColor = "#006853";
       btnBgColor = "#006853";
+    } else if (externalSource === "happier-grocery") {
+      bannerBg = "#E8F5E9";
+      bannerBorder = "#A5D6A7";
+      bannerColor = "#2E7D32";
+      btnBgColor = "#2E7D32";
+    } else if (externalSource === "pop-up-grocer") {
+      bannerBg = "#FFF3E0";
+      bannerBorder = "#FFCC80";
+      bannerColor = "#E65100";
+      btnBgColor = "#E65100";
+    } else if (externalSource === "big-night") {
+      bannerBg = "#F3E5F5";
+      bannerBorder = "#CE93D8";
+      bannerColor = "#7B1FA2";
+      btnBgColor = "#7B1FA2";
     } else if (externalSource === "heykorean") {
       bannerBg = "#EBF4FF";
       bannerBorder = "#B8D9FF";
