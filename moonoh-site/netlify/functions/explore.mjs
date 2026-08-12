@@ -340,12 +340,15 @@ export default async (req, context) => {
     const regionName = regionObj ? regionObj.name : "NYC & NJ";
     const categoryName = isOthersPage ? "Aggregated Items (Karrot & HeyKorean)" : (categoryObj ? categoryObj.name : "Secondhand Items");
 
-    let pageTitle = "Explore Secondhand Items in NYC & NJ | Moonoh";
-    let h1Text = "Explore Local Secondhand Items";
+    let pageTitle = "Explore Local Marketplace Items in NYC & NJ | Moonoh";
+    let h1Text = "Buy and sell used items in your neighborhood";
     let canonicalUrl = `https://moon-oh.com${url.pathname}`;
 
-    if (isOthersPage) {
-      pageTitle = regionObj ? `Karrot & HeyKorean Items in ${regionName} | Moonoh` : `Aggregated Karrot & HeyKorean Secondhand Items | Moonoh`;
+    if (isFoodRescuePage) {
+      pageTitle = `Kim'C Market Food Rescue Deals in Brooklyn, NY | Moonoh`;
+      h1Text = `Fight Food Waste with Kim'C Market Food Rescue`;
+    } else if (isOthersPage) {
+      pageTitle = regionObj ? `Karrot & HeyKorean Items in ${regionName} | Moonoh` : `Aggregated Karrot & HeyKorean Marketplace Items | Moonoh`;
       h1Text = regionObj ? `Karrot & HeyKorean Items in ${regionName}` : `Aggregated Karrot & HeyKorean Items`;
     } else if (regionObj && categoryObj) {
       pageTitle = `Used ${categoryName} in ${regionName} | Moonoh`;
@@ -394,9 +397,14 @@ export default async (req, context) => {
       robotsMeta = '\n  <meta name="robots" content="noindex, follow"/>';
     }
 
-    const introText = itemCount > 0
-      ? `Browse ${itemCount} verified ${categoryName.toLowerCase()} for sale in ${regionName} on Moonoh. Find local deals from individual sellers — including listings from Karrot and HeyKorean. ${avgPriceStr}. Meet up safely with local sellers across ${regionName} neighborhoods.`
-      : `Explore verified secondhand ${categoryName.toLowerCase()} in ${regionName} on Moonoh. Connect with local sellers across ${regionName} neighborhoods.`;
+    let introText = "";
+    if (isFoodRescuePage) {
+      introText = `Browse ${itemCount} verified Food Rescue & Sell-by deals from Kim'C Market in Brooklyn, NY. Save authentic Korean gourmet items near sell-by date with deep discounts while fighting local NYC food waste.`;
+    } else if (itemCount > 0) {
+      introText = `Browse ${itemCount} verified ${categoryName.toLowerCase()} for sale in ${regionName} on Moonoh. Find local deals from individual sellers — including listings from Karrot and HeyKorean. ${avgPriceStr}. Meet up safely with local sellers across ${regionName} neighborhoods.`;
+    } else {
+      introText = `Explore verified ${categoryName.toLowerCase()} in ${regionName} on Moonoh. Connect with local sellers across ${regionName} neighborhoods.`;
+    }
 
     // ── SSR Grid Cards ─────────────────────────────────────────────────────────
     const initialItems = filteredItems.slice(0, 40);

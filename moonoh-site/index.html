@@ -1311,6 +1311,17 @@
         if (btnFoodRescue) btnFoodRescue.classList.toggle('active', source === 'foodrescue');
         if (btnMarketplaces) btnMarketplaces.classList.toggle('active', source === 'others');
 
+        const titleEl = document.querySelector('.item-feed-title');
+        if (titleEl) {
+          if (source === 'foodrescue') {
+            titleEl.textContent = "Fight Food Waste with Kim'C Market Food Rescue";
+          } else if (source === 'others') {
+            titleEl.textContent = "Explore Local Marketplace Listings";
+          } else {
+            titleEl.textContent = "Buy and sell used items in your neighborhood";
+          }
+        }
+
         const filterContainer = document.getElementById("filter-container");
         if (filterContainer) {
           filterContainer.style.display = source === 'foodrescue' ? 'none' : 'flex';
