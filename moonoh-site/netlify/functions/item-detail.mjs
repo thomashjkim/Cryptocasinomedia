@@ -22406,6 +22406,28 @@ export default async (req, context) => {
 
     const sourceDisplayName = externalSource === 'heykorean' ? 'HeyKorean' : (externalSource === 'kimc' ? "Kim'C Market" : 'Karrot');
 
+    let bannerBg = "#FFF7ED";
+    let bannerBorder = "#FFEDD5";
+    let bannerColor = "#C2410C";
+    let btnBgColor = "#4F46E5";
+
+    if (externalSource === "kimc") {
+      bannerBg = "#E6F5F0";
+      bannerBorder = "#99D6C4";
+      bannerColor = "#006853";
+      btnBgColor = "#006853";
+    } else if (externalSource === "heykorean") {
+      bannerBg = "#EBF4FF";
+      bannerBorder = "#B8D9FF";
+      bannerColor = "#2D8CFF";
+      btnBgColor = "#2D8CFF";
+    } else if (externalSource === "karrot") {
+      bannerBg = "#FFF7ED";
+      bannerBorder = "#FFEDD5";
+      bannerColor = "#C2410C";
+      btnBgColor = "#FF6F0F";
+    }
+
     // Render HTML Page
     const html = `<!DOCTYPE HTML>
 <html lang="en">
@@ -22817,9 +22839,9 @@ export default async (req, context) => {
         </div>
 
         ${isExternal ? `
-        <div style="background:#FFF7ED; border:1px solid #FFEDD5; border-radius:12px; padding:12px 16px; margin-bottom:20px; font-size:13px; color:#C2410C; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:8px;">
+        <div style="background:${bannerBg}; border:1px solid ${bannerBorder}; border-radius:12px; padding:12px 16px; margin-bottom:20px; font-size:13px; color:${bannerColor}; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:8px;">
           <span>🔗 <strong>External Listing (${sourceDisplayName})</strong> · Last verified ${new Date().toLocaleDateString('en-US', {month:'short', day:'numeric', year:'numeric'})}</span>
-          <a href="${externalUrl}" target="_blank" rel="noopener noreferrer" onclick="if(typeof gtag==='function')gtag('event','click_external_source',{source:'${externalSource}',item_url:'${externalUrl}'});" style="color:#C2410C; font-weight:700; text-decoration:underline;">View original source ↗</a>
+          <a href="${externalUrl}" target="_blank" rel="noopener noreferrer" onclick="if(typeof gtag==='function')gtag('event','click_external_source',{source:'${externalSource}',item_url:'${externalUrl}'});" style="color:${bannerColor}; font-weight:700; text-decoration:underline;">View original source ↗</a>
         </div>
         ` : ''}
 
@@ -22852,7 +22874,7 @@ export default async (req, context) => {
           <h2 class="section-title" style="margin-top:0; font-size:16px; color:#111827;">How to Purchase</h2>
           <p style="font-size:14px; color:#4B5563; margin-bottom:14px; line-height:1.5;">${isExternal ? `This item is listed on ${sourceDisplayName}. Click below to view the listing and contact the seller directly.` : `Download the free Moonoh app to chat directly with ${sellerName}, arrange local meetup in ${townName}, and purchase with zero fees.`}</p>
           ${isExternal 
-            ? `<a href="${externalUrl}" target="_blank" rel="noopener noreferrer" onclick="if(typeof gtag==='function')gtag('event','click_external_source',{source:'${externalSource}',item_url:'${externalUrl}'});" style="width:100%; background:#4F46E5; color:#FFFFFF; border:none; padding:14px; border-radius:12px; font-weight:700; font-size:15px; cursor:pointer; display:inline-flex; align-items:center; justify-content:center; gap:8px; text-decoration:none;"><span>Buy / View Listing</span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></a>`
+            ? `<a href="${externalUrl}" target="_blank" rel="noopener noreferrer" onclick="if(typeof gtag==='function')gtag('event','click_external_source',{source:'${externalSource}',item_url:'${externalUrl}'});" style="width:100%; background:${btnBgColor}; color:#FFFFFF; border:none; padding:14px; border-radius:12px; font-weight:700; font-size:15px; cursor:pointer; display:inline-flex; align-items:center; justify-content:center; gap:8px; text-decoration:none;"><span>Buy / View Listing</span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></a>`
             : `<a href="https://apps.apple.com/us/app/moonoh/id6477390079" target="_blank" rel="noopener noreferrer" onclick="if(typeof gtag==='function')gtag('event','click_buy_chat',{item_id:'${productNo}'});" style="width:100%; background:#4F46E5; color:#FFFFFF; border:none; padding:14px; border-radius:12px; font-weight:700; font-size:15px; cursor:pointer; display:inline-flex; align-items:center; justify-content:center; gap:8px; text-decoration:none;"><span>Buy / Chat on App</span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg></a>`
           }
         </div>
@@ -22891,7 +22913,7 @@ export default async (req, context) => {
         <div class="bottom-price-label">Initial price</div>
       </div>
       ${isExternal 
-        ? `<a href="${externalUrl}" target="_blank" rel="noopener noreferrer" onclick="if(typeof gtag==='function')gtag('event','click_external_source',{source:'${externalSource}',item_url:'${externalUrl}'});" class="chat-btn" style="display:inline-flex; align-items:center; justify-content:center; gap:6px; text-decoration:none;">Buy on ${externalSource === "heykorean" ? "HeyKorean" : (externalSource === "kimc" ? "Kim'C Market" : "Karrot")} <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></a>`
+        ? `<a href="${externalUrl}" target="_blank" rel="noopener noreferrer" onclick="if(typeof gtag==='function')gtag('event','click_external_source',{source:'${externalSource}',item_url:'${externalUrl}'});" class="chat-btn" style="display:inline-flex; align-items:center; justify-content:center; gap:6px; text-decoration:none; background:${btnBgColor};">Buy on ${sourceDisplayName} <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></a>`
         : `<a href="https://apps.apple.com/us/app/moonoh/id6477390079" target="_blank" rel="noopener noreferrer" onclick="if(typeof gtag==='function')gtag('event','click_buy_chat',{item_id:'${productNo}'});" class="chat-btn" style="display:inline-flex; align-items:center; justify-content:center; gap:6px; text-decoration:none;">Buy / Chat on App</a>`
       }
     </div>
