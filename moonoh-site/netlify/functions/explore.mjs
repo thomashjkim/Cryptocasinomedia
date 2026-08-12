@@ -30,7 +30,7 @@ const REGIONS = {
 // Category Mapping
 const CATEGORIES = {
   'electronics': { name: 'Electronics', kw: 'electronics', keywords: ['electronics', 'phone', 'laptop', 'appliances', 'audio', 'gadget', 'ink', 'camera', 'tv', 'monitor', 'headphone', 'airpods', 'ipad', 'charger', 'speaker', 'printer', 'game', 'ps5', 'nintendo', 'xbox'] },
-  'furniture': { name: 'Furniture', kw: 'furniture', keywords: ['furniture', 'sofa', 'table', 'chair', 'bed', 'desk', 'couch', 'dresser', 'mattress', 'shelf'] },
+  'furniture': { name: 'Furniture', kw: 'furniture', keywords: ['furniture', 'sofa', 'table', 'chair', 'bed', 'desk', 'couch', 'dresser', 'mattress', 'shelf', 'nightstand', 'cabinet', 'stool', 'bench', 'ottoman', 'headboard', 'storage', 'lamp', 'bookcase'] },
   'womens-fashion': { name: "Women's Fashion", kw: 'women', keywords: ["women's fashion", 'women', 'dress', 'handbag', 'skirt', 'coat'] },
   'mens-fashion': { name: "Men's Fashion", kw: 'men', keywords: ["men's fashion", 'men', 'suit', 'jacket'] },
   'shoes': { name: 'Shoes', kw: 'shoe', keywords: ['shoes', 'sneakers', 'boots', 'sandals', 'shoe', 'nike', 'adidas'] },
@@ -259,7 +259,7 @@ export default async (req, context) => {
       // Filter by Category if present
       if (targetCategoryObj) {
         filteredItems = filteredItems.filter(item => {
-          const catStr = (item.categoryName || item.category || '').toLowerCase();
+          const catStr = ((item.categoryName || item.category || '') + ' ' + (item.title || '')).toLowerCase();
           return targetCategoryObj.keywords.some(kw => catStr.includes(kw));
         });
       }
@@ -372,7 +372,12 @@ export default async (req, context) => {
 
     if (targetRegionObj && targetRegionObj.shortName) {
       const regName = targetRegionObj.shortName;
-      template = template.replace(`<option value="${regName}">`, `<option value="${regName}" selected="selected">`);
+      // Hide Source Tabs on AEO Aggregation Pages (/explore/{region}/{category}) so all items are combined with source badges
+    if (targetRegionObj || targetCategoryObj) {
+      template = template.replace('<div class="source-tab-container">', '<div class="source-tab-container" style="display:none !important;">');
+    }
+
+    template = template.replace(`<option value="${regName}">`, `<option value="${regName}" selected="selected">`);
     }
 
         // Highlight active source tab in SSR HTML

@@ -2002,13 +2002,19 @@
             id: raw.id,
             title: raw.title,
             price: raw.price,
-            image: raw.photo,
-            location: raw.townName,
-            rawTown: raw.rawTown || raw.townName || '',
-            category: raw.categoryName,
-            url: raw.detailUrl,
-            source: raw.source || 'external'
+            image: raw.photo || raw.image,
+            location: raw.townName || raw.location,
+            rawTown: raw.rawTown || raw.townName || raw.location || '',
+            category: raw.categoryName || raw.category,
+            url: raw.detailUrl || raw.url,
+            source: raw.source || 'moonoh',
+            badgeName: raw.badgeName
           }));
+          allItems = items;
+          currentFiltered = items;
+          visibleCount = 40;
+          renderGrid(currentFiltered);
+          return;
         }
 
         if (!Array.isArray(items) || items.length === 0) {
