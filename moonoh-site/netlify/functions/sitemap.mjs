@@ -1,3 +1,5 @@
+import { realFoodRescueItems } from './food-rescue-items.mjs';
+
 function generateSlug(title, locationStr, productNo) {
   let cleanTitle = (title || 'item')
     .toLowerCase()
@@ -37,6 +39,15 @@ const CACHE_DURATION_MS = 3600000; // 1 hour cache for sitemap
 async function buildSitemapXml() {
   const itemUrls = [];
 
+  // Add Kim C Market Food Rescue items to Sitemap
+  if (Array.isArray(realFoodRescueItems)) {
+    realFoodRescueItems.forEach(item => {
+      if (item && (item.detailUrl || item.handle)) {
+        itemUrls.push(item.detailUrl || `https://kimcmarket.com/products/${item.handle}`);
+      }
+    });
+  }
+
   try {
     const res = await fetch("https://moon-oh.com/api/items", {
       signal: AbortSignal.timeout(8000)
@@ -60,7 +71,7 @@ async function buildSitemapXml() {
   }
 
   const regionSlugs = ['manhattan', 'queens', 'brooklyn', 'bronx', 'staten-island', 'bergen-county', 'hudson-county'];
-  const categorySlugs = ['electronics', 'furniture', 'womens-fashion', 'mens-fashion', 'shoes', 'home-garden', 'health-beauty', 'pet-supplies', 'baby-kids', 'sports-leisure', 'toys-games', 'jewelry-watches', 'luggages-bags', 'antiques', 'arts-books-music', 'used-items', 'other'];
+  const categorySlugs = ['food-groceries', 'electronics', 'furniture', 'womens-fashion', 'mens-fashion', 'shoes', 'home-garden', 'health-beauty', 'pet-supplies', 'baby-kids', 'sports-leisure', 'toys-games', 'jewelry-watches', 'luggages-bags', 'antiques', 'arts-books-music', 'used-items', 'other'];
 
   const aggregationUrls = [];
   regionSlugs.forEach(r => aggregationUrls.push(`https://moon-oh.com/explore/${r}`));

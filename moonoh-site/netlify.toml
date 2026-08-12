@@ -20,7 +20,11 @@
   status = 301
   force = true
 
-# App & Function Routes
+[[redirects]]
+  from = "/api/food-rescue"
+  to = "/.netlify/functions/food-rescue-items"
+  status = 200
+
 [[redirects]]
   from = "/api/external-items"
   to = "/.netlify/functions/external-items"

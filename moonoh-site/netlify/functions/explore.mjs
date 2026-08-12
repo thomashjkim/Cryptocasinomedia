@@ -1,6 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import { realFoodRescueItems } from './food-rescue-items.mjs';
 
 const currentDir = path.dirname(fileURLToPath(import.meta.url));
 
@@ -32,6 +33,7 @@ const CATEGORIES = {
   'luggages-bags': { name: 'Luggages & Bags', keywords: ['luggages', 'bags', 'pouch', 'backpack', 'tote', 'wallet', 'bag'] },
   'antiques': { name: 'Antiques', keywords: ['antiques', 'vintage', 'collectible'] },
   'arts-books-music': { name: 'Arts, Books & Music', keywords: ['arts', 'books', 'music', 'book', 'print'] },
+  'food-groceries': { name: 'Food & Groceries', keywords: ['food', 'groceries', 'snack', 'sauce', 'oil', 'rice', 'tea', 'noodle', 'kimchi', 'pantry', 'drink', 'beverage', 'korean food', 'cookie', 'juice', 'chip'] },
   'used-items': { name: 'Used Items', keywords: ['used items'] },
   'other': { name: 'Other', keywords: ['other', 'general'] }
 };
@@ -169,8 +171,8 @@ async function fetchAllCombinedItems() {
       createdAt: item.createdAt || (baseTime - idx * 1000)
     }));
 
-    // Combine Moonoh + External items and sort by recency
-    const combined = [...moonohItems, ...externalItemsWithTime];
+    // Combine Moonoh + Food Rescue + External items and sort by recency
+    const combined = [...moonohItems, ...realFoodRescueItems, ...externalItemsWithTime];
     combined.sort((a, b) => {
       const timeA = a.createdAt || 0;
       const timeB = b.createdAt || 0;
@@ -269,11 +271,14 @@ export default async (req, context) => {
     let regionSlug = null;
     let categorySlug = null;
     let isOthersPage = false;
+    let isFoodRescuePage = false;
     const isMainUserEntrypoint = pathSegments.length === 0;
 
     if (pathSegments.length === 1) {
       const seg = pathSegments[0].toLowerCase();
-      if (seg === 'others') {
+      if (seg === 'food-rescue' || seg === 'foodrescue') {
+        isFoodRescuePage = true;
+      } else if (seg === 'marketplaces' || seg === 'others') {
         isOthersPage = true;
       } else if (REGIONS[seg]) {
         regionSlug = seg;
@@ -287,18 +292,18 @@ export default async (req, context) => {
       if (CATEGORIES[seg2]) categorySlug = seg2;
     }
 
-    const isOthersFilter = isOthersPage || qSource === 'others';
+    const isFoodRescueFilter = isFoodRescuePage || qSource === 'food-rescue' || qSource === 'foodrescue' || qSource === 'kimc';
+    const isOthersFilter = isOthersPage || qSource === 'marketplaces' || qSource === 'others';
 
-    // 3. Fetch ALL combined items (Moonoh + Karrot + HeyKorean)
+    // 3. Fetch ALL combined items (Moonoh + Food Rescue + Karrot + HeyKorean)
     const allItems = await fetchAllCombinedItems();
     let filteredItems = [...allItems];
 
-    // Rule Distinction:
-    // 1. User Entrypoint (/explore): Show Moonoh native items ONLY by default unless ?source=others parameter is present.
-    // 2. SEO Aggregation Pages (/explore/{region}/{category}): Merge Moonoh + Karrot + HeyKorean sorted by recency for maximum density.
-    if (isOthersFilter) {
+    if (isFoodRescueFilter) {
+      filteredItems = filteredItems.filter(item => item.source === 'kimc');
+    } else if (isOthersFilter) {
       filteredItems = filteredItems.filter(item => item.source === 'karrot' || item.source === 'heykorean' || item.source === 'external');
-    } else if (isMainUserEntrypoint) {
+    } else if (isMainUserEntrypoint && !qSource) {
       filteredItems = filteredItems.filter(item => item.source === 'moonoh');
     }
 
@@ -363,6 +368,7 @@ export default async (req, context) => {
     const freeCount = filteredItems.filter(i => i.price <= 0).length;
 
     const moonohCount = filteredItems.filter(i => i.source === 'moonoh').length;
+    const kimcCount = filteredItems.filter(i => i.source === 'kimc').length;
     const karrotCount = filteredItems.filter(i => i.source === 'karrot').length;
     const heykoreanCount = filteredItems.filter(i => i.source === 'heykorean').length;
 
@@ -411,9 +417,11 @@ export default async (req, context) => {
         const timeLoc = item.timeAgo ? `${item.timeAgo} · ${item.townName}` : item.townName;
         let badgeHtml = '';
         if (item.source === 'karrot') {
-          badgeHtml = `<div class="item-card-badge badge-karrot" style="display:inline-block; background:#FFF1E6; color:#FF6F0F; border:1px solid #FFD0B0; font-size:10.5px; font-weight:700; padding:1px 6px; border-radius:4px; margin-top:4px; line-height:1.2;">Karrot</div>`;
+          badgeHtml = `<div class="item-card-badge badge-karrot" style="display:inline-block; background:#FFF7ED; color:#C2410C; border:1px solid #FFD0B0; font-size:10.5px; font-weight:700; padding:1px 6px; border-radius:4px; margin-top:4px; line-height:1.2;">Karrot</div>`;
         } else if (item.source === 'heykorean') {
           badgeHtml = `<div class="item-card-badge badge-heykorean" style="display:inline-block; background:#EBF4FF; color:#2D8CFF; border:1px solid #B8D9FF; font-size:10.5px; font-weight:700; padding:1px 6px; border-radius:4px; margin-top:4px; line-height:1.2;">HeyKorean</div>`;
+        } else if (item.source === 'kimc') {
+          badgeHtml = `<div class="item-card-badge badge-kimc" style="display:inline-block; background:#E6F5F0; color:#006853; border:1px solid #99D6C4; font-size:10.5px; font-weight:700; padding:1px 6px; border-radius:4px; margin-top:4px; line-height:1.2;">Food Rescue</div>`;
         } else {
           badgeHtml = `<div class="item-card-badge badge-moonoh" style="display:inline-block; background:#EDEFFC; color:#3a46e2; border:1px solid #C7CEFA; font-size:10.5px; font-weight:700; padding:1px 6px; border-radius:4px; margin-top:4px; line-height:1.2;">Moonoh</div>`;
         }
@@ -654,6 +662,7 @@ export default async (req, context) => {
     } : null;
 
     const extItemsForPreload = allItems.filter(item => item.source === 'karrot' || item.source === 'heykorean' || item.source === 'external');
+    const foodRescueForPreload = allItems.filter(item => item.source === 'kimc');
 
     const schemaScript = `
   <script type="application/ld+json">${JSON.stringify(itemListSchema)}</script>
@@ -663,6 +672,7 @@ export default async (req, context) => {
   <script>
     window.__INITIAL_ITEMS__ = ${JSON.stringify(filteredItems)};
     window.__INITIAL_EXTERNAL_ITEMS__ = ${JSON.stringify(extItemsForPreload)};
+    window.__INITIAL_FOOD_RESCUE__ = ${JSON.stringify(foodRescueForPreload)};
   </script>
 `;
 

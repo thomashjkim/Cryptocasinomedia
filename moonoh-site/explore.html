@@ -704,6 +704,16 @@
       color: #3a46e2;
       border: 1px solid #C7CEFA;
     }
+    .badge-kimc {
+      background-color: #E6F5F0;
+      color: #006853;
+      border: 1px solid #99D6C4;
+    }
+    .source-tab-btn.tab-foodrescue.active {
+      background-color: #006853 !important;
+      color: #FFFFFF !important;
+      font-weight: 700 !important;
+    }
     
     /* Modal Styles */
     .moonoh-modal-overlay {
@@ -863,16 +873,18 @@
 
         <span class="location-count" id="location-count"></span>
 
-        <!-- Source Segment Switcher (Moonoh · Others) -->
+        <!-- Source Segment Switcher (Moonoh · Food Rescue · Marketplaces) -->
         <div class="source-segment-wrap" id="source-segment-wrap" style="margin-left: auto;">
           <button class="source-tab-btn active" id="tab-source-moonoh" data-source="moonoh">Moonoh</button>
-          <button class="source-tab-btn" id="tab-source-others" data-source="others">Others</button>
+          <button class="source-tab-btn tab-foodrescue" id="tab-source-foodrescue" data-source="foodrescue">Food Rescue</button>
+          <button class="source-tab-btn" id="tab-source-marketplaces" data-source="marketplaces">Marketplaces</button>
         </div>
       </div>
 
       <div class="filter-container" id="filter-container">
         <button class="filter-pill active">All</button>
         <button class="filter-pill">Free</button>
+        <button class="filter-pill">Food &amp; Groceries</button>
         <button class="filter-pill">Furniture</button>
         <button class="filter-pill">Electronics &amp; Appliances</button>
         <button class="filter-pill">Health &amp; beauty</button>
@@ -899,6 +911,21 @@
           <svg class="more-cat-caret" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
         </button>
       </div>
+
+      <!-- Food Rescue Informational Banner -->
+      <div id="food-rescue-banner" style="display:none; background:#E6F5F0; border:1.5px solid #99D6C4; border-radius:16px; padding:16px 20px; margin-bottom:24px; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap;">
+        <div style="display:flex; align-items:center; gap:12px; flex:1; min-width:260px;">
+          <div style="background:#006853; color:#fff; width:38px; height:38px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:20px; flex-shrink:0;">🌱</div>
+          <div>
+            <div style="font-weight:700; font-size:15px; color:#006853; margin-bottom:2px;">Fight Food Waste with Kim'C Market</div>
+            <div style="font-size:13.5px; color:#1F2937; line-height:1.4;">Premium Korean foods approaching Best-Before or Sell-By dates. Peak quality &amp; 100% safe to enjoy at special discounted prices!</div>
+          </div>
+        </div>
+        <a href="https://kimcmarket.com/blogs/korean-food-blog/understanding-sell-by-dates" target="_blank" rel="noopener noreferrer" style="display:inline-flex; align-items:center; gap:4px; background:#006853; color:#ffffff; font-weight:600; font-size:13px; padding:8px 16px; border-radius:999px; text-decoration:none; white-space:nowrap; flex-shrink:0;">
+          Understanding Sell-By Dates ↗
+        </a>
+      </div>
+
       <div class="item-grid" id="moonoh-item-grid">
         <!-- JS will populate cards here -->
       </div>
@@ -1009,6 +1036,7 @@
     const categoryMap = {
       "All": null,
       "Free": "FREE_FILTER",
+      "Food & Groceries": "food",
       "Antiques & collections": "antique",
       "Baby & kids": "baby",
       "Arts, books, music, movies & tickets": "art",
@@ -1049,13 +1077,15 @@
         const formatPrice = (p) => (!p || p <= 0 ? "Free" : (p % 1 !== 0 ? "$" + p.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}) : "$" + Math.round(p).toLocaleString()));
         const priceStr = formatPrice(item.price);
         const targetUrl = item.url || `/item/item-${item.no || item.id}`;
-        const isExternal = item.source === 'karrot' || item.source === 'heykorean';
+        const isExternal = item.source === 'karrot' || item.source === 'heykorean' || item.source === 'kimc';
         
         let badgeHtml = '';
         if (item.source === 'karrot') {
           badgeHtml = `<div class="item-card-badge badge-karrot">Karrot</div>`;
         } else if (item.source === 'heykorean') {
           badgeHtml = `<div class="item-card-badge badge-heykorean">HeyKorean</div>`;
+        } else if (item.source === 'kimc') {
+          badgeHtml = `<div class="item-card-badge badge-kimc">Food Rescue</div>`;
         } else {
           badgeHtml = `<div class="item-card-badge badge-moonoh">Moonoh</div>`;
         }
@@ -1242,6 +1272,7 @@
     const pillLabelToSlug = {
       'All': null,
       'Free': null, // free is not an SSR category slug, handle separately
+      'Food & Groceries': 'food-groceries',
       'Furniture': 'furniture',
       'Electronics & Appliances': 'electronics',
       'Health & beauty': 'health-beauty',
@@ -1331,13 +1362,70 @@
         });
       }
 
-      // Source Segment Switcher (Moonoh · Others)
+      // Source Segment Switcher (Moonoh · Food Rescue · Marketplaces)
       const btnMoonoh = document.getElementById('tab-source-moonoh');
-      const btnOthers = document.getElementById('tab-source-others');
+      const btnFoodRescue = document.getElementById('tab-source-foodrescue');
+      const btnMarketplaces = document.getElementById('tab-source-marketplaces');
+      const foodRescueBanner = document.getElementById('food-rescue-banner');
       
+      let foodRescueItemsList = [];
+
+      async function preloadFoodRescueItems() {
+        if (foodRescueItemsList.length === 0) {
+          if (window.__INITIAL_FOOD_RESCUE__ && Array.isArray(window.__INITIAL_FOOD_RESCUE__) && window.__INITIAL_FOOD_RESCUE__.length > 0) {
+            foodRescueItemsList = window.__INITIAL_FOOD_RESCUE__.map(raw => ({
+              no: raw.id || raw.no,
+              id: raw.id || raw.no,
+              title: raw.title,
+              price: raw.price,
+              image: raw.photo || raw.image,
+              photo: raw.photo || raw.image,
+              location: raw.townName || raw.location,
+              rawTown: raw.rawTown || raw.townName || raw.location || '',
+              category: raw.categoryName || raw.category || 'Food & Groceries',
+              categoryName: raw.categoryName || raw.category || 'Food & Groceries',
+              url: raw.detailUrl || raw.url,
+              source: 'kimc',
+              timeAgo: raw.timeAgo || 'Food Rescue'
+            }));
+            if (activeSource === 'foodrescue') {
+              applyFilters(getActiveCategoryKeyword());
+            }
+            return;
+          }
+
+          try {
+            let res = await fetch('/api/food-rescue');
+            if (!res.ok) res = await fetch('/.netlify/functions/food-rescue-items');
+            const data = await res.json();
+            if (Array.isArray(data)) {
+              foodRescueItemsList = data.map(raw => ({
+                no: raw.id,
+                id: raw.id,
+                title: raw.title,
+                price: raw.price,
+                image: raw.image,
+                photo: raw.image,
+                location: raw.location,
+                rawTown: raw.rawTown || raw.location || '',
+                category: raw.categoryName || raw.category || 'Food & Groceries',
+                categoryName: raw.categoryName || raw.category || 'Food & Groceries',
+                url: raw.detailUrl || raw.url,
+                source: 'kimc',
+                timeAgo: raw.timeAgo || 'Food Rescue'
+              }));
+            }
+            if (activeSource === 'foodrescue') {
+              applyFilters(getActiveCategoryKeyword());
+            }
+          } catch (e) {
+            console.error("Error loading Food Rescue items:", e);
+          }
+        }
+      }
+
       async function preloadExternalItems() {
         if (externalItemsList.length === 0) {
-          // Instant 0ms memory hydration if SSR preloaded external items
           if (window.__INITIAL_EXTERNAL_ITEMS__ && Array.isArray(window.__INITIAL_EXTERNAL_ITEMS__) && window.__INITIAL_EXTERNAL_ITEMS__.length > 0) {
             externalItemsList = window.__INITIAL_EXTERNAL_ITEMS__.map(raw => ({
               no: raw.id || raw.no,
@@ -1353,7 +1441,7 @@
               source: raw.source || 'external',
               timeAgo: raw.timeAgo || ''
             }));
-            if (activeSource === 'others') {
+            if (activeSource === 'marketplaces' || activeSource === 'others') {
               applyFilters(getActiveCategoryKeyword());
             }
             return;
@@ -1379,7 +1467,7 @@
                 timeAgo: raw.timeAgo || ''
               }));
             }
-            if (activeSource === 'others') {
+            if (activeSource === 'marketplaces' || activeSource === 'others') {
               applyFilters(getActiveCategoryKeyword());
             }
           } catch (e) {
@@ -1387,16 +1475,56 @@
           }
         }
       }
+      preloadFoodRescueItems();
       preloadExternalItems();
+
+      // Override applyFilters to handle foodrescue source
+      const origApplyFilters = applyFilters;
+      applyFilters = function(categoryKeyword = null) {
+        let filtered = allItems;
+        if (activeSource === 'foodrescue') {
+          filtered = foodRescueItemsList;
+        } else if (activeSource === 'marketplaces' || activeSource === 'others') {
+          filtered = externalItemsList;
+        } else {
+          filtered = allItems.filter(i => i.source === 'moonoh');
+        }
+
+        if (activeTown && boroughKeywords[activeTown]) {
+          const kws = boroughKeywords[activeTown];
+          filtered = filtered.filter(item => {
+            const locStr = ((item.rawTown || '') + ' ' + (item.location || '')).toLowerCase();
+            return kws.some(kw => locStr.includes(kw));
+          });
+        }
+
+        if (categoryKeyword === "FREE_FILTER") {
+          filtered = filtered.filter(item => item.price === 0);
+        } else if (categoryKeyword) {
+          filtered = filtered.filter(item =>
+            item.category && item.category.toLowerCase().includes(categoryKeyword)
+          );
+        }
+
+        currentFiltered = filtered;
+        visibleCount = 40;
+        renderGrid(currentFiltered);
+        updateLocationCount(filtered.length);
+      };
 
       async function switchSource(source) {
         activeSource = source;
-        if (btnMoonoh && btnOthers) {
-          btnMoonoh.classList.toggle('active', source === 'moonoh');
-          btnOthers.classList.toggle('active', source === 'others');
+        if (btnMoonoh) btnMoonoh.classList.toggle('active', source === 'moonoh');
+        if (btnFoodRescue) btnFoodRescue.classList.toggle('active', source === 'foodrescue');
+        if (btnMarketplaces) btnMarketplaces.classList.toggle('active', source === 'marketplaces' || source === 'others');
+
+        if (foodRescueBanner) {
+          foodRescueBanner.style.display = source === 'foodrescue' ? 'flex' : 'none';
         }
-        
-        if (source === 'others' && externalItemsList.length === 0) {
+
+        if (source === 'foodrescue' && foodRescueItemsList.length === 0) {
+          await preloadFoodRescueItems();
+        } else if ((source === 'marketplaces' || source === 'others') && externalItemsList.length === 0) {
           await preloadExternalItems();
         } else {
           applyFilters(getActiveCategoryKeyword());
@@ -1404,7 +1532,8 @@
       }
 
       if (btnMoonoh) btnMoonoh.addEventListener('click', () => switchSource('moonoh'));
-      if (btnOthers) btnOthers.addEventListener('click', () => switchSource('others'));
+      if (btnFoodRescue) btnFoodRescue.addEventListener('click', () => switchSource('foodrescue'));
+      if (btnMarketplaces) btnMarketplaces.addEventListener('click', () => switchSource('marketplaces'));
 
       // Load more
       // More Categories toggle button
