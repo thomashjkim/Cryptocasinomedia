@@ -375,6 +375,21 @@ export default async (req, context) => {
       template = template.replace(`<option value="${regName}">`, `<option value="${regName}" selected="selected">`);
     }
 
+        // Highlight active source tab in SSR HTML
+    if (isMarketplacesFilter) {
+      template = template
+        .replace('class="source-tab-btn active" id="tab-source-moonoh"', 'class="source-tab-btn" id="tab-source-moonoh"')
+        .replace('class="source-tab-btn" id="tab-source-marketplaces"', 'class="source-tab-btn active" id="tab-source-marketplaces"');
+    } else if (isFoodRescueFilter) {
+      template = template
+        .replace('class="source-tab-btn active" id="tab-source-moonoh"', 'class="source-tab-btn" id="tab-source-moonoh"')
+        .replace('class="source-tab-btn" id="tab-source-foodrescue"', 'class="source-tab-btn active" id="tab-source-foodrescue"');
+    } else if (isLocalShopsFilter || isShopProfile) {
+      template = template
+        .replace('class="source-tab-btn active" id="tab-source-moonoh"', 'class="source-tab-btn" id="tab-source-moonoh"')
+        .replace('class="source-tab-btn" id="tab-source-localshops"', 'class="source-tab-btn active" id="tab-source-localshops"');
+    }
+
     template = template
       .replace(/<title>.*?<\/title>/i, `<title>${escapeHtml(pageTitle)}</title>`)
       .replace(/<meta content=".*?" name="description"\/>/i, `<meta content="${escapeHtml(metaDesc)}" name="description"/>`)
