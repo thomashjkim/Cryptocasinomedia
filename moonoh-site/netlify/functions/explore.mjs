@@ -18,34 +18,34 @@ try {
 
 // Region Mapping
 const REGIONS = {
-  'manhattan': { name: 'Manhattan, NY', keywords: ['manhattan', 'upper east', 'upper west', 'downtown manhattan', 'midtown', 'harlem', 'tribeca', 'soho', 'lower east', 'east village', 'west village', 'chelsea', 'gramercy', 'inwood', 'washington heights', 'morningside', 'financial district', 'wall street', 'murray hill', 'kips bay', 'flatiron'] },
-  'queens': { name: 'Queens, NY', keywords: ['queens', 'bayside', 'flushing', 'astoria', 'jamaica', 'forest hills', 'jackson heights', 'woodside', 'ridgewood', 'ozone park', 'fresh meadows', 'corona', 'elmhurst', 'sunnyside', 'long island city', 'rego park', 'maspeth', 'howard beach', 'far rockaway', 'college point', 'whitestone', 'douglaston'] },
-  'brooklyn': { name: 'Brooklyn, NY', keywords: ['brooklyn', 'park slope', 'williamsburg', 'bushwick', 'bed stuy', 'flatbush', 'crown heights', 'bay ridge', 'bensonhurst', 'canarsie', 'east new york', 'greenpoint', 'cobble hill', 'carroll gardens', 'boerum', 'sunset park', 'borough park', 'brighton beach', 'coney island', 'sheepshead', 'ditmas'] },
-  'bronx': { name: 'The Bronx, NY', keywords: ['bronx'] },
-  'staten-island': { name: 'Staten Island, NY', keywords: ['staten island'] },
-  'bergen-county': { name: 'Bergen County, NJ', keywords: ['bergen', 'hackensack', 'paramus', 'fort lee', 'englewood', 'teaneck', 'palisades', 'fair lawn', 'garfield', 'ridgewood nj', 'rutherford'] },
-  'hudson-county': { name: 'Hudson County, NJ', keywords: ['hudson', 'jersey city', 'hoboken', 'bayonne', 'weehawken', 'union city', 'north bergen', 'secaucus', 'kearny'] }
+  'manhattan': { name: 'Manhattan, NY', shortName: 'Manhattan', keywords: ['manhattan', 'upper east', 'upper west', 'downtown manhattan', 'midtown', 'harlem', 'tribeca', 'soho', 'lower east', 'east village', 'west village', 'chelsea', 'gramercy', 'inwood', 'washington heights', 'morningside', 'financial district', 'wall street', 'murray hill', 'kips bay', 'flatiron', 'new york'] },
+  'queens': { name: 'Queens, NY', shortName: 'Queens', keywords: ['queens', 'bayside', 'flushing', 'astoria', 'jamaica', 'forest hills', 'jackson heights', 'woodside', 'ridgewood', 'ozone park', 'fresh meadows', 'corona', 'elmhurst', 'sunnyside', 'long island city', 'rego park', 'maspeth', 'howard beach', 'far rockaway', 'college point', 'whitestone', 'douglaston'] },
+  'brooklyn': { name: 'Brooklyn, NY', shortName: 'Brooklyn', keywords: ['brooklyn', 'park slope', 'williamsburg', 'bushwick', 'bed stuy', 'flatbush', 'crown heights', 'bay ridge', 'bensonhurst', 'canarsie', 'east new york', 'greenpoint', 'cobble hill', 'carroll gardens', 'boerum', 'sunset park', 'borough park', 'brighton beach', 'coney island', 'sheepshead', 'ditmas'] },
+  'bronx': { name: 'The Bronx, NY', shortName: 'The Bronx', keywords: ['bronx'] },
+  'staten-island': { name: 'Staten Island, NY', shortName: 'Staten Island', keywords: ['staten island'] },
+  'bergen-county': { name: 'Bergen County, NJ', shortName: 'Bergen County', keywords: ['bergen', 'hackensack', 'paramus', 'fort lee', 'englewood', 'teaneck', 'palisades', 'fair lawn', 'garfield', 'ridgewood nj', 'rutherford'] },
+  'hudson-county': { name: 'Hudson County, NJ', shortName: 'Hudson County', keywords: ['hudson', 'jersey city', 'hoboken', 'bayonne', 'weehawken', 'union city', 'north bergen', 'secaucus', 'kearny'] }
 };
 
 // Category Mapping
 const CATEGORIES = {
-  'electronics': { name: 'Electronics', keywords: ['electronics', 'phone', 'laptop', 'appliances', 'audio', 'gadget', 'ink', 'camera', 'tv', 'monitor', 'headphone', 'airpods', 'ipad', 'charger', 'speaker', 'printer', 'game', 'ps5', 'nintendo', 'xbox'] },
-  'furniture': { name: 'Furniture', keywords: ['furniture', 'sofa', 'table', 'chair', 'bed', 'desk', 'couch', 'dresser', 'mattress', 'shelf'] },
-  'womens-fashion': { name: "Women's Fashion", keywords: ["women's fashion", 'women', 'dress', 'handbag', 'skirt', 'coat'] },
-  'mens-fashion': { name: "Men's Fashion", keywords: ["men's fashion", 'men', 'suit', 'jacket'] },
-  'shoes': { name: 'Shoes', keywords: ['shoes', 'sneakers', 'boots', 'sandals', 'shoe', 'nike', 'adidas'] },
-  'home-garden': { name: 'Home & Garden', keywords: ['home, garden & diy', 'home', 'garden', 'kitchen', 'utensil', 'decor'] },
-  'health-beauty': { name: 'Health & Beauty', keywords: ['health', 'beauty', 'cosmetics'] },
-  'pet-supplies': { name: 'Pet Supplies', keywords: ['pet', 'dog', 'cat'] },
-  'baby-kids': { name: 'Baby & Kids', keywords: ['baby & kids', 'baby', 'kids', 'stroller', 'toy'] },
-  'sports-leisure': { name: 'Sports & Leisure', keywords: ['sports', 'leisure', 'bike', 'ski', 'exercise'] },
-  'toys-games': { name: 'Toys & Games', keywords: ['toys', 'games', 'card', 'figure'] },
-  'jewelry-watches': { name: 'Jewelry & Watches', keywords: ['jewelry', 'watches', 'ring', 'earrings', 'watch'] },
-  'luggages-bags': { name: 'Luggages & Bags', keywords: ['luggages', 'bags', 'pouch', 'backpack', 'tote', 'wallet', 'bag'] },
-  'antiques': { name: 'Antiques', keywords: ['antiques', 'vintage', 'collectible'] },
-  'arts-books-music': { name: 'Arts, Books & Music', keywords: ['arts', 'books', 'music', 'book', 'print'] },
-  'food-groceries': { name: 'Food & Groceries', keywords: ['food', 'groceries', 'snack', 'sauce', 'oil', 'rice', 'tea', 'noodle', 'kimchi', 'pantry', 'drink', 'beverage', 'korean food', 'cookie', 'juice', 'chip'] },
-  'other': { name: 'Other', keywords: ['other', 'general'] }
+  'electronics': { name: 'Electronics', kw: 'electronics', keywords: ['electronics', 'phone', 'laptop', 'appliances', 'audio', 'gadget', 'ink', 'camera', 'tv', 'monitor', 'headphone', 'airpods', 'ipad', 'charger', 'speaker', 'printer', 'game', 'ps5', 'nintendo', 'xbox'] },
+  'furniture': { name: 'Furniture', kw: 'furniture', keywords: ['furniture', 'sofa', 'table', 'chair', 'bed', 'desk', 'couch', 'dresser', 'mattress', 'shelf'] },
+  'womens-fashion': { name: "Women's Fashion", kw: 'women', keywords: ["women's fashion", 'women', 'dress', 'handbag', 'skirt', 'coat'] },
+  'mens-fashion': { name: "Men's Fashion", kw: 'men', keywords: ["men's fashion", 'men', 'suit', 'jacket'] },
+  'shoes': { name: 'Shoes', kw: 'shoe', keywords: ['shoes', 'sneakers', 'boots', 'sandals', 'shoe', 'nike', 'adidas'] },
+  'home-garden': { name: 'Home & Garden', kw: 'home', keywords: ['home, garden & diy', 'home', 'garden', 'kitchen', 'utensil', 'decor'] },
+  'health-beauty': { name: 'Health & Beauty', kw: 'health', keywords: ['health', 'beauty', 'cosmetics'] },
+  'pet-supplies': { name: 'Pet Supplies', kw: 'pet', keywords: ['pet', 'dog', 'cat'] },
+  'baby-kids': { name: 'Baby & Kids', kw: 'baby', keywords: ['baby & kids', 'baby', 'kids', 'stroller', 'toy'] },
+  'sports-leisure': { name: 'Sports & Leisure', kw: 'sport', keywords: ['sports', 'leisure', 'bike', 'ski', 'exercise'] },
+  'toys-games': { name: 'Toys & Games', kw: 'toy', keywords: ['toys', 'games', 'card', 'figure'] },
+  'jewelry-watches': { name: 'Jewelry & Watches', kw: 'jewelry', keywords: ['jewelry', 'watches', 'ring', 'earrings', 'watch'] },
+  'luggages-bags': { name: 'Luggages & Bags', kw: 'bag', keywords: ['luggages', 'bags', 'pouch', 'backpack', 'tote', 'wallet', 'bag'] },
+  'antiques': { name: 'Antiques', kw: 'antique', keywords: ['antiques', 'vintage', 'collectible'] },
+  'arts-books-music': { name: 'Arts, Books & Music', kw: 'art', keywords: ['arts', 'books', 'music', 'book', 'print'] },
+  'food-groceries': { name: 'Food & Groceries', kw: 'food', keywords: ['food', 'groceries', 'snack', 'sauce', 'oil', 'rice', 'tea', 'noodle', 'kimchi', 'pantry', 'drink', 'beverage', 'korean food', 'cookie', 'juice', 'chip'] },
+  'other': { name: 'Other', kw: 'other', keywords: ['other', 'general'] }
 };
 
 let cachedCombinedItems = null;
@@ -70,13 +70,18 @@ async function fetchAllCombinedItems() {
       if (Array.isArray(data)) {
         moonohItems = data.map(raw => ({
           id: raw.no || raw.id,
+          no: raw.no || raw.id,
           title: raw.title || "Secondhand Item",
           price: raw.price || 0,
           photo: raw.image || 'https://moon-oh.com/images/common/ico_profile_empty.png',
+          image: raw.image || 'https://moon-oh.com/images/common/ico_profile_empty.png',
           townName: raw.location || 'NYC, NY',
           rawTown: raw.rawTown || raw.location || '',
+          location: raw.location || 'NYC, NY',
           categoryName: raw.category || 'General',
+          category: raw.category || 'General',
           detailUrl: raw.url ? `https://moon-oh.com${raw.url}` : `https://moon-oh.com/item/item-${raw.no || raw.id}`,
+          url: raw.url ? `https://moon-oh.com${raw.url}` : `https://moon-oh.com/item/item-${raw.no || raw.id}`,
           source: 'moonoh'
         }));
       }
@@ -90,15 +95,21 @@ async function fetchAllCombinedItems() {
           let clean = (raw.title || 'item').toLowerCase().replace(/[^a-z0-9\s-]/g, '').trim().replace(/\s+/g, '-').replace(/-+/g, '-');
           if (clean.length > 50) clean = clean.substring(0, 50).replace(/-$/, '');
           const loc = (raw.location || 'nyc-ny').toLowerCase().replace(/[^a-z0-9\s-]/g, '').trim().replace(/\s+/g, '-');
+          const targetUrl = `https://moon-oh.com/item/${clean}-${loc}-ext-${raw.id}`;
           return {
             id: raw.id,
+            no: raw.id,
             title: raw.title,
             price: raw.price,
             photo: raw.image,
+            image: raw.image,
             townName: raw.location,
             rawTown: raw.rawTown || raw.location,
+            location: raw.location,
             categoryName: raw.category || 'General',
-            detailUrl: `https://moon-oh.com/item/${clean}-${loc}-ext-${raw.id}`,
+            category: raw.category || 'General',
+            detailUrl: targetUrl,
+            url: targetUrl,
             source: raw.source || 'external',
             sourceName: raw.sourceName || 'Marketplace'
           };
@@ -111,15 +122,21 @@ async function fetchAllCombinedItems() {
       foodRescueItems = realFoodRescueItems.map(item => {
         let clean = (item.title || 'item').toLowerCase().replace(/[^a-z0-9\s-]/g, '').trim().replace(/\s+/g, '-').replace(/-+/g, '-');
         if (clean.length > 50) clean = clean.substring(0, 50).replace(/-$/, '');
+        const targetUrl = `https://moon-oh.com/item/${clean}-brooklyn-ny-ext-${item.id}`;
         return {
           id: item.id,
+          no: item.id,
           title: item.title,
           price: item.price,
           photo: item.image,
+          image: item.image,
           townName: 'Brooklyn, NY',
           rawTown: 'Brooklyn, NY',
+          location: 'Brooklyn, NY',
           categoryName: item.categoryName || 'Food & Groceries',
-          detailUrl: `https://moon-oh.com/item/${clean}-brooklyn-ny-ext-${item.id}`,
+          category: item.categoryName || 'Food & Groceries',
+          detailUrl: targetUrl,
+          url: targetUrl,
           source: 'kimc',
           sourceName: "Kim'C Market",
           handle: item.handle
@@ -182,11 +199,21 @@ export default async (req, context) => {
     let isLocalShopsPage = false;
     let isMarketplacesPage = false;
 
+    let targetRegionObj = null;
+    let targetCategoryObj = null;
+
     if (pathSegments.length === 1) {
       const seg = pathSegments[0].toLowerCase();
       if (seg === 'food-rescue' || seg === 'foodrescue') isFoodRescuePage = true;
       else if (seg === 'local-shops' || seg === 'localshops' || seg === 'local') isLocalShopsPage = true;
       else if (seg === 'marketplaces' || seg === 'others') isMarketplacesPage = true;
+      else if (REGIONS[seg]) targetRegionObj = REGIONS[seg];
+      else if (CATEGORIES[seg]) targetCategoryObj = CATEGORIES[seg];
+    } else if (pathSegments.length >= 2) {
+      const seg1 = pathSegments[0].toLowerCase();
+      const seg2 = pathSegments[1].toLowerCase();
+      if (REGIONS[seg1]) targetRegionObj = REGIONS[seg1];
+      if (CATEGORIES[seg2]) targetCategoryObj = CATEGORIES[seg2];
     }
 
     const isFoodRescueFilter = isFoodRescuePage || qSource === 'food-rescue' || qSource === 'kimc';
@@ -202,35 +229,39 @@ export default async (req, context) => {
       filteredItems = allItems.filter(item => item.source === 'karrot' || item.source === 'heykorean' || item.source === 'external');
     } else if (isLocalShopsFilter || isShopProfile) {
       const prods = (isShopProfile ? localShopsData.products.filter(p => p.shop_id === shopProfileSlug) : localShopsData.products) || [];
-      const brands = (isShopProfile ? localShopsData.brand_listings.filter(b => b.shop_id === shopProfileSlug) : localShopsData.brand_listings) || [];
-
-      const formattedProds = prods.map(p => ({
+      filteredItems = prods.map(p => ({
         id: p.id,
+        no: p.id,
         title: p.title,
         price: p.current_price,
         photo: p.image_source_url,
-        townName: p.shop_id === 'happier-grocery' ? 'Soho, NY' : (p.shop_id === 'big-night' ? 'Greenpoint, NY' : 'NYC, NY'),
-        categoryName: p.moonoh_category || 'Grocery',
-        detailUrl: p.source_url,
+        image: p.image_source_url,
+        townName: p.shop_id === 'happier-grocery' ? 'Soho, NY' : (p.shop_id === 'big-night' ? 'Greenpoint, NY' : 'West Village, NY'),
+        categoryName: p.moonoh_category || 'Food & Groceries',
+        category: p.moonoh_category || 'Food & Groceries',
+        detailUrl: `/local-product/${p.shop_id}/${p.slug}`,
+        url: `/local-product/${p.shop_id}/${p.slug}`,
         source: p.shop_id,
         badgeName: p.brand || (localShopsData.shops[p.shop_id] ? localShopsData.shops[p.shop_id].name : 'Local Shop')
       }));
-
-      const formattedBrands = brands.map(b => ({
-        id: b.id,
-        title: b.name,
-        price: 0,
-        photo: b.image_source_url,
-        townName: 'Greenwich Village, NY',
-        categoryName: b.aisle || 'Grocery',
-        detailUrl: b.source_url,
-        source: b.shop_id,
-        badgeName: 'Pop Up Grocer'
-      }));
-
-      filteredItems = [...formattedProds, ...formattedBrands];
     } else {
       filteredItems = allItems.filter(item => !item.source || item.source === 'moonoh');
+
+      // Filter by Region if present
+      if (targetRegionObj) {
+        filteredItems = filteredItems.filter(item => {
+          const locStr = ((item.rawTown || '') + ' ' + (item.location || '') + ' ' + (item.townName || '')).toLowerCase();
+          return targetRegionObj.keywords.some(kw => locStr.includes(kw));
+        });
+      }
+
+      // Filter by Category if present
+      if (targetCategoryObj) {
+        filteredItems = filteredItems.filter(item => {
+          const catStr = (item.categoryName || item.category || '').toLowerCase();
+          return targetCategoryObj.keywords.some(kw => catStr.includes(kw));
+        });
+      }
     }
 
     let template = getExploreTemplate();
@@ -238,81 +269,93 @@ export default async (req, context) => {
       return new Response("Error reading explore.html template", { status: 500 });
     }
 
-    let pageTitle = "Buy and Sell with Your NYC & NJ Neighbors | Moonoh";
-    let metaDesc = "Browse secondhand items listed directly by Moonoh users. Chat with local sellers and arrange a safe neighborhood exchange.";
-    let h1Text = "Buy and Sell with Your NYC & NJ Neighbors";
+    // Dynamic AEO & SEO Title/Description Generation
+    let pageTitle = "Buy and Sell Secondhand Items in NYC & NJ | Moonoh";
+    let metaDesc = "Browse verified local secondhand items in NYC & NJ. 0% fees, secure chat, and safe neighborhood exchanges on Moonoh.";
+    let h1Text = "Buy and sell used items in your neighborhood";
     let canonicalUrl = `https://moon-oh.com${fullPath || '/explore'}`;
     let themeColor = "#4F46E5";
     let sectionName = "Moonoh Marketplace";
 
-    if (isFoodRescuePage) {
-      pageTitle = "Save Quality Food from Going to Waste | Moonoh Food Rescue";
-      metaDesc = "Discover discounted food from trusted local shops before it goes to waste. Purchases are completed directly with each participating retailer.";
-      h1Text = "Buy and Sell with Your NYC & NJ Neighbors";
-      themeColor = "#006853";
-      sectionName = "Food Rescue";
-    } else if (isLocalShopsPage) {
-      pageTitle = "Discover Independent Shops in NYC | Moonoh Local Shops";
-      metaDesc = "Explore distinctive groceries, pantry goods and home products from independent New York shops. Purchases are completed directly with each retailer.";
-      h1Text = "Buy and Sell with Your NYC & NJ Neighbors";
-      themeColor = "#05452E";
-      sectionName = "Local Shops";
-    } else if (isMarketplacesPage) {
-      pageTitle = "Explore Listings Across Local Marketplaces | Moonoh";
-      metaDesc = "Browse secondhand items found across NYC and NJ marketplace communities. Complete each transaction through the original marketplace.";
-      h1Text = "Buy and Sell with Your NYC & NJ Neighbors";
-      themeColor = "#2563EB";
-      sectionName = "Other Marketplaces";
-    } else if (isShopProfile && shopProfileSlug && localShopsData.shops[shopProfileSlug]) {
-      const shop = localShopsData.shops[shopProfileSlug];
-      pageTitle = `${shop.name} - Independent NYC Local Shop | Moonoh`;
-      metaDesc = shop.business_description;
-      h1Text = shop.name;
-      themeColor = shop.theme_color || "#4F46E5";
-      sectionName = shop.name;
+    if (targetRegionObj && targetCategoryObj) {
+      pageTitle = `Used ${targetCategoryObj.name} for Sale in ${targetRegionObj.name} | Moonoh`;
+      metaDesc = `Find great deals on verified used ${targetCategoryObj.name.toLowerCase()} in ${targetRegionObj.name} on Moonoh. 0% fees, direct seller chat, and local meetup.`;
+      h1Text = `Used ${targetCategoryObj.name} for Sale in ${targetRegionObj.name}`;
+      sectionName = `${targetCategoryObj.name} in ${targetRegionObj.shortName}`;
+    } else if (targetRegionObj) {
+      pageTitle = `Used Items for Sale in ${targetRegionObj.name} | Moonoh`;
+      metaDesc = `Discover secondhand items listed by neighbors in ${targetRegionObj.name}. Buy and sell locally with zero fees on Moonoh.`;
+      h1Text = `Used Items for Sale in ${targetRegionObj.name}`;
+      sectionName = targetRegionObj.name;
+    } else if (targetCategoryObj) {
+      pageTitle = `Used ${targetCategoryObj.name} for Sale in NYC & NJ | Moonoh`;
+      metaDesc = `Explore secondhand ${targetCategoryObj.name.toLowerCase()} for sale in NYC and NJ on Moonoh. Connect directly with local sellers.`;
+      h1Text = `Used ${targetCategoryObj.name} for Sale in NYC & NJ`;
+      sectionName = targetCategoryObj.name;
     }
 
-    // Render Items using EXACT standard Moonoh <a class="item-card"> format
+    // Render AEO Summary Statistics Section (for Answer Engines & Google AI Overviews)
+    let aeoSummaryHtml = '';
+    if (targetRegionObj || targetCategoryObj) {
+      const itemCount = filteredItems.length;
+      const prices = filteredItems.map(i => i.price).filter(p => p > 0);
+      const avgPrice = prices.length > 0 ? (prices.reduce((a,b)=>a+b, 0) / prices.length) : 0;
+      const freeCount = filteredItems.filter(i => i.price === 0).length;
+      const locLabel = targetRegionObj ? targetRegionObj.name : "NYC & NJ";
+      const catLabel = targetCategoryObj ? targetCategoryObj.name : "secondhand items";
+
+      aeoSummaryHtml = `
+      <section class="aeo-summary-card" style="background:#F9FAFB; border:1px solid #E5E7EB; border-radius:16px; padding:20px 24px; margin-bottom:28px;">
+        <h2 style="font-size:18px; font-weight:800; color:#111827; margin-top:0; margin-bottom:8px;">Market Summary: ${escapeHtml(catLabel)} in ${escapeHtml(locLabel)}</h2>
+        <p style="font-size:14.5px; color:#4B5563; line-height:1.6; margin:0;">
+          Currently featuring <strong>${itemCount} active listings</strong> for ${escapeHtml(catLabel.toLowerCase())} in ${escapeHtml(locLabel)}.
+          ${avgPrice > 0 ? `Average price is approximately <strong>$${Math.round(avgPrice)}</strong>.` : ''}
+          ${freeCount > 0 ? ` Includes <strong>${freeCount} free items</strong> shared by local neighbors.` : ''}
+          All listings feature 0% transaction fees and direct neighborhood chat on Moonoh.
+        </p>
+      </section>
+      `;
+    }
+
+    // Render Grid Cards
     const initialItems = filteredItems.slice(0, 40);
     const cardsHtml = initialItems.map(item => {
       const itemTitle = item.title || 'Item';
       const safeTitle = escapeHtml(itemTitle);
       const priceStr = formatPriceStr(item.price);
-      const targetUrl = item.detailUrl || `/item/item-${item.id}`;
+      const targetUrl = item.detailUrl || item.url || `/item/item-${item.id}`;
       
       let badgeHtml = '';
-      if (isFoodRescueFilter || isLocalShopsFilter || isMarketplacesFilter || isShopProfile) {
-        if (item.source === 'karrot') {
-          badgeHtml = `<div class="item-card-badge badge-karrot">Karrot</div>`;
-        } else if (item.source === 'heykorean') {
-          badgeHtml = `<div class="item-card-badge badge-heykorean">HeyKorean</div>`;
-        } else if (item.source === 'kimc') {
-          badgeHtml = `<div class="item-card-badge badge-kimc">Kim'C Market</div>`;
-        } else if (item.source === 'happier-grocery' || item.badgeName === 'Happier Grocery') {
-          badgeHtml = `<div class="item-card-badge badge-happier">Happier Grocery</div>`;
-        } else if (item.source === 'pop-up-grocer' || item.badgeName === 'Pop Up Grocer') {
-          badgeHtml = `<div class="item-card-badge badge-popup">Pop Up Grocer</div>`;
-        } else if (item.source === 'big-night' || item.badgeName === 'Big Night') {
-          badgeHtml = `<div class="item-card-badge badge-bignight">Big Night</div>`;
-        }
+      if (item.source === 'karrot') {
+        badgeHtml = `<div class="item-card-badge badge-karrot">Karrot</div>`;
+      } else if (item.source === 'heykorean') {
+        badgeHtml = `<div class="item-card-badge badge-heykorean">HeyKorean</div>`;
+      } else if (item.source === 'kimc') {
+        badgeHtml = `<div class="item-card-badge badge-kimc">Kim'C Market</div>`;
+      } else if (item.source === 'happier-grocery' || item.badgeName === 'Happier Grocery') {
+        badgeHtml = `<div class="item-card-badge badge-happier">Happier Grocery</div>`;
+      } else if (item.source === 'pop-up-grocer' || item.badgeName === 'Pop Up Grocer') {
+        badgeHtml = `<div class="item-card-badge badge-popup">Pop Up Grocer</div>`;
+      } else if (item.source === 'big-night' || item.badgeName === 'Big Night') {
+        badgeHtml = `<div class="item-card-badge badge-bignight">Big Night</div>`;
       }
 
       return `
         <a class="item-card" href="${escapeHtml(targetUrl)}" style="text-decoration:none; color:inherit;">
           <div class="item-card-img-wrap">
-            <img src="${escapeHtml(item.photo)}" alt="${safeTitle}" class="item-card-image" loading="lazy" onerror="this.onerror=null; this.src='/images/default-item-placeholder.png';">
+            <img src="${escapeHtml(item.photo || item.image)}" alt="${safeTitle}" class="item-card-image" loading="lazy" onerror="this.onerror=null; this.src='/images/default-item-placeholder.png';">
           </div>
           <div class="item-card-content">
             <div class="item-card-price">${priceStr}</div>
             <div class="item-card-title">${safeTitle}</div>
-            <div class="item-card-location">${escapeHtml(item.townName)}</div>
+            <div class="item-card-location">${escapeHtml(item.townName || item.location || 'NYC')}</div>
             ${badgeHtml}
           </div>
         </a>
       `;
     }).join('');
 
-    // JSON-LD Breadcrumbs & Shop Profile Schema
+    // JSON-LD Breadcrumbs Schema
     const breadcrumbSchema = {
       "@context": "https://schema.org",
       "@type": "BreadcrumbList",
@@ -323,40 +366,27 @@ export default async (req, context) => {
       ]
     };
 
-    let shopSchemaHtml = '';
-    if (isShopProfile && shopProfileSlug && localShopsData.shops[shopProfileSlug]) {
-      const shop = localShopsData.shops[shopProfileSlug];
-      const shopSchema = {
-        "@context": "https://schema.org",
-        "@type": "LocalBusiness",
-        "name": shop.name,
-        "description": shop.business_description,
-        "url": shop.website_url,
-        "image": shop.logo_url || shop.primary_image_url,
-        "address": {
-          "@type": "PostalAddress",
-          "streetAddress": shop.address_line_1,
-          "addressLocality": shop.city,
-          "addressRegion": shop.state,
-          "postalCode": shop.postal_code,
-          "addressCountry": "US"
-        }
-      };
-      shopSchemaHtml = `<script type="application/ld+json">${JSON.stringify(shopSchema)}</script>`;
-    }
-
     const breadcrumbScript = `<script type="application/ld+json">${JSON.stringify(breadcrumbSchema)}</script>`;
+    const initialItemsScript = `<script>window.__INITIAL_ITEMS__ = ${JSON.stringify(initialItems)};</script>`;
 
     template = template
       .replace(/<title>.*?<\/title>/i, `<title>${escapeHtml(pageTitle)}</title>`)
       .replace(/<meta content=".*?" name="description"\/>/i, `<meta content="${escapeHtml(metaDesc)}" name="description"/>`)
       .replace(/<link [^>]*rel="canonical"[^>]*\/>/i, `<link rel="canonical" href="${canonicalUrl}"/>`)
-      .replace('</head>', `<meta name="theme-color" content="${themeColor}"/>\n${breadcrumbScript}\n${shopSchemaHtml}\n</head>`);
+      .replace('</head>', `${initialItemsScript}
+${breadcrumbScript}
+</head>`);
 
-    // Replace Grid
+    # Inject AEO Summary Card & Replace Grid
+    if (aeoSummaryHtml) {
+      template = template.replace('<div class="item-grid" id="moonoh-item-grid">', `${aeoSummaryHtml}
+<div class="item-grid" id="moonoh-item-grid">`);
+    }
+
     template = template.replace(
       '<div class="item-grid" id="moonoh-item-grid">',
-      `<div class="item-grid" id="moonoh-item-grid">\n${cardsHtml}`
+      `<div class="item-grid" id="moonoh-item-grid">
+${cardsHtml}`
     );
 
     return new Response(template, {
