@@ -717,6 +717,21 @@
       color: #006853;
       border: 1px solid #99D6C4;
     }
+    .badge-happier {
+      background-color: #E8F5E9;
+      color: #2E7D32;
+      border: 1px solid #A5D6A7;
+    }
+    .badge-popup {
+      background-color: #FFF3E0;
+      color: #E65100;
+      border: 1px solid #FFCC80;
+    }
+    .badge-bignight {
+      background-color: #F3E5F5;
+      color: #7B1FA2;
+      border: 1px solid #CE93D8;
+    }
     .badge-karrot {
       background-color: #FFF1E6;
       color: #FF6F0F;
@@ -896,7 +911,7 @@
         <div class="source-segment-wrap" id="source-segment-wrap" style="margin-left: auto;">
           <button class="source-tab-btn active" id="tab-source-moonoh" data-source="moonoh">Moonoh</button>
           <button class="source-tab-btn tab-foodrescue" id="tab-source-foodrescue" data-source="foodrescue">Food Rescue</button>
-          <button class="source-tab-btn" id="tab-source-localshops" data-source="localshops">Local Shops</button>
+          <button class="source-tab-btn" id="tab-source-localshops" data-source="localshops">Local</button>
           <button class="source-tab-btn" id="tab-source-marketplaces" data-source="marketplaces">Marketplaces</button>
         </div>
       </div>
@@ -1886,6 +1901,28 @@
       // Close modal on overlay click
       document.getElementById("moonoh-download-modal").addEventListener("click", function(e) {
         if (e.target === this) closeModal();
+      });
+    });
+  </script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const currentPath = window.location.pathname.replace(/\/$/, '') || '/';
+      document.querySelectorAll('.navbar-link, .nav-link').forEach(link => {
+        const href = link.getAttribute('href');
+        if (href) {
+          const cleanHref = href.replace(/\/$/, '') || '/';
+          const isCurrent = (cleanHref === '/' && currentPath === '/') || (cleanHref !== '/' && currentPath === cleanHref) || (cleanHref !== '/' && cleanHref !== '/explore' && currentPath.startsWith(cleanHref));
+          link.classList.toggle('w--current', isCurrent);
+          if (isCurrent) {
+            link.setAttribute('aria-current', 'page');
+            link.style.setProperty('color', '#4F46E5', 'important');
+            link.style.setProperty('font-weight', '700', 'important');
+          } else {
+            link.removeAttribute('aria-current');
+            link.style.setProperty('color', '#1A1A1A', 'important');
+            link.style.setProperty('font-weight', '500', 'important');
+          }
+        }
       });
     });
   </script>

@@ -268,5 +268,27 @@
     </div>
     <div class="copyright"><div class="text-5">© 2024–2026 Moonoh Inc. All rights reserved.</div></div>
   </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const currentPath = window.location.pathname.replace(/\/$/, '') || '/';
+      document.querySelectorAll('.navbar-link, .nav-link').forEach(link => {
+        const href = link.getAttribute('href');
+        if (href) {
+          const cleanHref = href.replace(/\/$/, '') || '/';
+          const isCurrent = (cleanHref === '/' && currentPath === '/') || (cleanHref !== '/' && currentPath === cleanHref) || (cleanHref !== '/' && cleanHref !== '/explore' && currentPath.startsWith(cleanHref));
+          link.classList.toggle('w--current', isCurrent);
+          if (isCurrent) {
+            link.setAttribute('aria-current', 'page');
+            link.style.setProperty('color', '#4F46E5', 'important');
+            link.style.setProperty('font-weight', '700', 'important');
+          } else {
+            link.removeAttribute('aria-current');
+            link.style.setProperty('color', '#1A1A1A', 'important');
+            link.style.setProperty('font-weight', '500', 'important');
+          }
+        }
+      });
+    });
+  </script>
 </body>
 </html>
