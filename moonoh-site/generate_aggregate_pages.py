@@ -12,10 +12,17 @@ Each page:
 """
 
 import os
+import sys
 import json
 import re
 
 SITE_DIR = os.path.dirname(os.path.abspath(__file__))
+
+# 0. Validate JS script syntax across all core HTML files before generating pages
+ret = os.system("node validate_scripts.js")
+if ret != 0:
+    print("❌ JS Syntax Validation Failed! Aborting page generation.")
+    sys.exit(1)
 
 REGIONS = [
     {'slug': 'new-york-area',    'name': 'New York Area',              'borough': None},
