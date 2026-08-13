@@ -510,7 +510,6 @@ export default async (req, context) => {
       const regName = targetRegionObj.shortName;
       template = template.replace(`<option value="${regName}">`, `<option value="${regName}" selected="selected">`);
     }
-    }
 
         // Highlight active source tab in SSR HTML
     if (isMarketplacesFilter) {
