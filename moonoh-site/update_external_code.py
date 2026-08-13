@@ -10,8 +10,8 @@ kr_items = data['karrot']
 js_content = f"""// netlify/functions/external-items.mjs
 // Serves REAL live scraped external listings from Karrot and HeyKorean with translated English titles and real seller photo URLs.
 
-const realKarrotItems = {json.dumps(kr_items, ensure_ascii=False, indent=2)};
-const realHeyKoreanItems = {json.dumps(hk_items, ensure_ascii=False, indent=2)};
+export const realKarrotItems = {json.dumps(kr_items, ensure_ascii=False, indent=2)};
+export const realHeyKoreanItems = {json.dumps(hk_items, ensure_ascii=False, indent=2)};
 
 let cachedCombined = null;
 

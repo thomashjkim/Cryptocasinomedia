@@ -1,7 +1,7 @@
 // netlify/functions/external-items.mjs
 // Serves REAL live scraped external listings from Karrot and HeyKorean with translated English titles and real seller photo URLs.
 
-const realKarrotItems = [
+export const realKarrotItems = [
   {
     "id": "karrot-9iu7eb2po8ss",
     "title": "Premier Sphagnum Peat Moss Tourbe 3 cu. ft.",
@@ -1331,7 +1331,7 @@ const realKarrotItems = [
     "url": "https://us.karrotmarket.com/buy-sell/gvroxm2cgkrh/"
   }
 ];
-const realHeyKoreanItems = [
+export const realHeyKoreanItems = [
   {
     "id": "heykorean-669750",
     "title": "[판매] 우리 아이 첫 드림카! BMW Z4 푸쉬카 (상태 최상급) 🚗💨",
