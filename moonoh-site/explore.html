@@ -1512,13 +1512,14 @@
         }
       }
 
-      // Category pill clicks (smooth instant filtering without hard reload)
-      document.querySelectorAll('.filter-pill:not(.filter-pill-more)').forEach(btn => {
-        btn.addEventListener('click', function(e) {
+      // Universal Document Click Delegation for Filter Pills & Source Tabs (Guaranteed 100% responsiveness)
+      document.addEventListener('click', function(e) {
+        const pill = e.target.closest('.filter-pill:not(.filter-pill-more)');
+        if (pill) {
           e.preventDefault();
-          const label = this.textContent.trim();
+          const label = pill.textContent.trim();
           document.querySelectorAll('.filter-pill:not(.filter-pill-more)').forEach(b => b.classList.remove('active'));
-          this.classList.add('active');
+          pill.classList.add('active');
 
           const slug = pillLabelToSlug[label] || 'all';
           applyFilters(slug);
@@ -1526,7 +1527,23 @@
           const locSel = document.getElementById('location-select');
           const currentRegionVal = locSel ? locSel.value : 'all';
           updateAddressBar(currentRegionVal, label);
-        });
+          return;
+        }
+
+        const tab = e.target.closest('.source-tab-btn');
+        if (tab) {
+          e.preventDefault();
+          const src = tab.getAttribute('data-source') || tab.id.replace('tab-source-', '');
+          switchSource(src);
+          const urlMap = {
+            'moonoh': '/explore',
+            'foodrescue': '/explore/food-rescue',
+            'localshops': '/explore/local-shops',
+            'marketplaces': '/explore/marketplaces'
+          };
+          if (urlMap[src]) history.pushState(null, '', urlMap[src]);
+          return;
+        }
       });
 
       // Location dropdown (smooth instant filtering without hard reload)
@@ -1559,18 +1576,9 @@
         sourceSegmentWrap.style.display = 'flex';
       }
 
-      // Source Segment Switcher (Moonoh · Food Rescue · Local Shops · Marketplaces)
-      const tabBtnMoonoh = document.getElementById('tab-source-moonoh');
-      const tabBtnFoodRescue = document.getElementById('tab-source-foodrescue');
-      const tabBtnLocalShops = document.getElementById('tab-source-localshops');
-      const tabBtnMarketplaces = document.getElementById('tab-source-marketplaces');
-
-      if (tabBtnMoonoh) tabBtnMoonoh.addEventListener('click', (e) => { e.preventDefault(); switchSource('moonoh'); history.pushState(null, '', '/explore'); });
-      if (tabBtnFoodRescue) tabBtnFoodRescue.addEventListener('click', (e) => { e.preventDefault(); switchSource('foodrescue'); history.pushState(null, '', '/explore/food-rescue'); });
-      if (tabBtnLocalShops) tabBtnLocalShops.addEventListener('click', (e) => { e.preventDefault(); switchSource('localshops'); history.pushState(null, '', '/explore/local-shops'); });
-      if (tabBtnMarketplaces) tabBtnMarketplaces.addEventListener('click', (e) => { e.preventDefault(); switchSource('marketplaces'); history.pushState(null, '', '/explore/marketplaces'); });
-      
       switchSource(activeSource);
+    }
+
     // Modal Logic
     function openExternalModal(e, title, price, location, image, source, url) {
       if (e) e.preventDefault();
@@ -1618,8 +1626,7 @@
       document.getElementById("moonoh-download-modal").classList.remove("active");
     }
 
-    // Initialize
-    document.addEventListener("DOMContentLoaded", () => {
+    function initAll() {
       renderItems();
       setupFilters();
       initCategoryFromUrl();
@@ -1648,7 +1655,13 @@
           if (e.target === this) closeModal();
         });
       }
-    });
+    }
+
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", initAll);
+    } else {
+      initAll();
+    }
   </script>
   <script>
     document.addEventListener('DOMContentLoaded', () => {
