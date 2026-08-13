@@ -22583,6 +22583,8 @@ export default async (req, context) => {
     "description": ${JSON.stringify(description)},
     "category": ${JSON.stringify(categoryName)},
     "sku": ${JSON.stringify(`MOONOH-${productNo}`)},
+    "mpn": ${JSON.stringify(`MPN-${productNo}`)},
+    "identifier": ${JSON.stringify(`MOONOH-${productNo}`)},
     "brand": {
       "@type": "Brand",
       "name": ${JSON.stringify(vendorName || sellerName || "Moonoh")}
@@ -22599,7 +22601,7 @@ export default async (req, context) => {
         "@type": "Review",
         "author": {
           "@type": "Person",
-          "name": ${JSON.stringify(sellerName)}
+          "name": ${JSON.stringify(sellerName || "Moonoh Seller")}
         },
         "datePublished": ${JSON.stringify(new Date().toISOString().split('T')[0])},
         "reviewRating": {
@@ -22608,7 +22610,7 @@ export default async (req, context) => {
           "bestRating": "5",
           "worstRating": "1"
         },
-        "reviewBody": ${JSON.stringify(`Verified food rescue listing for ${title} in ${townName}.`)}
+        "reviewBody": ${JSON.stringify(`Verified listing for ${title} in ${townName}.`)}
       }
     ],
     "offers": {
@@ -22616,7 +22618,8 @@ export default async (req, context) => {
       "url": ${JSON.stringify(isExternal ? externalUrl : canonicalUrl)},
       "priceCurrency": "USD",
       "price": "${price}",
-      "priceValidUntil": "2027-12-31",
+      "priceValidUntil": "2027-12-31T23:59:59Z",
+      "validFrom": "2026-01-01T00:00:00Z",
       "availability": "https://schema.org/InStock",
       "itemCondition": ${JSON.stringify(externalSource === 'kimc' ? 'https://schema.org/NewCondition' : 'https://schema.org/UsedCondition')},
       "areaServed": ["New York City", "New Jersey", "Queens", "Brooklyn", "Manhattan"],
