@@ -22529,8 +22529,29 @@ export default async (req, context) => {
       }
     } catch (e) {}
 
-    // Page URL & Canonical (Guaranteed exact match with request URL)
-    const canonicalUrl = `https://moon-oh.com${url.pathname}`;
+    // Page URL & Canonical (Enforce strict 301 Permanent Redirect for any alias URL)
+    let expectedCanonicalPath = "";
+    if (localProductMatch) {
+      const shopSlug = localProductMatch[1];
+      const prodSlug = localProductMatch[2];
+      expectedCanonicalPath = `/local-product/${shopSlug}/${prodSlug}`;
+    } else if (isExternal && extId) {
+      expectedCanonicalPath = generateSlug(title, townName, `ext-${extId}`);
+    } else {
+      expectedCanonicalPath = generateSlug(title, townName, productNo);
+    }
+
+    if (url.pathname !== expectedCanonicalPath) {
+      return new Response(null, {
+        status: 301,
+        headers: {
+          "Location": `https://moon-oh.com${expectedCanonicalPath}`,
+          "Cache-Control": "public, max-age=31536000, immutable"
+        }
+      });
+    }
+
+    const canonicalUrl = `https://moon-oh.com${expectedCanonicalPath}`;
     const absMainPhoto = mainPhoto.startsWith('http') ? mainPhoto : `https://moon-oh.com${mainPhoto}`;
     const absPhotos = (photos && photos.length > 0) 
       ? photos.map(p => p.startsWith('http') ? p : `https://moon-oh.com${p}`) 
@@ -22586,7 +22607,7 @@ export default async (req, context) => {
 
     if (externalSource === 'kimc') {
       pageTitle = `${title} - Kim'C Market`;
-      metaDescription = `Discover ${title} from Kim'C Market for $${priceStr}. Part of Kim'C Market's Fight Food Waste collection. Check current availability and complete your purchase at Kim'C Market.`;
+      metaDescription = `Discover ${title} from Kim'C Market for ${priceStr}. Part of Kim'C Market's Fight Food Waste collection. Check current availability and complete your purchase at Kim'C Market.`;
     }
 
     // Render HTML Page
