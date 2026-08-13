@@ -1594,6 +1594,18 @@
         } catch (e) {}
       }
 
+      function isStrictMoonoh(i) {
+        if (!i) return false;
+        const s = (i.source || '').toLowerCase();
+        if (s === 'moonoh') return true;
+        if (s === 'karrot' || s === 'heykorean' || s === 'kimc' || s === 'external' || s === 'foodrescue' || s === 'localshops' || i.shop_id) return false;
+        const idStr = String(i.id || i.no || '').toLowerCase();
+        if (idStr.startsWith('karrot') || idStr.startsWith('heykorean') || idStr.startsWith('kimc') || idStr.includes('ext')) return false;
+        const urlStr = String(i.url || i.detailUrl || '').toLowerCase();
+        if (urlStr.includes('-ext-') || urlStr.includes('local-product')) return false;
+        return true;
+      }
+
       applyFilters = function(categoryKeyword = null) {
         let filtered = allItems;
         if (activeSource === 'foodrescue') {
@@ -1605,7 +1617,7 @@
         } else if (activeSource === 'all') {
           filtered = [...allItems, ...foodRescueItemsList, ...localShopsItemsList, ...externalItemsList];
         } else {
-          const moonohInAll = allItems.filter(i => i.source === 'moonoh' || (!i.source && !String(i.id || '').includes('ext') && !String(i.url || '').includes('-ext-')));
+          const moonohInAll = allItems.filter(isStrictMoonoh);
           filtered = moonohInAll.length > 0 ? moonohInAll : moonohItemsList;
         }
 
@@ -1681,7 +1693,7 @@
         applyFilters(getActiveCategoryKeyword());
 
         // Fetch in background if missing
-        if (source === 'moonoh' && (allItems.filter(i => i.source === 'moonoh' || (!i.source && !String(i.id || '').includes('ext') && !String(i.url || '').includes('-ext-'))).length === 0) && moonohItemsList.length === 0) {
+        if (source === 'moonoh' && (allItems.filter(isStrictMoonoh).length === 0) && moonohItemsList.length === 0) {
           preloadMoonohItems().then(() => {
             if (activeSource === 'moonoh') applyFilters(getActiveCategoryKeyword());
           });

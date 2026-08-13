@@ -370,8 +370,8 @@ export default async (req, context) => {
         badgeName: p.brand || (localShopsData.shops[p.shop_id] ? localShopsData.shops[p.shop_id].name : 'Local Shop')
       }));
     } else {
-      // Include ALL sources across Moonoh, Marketplaces, Food Rescue & Local Shops for aggregate region/category pages
-      filteredItems = allItems;
+      // Default Moonoh tab: ONLY Moonoh items
+      filteredItems = allItems.filter(item => item.source === 'moonoh' || (!item.source && !String(item.id||'').startsWith('karrot') && !String(item.id||'').startsWith('heykorean') && !String(item.id||'').startsWith('kimc')));
     }
 
     // Filter by Region if present
