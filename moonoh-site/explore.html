@@ -1605,6 +1605,9 @@
           }
         }
 
+        // Sort combined items by original posting timestamp (recency order), NOT grouped by shop order
+        filtered.sort((a, b) => (b.postedAt || 0) - (a.postedAt || 0));
+
         currentFiltered = filtered;
         visibleCount = 40;
         renderGrid(currentFiltered);

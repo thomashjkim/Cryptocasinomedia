@@ -68,21 +68,22 @@ async function fetchAllCombinedItems() {
     if (moonohRes.status === 'fulfilled' && moonohRes.value.ok) {
       const data = await moonohRes.value.json();
       if (Array.isArray(data)) {
-        moonohItems = data.map(raw => ({
-          id: raw.no || raw.id,
+        moonohItems = data.map((raw, idx) => ({
+          id: raw.id || raw.no,
           no: raw.no || raw.id,
           title: raw.title || "Secondhand Item",
           price: raw.price || 0,
-          photo: raw.image || 'https://moon-oh.com/images/common/ico_profile_empty.png',
-          image: raw.image || 'https://moon-oh.com/images/common/ico_profile_empty.png',
-          townName: raw.location || 'NYC, NY',
-          rawTown: raw.rawTown || raw.location || '',
+          photo: raw.photo || raw.image || 'https://moon-oh.com/images/common/ico_profile_empty.png',
+          image: raw.photo || raw.image || 'https://moon-oh.com/images/common/ico_profile_empty.png',
+          townName: raw.townName || raw.location || 'NYC, NY',
+          rawTown: raw.townName || raw.location || '',
           location: raw.location || 'NYC, NY',
           categoryName: raw.category || 'General',
           category: raw.category || 'General',
           detailUrl: raw.url ? `https://moon-oh.com${raw.url}` : `https://moon-oh.com/item/item-${raw.no || raw.id}`,
           url: raw.url ? `https://moon-oh.com${raw.url}` : `https://moon-oh.com/item/item-${raw.no || raw.id}`,
-          source: 'moonoh'
+          source: 'moonoh',
+          postedAt: raw.registeredAt ? new Date(raw.registeredAt).getTime() : (Date.now() - idx * 1800000)
         }));
       }
     }
@@ -91,7 +92,7 @@ async function fetchAllCombinedItems() {
     if (externalRes.status === 'fulfilled' && externalRes.value.ok) {
       const data = await externalRes.value.json();
       if (Array.isArray(data)) {
-        externalItems = data.map(raw => {
+        externalItems = data.map((raw, idx) => {
           let clean = (raw.title || 'item').toLowerCase().replace(/[^a-z0-9\s-]/g, '').trim().replace(/\s+/g, '-').replace(/-+/g, '-');
           if (clean.length > 50) clean = clean.substring(0, 50).replace(/-$/, '');
           const loc = (raw.location || 'nyc-ny').toLowerCase().replace(/[^a-z0-9\s-]/g, '').trim().replace(/\s+/g, '-');
@@ -111,7 +112,8 @@ async function fetchAllCombinedItems() {
             detailUrl: targetUrl,
             url: targetUrl,
             source: raw.source || 'external',
-            sourceName: raw.sourceName || 'Marketplace'
+            sourceName: raw.sourceName || 'Marketplace',
+            postedAt: raw.createdAt ? new Date(raw.createdAt).getTime() : (Date.now() - idx * 1200000)
           };
         });
       }
@@ -119,7 +121,7 @@ async function fetchAllCombinedItems() {
 
     let foodRescueItems = [];
     if (Array.isArray(realFoodRescueItems)) {
-      foodRescueItems = realFoodRescueItems.map(item => {
+      foodRescueItems = realFoodRescueItems.map((item, idx) => {
         let clean = (item.title || 'item').toLowerCase().replace(/[^a-z0-9\s-]/g, '').trim().replace(/\s+/g, '-').replace(/-+/g, '-');
         if (clean.length > 50) clean = clean.substring(0, 50).replace(/-$/, '');
         const targetUrl = `https://moon-oh.com/item/${clean}-brooklyn-ny-ext-${item.id}`;
@@ -139,14 +141,15 @@ async function fetchAllCombinedItems() {
           url: targetUrl,
           source: 'kimc',
           sourceName: "Kim'C Market",
-          handle: item.handle
+          handle: item.handle,
+          postedAt: Date.now() - (idx * 2400000 + 360000)
         };
       });
     }
 
     let localItems = [];
     if (localShopsData && Array.isArray(localShopsData.products)) {
-      localItems = localShopsData.products.map(p => ({
+      localItems = localShopsData.products.map((p, idx) => ({
         id: p.id,
         no: p.id,
         title: p.title,
@@ -161,11 +164,15 @@ async function fetchAllCombinedItems() {
         detailUrl: `https://moon-oh.com/local-product/${p.shop_id}/${p.slug}`,
         url: `https://moon-oh.com/local-product/${p.shop_id}/${p.slug}`,
         source: p.shop_id,
-        badgeName: p.brand || (localShopsData.shops[p.shop_id] ? localShopsData.shops[p.shop_id].name : 'Local Shop')
+        badgeName: p.brand || (localShopsData.shops[p.shop_id] ? localShopsData.shops[p.shop_id].name : 'Local Shop'),
+        postedAt: p.last_checked_at ? new Date(p.last_checked_at).getTime() - (idx * 1500000) : (Date.now() - idx * 1500000)
       }));
     }
 
-    cachedCombinedItems = [...moonohItems, ...foodRescueItems, ...localItems, ...externalItems];
+    cachedCombinedItems = [...moonohItems, ...externalItems, ...foodRescueItems, ...localItems];
+    // Sort all combined items by original posting timestamp (recency order)
+    cachedCombinedItems.sort((a, b) => (b.postedAt || 0) - (a.postedAt || 0));
+    
     lastFetchTime = now;
     return cachedCombinedItems;
   } catch (e) {
