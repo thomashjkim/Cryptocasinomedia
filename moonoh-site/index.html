@@ -1343,36 +1343,9 @@
             renderGrid(items.slice(0, 50));
           }
         }
-        
-        // Auto fetch fresh items
-        fetchFreshItems();
       } catch (e) {
         console.error("Error loading items:", e);
       }
-    }
-
-    async function fetchFreshItems() {
-      try {
-        const res = await fetch('/api/items?t=' + Date.now());
-        const freshItems = await res.json();
-        if (Array.isArray(freshItems) && freshItems.length > 0) {
-          const valid = freshItems
-            .filter(item => item && item.image && !item.image.includes("ico_profile_empty.png"))
-            .map(m => ({ ...m, source: m.source || 'moonoh' }));
-          const oldTop = allItems.length > 0 ? allItems[0].no : 0;
-          const newTop = valid.length > 0 ? valid[0].no : 0;
-
-          allItems = valid;
-          if (oldTop !== newTop) {
-            renderGrid(allItems.slice(0, 50));
-          }
-        }
-      } catch (e) {}
-    }
-
-    function startAutoRefresh() {
-      // Auto-poll every 15 seconds so app uploads appear automatically without manual refresh
-      setInterval(fetchFreshItems, 15000);
     }
 
     let activeSource = 'moonoh';
@@ -1626,7 +1599,6 @@
     document.addEventListener("DOMContentLoaded", () => {
       renderItems();
       setupFilters();
-      startAutoRefresh();
       
       // Close modal on overlay click
       document.getElementById("moonoh-download-modal").addEventListener("click", function(e) {

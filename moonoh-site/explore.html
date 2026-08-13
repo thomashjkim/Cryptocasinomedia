@@ -1169,39 +1169,9 @@
         visibleCount = 40;
         
         applyFilters(getActiveCategoryKeyword());
-
-        // Fetch fresh items from API to ensure app uploads are always up-to-date
-        fetchFreshItems();
       } catch (e) {
         console.error("Error loading items:", e);
       }
-    }
-
-    async function fetchFreshItems() {
-      // Do not overwrite pre-filtered SSR items on aggregation routes (/explore/{region}/{category})
-      const isAggregatedRoute = window.location.pathname !== '/explore' && window.location.pathname !== '/explore/';
-      if (isAggregatedRoute && window.__INITIAL_ITEMS__) {
-        return;
-      }
-      try {
-        const res = await fetch('/api/items?t=' + Date.now());
-        const freshItems = await res.json();
-        if (Array.isArray(freshItems) && freshItems.length > 0) {
-          const valid = freshItems.filter(item => item && item.image && !item.image.includes("ico_profile_empty.png"));
-          const oldTop = allItems.length > 0 ? allItems[0].no : 0;
-          const newTop = valid.length > 0 ? valid[0].no : 0;
-
-          allItems = valid;
-          if (oldTop !== newTop || currentFiltered.length === 0) {
-            applyFilters(getActiveCategoryKeyword());
-          }
-        }
-      } catch (e) {}
-    }
-
-    function startAutoRefresh() {
-      // Auto-poll every 15 seconds so app uploads appear automatically without manual refresh
-      setInterval(fetchFreshItems, 15000);
     }
 
     // Borough keyword mapping - maps dropdown value to keywords found in rawTown or location
@@ -1839,7 +1809,6 @@
       renderItems();
       setupFilters();
       initCategoryFromUrl();
-      startAutoRefresh();
 
       const modal = document.getElementById("moonoh-download-modal");
       if (modal) {
