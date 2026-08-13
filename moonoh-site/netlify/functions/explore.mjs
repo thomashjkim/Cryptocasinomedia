@@ -202,19 +202,14 @@ export default async (req, context) => {
     let targetRegionObj = null;
     let targetCategoryObj = null;
 
-    if (pathSegments.length === 1) {
-      const seg = pathSegments[0].toLowerCase();
-      if (seg === 'food-rescue' || seg === 'foodrescue') isFoodRescuePage = true;
-      else if (seg === 'local-shops' || seg === 'localshops' || seg === 'local') isLocalShopsPage = true;
-      else if (seg === 'marketplaces' || seg === 'others') isMarketplacesPage = true;
-      else if (REGIONS[seg]) targetRegionObj = REGIONS[seg];
-      else if (CATEGORIES[seg]) targetCategoryObj = CATEGORIES[seg];
-    } else if (pathSegments.length >= 2) {
-      const seg1 = pathSegments[0].toLowerCase();
-      const seg2 = pathSegments[1].toLowerCase();
-      if (REGIONS[seg1]) targetRegionObj = REGIONS[seg1];
-      if (CATEGORIES[seg2]) targetCategoryObj = CATEGORIES[seg2];
-    }
+    pathSegments.forEach(seg => {
+      const s = seg.toLowerCase();
+      if (s === 'food-rescue' || s === 'foodrescue') isFoodRescuePage = true;
+      else if (s === 'local-shops' || s === 'localshops' || s === 'local') isLocalShopsPage = true;
+      else if (s === 'marketplaces' || s === 'others') isMarketplacesPage = true;
+      if (REGIONS[s]) targetRegionObj = REGIONS[s];
+      if (CATEGORIES[s]) targetCategoryObj = CATEGORIES[s];
+    });
 
     const isFoodRescueFilter = isFoodRescuePage || qSource === 'food-rescue' || qSource === 'kimc';
     const isLocalShopsFilter = isLocalShopsPage || qSource === 'local-shops' || qSource === 'local';
