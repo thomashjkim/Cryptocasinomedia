@@ -508,16 +508,8 @@ export default async (req, context) => {
 
     if (targetRegionObj && targetRegionObj.shortName) {
       const regName = targetRegionObj.shortName;
-    // Hide Source Tabs on AEO/SEO Combined Pages (/explore/{region}/{category}) so all items are unified with source badges
-    if (targetRegionObj || targetCategoryObj || pathSegments.length >= 1) {
-      const isSingleSourcePath = pathSegments.length === 1 && ['food-rescue', 'foodrescue', 'local-shops', 'localshops', 'local', 'marketplaces', 'others'].includes(pathSegments[0].toLowerCase());
-      if (!isSingleSourcePath) {
-        template = template.replace('id="source-segment-wrap"', 'id="source-segment-wrap" style="display:none !important;"');
-      }
+      template = template.replace(`<option value="${regName}">`, `<option value="${regName}" selected="selected">`);
     }
-    
-
-    template = template.replace(`<option value="${regName}">`, `<option value="${regName}" selected="selected">`);
     }
 
         // Highlight active source tab in SSR HTML

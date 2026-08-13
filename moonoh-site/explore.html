@@ -606,6 +606,8 @@
       font-size: 13px;
       color: #6B7280;
       font-weight: 500;
+      min-width: 90px;
+      display: inline-block;
     }
 
     /* Filter Pills (Multi-line Wrap, Compact Size, 8px Vertical Gap) */
@@ -1433,24 +1435,158 @@
       // Apply filter instantly on current memory pool
       applyFilters(getActiveCategoryKeyword());
 
-      // Fetch in background if missing
-      if (source === 'moonoh' && (allItems.filter(isStrictMoonoh).length === 0) && moonohItemsList.length === 0) {
-        preloadMoonohItems().then(() => {
-          if (activeSource === 'moonoh') applyFilters(getActiveCategoryKeyword());
-        });
-      } else if (source === 'foodrescue' && foodRescueItemsList.length === 0) {
-        preloadFoodRescueItems().then(() => {
-          if (activeSource === 'foodrescue') applyFilters(getActiveCategoryKeyword());
-        });
-      } else if (source === 'localshops' && localShopsItemsList.length === 0) {
-        preloadLocalShopsItems().then(() => {
-          if (activeSource === 'localshops') applyFilters(getActiveCategoryKeyword());
-        });
-      } else if ((source === 'marketplaces' || source === 'others') && externalItemsList.length === 0) {
-        preloadExternalItems().then(() => {
-          if (activeSource === 'marketplaces' || activeSource === 'others') applyFilters(getActiveCategoryKeyword());
-        });
+    async function preloadFoodRescueItems() {
+      if (foodRescueItemsList.length > 0) return;
+      if (window.__INITIAL_FOOD_RESCUE__ && Array.isArray(window.__INITIAL_FOOD_RESCUE__) && window.__INITIAL_FOOD_RESCUE__.length > 0) {
+        foodRescueItemsList = window.__INITIAL_FOOD_RESCUE__.map(raw => ({
+          no: raw.id || raw.no,
+          id: raw.id || raw.no,
+          title: raw.title,
+          price: raw.price,
+          image: raw.photo || raw.image,
+          photo: raw.photo || raw.image,
+          location: raw.townName || raw.location,
+          rawTown: raw.rawTown || raw.townName || raw.location || '',
+          category: raw.categoryName || raw.category || 'Food & Groceries',
+          categoryName: raw.categoryName || raw.category || 'Food & Groceries',
+          url: raw.detailUrl || raw.url,
+          source: 'kimc',
+          timeAgo: raw.timeAgo || 'Food Rescue'
+        }));
+        if (activeSource === 'foodrescue') applyFilters(getActiveCategoryKeyword());
+        return;
       }
+      try {
+        let res = await fetch('/api/food-rescue');
+        if (!res.ok) res = await fetch('/.netlify/functions/food-rescue-items');
+        const data = await res.json();
+        if (Array.isArray(data)) {
+          foodRescueItemsList = data.map(raw => ({
+            no: raw.id,
+            id: raw.id,
+            title: raw.title,
+            price: raw.price,
+            image: raw.image,
+            photo: raw.image,
+            location: raw.location,
+            rawTown: raw.rawTown || raw.location || '',
+            category: raw.categoryName || raw.category || 'Food & Groceries',
+            categoryName: raw.categoryName || raw.category || 'Food & Groceries',
+            url: raw.detailUrl || raw.url,
+            source: 'kimc',
+            timeAgo: raw.timeAgo || 'Food Rescue'
+          }));
+        }
+        if (activeSource === 'foodrescue') applyFilters(getActiveCategoryKeyword());
+      } catch (e) {}
+    }
+
+    async function preloadExternalItems() {
+      if (externalItemsList.length > 0) return;
+      if (window.__INITIAL_EXTERNAL_ITEMS__ && Array.isArray(window.__INITIAL_EXTERNAL_ITEMS__) && window.__INITIAL_EXTERNAL_ITEMS__.length > 0) {
+        externalItemsList = window.__INITIAL_EXTERNAL_ITEMS__.map(raw => ({
+          no: raw.id || raw.no,
+          id: raw.id || raw.no,
+          title: raw.title,
+          price: raw.price,
+          image: raw.photo || raw.image,
+          photo: raw.photo || raw.image,
+          location: raw.townName || raw.location,
+          rawTown: raw.rawTown || raw.townName || raw.location || '',
+          category: raw.categoryName || raw.category,
+          categoryName: raw.categoryName || raw.category,
+          source: raw.source || 'external',
+          timeAgo: raw.timeAgo || ''
+        }));
+        if (activeSource === 'marketplaces' || activeSource === 'others') applyFilters(getActiveCategoryKeyword());
+        return;
+      }
+      try {
+        let res = await fetch('/api/external-items');
+        if (!res.ok) res = await fetch('/.netlify/functions/external-items');
+        const data = await res.json();
+        if (Array.isArray(data)) {
+          externalItemsList = data.map(raw => ({
+            no: raw.id,
+            id: raw.id,
+            title: raw.title,
+            price: raw.price,
+            image: raw.image,
+            photo: raw.image,
+            location: raw.location,
+            rawTown: raw.rawTown || raw.location || '',
+            category: raw.category,
+            categoryName: raw.category,
+            source: raw.source || 'external',
+            timeAgo: raw.timeAgo || ''
+          }));
+        }
+        if (activeSource === 'marketplaces' || activeSource === 'others') applyFilters(getActiveCategoryKeyword());
+      } catch (e) {}
+    }
+
+    async function preloadLocalShopsItems() {
+      if (localShopsItemsList.length > 0) return;
+      try {
+        const res = await fetch('/local_shops_data.json');
+        if (res.ok) {
+          const data = await res.json();
+          localShopsItemsList = (data.products || []).map(p => ({
+            id: p.id,
+            no: p.id,
+            title: p.title,
+            price: p.current_price,
+            photo: p.image_source_url,
+            image: p.image_source_url,
+            townName: p.availability_context || 'NYC',
+            rawTown: 'NYC',
+            location: 'NYC',
+            category: p.moonoh_category || 'Grocery',
+            categoryName: p.moonoh_category || 'Grocery',
+            source: p.shop_id,
+            shop_id: p.shop_id,
+            badgeName: p.brand || (data.shops && data.shops[p.shop_id] ? data.shops[p.shop_id].name : 'Local Shop'),
+            url: `/local-product/${p.shop_id}/${p.slug}`
+          }));
+          if (activeSource === 'localshops') applyFilters(getActiveCategoryKeyword());
+        }
+      } catch (e) {}
+    }
+
+    async function preloadMoonohItems() {
+      try {
+        let res = await fetch('/api/items');
+        if (res.ok) {
+          const data = await res.json();
+          if (Array.isArray(data) && data.length > 0) {
+            const list = data.map(raw => ({
+              no: raw.id || raw.no,
+              id: raw.id || raw.no,
+              title: raw.title,
+              price: raw.price,
+              image: raw.image || raw.photo,
+              photo: raw.image || raw.photo,
+              location: raw.location || raw.townName || 'NYC',
+              rawTown: raw.rawTown || raw.location || '',
+              category: raw.category || raw.categoryName || 'General',
+              categoryName: raw.category || raw.categoryName || 'General',
+              url: raw.url || `/item/item-${raw.no || raw.id}`,
+              source: 'moonoh',
+              postedAt: raw.postedAt || raw.no || raw.id
+            })).filter(i => i && i.image && !i.image.includes("ico_profile_empty.png"));
+
+            const existingIds = new Set(allItems.map(i => String(i.id || i.no)));
+            list.forEach(item => {
+              if (!existingIds.has(String(item.id || item.no))) {
+                allItems.push(item);
+              }
+            });
+            moonohItemsList = allItems.filter(isStrictMoonoh);
+            applyFilters(getActiveCategoryKeyword());
+          }
+        }
+      } catch (e) {}
+    }
     }
 
     function initCategoryFromUrl() {
@@ -1628,6 +1764,7 @@
 
     function initAll() {
       renderItems();
+      preloadMoonohItems();
       setupFilters();
       initCategoryFromUrl();
 
