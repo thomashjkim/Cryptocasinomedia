@@ -3,3 +3,4 @@ Allow: /
 
 Sitemap: https://moon-oh.com/sitemap.xml
 Sitemap: https://moon-oh.com/sitemap-food-rescue.xml
+Sitemap: https://moon-oh.com/sitemap-index.xml
