@@ -23263,7 +23263,8 @@ export default async (req, context) => {
     return new Response(html, {
       status: 200,
       headers: {
-        "Content-Type": "text/html; charset=utf-8"
+        "Content-Type": "text/html; charset=utf-8",
+        "Cache-Control": "public, max-age=0, must-revalidate, s-maxage=0"
       }
     });
 

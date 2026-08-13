@@ -22270,7 +22270,7 @@ function inferCategoryFromText(title = '', description = '', rawCategory = '') {
     headers: {
       "Content-Type": "application/json",
       "Access-Control-Allow-Origin": "*",
-      "Cache-Control": "public, max-age=300, s-maxage=600"
+      "Cache-Control": "public, max-age=0, must-revalidate, s-maxage=0"
     }
   });
 };

@@ -573,7 +573,7 @@ ${breadcrumbScript}
       status: 200,
       headers: {
         'Content-Type': 'text/html; charset=utf-8',
-        'Cache-Control': 'public, max-age=300, s-maxage=600'
+        'Cache-Control': 'public, max-age=0, must-revalidate, s-maxage=0'
       }
     });
   } catch (error) {
