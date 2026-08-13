@@ -22730,18 +22730,34 @@ export default async (req, context) => {
       lng = parseFloat(d.productX) || -74.0060;
 
       // Photos Processing
+      const normalizeToWebImg = (path) => {
+        if (!path) return '';
+        if (path.startsWith('http://') || path.startsWith('https://') || path.startsWith('data:')) {
+          return path;
+        }
+        let p = path.replace(/^\/image-proxy\//, '');
+        if (/\.heic$/i.test(p)) {
+          const lastSlash = p.lastIndexOf('/');
+          if (lastSlash !== -1) {
+            const dir = p.substring(0, lastSlash + 1);
+            const filename = p.substring(lastSlash + 1);
+            const dotIdx = filename.lastIndexOf('.');
+            const base = dotIdx !== -1 ? filename.substring(0, dotIdx) : filename;
+            return `/image-proxy/${dir}thumbnail_${base}.jpg`;
+          }
+        }
+        return `/image-proxy/${p}`;
+      };
+
       if (d.strPictureUrlArray) {
         try {
           const arr = JSON.parse(d.strPictureUrlArray);
-          photos = arr.map(p => {
-            const path = p.fileUrl || "";
-            return `/image-proxy/${path}`;
-          });
+          photos = arr.map(p => normalizeToWebImg(p.fileUrl || ""));
         } catch (e) {}
       }
 
       if (photos.length === 0 && d.pictureUrl) {
-        photos.push(`/image-proxy/${d.pictureUrl}`);
+        photos.push(normalizeToWebImg(d.pictureUrl));
       }
       if (photos.length === 0) {
         photos.push("images/default-item-placeholder.png");
@@ -23086,6 +23102,7 @@ export default async (req, context) => {
             "returnMethod": "https://schema.org/ReturnInStore",
             "returnFees": "https://schema.org/FreeReturn",
             "merchantReturnLink": "https://moon-oh.com/return-policy"
+          },
           ${(externalSource === 'kimc' || isExternal) ? '' : `"shippingDetails": {
             "@type": "OfferShippingDetails",
             "shippingRate": {
