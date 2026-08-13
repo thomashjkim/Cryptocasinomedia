@@ -37,8 +37,8 @@ function getExternalItemById(extId) {{
   return null;
 }}"""
 
-# Replace from 'const allRealExternalItems =' up to 'function getExternalItemById(extId) {\n  const key = ...\n}'
-pattern = r'const allRealExternalItems = \{.*?\nfunction getExternalItemById\(extId\) \{.*?\n\}'
+# Replace from 'const allRealExternalItems =' up to the end of getExternalItemById
+pattern = r'const allRealExternalItems = \{.*?\nfunction getExternalItemById\(.*?\n\}'
 match = re.search(pattern, code, re.DOTALL)
 if match:
     code = code[:match.start()] + new_code + code[match.end():]
