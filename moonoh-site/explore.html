@@ -926,9 +926,9 @@
             <optgroup label="NYC Boroughs">
               <option value="Manhattan">Manhattan, NY</option>
               <option value="Queens">Queens, NY (All)</option>
-              <option value="Flushing">&nbsp;&nbsp;↳ Flushing, Queens, NY</option>
-              <option value="Bayside">&nbsp;&nbsp;↳ Bayside, Queens, NY</option>
-              <option value="Astoria">&nbsp;&nbsp;↳ Astoria, Queens, NY</option>
+              <option value="Flushing">&nbsp;&nbsp;• Flushing</option>
+              <option value="Bayside">&nbsp;&nbsp;• Bayside</option>
+              <option value="Astoria">&nbsp;&nbsp;• Astoria</option>
               <option value="Brooklyn">Brooklyn, NY</option>
               <option value="Bronx">The Bronx, NY</option>
               <option value="Staten Island">Staten Island, NY</option>
@@ -1147,18 +1147,30 @@
       try {
         let items = [];
         if (window.__INITIAL_ITEMS__ && Array.isArray(window.__INITIAL_ITEMS__) && window.__INITIAL_ITEMS__.length > 0) {
-          items = window.__INITIAL_ITEMS__.map(raw => ({
-            no: raw.id,
-            id: raw.id,
-            title: raw.title,
-            price: raw.price,
-            image: raw.photo,
-            location: raw.townName,
-            rawTown: raw.rawTown || raw.townName || '',
-            category: raw.categoryName,
-            url: raw.detailUrl,
-            source: raw.source || 'external'
-          }));
+          items = window.__INITIAL_ITEMS__.map(raw => {
+            let src = raw.source;
+            if (!src) {
+              if (raw.id && String(raw.id).startsWith('karrot')) src = 'karrot';
+              else if (raw.id && String(raw.id).startsWith('heykorean')) src = 'heykorean';
+              else if (raw.id && String(raw.id).startsWith('kimc')) src = 'kimc';
+              else if (raw.detailUrl && String(raw.detailUrl).includes('-ext-')) src = 'external';
+              else src = 'moonoh';
+            }
+            return {
+              no: raw.id,
+              id: raw.id,
+              title: raw.title,
+              price: raw.price,
+              image: raw.photo || raw.image,
+              photo: raw.photo || raw.image,
+              location: raw.townName || raw.location,
+              rawTown: raw.rawTown || raw.townName || raw.location || '',
+              category: raw.categoryName || raw.category,
+              categoryName: raw.categoryName || raw.category,
+              url: raw.detailUrl || raw.url,
+              source: src
+            };
+          });
         }
 
         if (!Array.isArray(items) || items.length === 0) {
@@ -1552,6 +1564,36 @@
         } catch (e) {}
       }
 
+      let moonohItemsList = [];
+      async function preloadMoonohItems() {
+        if (moonohItemsList.length > 0) return;
+        const moonohInAll = allItems.filter(i => i.source === 'moonoh' || (!i.source && !String(i.id || '').includes('ext') && !String(i.url || '').includes('-ext-')));
+        if (moonohInAll.length > 0) {
+          moonohItemsList = moonohInAll;
+          return;
+        }
+        try {
+          const res = await fetch('/api/items');
+          const data = await res.json();
+          if (Array.isArray(data)) {
+            moonohItemsList = data.map(raw => ({
+              no: raw.id || raw.no,
+              id: raw.id || raw.no,
+              title: raw.title,
+              price: raw.price,
+              image: raw.image || raw.photo,
+              photo: raw.image || raw.photo,
+              location: raw.location || raw.townName || 'NYC',
+              rawTown: raw.rawTown || raw.location || '',
+              category: raw.category || raw.categoryName || 'General',
+              categoryName: raw.category || raw.categoryName || 'General',
+              url: raw.url || `/item/item-${raw.no || raw.id}`,
+              source: 'moonoh'
+            }));
+          }
+        } catch (e) {}
+      }
+
       applyFilters = function(categoryKeyword = null) {
         let filtered = allItems;
         if (activeSource === 'foodrescue') {
@@ -1559,11 +1601,12 @@
         } else if (activeSource === 'localshops') {
           filtered = localShopsItemsList;
         } else if (activeSource === 'marketplaces' || activeSource === 'others') {
-          filtered = externalItemsList;
+          filtered = externalItemsList.length > 0 ? externalItemsList : allItems.filter(i => i.source === 'karrot' || i.source === 'heykorean' || i.source === 'external' || String(i.url || '').includes('-ext-'));
         } else if (activeSource === 'all') {
           filtered = [...allItems, ...foodRescueItemsList, ...localShopsItemsList, ...externalItemsList];
         } else {
-          filtered = allItems.filter(i => !i.source || i.source === 'moonoh');
+          const moonohInAll = allItems.filter(i => i.source === 'moonoh' || (!i.source && !String(i.id || '').includes('ext') && !String(i.url || '').includes('-ext-')));
+          filtered = moonohInAll.length > 0 ? moonohInAll : moonohItemsList;
         }
 
         if (activeTown && boroughKeywords[activeTown]) {
@@ -1638,7 +1681,11 @@
         applyFilters(getActiveCategoryKeyword());
 
         // Fetch in background if missing
-        if (source === 'foodrescue' && foodRescueItemsList.length === 0) {
+        if (source === 'moonoh' && (allItems.filter(i => i.source === 'moonoh' || (!i.source && !String(i.id || '').includes('ext') && !String(i.url || '').includes('-ext-'))).length === 0) && moonohItemsList.length === 0) {
+          preloadMoonohItems().then(() => {
+            if (activeSource === 'moonoh') applyFilters(getActiveCategoryKeyword());
+          });
+        } else if (source === 'foodrescue' && foodRescueItemsList.length === 0) {
           preloadFoodRescueItems().then(() => {
             if (activeSource === 'foodrescue') applyFilters(getActiveCategoryKeyword());
           });
