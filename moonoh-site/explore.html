@@ -1595,9 +1595,13 @@
           if (categoryKeyword === "FREE_FILTER") {
             filtered = filtered.filter(item => item.price === 0);
           } else if (categoryKeyword) {
-            filtered = filtered.filter(item =>
-              item.category && item.category.toLowerCase().includes(categoryKeyword)
-            );
+            filtered = filtered.filter(item => {
+              const cat = (item.category || item.categoryName || '').toLowerCase();
+              if (categoryKeyword === 'food') {
+                return cat.includes('food') || cat.includes('groceries');
+              }
+              return cat.includes(categoryKeyword.toLowerCase());
+            });
           }
         }
 

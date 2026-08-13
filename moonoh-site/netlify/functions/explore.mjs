@@ -282,8 +282,14 @@ export default async (req, context) => {
         if (targetCategoryObj.excludes && targetCategoryObj.excludes.some(ex => titleStr.includes(ex))) {
           return false;
         }
-        if (mainCat.includes(targetCategoryObj.kw)) return true;
-        return targetCategoryObj.keywords.some(kw => titleStr.includes(kw) || mainCat.includes(kw));
+        if (targetCategoryObj.kw && mainCat.includes(targetCategoryObj.kw.toLowerCase())) return true;
+        return targetCategoryObj.keywords.some(kw => {
+          if (kw.length <= 4) {
+            const regex = new RegExp(`\\b${kw}\\b`, 'i');
+            return regex.test(titleStr) || regex.test(mainCat);
+          }
+          return titleStr.includes(kw) || mainCat.includes(kw);
+        });
       });
     }
 
