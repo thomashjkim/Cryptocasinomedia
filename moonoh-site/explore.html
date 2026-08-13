@@ -1251,35 +1251,32 @@
 
     function getActiveCategoryKeyword() {
       const activeBtn = document.querySelector('.filter-pill.active');
-      if (!activeBtn) return null;
-      const label = activeBtn.textContent.trim();
-      return categoryMap[label] !== undefined ? categoryMap[label] : null;
-    }
-
-    // Pill label → URL category slug mapping
     const pillLabelToSlug = {
-      'All': null,
-      'Free': null, // free is not an SSR category slug, handle separately
-      'Food & Groceries': 'food-groceries',
+      'All': 'all',
+      'Free': 'free',
       'Furniture': 'furniture',
       'Electronics & Appliances': 'electronics',
-      'Health & beauty': 'health-beauty',
-      "Women's fashion": 'womens-fashion',
       "Men's fashion": 'mens-fashion',
+      "Women's fashion": 'womens-fashion',
       'Shoes': 'shoes',
       'Baby & kids': 'baby-kids',
-      'Sports & leisure': 'sports-leisure',
-      'Toys & Games': 'toys-games',
+      'Food & Groceries': 'food-groceries',
       'Home, garden & DIY': 'home-garden',
       'Jewelry & watches': 'jewelry-watches',
       'Luggages & bags': 'luggages-bags',
+      'Health & beauty': 'health-beauty',
+      'Antiques & collections': 'antiques',
       'Arts, books, music, movies & tickets': 'arts-books-music',
       'Pet supplies': 'pet-supplies',
-      'Other': null
+      'Sublets': 'sublets',
+      'Sports & leisure': 'sports-leisure',
+      'Toys & Games': 'toys-games',
+      'Other': 'other'
     };
 
-    
     const pillSlugToLabel = {
+      'all': 'All',
+      'free': 'Free',
       'food-groceries': 'Food & Groceries',
       'furniture': 'Furniture',
       'electronics': 'Electronics & Appliances',
@@ -1294,8 +1291,82 @@
       'jewelry-watches': 'Jewelry & watches',
       'luggages-bags': 'Luggages & bags',
       'arts-books-music': 'Arts, books, music, movies & tickets',
-      'pet-supplies': 'Pet supplies'
+      'pet-supplies': 'Pet supplies',
+      'sublets': 'Sublets',
+      'antiques': 'Antiques & collections',
+      'other': 'Other'
     };
+
+    function matchesCategory(itemCat, itemTitle, targetSlug) {
+      if (!targetSlug || targetSlug === 'all') return true;
+      const cat = String(itemCat || '').toLowerCase();
+      const title = String(itemTitle || '').toLowerCase();
+      const slug = String(targetSlug).toLowerCase();
+
+      if (slug === 'free') return false;
+      if (slug === 'electronics') {
+        return cat.includes('electronic') || cat.includes('appliance') || title.includes('phone') || title.includes('laptop') || title.includes('airpods') || title.includes('ipad') || title.includes('tv') || title.includes('camera') || title.includes('charger') || title.includes('ink');
+      }
+      if (slug === 'furniture') {
+        return cat.includes('furniture') || cat.includes('sofa') || cat.includes('chair') || cat.includes('table') || cat.includes('bed') || cat.includes('desk') || cat.includes('couch') || cat.includes('dresser');
+      }
+      if (slug === 'womens-fashion') {
+        return cat.includes('women');
+      }
+      if (slug === 'mens-fashion') {
+        return cat.includes('men') && !cat.includes('women');
+      }
+      if (slug === 'shoes') {
+        return cat.includes('shoe') || cat.includes('sneaker') || cat.includes('boot') || cat.includes('sandal');
+      }
+      if (slug === 'baby-kids') {
+        return cat.includes('baby') || cat.includes('kid') || cat.includes('stroller') || title.includes('baby') || title.includes('kid');
+      }
+      if (slug === 'food-groceries') {
+        return cat.includes('food') || cat.includes('groc') || cat.includes('snack') || cat.includes('drink');
+      }
+      if (slug === 'home-garden') {
+        return cat.includes('home') || cat.includes('garden') || cat.includes('kitchen') || cat.includes('utensil');
+      }
+      if (slug === 'jewelry-watches') {
+        return cat.includes('jewel') || cat.includes('watch') || cat.includes('ring') || cat.includes('earring');
+      }
+      if (slug === 'luggages-bags') {
+        return cat.includes('luggage') || cat.includes('bag') || cat.includes('pouch') || cat.includes('backpack') || cat.includes('tote') || cat.includes('wallet');
+      }
+      if (slug === 'health-beauty') {
+        return cat.includes('health') || cat.includes('beauty') || cat.includes('toner') || cat.includes('cosmetic') || cat.includes('skin');
+      }
+      if (slug === 'antiques') {
+        return cat.includes('antique') || cat.includes('collectible') || cat.includes('vintage');
+      }
+      if (slug === 'arts-books-music') {
+        return cat.includes('art') || cat.includes('book') || cat.includes('music') || cat.includes('movie') || cat.includes('ticket');
+      }
+      if (slug === 'pet-supplies') {
+        return cat.includes('pet') || cat.includes('dog') || cat.includes('cat');
+      }
+      if (slug === 'sublets') {
+        return cat.includes('sublet') || cat.includes('room');
+      }
+      if (slug === 'sports-leisure') {
+        return cat.includes('sport') || cat.includes('leisure') || cat.includes('bike') || cat.includes('ski');
+      }
+      if (slug === 'toys-games') {
+        return cat.includes('toy') || cat.includes('game') || cat.includes('figure');
+      }
+      if (slug === 'other') {
+        return cat.includes('other') || cat.includes('general') || cat === '';
+      }
+      return cat.includes(slug);
+    }
+
+    function getActiveCategoryKeyword() {
+      const activeBtn = document.querySelector('.filter-pill.active');
+      if (!activeBtn) return 'all';
+      const label = activeBtn.textContent.trim();
+      return pillLabelToSlug[label] || 'all';
+    }
 
     function initCategoryFromUrl() {
       const params = new URLSearchParams(window.location.search);
@@ -1310,22 +1381,9 @@
         pathCatSlug = parts[1];
       }
 
-      let targetLabel = null;
-      if (catParam) {
-        let clean = decodeURIComponent(catParam).trim().toLowerCase();
-        document.querySelectorAll('.filter-pill:not(.filter-pill-more)').forEach(btn => {
-          let label = btn.textContent.trim();
-          let lowLabel = label.toLowerCase();
-          let slug = pillLabelToSlug[label];
-          if (clean === lowLabel || clean === slug || clean.includes(lowLabel) || lowLabel.includes(clean) || (clean.includes('bag') && lowLabel.includes('bag'))) {
-            targetLabel = label;
-          }
-        });
-      } else if (pathCatSlug && pillSlugToLabel[pathCatSlug]) {
-        targetLabel = pillSlugToLabel[pathCatSlug];
-      }
-
-      if (targetLabel) {
+      let targetSlug = catParam || pathCatSlug;
+      if (targetSlug && pillSlugToLabel[targetSlug.toLowerCase()]) {
+        const targetLabel = pillSlugToLabel[targetSlug.toLowerCase()];
         document.querySelectorAll('.filter-pill:not(.filter-pill-more)').forEach(b => {
           if (b.textContent.trim().toLowerCase() === targetLabel.toLowerCase()) {
             b.classList.add('active');
@@ -1333,8 +1391,7 @@
             b.classList.remove('active');
           }
         });
-        const keyword = categoryMap[targetLabel];
-        applyFilters(keyword !== undefined ? keyword : null);
+        applyFilters(targetSlug.toLowerCase());
       }
     }
 
@@ -1358,11 +1415,11 @@
         const regSlug = regionToSlug[newRegionVal] || null;
         const catSlug = pillLabelToSlug[newCatLabel] || null;
         let newUrl = '/explore';
-        if (regSlug && catSlug) {
+        if (regSlug && catSlug && catSlug !== 'all') {
           newUrl = `/explore/${regSlug}/${catSlug}`;
         } else if (regSlug) {
           newUrl = `/explore/${regSlug}`;
-        } else if (catSlug) {
+        } else if (catSlug && catSlug !== 'all') {
           newUrl = `/explore/${catSlug}`;
         }
         if (window.location.pathname !== newUrl) {
@@ -1377,8 +1434,8 @@
           document.querySelectorAll('.filter-pill:not(.filter-pill-more)').forEach(b => b.classList.remove('active'));
           this.classList.add('active');
 
-          const keyword = categoryMap[label];
-          applyFilters(keyword !== undefined ? keyword : null);
+          const slug = pillLabelToSlug[label] || 'all';
+          applyFilters(slug);
 
           const locSel = document.getElementById('location-select');
           const currentRegionVal = locSel ? locSel.value : 'all';
@@ -1402,7 +1459,7 @@
       let activePath = window.location.pathname.toLowerCase();
       let _pSegments = activePath.replace(/^\/explore\/?/, '').split('/').filter(Boolean);
       let isCombinedPage = _pSegments.length >= 1 && !['food-rescue', 'foodrescue', 'local-shops', 'localshops', 'local', 'marketplaces', 'others'].includes(_pSegments[0]);
-      let activeSource = isCombinedPage ? 'all' : 'moonoh';
+      let activeSource = 'moonoh';
 
       if (activePath.includes('food-rescue') || activePath.includes('foodrescue')) {
         activeSource = 'foodrescue';
@@ -1425,6 +1482,9 @@
       const foodRescueBanner = document.getElementById('food-rescue-banner');
       
       let foodRescueItemsList = [];
+      let externalItemsList = [];
+      let localShopsItemsList = [];
+      let moonohItemsList = [];
 
       async function preloadFoodRescueItems() {
         if (foodRescueItemsList.length === 0) {
@@ -1534,9 +1594,6 @@
       preloadFoodRescueItems();
       preloadExternalItems();
 
-      // Override applyFilters to handle foodrescue source
-      const origApplyFilters = applyFilters;
-      let localShopsItemsList = [];
       async function preloadLocalShopsItems() {
         if (localShopsItemsList.length > 0) return;
         try {
@@ -1564,7 +1621,6 @@
         } catch (e) {}
       }
 
-      let moonohItemsList = [];
       async function preloadMoonohItems() {
         if (moonohItemsList.length > 0) return;
         const moonohInAll = allItems.filter(i => i.source === 'moonoh' || (!i.source && !String(i.id || '').includes('ext') && !String(i.url || '').includes('-ext-')));
@@ -1606,51 +1662,44 @@
         return true;
       }
 
-      applyFilters = function(categoryKeyword = null) {
-        let filtered = allItems;
+      applyFilters = function(categorySlug = null) {
+        const targetSlug = categorySlug || getActiveCategoryKeyword() || 'all';
+        let filtered = [];
+
         if (activeSource === 'foodrescue') {
           filtered = foodRescueItemsList;
         } else if (activeSource === 'localshops') {
           filtered = localShopsItemsList;
         } else if (activeSource === 'marketplaces' || activeSource === 'others') {
           filtered = externalItemsList.length > 0 ? externalItemsList : allItems.filter(i => i.source === 'karrot' || i.source === 'heykorean' || i.source === 'external' || String(i.url || '').includes('-ext-'));
-        } else if (activeSource === 'all') {
-          filtered = [...allItems, ...foodRescueItemsList, ...localShopsItemsList, ...externalItemsList];
         } else {
+          // Moonoh tab
           const moonohInAll = allItems.filter(isStrictMoonoh);
-          filtered = moonohInAll.length > 0 ? moonohInAll : moonohItemsList;
+          filtered = moonohInAll.length > 0 ? moonohInAll : (moonohItemsList.length > 0 ? moonohItemsList : allItems);
         }
 
         if (activeTown && boroughKeywords[activeTown]) {
           const kws = boroughKeywords[activeTown];
           filtered = filtered.filter(item => {
-            if (item.source === 'kimc') return true; // Kim'C Market ships across all NYC & NJ
+            if (item.source === 'kimc') return true;
             const locStr = ((item.rawTown || '') + ' ' + (item.location || '')).toLowerCase();
             return kws.some(kw => locStr.includes(kw));
           });
         }
 
-        if (activeSource !== 'foodrescue') {
-          if (categoryKeyword === "FREE_FILTER") {
-            filtered = filtered.filter(item => {
-              if (!item) return false;
-              const p = item.price !== undefined ? item.price : (item.current_price !== undefined ? item.current_price : null);
-              if (p === 0 || p === '0' || p === 'Free' || p === 'free') return true;
-              const num = parseFloat(p);
-              return !isNaN(num) && num === 0;
-            });
-          } else if (categoryKeyword) {
-            filtered = filtered.filter(item => {
-              const cat = (item.category || item.categoryName || '').toLowerCase();
-              if (categoryKeyword === 'food') {
-                return cat.includes('food') || cat.includes('groceries');
-              }
-              return cat.includes(categoryKeyword.toLowerCase());
-            });
-          }
+        if (targetSlug === 'free') {
+          filtered = filtered.filter(item => {
+            if (!item) return false;
+            const p = item.price !== undefined ? item.price : (item.current_price !== undefined ? item.current_price : null);
+            if (p === 0 || p === '0' || p === 'Free' || p === 'free') return true;
+            const num = parseFloat(p);
+            return !isNaN(num) && num === 0;
+          });
+        } else if (targetSlug && targetSlug !== 'all') {
+          filtered = filtered.filter(item => matchesCategory(item.category || item.categoryName, item.title, targetSlug));
         }
 
-        // Sort combined items by original posting timestamp (recency order), NOT grouped by shop order
+        // Sort combined items by original posting timestamp
         filtered.sort((a, b) => (b.postedAt || 0) - (a.postedAt || 0));
 
         currentFiltered = filtered;
