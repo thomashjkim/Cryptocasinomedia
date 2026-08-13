@@ -917,10 +917,14 @@
           <select id="location-select" aria-label="Select location">
             <option value="">New York area</option>
             <option value="Manhattan">Manhattan, NY</option>
-            <option value="Bronx">Bronx, NY</option>
-            <option value="Brooklyn">Brooklyn, NY</option>
             <option value="Queens">Queens, NY</option>
+            <option value="Flushing">Flushing, Queens, NY</option>
+            <option value="Bayside">Bayside, Queens, NY</option>
+            <option value="Astoria">Astoria, Queens, NY</option>
+            <option value="Brooklyn">Brooklyn, NY</option>
+            <option value="Bronx">Bronx, NY</option>
             <option value="Staten Island">Staten Island, NY</option>
+            <option value="Fort Lee">Fort Lee, NJ</option>
             <option value="Bergen">Bergen County, NJ</option>
             <option value="Hudson">Hudson County, NJ</option>
           </select>
@@ -1220,8 +1224,16 @@
         if (!item) return;
         const rawTitle = item.title || 'Item';
         const safeTitle = String(rawTitle).replace(/'/g, "\\'");
-        const formatPrice = (p) => (!p || p <= 0 ? "Free" : (p % 1 !== 0 ? "$" + p.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}) : "$" + Math.round(p).toLocaleString()));
-        const priceStr = formatPrice(item.price);
+        const rawPrice = (item.price !== undefined && item.price !== null) ? item.price : (item.current_price !== undefined ? item.current_price : null);
+        const formatPrice = (p) => {
+          if (p === 0 || p === '0' || p === 'Free' || p === 'free') return "Free";
+          if (p === undefined || p === null || p === '') return "Price in store";
+          const num = typeof p === 'number' ? p : parseFloat(p);
+          if (isNaN(num)) return typeof p === 'string' && p ? p : "Price in store";
+          if (num <= 0) return "Free";
+          return num % 1 !== 0 ? "$" + num.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}) : "$" + Math.round(num).toLocaleString();
+        };
+        const priceStr = formatPrice(rawPrice);
         const targetUrl = item.url || `/item/item-${item.no || item.id}`;
         const isExternal = item.source === 'karrot' || item.source === 'heykorean';
         const itemLocation = item.location || item.townName || 'NYC';
@@ -1263,7 +1275,7 @@
 
         const extSlug = isExternal ? generateExternalSlug(rawTitle, itemLocation, item.id || item.no) : targetUrl;
         const clickAttr = `href="${extSlug}"`;
-        const itemImg = item.image || item.photo || '/images/common/ico_profile_empty.png';
+        const itemImg = item.image || item.image_source_url || item.photo || item.pictureUrl || '/images/default-item-placeholder.png';
 
         html += `
         <a class="item-card" ${clickAttr} style="text-decoration:none; color:inherit;">

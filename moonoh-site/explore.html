@@ -919,10 +919,14 @@
           <select id="location-select" aria-label="Select location">
             <option value="">New York area</option>
             <option value="Manhattan">Manhattan, NY</option>
-            <option value="Bronx">Bronx, NY</option>
-            <option value="Brooklyn">Brooklyn, NY</option>
             <option value="Queens">Queens, NY</option>
+            <option value="Flushing">Flushing, Queens, NY</option>
+            <option value="Bayside">Bayside, Queens, NY</option>
+            <option value="Astoria">Astoria, Queens, NY</option>
+            <option value="Brooklyn">Brooklyn, NY</option>
+            <option value="Bronx">Bronx, NY</option>
             <option value="Staten Island">Staten Island, NY</option>
+            <option value="Fort Lee">Fort Lee, NJ</option>
             <option value="Bergen">Bergen County, NJ</option>
             <option value="Hudson">Hudson County, NJ</option>
           </select>
@@ -1040,8 +1044,16 @@
         if (!item) return;
         const itemTitle = item.title || 'Item';
         const safeTitle = itemTitle.replace(/'/g, "\\'");
-        const formatPrice = (p) => (!p || p <= 0 ? "Free" : (p % 1 !== 0 ? "$" + p.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}) : "$" + Math.round(p).toLocaleString()));
-        const priceStr = formatPrice(item.price);
+        const rawPrice = (item.price !== undefined && item.price !== null) ? item.price : (item.current_price !== undefined ? item.current_price : null);
+        const formatPrice = (p) => {
+          if (p === 0 || p === '0' || p === 'Free' || p === 'free') return "Free";
+          if (p === undefined || p === null || p === '') return "Price in store";
+          const num = typeof p === 'number' ? p : parseFloat(p);
+          if (isNaN(num)) return typeof p === 'string' && p ? p : "Price in store";
+          if (num <= 0) return "Free";
+          return num % 1 !== 0 ? "$" + num.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}) : "$" + Math.round(num).toLocaleString();
+        };
+        const priceStr = formatPrice(rawPrice);
         const targetUrl = item.url || `/item/item-${item.no || item.id}`;
         const isExternal = item.source === 'karrot' || item.source === 'heykorean' || item.source === 'kimc';
         
@@ -1087,7 +1099,7 @@
 
         const extSlug = isExternal ? generateExternalSlug(itemTitle, item.location || item.rawTown, item.id) : targetUrl;
         const clickAttr = `href="${extSlug}"`;
-        const imgSrc = item.image || item.photo || '/images/default-item-placeholder.png';
+        const imgSrc = item.image || item.image_source_url || item.photo || item.pictureUrl || '/images/default-item-placeholder.png';
         const rawLoc = item.location || item.rawTown || 'NYC';
         const itemLoc = item.timeAgo ? `${item.timeAgo} · ${rawLoc}` : rawLoc;
 
@@ -1374,9 +1386,13 @@
         'Bronx': 'bronx',
         'Brooklyn': 'brooklyn',
         'Queens': 'queens',
+        'Flushing': 'flushing',
+        'Bayside': 'bayside',
+        'Astoria': 'astoria',
         'Staten Island': 'staten-island',
-        'Bergen': 'bergen-county',
-        'Hudson': 'hudson-county'
+        'Fort Lee': 'fort-lee-nj',
+        'Bergen': 'bergen-county-nj',
+        'Hudson': 'hudson-county-nj'
       };
       if (locationSelect) {
         locationSelect.addEventListener('change', function() {
@@ -1593,7 +1609,13 @@
 
         if (activeSource !== 'foodrescue') {
           if (categoryKeyword === "FREE_FILTER") {
-            filtered = filtered.filter(item => item.price === 0);
+            filtered = filtered.filter(item => {
+              if (!item) return false;
+              const p = item.price !== undefined ? item.price : (item.current_price !== undefined ? item.current_price : null);
+              if (p === 0 || p === '0' || p === 'Free' || p === 'free') return true;
+              const num = parseFloat(p);
+              return !isNaN(num) && num === 0;
+            });
           } else if (categoryKeyword) {
             filtered = filtered.filter(item => {
               const cat = (item.category || item.categoryName || '').toLowerCase();
@@ -1739,7 +1761,9 @@
         let matchedBtn = null;
         document.querySelectorAll('.filter-pill').forEach(btn => {
           const label = btn.textContent.trim().toLowerCase();
-          if (label !== 'other' && (urlCatLower.includes(label.split(' ')[0]) || label.includes(urlCatLower.split(' ')[0]))) {
+          if (label === 'free' && urlCatLower === 'free') {
+            matchedBtn = btn;
+          } else if (label !== 'other' && label !== 'free' && (urlCatLower.includes(label.split(' ')[0]) || label.includes(urlCatLower.split(' ')[0]))) {
             if (!matchedBtn) matchedBtn = btn;
           }
         });
@@ -1750,6 +1774,7 @@
             filterContainer.classList.add('is-expanded');
             if (btnMoreText) btnMoreText.textContent = "Less";
           }
+          applyFilters(getActiveCategoryKeyword());
         }
       }
     }

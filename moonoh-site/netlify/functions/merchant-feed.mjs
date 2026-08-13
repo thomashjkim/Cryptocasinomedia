@@ -316,15 +316,15 @@ async function buildFeed() {
       <g:gender>${escapeXml(item.fashionAttr.gender)}</g:gender>
       <g:color>${escapeXml(item.fashionAttr.color)}</g:color>
       <g:size>${escapeXml(item.fashionAttr.size)}</g:size>
-      <g:shipping>
+      ${item.isKimc ? '' : `<g:shipping>
         <g:country>US</g:country>
-        <g:service>Local Pickup &amp; Neighborhood Delivery</g:service>
-        <g:price>0.00 USD</g:price>
+        <g:service>Standard Shipping &amp; Local Pickup</g:service>
+        <g:price>5.99 USD</g:price>
         <g:min_handling_time>0</g:min_handling_time>
         <g:max_handling_time>1</g:max_handling_time>
         <g:min_transit_time>0</g:min_transit_time>
         <g:max_transit_time>2</g:max_transit_time>
-      </g:shipping>
+      </g:shipping>`}
       <g:shipping_label>local_pickup</g:shipping_label>
     </item>`;
   }

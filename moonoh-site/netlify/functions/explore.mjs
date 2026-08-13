@@ -18,13 +18,21 @@ try {
 
 // Region Mapping
 const REGIONS = {
+  'new-york-area': { name: 'New York Area', shortName: '', keywords: [] },
   'manhattan': { name: 'Manhattan, NY', shortName: 'Manhattan', keywords: ['manhattan', 'upper east', 'upper west', 'downtown manhattan', 'midtown', 'harlem', 'tribeca', 'soho', 'lower east', 'east village', 'west village', 'chelsea', 'gramercy', 'inwood', 'washington heights', 'morningside', 'financial district', 'wall street', 'murray hill', 'kips bay', 'flatiron', 'new york'] },
   'queens': { name: 'Queens, NY', shortName: 'Queens', keywords: ['queens', 'bayside', 'flushing', 'astoria', 'jamaica', 'forest hills', 'jackson heights', 'woodside', 'ridgewood', 'ozone park', 'fresh meadows', 'corona', 'elmhurst', 'sunnyside', 'long island city', 'rego park', 'maspeth', 'howard beach', 'far rockaway', 'college point', 'whitestone', 'douglaston'] },
   'brooklyn': { name: 'Brooklyn, NY', shortName: 'Brooklyn', keywords: ['brooklyn', 'park slope', 'williamsburg', 'bushwick', 'bed stuy', 'flatbush', 'crown heights', 'bay ridge', 'bensonhurst', 'canarsie', 'east new york', 'greenpoint', 'cobble hill', 'carroll gardens', 'boerum', 'sunset park', 'borough park', 'brighton beach', 'coney island', 'sheepshead', 'ditmas'] },
-  'bronx': { name: 'The Bronx, NY', shortName: 'The Bronx', keywords: ['bronx'] },
+  'bronx': { name: 'The Bronx, NY', shortName: 'Bronx', keywords: ['bronx'] },
   'staten-island': { name: 'Staten Island, NY', shortName: 'Staten Island', keywords: ['staten island'] },
-  'bergen-county': { name: 'Bergen County, NJ', shortName: 'Bergen County', keywords: ['bergen', 'hackensack', 'paramus', 'fort lee', 'englewood', 'teaneck', 'palisades', 'fair lawn', 'garfield', 'ridgewood nj', 'rutherford'] },
-  'hudson-county': { name: 'Hudson County, NJ', shortName: 'Hudson County', keywords: ['hudson', 'jersey city', 'hoboken', 'bayonne', 'weehawken', 'union city', 'north bergen', 'secaucus', 'kearny'] }
+  'flushing': { name: 'Flushing, Queens, NY', shortName: 'Flushing', keywords: ['flushing'] },
+  'bayside': { name: 'Bayside, Queens, NY', shortName: 'Bayside', keywords: ['bayside'] },
+  'astoria': { name: 'Astoria, Queens, NY', shortName: 'Astoria', keywords: ['astoria', 'long island city', 'lic'] },
+  'fort-lee-nj': { name: 'Fort Lee, NJ', shortName: 'Fort Lee', keywords: ['fort lee', 'fortlee', 'palisades park', 'palisades', 'leonia', 'cliffside park', 'edgewater', 'fort-lee', 'bergen'] },
+  'fort-lee': { name: 'Fort Lee, NJ', shortName: 'Fort Lee', keywords: ['fort lee', 'fortlee', 'palisades park', 'palisades', 'leonia', 'cliffside park', 'edgewater', 'fort-lee', 'bergen'] },
+  'bergen-county-nj': { name: 'Bergen County, NJ', shortName: 'Bergen', keywords: ['bergen', 'hackensack', 'paramus', 'fort lee', 'englewood', 'teaneck', 'palisades', 'fair lawn', 'garfield', 'ridgewood nj', 'rutherford'] },
+  'bergen-county': { name: 'Bergen County, NJ', shortName: 'Bergen', keywords: ['bergen', 'hackensack', 'paramus', 'fort lee', 'englewood', 'teaneck', 'palisades', 'fair lawn', 'garfield', 'ridgewood nj', 'rutherford'] },
+  'hudson-county-nj': { name: 'Hudson County, NJ', shortName: 'Hudson', keywords: ['hudson', 'jersey city', 'hoboken', 'bayonne', 'weehawken', 'union city', 'north bergen', 'secaucus', 'kearny'] },
+  'hudson-county': { name: 'Hudson County, NJ', shortName: 'Hudson', keywords: ['hudson', 'jersey city', 'hoboken', 'bayonne', 'weehawken', 'union city', 'north bergen', 'secaucus', 'kearny'] }
 };
 
 // Category Mapping
@@ -45,6 +53,7 @@ const CATEGORIES = {
   'antiques': { name: 'Antiques', kw: 'antique', keywords: ['antiques', 'vintage', 'collectible'] },
   'arts-books-music': { name: 'Arts, Books & Music', kw: 'art', keywords: ['arts', 'books', 'music', 'book', 'print'] },
   'food-groceries': { name: 'Food & Groceries', kw: 'food', keywords: ['food', 'groceries', 'snack', 'sauce', 'oil', 'rice', 'tea', 'noodle', 'kimchi', 'pantry', 'drink', 'beverage', 'korean food', 'cookie', 'juice', 'chip'] },
+  'free': { name: 'Free Items', kw: 'free', isFree: true, keywords: ['free'] },
   'other': { name: 'Other', kw: 'other', keywords: ['other', 'general'] }
 };
 
@@ -107,8 +116,8 @@ async function fetchAllCombinedItems() {
             townName: raw.location,
             rawTown: raw.rawTown || raw.location,
             location: raw.location,
-            categoryName: raw.category || 'General',
-            category: raw.category || 'General',
+            categoryName: inferCategoryFromText(raw.title, raw.description, raw.category),
+            category: inferCategoryFromText(raw.title, raw.description, raw.category),
             detailUrl: targetUrl,
             url: targetUrl,
             source: raw.source || 'external',
@@ -181,6 +190,71 @@ async function fetchAllCombinedItems() {
   }
 }
 
+function inferCategoryFromText(title = '', description = '', rawCategory = '') {
+  const text = (title + ' ' + (description || '')).toLowerCase();
+
+  // 1. Electronics & Appliances
+  if (/\b(macbook|imac|laptop|computer|monitor|iphone|galaxy|ipad|nintendo|ps5|xbox|tv|television|camera|printer|scanner|radiator|heater|aircon|air conditioner|air fryer|microwave|vacuum|refrigerator|fridge|coffee machine|nespresso|keurig|blender|cooker|calculator|keyboard|ram memory|router|headphone|airpods|speaker|bluetooth)\b|노트북|컴퓨터|모니터|아이폰|아이패드|에어컨|선풍기|히터|히타|청소기|스피커|전자레인지|변압기|디바이스|스페이스히터|훼이셜머신|부루스타|김치냉장고|김치 냉장고|냉장고|와인냉장고|와인셀러/i.test(text)) {
+    return 'Electronics & appliances';
+  }
+
+  // 2. Sports & Leisure
+  if (/\b(ski|snowboard|bmx|bike|bicycle|golf|putter|vokey|driver|treadmill|exercise|dumbbell|sled|inversion table|racket|tent|camping)\b|자전거|골프|스키|운동|거꾸리|썰매|미끼통|퍼터|드라이브|런닝머신|헬스|라이딩복/i.test(text)) {
+    return 'Sports & leisure';
+  }
+
+  // 3. Furniture
+  if (/\b(chair|chairs|table|tables|desk|desks|bed|beds|daybed|sofa|sofas|couch|dresser|mattress|shelf|shelves|cabinet|stool|stools|nightstand|nighttable|bench)\b|테이블|스탠드|조명|의자|소파|침대|책상|서랍|가구|식탁|스툴|체어|프레임|탁자|수납장|데이베드|바 스툴/i.test(text)) {
+    return 'Furniture';
+  }
+
+  // 4. Baby & Kids
+  if (/\b(baby|kid|kids|toddler|stroller|crib|diaper|toy|toys|lego|gundam|sylvanian|calico critters|bassinet|highchair)\b|유아|아동|유모차|장난감|레고|베시넷|하이체어|돌한복|돌 한복/i.test(text)) {
+    return 'Baby & kids';
+  }
+
+  // 5. Shoes
+  if (/\b(shoe|shoes|sneaker|sneakers|boot|boots|sandal|sandals|hunter|nike|adidas|jordan|heel|heels)\b|신발|운동화|구두|부츠|슬리퍼/i.test(text)) {
+    return 'Shoes';
+  }
+
+  // 6. Luggages & Bags
+  if (/\b(bag|bags|backpack|luggage|suitcase|tote|pouch|wallet|osprey)\b|가방|백팩|캐리어|지갑|배낭|파우치/i.test(text)) {
+    return 'Luggages & bags';
+  }
+
+  // 7. Health & Beauty
+  if (/\b(beauty|cosmetic|cosmetics|perfume|cream|lotion|soap|facial|brush|makeup|thermometer)\b|화장품|향수|비누|메이크업|브러쉬/i.test(text)) {
+    return 'Health & beauty';
+  }
+
+  // 8. Home, Garden & DIY
+  if (/\b(dish|dishes|plate|plates|bowl|bowls|cup|cups|mug|mugs|glass|soju|serving bowl|steamer|rice cooker|container|oil dispenser|dispenser|towel|towel set|paper|tissue|decor|decorations|mirror|curtain|plant|pot|pan|cookware|tool|plane|rock|rocks|gravel|vase|candle)\b|주방|냄비|그릇|화분|인테리어|액자|거울|장식|장식품|수저|화장지|소주잔|식기|김치통|밥그릇|찜기|유리병|정원용/i.test(text)) {
+    return 'Home, garden & DIY';
+  }
+
+  // 9. Women's Fashion
+  if (/\b(women|womens|women's|dress|skirt|blouse|handbag|purse)\b|원피스|스커트|여성|핸드백/i.test(text)) {
+    return "Women's fashion";
+  }
+
+  // 10. Men's Fashion
+  if (/\b(men|mens|men's|suit|tuxedo|dress shirt)\b|남성|정장|셔츠/i.test(text)) {
+    return "Men's fashion";
+  }
+
+  // 11. Food & Groceries
+  if (/\b(food|foods|snack|snacks|chip|chips|fruit chips|cookie|cookies|noodle|noodles|ramen|kimchi|drink|drinks|beverage|beverages|candy|chocolate|chocolates|matcha|yuzu|almond|almonds|honey|honeycomb|crisp|crisps|chili oil|olive oil|jam|jams|cacao|syrup|sourdough|ferrero|lollipop|lollipops|juice|soy sauce|sauce|vinegar|seaweed|rusk|rusks|curry|somyeon|ganjang)\b|식품|과자|라면|햇반|김치|음료|사탕|초콜릿|초콜렛|꽃다발|간식|음료수|소연/i.test(text)) {
+    return 'Food & Groceries';
+  }
+
+  if (rawCategory && !['used items', 'general', 'other', 'food & groceries'].includes(rawCategory.toLowerCase())) {
+    return rawCategory;
+  }
+
+  return 'Other';
+}
+
 function escapeHtml(str) {
   if (!str) return '';
   return String(str)
@@ -191,9 +265,13 @@ function escapeHtml(str) {
     .replace(/'/g, '&apos;');
 }
 
-function formatPriceStr(price) {
-  if (!price || price <= 0) return "Free";
-  return price % 1 !== 0 ? "$" + price.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}) : "$" + Math.round(price).toLocaleString();
+function formatPriceStr(p) {
+  if (p === 0 || p === '0' || p === 'Free' || p === 'free') return "Free";
+  if (p === undefined || p === null || p === '') return "Price in store";
+  const num = typeof p === 'number' ? p : parseFloat(p);
+  if (isNaN(num)) return typeof p === 'string' && p ? p : "Price in store";
+  if (num <= 0) return "Free";
+  return num % 1 !== 0 ? "$" + num.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}) : "$" + Math.round(num).toLocaleString();
 }
 
 function getExploreTemplate() {
@@ -273,9 +351,8 @@ export default async (req, context) => {
     }
 
     // Filter by Region if present
-    if (targetRegionObj) {
+    if (targetRegionObj && targetRegionObj.keywords && targetRegionObj.keywords.length > 0) {
       filteredItems = filteredItems.filter(item => {
-        if (item.source === 'kimc') return true; // Kim'C Market ships across all NYC & NJ
         const locStr = ((item.rawTown || '') + ' ' + (item.location || '') + ' ' + (item.townName || '')).toLowerCase();
         return targetRegionObj.keywords.some(kw => locStr.includes(kw));
       });
@@ -283,21 +360,43 @@ export default async (req, context) => {
 
     // Filter by Category if present
     if (targetCategoryObj) {
-      filteredItems = filteredItems.filter(item => {
-        const mainCat = (item.categoryName || item.category || '').toLowerCase();
-        const titleStr = (item.title || '').toLowerCase();
-        if (targetCategoryObj.excludes && targetCategoryObj.excludes.some(ex => titleStr.includes(ex))) {
-          return false;
-        }
-        if (targetCategoryObj.kw && mainCat.includes(targetCategoryObj.kw.toLowerCase())) return true;
-        return targetCategoryObj.keywords.some(kw => {
-          if (kw.length <= 4) {
-            const regex = new RegExp(`\\b${kw}\\b`, 'i');
-            return regex.test(titleStr) || regex.test(mainCat);
-          }
-          return titleStr.includes(kw) || mainCat.includes(kw);
+      if (targetCategoryObj.isFree) {
+        filteredItems = filteredItems.filter(item => {
+          if (!item) return false;
+          const p = item.price !== undefined ? item.price : (item.current_price !== undefined ? item.current_price : null);
+          if (p === 0 || p === '0' || p === 'Free' || p === 'free') return true;
+          const num = parseFloat(p);
+          return !isNaN(num) && num === 0;
         });
-      });
+      } else {
+        filteredItems = filteredItems.filter(item => {
+          const mainCat = (item.categoryName || item.category || '').toLowerCase();
+          const targetName = targetCategoryObj.name.toLowerCase();
+          const targetKw = (targetCategoryObj.kw || '').toLowerCase();
+
+          // Exact or keyword match on item's assigned category
+          if (mainCat === targetName || (targetKw && mainCat.includes(targetKw))) {
+            return true;
+          }
+
+          // Only fallback to title keywords if item's category is generic ('other', 'general', 'used items')
+          if (['general', 'other', 'used items', ''].includes(mainCat)) {
+            const titleStr = (item.title || '').toLowerCase();
+            if (targetCategoryObj.excludes && targetCategoryObj.excludes.some(ex => titleStr.includes(ex))) {
+              return false;
+            }
+            return targetCategoryObj.keywords.some(kw => {
+              if (kw.length <= 4) {
+                const regex = new RegExp(`\\b${kw}\\b`, 'i');
+                return regex.test(titleStr);
+              }
+              return titleStr.includes(kw);
+            });
+          }
+
+          return false;
+        });
+      }
     }
 
     let template = getExploreTemplate();
@@ -358,8 +457,10 @@ export default async (req, context) => {
     const cardsHtml = initialItems.map(item => {
       const itemTitle = item.title || 'Item';
       const safeTitle = escapeHtml(itemTitle);
-      const priceStr = formatPriceStr(item.price);
+      const rawPrice = (item.price !== undefined && item.price !== null) ? item.price : (item.current_price !== undefined ? item.current_price : null);
+      const priceStr = formatPriceStr(rawPrice);
       const targetUrl = item.detailUrl || item.url || `/item/item-${item.id}`;
+      const itemImg = item.photo || item.image || item.image_source_url || '/images/default-item-placeholder.png';
       
       let badgeHtml = '';
       if (item.source === 'karrot') {
@@ -381,7 +482,7 @@ export default async (req, context) => {
       return `
         <a class="item-card" href="${escapeHtml(targetUrl)}" style="text-decoration:none; color:inherit;">
           <div class="item-card-img-wrap">
-            <img src="${escapeHtml(item.photo || item.image)}" alt="${safeTitle}" class="item-card-image" loading="lazy" onerror="this.onerror=null; this.src='/images/default-item-placeholder.png';">
+            <img src="${escapeHtml(itemImg)}" alt="${safeTitle}" class="item-card-image" loading="lazy" onerror="this.onerror=null; this.src='/images/default-item-placeholder.png';">
           </div>
           <div class="item-card-content">
             <div class="item-card-price">${priceStr}</div>

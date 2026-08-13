@@ -22189,63 +22189,59 @@ export default async (req, context) => {
 function inferCategoryFromText(title = '', description = '', rawCategory = '') {
   const text = (title + ' ' + description).toLowerCase();
 
-  // 1. Food & Groceries (Strict word boundary match to prevent "priced to sell" matching "rice", "steamer" matching "tea", etc.)
-  if (/\b(food|foods|snack|snacks|chip|chips|cookie|cookies|noodle|noodles|ramen|rice|tea|sauce|sauces|kimchi|drink|drinks|beverage|beverages|gourmet|grocer|grocery|groceries|lollipops|candy|chocolate|chocolates|matcha|yuzu|almond|almonds|honey|honeycomb|crisp|chili oil|olive oil|jam|jams|cacao|syrup|sourdough)\b|식품|과자|라면|햇반|김치|음료|사탕|초콜릿/i.test(text)) {
-    if (!/\b(cooker|maker|machine|grinder|press|fridge|refrigerator|container|towel|toddler|table|chair|stool|desk|bed|rack|cleaner|steamer|treadmill|speaker|phone|tv|laptop|bag|backpack|pouch|jacket|shirt|shoes|boots|scanner|radiator|fan|aircon|air conditioner|vacuum|mop)\b|냉장고|머신|그라인더|용기|청소기|스피커|노트북|에어컨|선풍기/i.test(text)) {
-      return 'Food & Groceries';
-    }
-  }
-  // 2. Electronics & Appliances
-  if (/\b(electronics|phone|iphone|galaxy|ipad|macbook|laptop|computer|monitor|tv|television|speaker|speakers|headphone|headphones|airpods|camera|printer|cartridge|ink|charger|appliance|appliances|fridge|refrigerator|microwave|vacuum|coffee machine|coffee maker|nespresso|keurig|pioneer|dj|mixer|air fryer|treadmill|ram memory|mophie|motorola|nissan|thermometer|garmin|gps|radio|steam mop|radiator|fan|scanner)\b|닌텐도|게임|nintendo|ps5|xbox|에어컨|선풍기|히타|히터|냉장고|스캐너|노트북|컴퓨터|청소기|믹서기|전자레인지|변압기|모니터|키보드|디바이스|블루투스|스피커|아이패드|아이폰|난로/i.test(text)) {
+  // 1. Electronics & Appliances (Checked first to prevent computer chips/laptops/radiators/machines/refrigerators from matching food/snacks/tea)
+  if (/\b(macbook|imac|laptop|computer|monitor|iphone|galaxy|ipad|nintendo|ps5|xbox|tv|television|camera|printer|scanner|radiator|heater|aircon|air conditioner|air fryer|microwave|vacuum|refrigerator|fridge|coffee machine|nespresso|keurig|blender|cooker|calculator|keyboard|ram memory|router|headphone|airpods|speaker|bluetooth)\b|노트북|컴퓨터|모니터|아이폰|아이패드|에어컨|선풍기|히터|히타|청소기|스피커|전자레인지|변압기|디바이스|스페이스히터|훼이셜머신|부루스타|김치냉장고|김치 냉장고|냉장고|와인냉장고|와인셀러/i.test(text)) {
     return 'Electronics & appliances';
   }
-  // 3. Furniture
-  if (/\b(furniture|table|tables|chair|chairs|sofa|sofas|desk|desks|bed|beds|couch|dresser|mattress|shelf|shelves|cabinet|stand|lamp|light|stool|stools|bench|nightstand|daybed|nighttable|cart)\b|테이블|스탠드|조명|의자|소파|침대|책상|서랍|가구|식탁|스툴|체어|프레임|탁자|좌상|수납장/i.test(text)) {
-    return 'Furniture';
-  }
-  // 4. Shoes
-  if (/\b(shoe|shoes|sneaker|sneakers|boot|boots|sandal|sandals|nike|adidas|jordan|heel|heels|hunter|converse)\b|신발|운동화|구두|부츠|슬리퍼/i.test(text)) {
-    return 'Shoes';
-  }
-  // 5. Women's Fashion
-  if (/\b(women|womens|women's|dress|skirt|blouse|handbag|purse|bra|leggings|chanel|tignanello)\b|원피스|스커트|여성|핸드백|여자/i.test(text)) {
-    return "Women's fashion";
-  }
-  // 6. Men's Fashion
-  if (/\b(men|mens|men's|suit|jacket|coat|tuxedo|dress shirt)\b|남성|정장|자켓|남자/i.test(text)) {
-    return "Men's fashion";
-  }
-  // 7. Baby & Kids
-  if (/\b(baby|kid|kids|toddler|stroller|crib|diaper|toy|toys|lego|bassinet|highchair|high chair)\b|유아|아동|유모차|장난감|레고|어린이|돌한복|베시넷|하이체어/i.test(text)) {
-    return 'Baby & kids';
-  }
-  // 8. Sports & Leisure
-  if (/\b(bike|bicycle|bmx|ski|snowboard|golf|putter|racket|exercise|treadmill|dumbbell|tent|camping|riding|snorkel|weights)\b|자전거|골프|스키|운동|헬스|런닝머신|거꾸리|썰매/i.test(text)) {
+
+  // 2. Sports & Leisure
+  if (/\b(ski|snowboard|bmx|bike|bicycle|golf|putter|vokey|driver|treadmill|exercise|dumbbell|sled|inversion table|racket|tent|camping)\b|자전거|골프|스키|운동|거꾸리|썰매|미끼통|퍼터|드라이브|런닝머신|헬스|라이딩복/i.test(text)) {
     return 'Sports & leisure';
   }
-  // 9. Home, Garden & DIY
-  if (/\b(home|garden|kitchen|utensil|pan|pot|cookware|dish|dishes|towel|plant|decor|frame|art|curtain|mug|cup|tumbler|bowl|bowls|plate|plates|spoon|spoon rest|tray|glass door|mirror|tool|plane|rock|gravel|vase|candle)\b|주방|냄비|그릇|화분|인테리어|액자|거울|장식|수저|화장지|소주잔|식기/i.test(text)) {
-    return 'Home, garden & DIY';
+
+  // 3. Furniture
+  if (/\b(chair|chairs|table|tables|desk|desks|bed|beds|daybed|sofa|sofas|couch|dresser|mattress|shelf|shelves|cabinet|stool|stools|nightstand|nighttable|bench)\b|테이블|스탠드|조명|의자|소파|침대|책상|서랍|가구|식탁|스툴|체어|프레임|탁자|수납장|데이베드|바 스툴/i.test(text)) {
+    return 'Furniture';
   }
-  // 10. Luggages & Bags
-  if (/\b(bag|bags|backpack|luggage|suitcase|tote|pouch|wallet|osprey|gaston luga)\b|가방|백팩|캐리어|지갑|배낭|파우치/i.test(text)) {
+
+  // 4. Baby & Kids
+  if (/\b(baby|kid|kids|toddler|stroller|crib|diaper|toy|toys|lego|gundam|sylvanian|calico critters|bassinet|highchair)\b|유아|아동|유모차|장난감|레고|베시넷|하이체어|돌한복|돌 한복/i.test(text)) {
+    return 'Baby & kids';
+  }
+
+  // 5. Shoes
+  if (/\b(shoe|shoes|sneaker|sneakers|boot|boots|sandal|sandals|hunter|nike|adidas|jordan|heel|heels)\b|신발|운동화|구두|부츠|슬리퍼/i.test(text)) {
+    return 'Shoes';
+  }
+
+  // 6. Luggages & Bags
+  if (/\b(bag|bags|backpack|luggage|suitcase|tote|pouch|wallet|osprey)\b|가방|백팩|캐리어|지갑|배낭|파우치/i.test(text)) {
     return 'Luggages & bags';
   }
-  // 11. Toys & Games
-  if (/\b(game|games|card|cards|trading|collectible|figure|figures|board game|gundam|sylvanian)\b|카드|보드게임|피규어|장난감|인형|건담|블록/i.test(text)) {
-    return 'Toys & Games';
-  }
-  // 12. Arts, Books & Music
-  if (/\b(book|books|novel|dvd|cd|vinyl|album|art|print|painting)\b|책|음반|소설|그림|액자|문고/i.test(text)) {
-    return 'Arts, books, music, movies & tickets';
-  }
-  // 13. Jewelry & Watches
-  if (/\b(watch|watches|ring|necklace|bracelet|jewelry)\b|시계|반지|목걸이|보석/i.test(text)) {
-    return 'Jewelry & watches';
-  }
-  // 14. Health & Beauty
-  if (/\b(beauty|cosmetic|cosmetics|perfume|cream|lotion|soap|facial|brush|makeup)\b|화장품|향수|비누|메이크업/i.test(text)) {
+
+  // 7. Health & Beauty
+  if (/\b(beauty|cosmetic|cosmetics|perfume|cream|lotion|soap|facial|brush|makeup|thermometer)\b|화장품|향수|비누|메이크업|브러쉬/i.test(text)) {
     return 'Health & beauty';
+  }
+
+  // 8. Home, Garden & DIY
+  if (/\b(dish|dishes|plate|plates|bowl|bowls|cup|cups|mug|mugs|glass|soju|serving bowl|steamer|rice cooker|container|oil dispenser|dispenser|towel|towel set|paper|tissue|decor|decorations|mirror|curtain|plant|pot|pan|cookware|tool|plane|rock|rocks|gravel|vase|candle)\b|주방|냄비|그릇|화분|인테리어|액자|거울|장식|장식품|수저|화장지|소주잔|식기|김치통|밥그릇|찜기|유리병|정원용/i.test(text)) {
+    return 'Home, garden & DIY';
+  }
+
+  // 9. Women's Fashion
+  if (/\b(women|womens|women's|dress|skirt|blouse|handbag|purse)\b|원피스|스커트|여성|핸드백/i.test(text)) {
+    return "Women's fashion";
+  }
+
+  // 10. Men's Fashion
+  if (/\b(men|mens|men's|suit|tuxedo|dress shirt)\b|남성|정장|셔츠/i.test(text)) {
+    return "Men's fashion";
+  }
+
+  // 11. Food & Groceries (Checked strictly after electronics/furniture/home DIY/sports)
+  if (/\b(food|foods|snack|snacks|chip|chips|fruit chips|cookie|cookies|noodle|noodles|ramen|kimchi|drink|drinks|beverage|beverages|candy|chocolate|chocolates|matcha|yuzu|almond|almonds|honey|honeycomb|crisp|crisps|chili oil|olive oil|jam|jams|cacao|syrup|sourdough|ferrero|lollipop|lollipops|juice|soy sauce|sauce|vinegar|seaweed|rusk|rusks|curry|somyeon|ganjang)\b|식품|과자|라면|햇반|김치|음료|사탕|초콜릿|초콜렛|꽃다발|간식|음료수|소연/i.test(text)) {
+    return 'Food & Groceries';
   }
 
   if (rawCategory && !['used items', 'general', 'other', 'food & groceries'].includes(rawCategory.toLowerCase())) {

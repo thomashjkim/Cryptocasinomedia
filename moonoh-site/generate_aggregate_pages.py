@@ -18,6 +18,7 @@ import re
 SITE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 REGIONS = [
+    {'slug': 'new-york-area',    'name': 'New York Area',              'borough': None},
     {'slug': 'manhattan',        'name': 'Manhattan, NY',              'borough': 'Manhattan'},
     {'slug': 'queens',           'name': 'Queens, NY',                 'borough': 'Queens'},
     {'slug': 'brooklyn',         'name': 'Brooklyn, NY',               'borough': 'Brooklyn'},
@@ -30,14 +31,17 @@ REGIONS = [
 ]
 
 CATEGORIES = [
-    {'slug': 'furniture',     'name': 'Furniture',                'filter': 'Furniture'},
-    {'slug': 'electronics',   'name': 'Electronics & Appliances', 'filter': 'Electronics & Appliances'},
-    {'slug': 'fashion',       'name': "Women's & Men's Fashion",  'filter': "Women's fashion"},
-    {'slug': 'shoes',         'name': 'Shoes',                    'filter': 'Shoes'},
-    {'slug': 'baby-kids',     'name': 'Baby & Kids',              'filter': 'Baby & kids'},
-    {'slug': 'health-beauty', 'name': 'Health & Beauty',          'filter': 'Health & beauty'},
-    {'slug': 'home-garden',   'name': 'Home & Garden',            'filter': 'Home, garden & DIY'},
-    {'slug': 'free',          'name': 'Free Items',               'filter': 'Free'},
+    {'slug': 'food-groceries', 'name': 'Food & Groceries',         'filter': 'Food & Groceries'},
+    {'slug': 'furniture',      'name': 'Furniture',                'filter': 'Furniture'},
+    {'slug': 'electronics',    'name': 'Electronics & Appliances', 'filter': 'Electronics & Appliances'},
+    {'slug': 'fashion',        'name': "Women's & Men's Fashion",  'filter': "Women's fashion"},
+    {'slug': 'shoes',          'name': 'Shoes',                    'filter': 'Shoes'},
+    {'slug': 'baby-kids',      'name': 'Baby & Kids',              'filter': 'Baby & kids'},
+    {'slug': 'health-beauty',  'name': 'Health & Beauty',          'filter': 'Health & beauty'},
+    {'slug': 'home-garden',    'name': 'Home & Garden',            'filter': 'Home, garden & DIY'},
+    {'slug': 'sports-leisure', 'name': 'Sports & Leisure',         'filter': 'Sports & leisure'},
+    {'slug': 'luggages-bags',  'name': 'Luggages & Bags',          'filter': 'Luggages & bags'},
+    {'slug': 'free',           'name': 'Free Items',               'filter': 'Free'},
 ]
 
 SITE_DOMAIN = 'https://moon-oh.com'
