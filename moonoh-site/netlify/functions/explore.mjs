@@ -144,7 +144,28 @@ async function fetchAllCombinedItems() {
       });
     }
 
-    cachedCombinedItems = [...moonohItems, ...foodRescueItems, ...externalItems];
+    let localItems = [];
+    if (localShopsData && Array.isArray(localShopsData.products)) {
+      localItems = localShopsData.products.map(p => ({
+        id: p.id,
+        no: p.id,
+        title: p.title,
+        price: p.current_price,
+        photo: p.image_source_url,
+        image: p.image_source_url,
+        townName: p.shop_id === 'happier-grocery' ? 'Soho, NY' : (p.shop_id === 'big-night' ? 'Greenpoint, NY' : 'West Village, NY'),
+        rawTown: p.shop_id === 'happier-grocery' ? 'Soho, NY' : (p.shop_id === 'big-night' ? 'Greenpoint, NY' : 'West Village, NY'),
+        location: p.shop_id === 'happier-grocery' ? 'Soho, NY' : (p.shop_id === 'big-night' ? 'Greenpoint, NY' : 'West Village, NY'),
+        categoryName: p.moonoh_category || 'Food & Groceries',
+        category: p.moonoh_category || 'Food & Groceries',
+        detailUrl: `https://moon-oh.com/local-product/${p.shop_id}/${p.slug}`,
+        url: `https://moon-oh.com/local-product/${p.shop_id}/${p.slug}`,
+        source: p.shop_id,
+        badgeName: p.brand || (localShopsData.shops[p.shop_id] ? localShopsData.shops[p.shop_id].name : 'Local Shop')
+      }));
+    }
+
+    cachedCombinedItems = [...moonohItems, ...foodRescueItems, ...localItems, ...externalItems];
     lastFetchTime = now;
     return cachedCombinedItems;
   } catch (e) {
@@ -247,6 +268,7 @@ export default async (req, context) => {
     // Filter by Region if present
     if (targetRegionObj) {
       filteredItems = filteredItems.filter(item => {
+        if (item.source === 'kimc') return true; // Kim'C Market ships across all NYC & NJ
         const locStr = ((item.rawTown || '') + ' ' + (item.location || '') + ' ' + (item.townName || '')).toLowerCase();
         return targetRegionObj.keywords.some(kw => locStr.includes(kw));
       });

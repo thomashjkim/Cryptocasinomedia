@@ -1061,8 +1061,10 @@
           badgeHtml = `<div class="item-card-badge badge-popup">Pop Up Grocer</div>`;
         } else if (sourceVal.includes('big') || shopId.includes('big') || item.badgeName === 'Big Night') {
           badgeHtml = `<div class="item-card-badge badge-bignight">Big Night</div>`;
-        } else if (activeSource === 'marketplaces' && (sourceVal === 'external' || sourceVal === 'others')) {
+        } else if (sourceVal === 'external' || sourceVal === 'others') {
           badgeHtml = `<div class="item-card-badge badge-heykorean">Marketplace</div>`;
+        } else {
+          badgeHtml = `<div class="item-card-badge badge-moonoh">Moonoh</div>`;
         }
 
         function generateExternalSlug(t, l, id) {
@@ -1402,7 +1404,10 @@
       }
 
       let activePath = window.location.pathname.toLowerCase();
-      let activeSource = 'moonoh';
+      let _pSegments = activePath.replace(/^\/explore\/?/, '').split('/').filter(Boolean);
+      let isCombinedPage = _pSegments.length >= 1 && !['food-rescue', 'foodrescue', 'local-shops', 'localshops', 'local', 'marketplaces', 'others'].includes(_pSegments[0]);
+      let activeSource = isCombinedPage ? 'all' : 'moonoh';
+
       if (activePath.includes('food-rescue') || activePath.includes('foodrescue')) {
         activeSource = 'foodrescue';
       } else if (activePath.includes('local-shops') || activePath.includes('localshops') || activePath.includes('local')) {
@@ -1566,6 +1571,8 @@
           filtered = localShopsItemsList;
         } else if (activeSource === 'marketplaces' || activeSource === 'others') {
           filtered = externalItemsList;
+        } else if (activeSource === 'all') {
+          filtered = [...allItems, ...foodRescueItemsList, ...localShopsItemsList, ...externalItemsList];
         } else {
           filtered = allItems.filter(i => !i.source || i.source === 'moonoh');
         }
@@ -1573,6 +1580,7 @@
         if (activeTown && boroughKeywords[activeTown]) {
           const kws = boroughKeywords[activeTown];
           filtered = filtered.filter(item => {
+            if (item.source === 'kimc') return true; // Kim'C Market ships across all NYC & NJ
             const locStr = ((item.rawTown || '') + ' ' + (item.location || '')).toLowerCase();
             return kws.some(kw => locStr.includes(kw));
           });
