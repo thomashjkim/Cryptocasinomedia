@@ -1416,6 +1416,11 @@
         activeSource = 'marketplaces';
       }
 
+      const sourceSegmentWrap = document.getElementById('source-segment-wrap');
+      if (isCombinedPage && sourceSegmentWrap) {
+        sourceSegmentWrap.style.display = 'none';
+      }
+
       // Source Segment Switcher (Moonoh · Food Rescue · Local Shops · Marketplaces)
       const btnMoonoh = document.getElementById('tab-source-moonoh');
       const btnFoodRescue = document.getElementById('tab-source-foodrescue');
