@@ -22671,6 +22671,27 @@ export default async (req, context) => {
           "validFrom": "2026-01-01T00:00:00Z",
           "availability": ${JSON.stringify(externalSource === 'kimc' ? 'https://schema.org/OutOfStock' : 'https://schema.org/InStock')},
           "itemCondition": ${JSON.stringify(externalSource === 'kimc' ? 'https://schema.org/NewCondition' : 'https://schema.org/UsedCondition')},
+          "hasMerchantReturnPolicy": {
+            "@type": "MerchantReturnPolicy",
+            "applicableCountry": "US",
+            "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
+            "merchantReturnDays": 14,
+            "returnMethod": "https://schema.org/ReturnInStore",
+            "returnFees": "https://schema.org/FreeReturn",
+            "merchantReturnLink": "https://moon-oh.com/return-policy"
+          },
+          "shippingDetails": {
+            "@type": "OfferShippingDetails",
+            "shippingRate": {
+              "@type": "MonetaryAmount",
+              "value": "0.00",
+              "currency": "USD"
+            },
+            "shippingDestination": {
+              "@type": "DefinedRegion",
+              "addressCountry": "US"
+            }
+          },
           "seller": {
             "@type": "Organization",
             "name": ${JSON.stringify(externalSource === 'kimc' ? "Kim'C Market" : (sellerName || "Moonoh"))},
