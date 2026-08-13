@@ -22679,8 +22679,7 @@ export default async (req, context) => {
             "returnMethod": "https://schema.org/ReturnInStore",
             "returnFees": "https://schema.org/FreeReturn",
             "merchantReturnLink": "https://moon-oh.com/return-policy"
-          },
-          "shippingDetails": {
+          ${(externalSource === 'kimc' || isExternal) ? '' : `"shippingDetails": {
             "@type": "OfferShippingDetails",
             "shippingRate": {
               "@type": "MonetaryAmount",
@@ -22691,7 +22690,7 @@ export default async (req, context) => {
               "@type": "DefinedRegion",
               "addressCountry": "US"
             }
-          },
+          },`}
           "seller": {
             "@type": "Organization",
             "name": ${JSON.stringify(externalSource === 'kimc' ? "Kim'C Market" : (sellerName || "Moonoh"))},
