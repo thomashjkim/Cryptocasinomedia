@@ -621,12 +621,12 @@
       padding: 7px 14px;
       border-radius: 999px;
       font-size: 13px;
-      font-weight: 500;
+      font-weight: 600;
       color: #4B5563;
       background-color: #F9FAFB;
       border: 1px solid #E5E7EB;
       cursor: pointer;
-      transition: all 0.15s ease;
+      transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease;
       outline: none;
       -webkit-tap-highlight-color: transparent;
     }
@@ -1543,73 +1543,23 @@
       }
 
       let activePath = window.location.pathname.toLowerCase();
-      let _pSegments = activePath.replace(/^\/explore\/?/, '').split('/').filter(Boolean);
-      let isCombinedPage = _pSegments.length >= 1 && !['food-rescue', 'foodrescue', 'local-shops', 'localshops', 'local', 'marketplaces', 'others'].includes(_pSegments[0]);
-
       if (activePath.includes('food-rescue') || activePath.includes('foodrescue')) {
         activeSource = 'foodrescue';
       } else if (activePath.includes('local-shops') || activePath.includes('localshops') || activePath.includes('local')) {
         activeSource = 'localshops';
       } else if (activePath.includes('marketplaces') || activePath.includes('others')) {
         activeSource = 'marketplaces';
+      } else {
+        activeSource = 'moonoh';
       }
 
+      // ALWAYS keep source tabs visible!
       const sourceSegmentWrap = document.getElementById('source-segment-wrap');
-      if (isCombinedPage && sourceSegmentWrap) {
-        sourceSegmentWrap.style.display = 'none';
+      if (sourceSegmentWrap) {
+        sourceSegmentWrap.style.display = 'flex';
       }
 
       // Source Segment Switcher (Moonoh · Food Rescue · Local Shops · Marketplaces)
-        const btnFoodRescue = document.getElementById('tab-source-foodrescue');
-        const btnLocalShops = document.getElementById('tab-source-localshops');
-        const btnMarketplaces = document.getElementById('tab-source-marketplaces');
-
-        if (btnMoonoh) btnMoonoh.classList.toggle('active', source === 'moonoh');
-        if (btnFoodRescue) btnFoodRescue.classList.toggle('active', source === 'foodrescue');
-        if (btnLocalShops) btnLocalShops.classList.toggle('active', source === 'localshops');
-        if (btnMarketplaces) btnMarketplaces.classList.toggle('active', source === 'marketplaces' || source === 'others');
-
-        const subtitleLabel = document.getElementById('section-subtitle-label');
-        if (subtitleLabel) {
-          if (source === 'foodrescue') subtitleLabel.textContent = "Food Rescue";
-          else if (source === 'localshops') subtitleLabel.textContent = "Local";
-          else if (source === 'marketplaces' || source === 'others') subtitleLabel.textContent = "Other Marketplaces";
-          else subtitleLabel.textContent = "Moonoh Marketplace";
-        }
-
-        const foodRescueBanner = document.getElementById("food-rescue-banner");
-        if (foodRescueBanner) {
-          foodRescueBanner.style.display = source === 'foodrescue' ? 'flex' : 'none';
-        }
-
-        const filterContainer = document.getElementById("filter-container");
-        if (filterContainer) {
-          filterContainer.style.display = (source === 'foodrescue' || source === 'localshops') ? 'none' : 'flex';
-        }
-
-        // Apply filter instantly on current memory pool
-        applyFilters(getActiveCategoryKeyword());
-
-        // Fetch in background if missing
-        if (source === 'moonoh' && (allItems.filter(isStrictMoonoh).length === 0) && moonohItemsList.length === 0) {
-          preloadMoonohItems().then(() => {
-            if (activeSource === 'moonoh') applyFilters(getActiveCategoryKeyword());
-          });
-        } else if (source === 'foodrescue' && foodRescueItemsList.length === 0) {
-          preloadFoodRescueItems().then(() => {
-            if (activeSource === 'foodrescue') applyFilters(getActiveCategoryKeyword());
-          });
-        } else if (source === 'localshops' && localShopsItemsList.length === 0) {
-          preloadLocalShopsItems().then(() => {
-            if (activeSource === 'localshops') applyFilters(getActiveCategoryKeyword());
-          });
-        } else if ((source === 'marketplaces' || source === 'others') && externalItemsList.length === 0) {
-          preloadExternalItems().then(() => {
-            if (activeSource === 'marketplaces' || activeSource === 'others') applyFilters(getActiveCategoryKeyword());
-          });
-        }
-      }
-
       const tabBtnMoonoh = document.getElementById('tab-source-moonoh');
       const tabBtnFoodRescue = document.getElementById('tab-source-foodrescue');
       const tabBtnLocalShops = document.getElementById('tab-source-localshops');
@@ -1619,91 +1569,8 @@
       if (tabBtnFoodRescue) tabBtnFoodRescue.addEventListener('click', (e) => { e.preventDefault(); switchSource('foodrescue'); history.pushState(null, '', '/explore/food-rescue'); });
       if (tabBtnLocalShops) tabBtnLocalShops.addEventListener('click', (e) => { e.preventDefault(); switchSource('localshops'); history.pushState(null, '', '/explore/local-shops'); });
       if (tabBtnMarketplaces) tabBtnMarketplaces.addEventListener('click', (e) => { e.preventDefault(); switchSource('marketplaces'); history.pushState(null, '', '/explore/marketplaces'); });
-
-      const currentPath = window.location.pathname.toLowerCase();
-      if (currentPath.includes('/explore/marketplaces') || currentPath.includes('/explore/others')) {
-        switchSource('marketplaces');
-      } else if (currentPath.includes('/explore/food-rescue')) {
-        switchSource('foodrescue');
-      } else if (currentPath.includes('/explore/local')) {
-        switchSource('localshops');
-      } else if (activeSource !== 'moonoh') {
-        switchSource(activeSource);
-      }
-
-      // Load more
-      // More Categories toggle button
-      const btnMore = document.getElementById("btn-more-categories");
-      const btnMoreText = document.getElementById("btn-more-text");
-      const filterContainer = document.getElementById("filter-container");
-      if (btnMore && filterContainer) {
-        btnMore.addEventListener("click", function() {
-          const isExpanded = filterContainer.classList.toggle("is-expanded");
-          if (btnMoreText) btnMoreText.textContent = isExpanded ? "Less" : "More Categories";
-        });
-      }
-
-      const btnLoadMore = document.getElementById("btn-load-more");
-      if (btnLoadMore) {
-        btnLoadMore.addEventListener("click", () => {
-          visibleCount += 40;
-          renderGrid(currentFiltered);
-        });
-      }
-
-      // Read URL path segments and query params (SEO URLs & Breadcrumbs)
-      // Path format: /explore/{category} or /explore/{geo}/{category}
-      const pathSegments = window.location.pathname.replace(/^\/explore\/?/, '').split('/').filter(Boolean);
-      const params = new URLSearchParams(window.location.search);
       
-      let urlSource = params.get('source') || '';
-      let urlTown = params.get('town') || '';
-      let urlCategory = params.get('category') || '';
-
-      if (urlSource === 'others') {
-        switchSource('others');
-      }
-
-      if (pathSegments.length === 1) {
-        urlCategory = urlCategory || pathSegments[0];
-      } else if (pathSegments.length >= 2) {
-        urlTown = urlTown || pathSegments[0];
-        urlCategory = urlCategory || pathSegments[1];
-      }
-
-      // Highlight dropdown & filter pills based on URL without breaking SSR grid
-      if (urlTown && locationSelect) {
-        const opts = Array.from(locationSelect.options);
-        const matched = opts.find(o => urlTown.toLowerCase().includes(o.value.toLowerCase()) && o.value !== '');
-        if (matched) {
-          locationSelect.value = matched.value;
-          activeTown = matched.value;
-        }
-      }
-
-      if (urlCategory && urlCategory.toLowerCase() !== 'others' && urlCategory.toLowerCase() !== 'external') {
-        const urlCatLower = urlCategory.toLowerCase();
-        let matchedBtn = null;
-        document.querySelectorAll('.filter-pill').forEach(btn => {
-          const label = btn.textContent.trim().toLowerCase();
-          if (label === 'free' && urlCatLower === 'free') {
-            matchedBtn = btn;
-          } else if (label !== 'other' && label !== 'free' && (urlCatLower.includes(label.split(' ')[0]) || label.includes(urlCatLower.split(' ')[0]))) {
-            if (!matchedBtn) matchedBtn = btn;
-          }
-        });
-        if (matchedBtn) {
-          document.querySelectorAll('.filter-pill').forEach(b => b.classList.remove('active'));
-          matchedBtn.classList.add('active');
-          if (matchedBtn.classList.contains('filter-pill-extra') && filterContainer) {
-            filterContainer.classList.add('is-expanded');
-            if (btnMoreText) btnMoreText.textContent = "Less";
-          }
-          applyFilters(getActiveCategoryKeyword());
-        }
-      }
-    }
-
+      switchSource(activeSource);
     // Modal Logic
     function openExternalModal(e, title, price, location, image, source, url) {
       if (e) e.preventDefault();
@@ -1756,6 +1623,24 @@
       renderItems();
       setupFilters();
       initCategoryFromUrl();
+
+      const btnMore = document.getElementById("btn-more-categories");
+      const btnMoreText = document.getElementById("btn-more-text");
+      const filterContainer = document.getElementById("filter-container");
+      if (btnMore && filterContainer) {
+        btnMore.addEventListener("click", function() {
+          const isExpanded = filterContainer.classList.toggle("is-expanded");
+          if (btnMoreText) btnMoreText.textContent = isExpanded ? "Less" : "More Categories";
+        });
+      }
+
+      const btnLoadMore = document.getElementById("btn-load-more");
+      if (btnLoadMore) {
+        btnLoadMore.addEventListener("click", () => {
+          visibleCount += 40;
+          renderGrid(currentFiltered);
+        });
+      }
 
       const modal = document.getElementById("moonoh-download-modal");
       if (modal) {
