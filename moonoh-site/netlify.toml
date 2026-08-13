@@ -85,11 +85,16 @@
   to = "/return-policy.html"
   status = 200
 
+# Static Sitemaps
 [[redirects]]
-  from = "/sitemap-moonoh-items.xml"
-  to = "/.netlify/functions/sitemap-moonoh-items"
+  from = "/sitemap.xml"
+  to = "/sitemap.xml"
   status = 200
-  force = true
+
+[[redirects]]
+  from = "/sitemap-index.xml"
+  to = "/sitemap-index.xml"
+  status = 200
 
 [[redirects]]
   from = "/sitemap-food-rescue.xml"
@@ -97,16 +102,14 @@
   status = 200
 
 [[redirects]]
-  from = "/sitemap-local-shops.xml"
-  to = "/.netlify/functions/sitemap-local-shops"
+  from = "/sitemap-external.xml"
+  to = "/sitemap-external.xml"
   status = 200
-  force = true
 
 [[redirects]]
-  from = "/sitemap-marketplaces.xml"
-  to = "/.netlify/functions/sitemap-marketplaces"
+  from = "/sitemap-local-shops.xml"
+  to = "/sitemap-local-shops.xml"
   status = 200
-  force = true
 
 [[redirects]]
   from = "/local-shops/*"

@@ -22885,7 +22885,7 @@ export default async (req, context) => {
 
           return `
             <a class="related-card" href="${relSlug}">
-              <img src="${relImg}" class="related-card-img" alt="${safeRelTitle}" itemprop="image" loading="lazy" onerror="this.onerror=null; this.src='/images/default-item-placeholder.png';"/>
+              <img src="${relImg}" class="related-card-img" alt="${safeRelTitle}" loading="lazy" onerror="this.onerror=null; this.src='/images/default-item-placeholder.png';"/>
               <div class="related-card-info">
                 <div class="related-card-price">${rPriceStr}</div>
                 <div class="related-card-name">${safeRelTitle}</div>
