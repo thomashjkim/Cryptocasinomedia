@@ -22659,7 +22659,9 @@ export default async (req, context) => {
       "hasMerchantReturnPolicy": {
         "@type": "MerchantReturnPolicy",
         "applicableCountry": "US",
-        "returnPolicyCategory": "https://schema.org/MerchantReturnNotPermitted",
+        "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
+        "merchantReturnDays": 30,
+        "returnMethod": "https://schema.org/ReturnInStore",
         "merchantReturnLink": "https://moon-oh.com/return-policy"
       }
     }
@@ -23015,6 +23017,35 @@ export default async (req, context) => {
       ${relatedHtml}
     </div>
   </section>
+
+  <!-- Crawlable Footer for Google Merchant Policy & SEO -->
+  <footer style="background:#F9FAFB; border-top:1px solid #E5E7EB; margin-top:64px; padding:48px 20px 120px; font-size:13px; color:#6B7280;">
+    <div style="max-width:940px; margin:0 auto; display:grid; grid-template-columns:2fr 1fr 1fr; gap:32px;">
+      <div>
+        <h4 style="font-size:15px; font-weight:800; color:#111827; margin-bottom:8px;">Moonoh Inc.</h4>
+        <p style="line-height:1.6; margin-bottom:8px;">8 Spruce Street, New York, NY 10038<br/>Phone: +1 (917) 584-5177 | Email: info@moon-oh.com</p>
+        <p style="font-size:12px; color:#9CA3AF;">© 2026 Moonoh Inc. All rights reserved.</p>
+      </div>
+      <div>
+        <h4 style="font-size:14px; font-weight:700; color:#111827; margin-bottom:10px;">Support &amp; Policy</h4>
+        <ul style="list-style:none; padding:0; margin:0; line-height:2.0;">
+          <li><a href="/return-policy" style="color:#4F46E5; font-weight:600; text-decoration:underline;">Return &amp; Refund Policy</a></li>
+          <li><a href="/terms" style="color:#4F46E5; font-weight:600; text-decoration:underline;">Terms of Use</a></li>
+          <li><a href="/privacy" style="color:#4F46E5; font-weight:600; text-decoration:underline;">Privacy Policy</a></li>
+          <li><a href="/disclaimer" style="color:#4B5563; text-decoration:none;">Disclaimer</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 style="font-size:14px; font-weight:700; color:#111827; margin-bottom:10px;">Company</h4>
+        <ul style="list-style:none; padding:0; margin:0; line-height:2.0;">
+          <li><a href="/about" style="color:#4B5563; text-decoration:none;">About Us</a></li>
+          <li><a href="/press" style="color:#4B5563; text-decoration:none;">Press &amp; Media</a></li>
+          <li><a href="/contact" style="color:#4B5563; text-decoration:none;">Contact Us</a></li>
+          <li><a href="/fraud-prevention" style="color:#4B5563; text-decoration:none;">Fraud Prevention</a></li>
+        </ul>
+      </div>
+    </div>
+  </footer>
 
   <!-- Fixed Bottom Bar -->
   <div class="bottom-bar">
