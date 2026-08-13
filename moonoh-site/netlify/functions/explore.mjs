@@ -247,27 +247,27 @@ export default async (req, context) => {
     } else {
       // Include ALL sources across Moonoh, Marketplaces, Food Rescue & Local Shops for aggregate region/category pages
       filteredItems = allItems;
+    }
 
-      // Filter by Region if present
-      if (targetRegionObj) {
-        filteredItems = filteredItems.filter(item => {
-          const locStr = ((item.rawTown || '') + ' ' + (item.location || '') + ' ' + (item.townName || '')).toLowerCase();
-          return targetRegionObj.keywords.some(kw => locStr.includes(kw));
-        });
-      }
+    // Filter by Region if present
+    if (targetRegionObj) {
+      filteredItems = filteredItems.filter(item => {
+        const locStr = ((item.rawTown || '') + ' ' + (item.location || '') + ' ' + (item.townName || '')).toLowerCase();
+        return targetRegionObj.keywords.some(kw => locStr.includes(kw));
+      });
+    }
 
-      // Filter by Category if present
-      if (targetCategoryObj) {
-        filteredItems = filteredItems.filter(item => {
-          const mainCat = (item.categoryName || item.category || '').toLowerCase();
-          const titleStr = (item.title || '').toLowerCase();
-          if (targetCategoryObj.excludes && targetCategoryObj.excludes.some(ex => titleStr.includes(ex))) {
-            return false;
-          }
-          if (mainCat.includes(targetCategoryObj.kw)) return true;
-          return targetCategoryObj.keywords.some(kw => titleStr.includes(kw) || mainCat.includes(kw));
-        });
-      }
+    // Filter by Category if present
+    if (targetCategoryObj) {
+      filteredItems = filteredItems.filter(item => {
+        const mainCat = (item.categoryName || item.category || '').toLowerCase();
+        const titleStr = (item.title || '').toLowerCase();
+        if (targetCategoryObj.excludes && targetCategoryObj.excludes.some(ex => titleStr.includes(ex))) {
+          return false;
+        }
+        if (mainCat.includes(targetCategoryObj.kw)) return true;
+        return targetCategoryObj.keywords.some(kw => titleStr.includes(kw) || mainCat.includes(kw));
+      });
     }
 
     let template = getExploreTemplate();

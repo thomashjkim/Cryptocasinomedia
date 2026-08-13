@@ -1220,9 +1220,10 @@
       } else if (categoryKeyword) {
         const kw = String(categoryKeyword).toLowerCase();
         filtered = filtered.filter(item => {
-          if (!item || !item.category) return false;
-          const cat = String(item.category).toLowerCase();
-          return cat.includes(kw) || kw.includes(cat);
+          if (!item) return false;
+          const cat = String(item.category || item.categoryName || '').toLowerCase();
+          const title = String(item.title || '').toLowerCase();
+          return cat.includes(kw) || kw.includes(cat) || (kw.length >= 3 && title.includes(kw));
         });
       }
 
