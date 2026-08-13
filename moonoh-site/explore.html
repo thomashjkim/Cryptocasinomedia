@@ -1148,7 +1148,7 @@
         currentFiltered = items;
         visibleCount = 40;
         
-        renderGrid(currentFiltered);
+        applyFilters(getActiveCategoryKeyword());
 
         // Fetch fresh items from API to ensure app uploads are always up-to-date
         fetchFreshItems();
@@ -1214,11 +1214,14 @@
 
       // Filter by category if selected
       if (categoryKeyword === "FREE_FILTER") {
-        filtered = filtered.filter(item => item.price === 0);
+        filtered = filtered.filter(item => item && item.price === 0);
       } else if (categoryKeyword) {
-        filtered = filtered.filter(item =>
-          item.category && item.category.toLowerCase().includes(categoryKeyword)
-        );
+        const kw = String(categoryKeyword).toLowerCase();
+        filtered = filtered.filter(item => {
+          if (!item || !item.category) return false;
+          const cat = String(item.category).toLowerCase();
+          return cat.includes(kw) || kw.includes(cat);
+        });
       }
 
       currentFiltered = filtered;

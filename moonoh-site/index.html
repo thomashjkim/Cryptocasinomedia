@@ -1185,22 +1185,24 @@
     // Map filter button labels to API category names (partial match)
     const categoryMap = {
       "All": null,
-      "Shoes": "shoe",
+      "Free": "FREE_FILTER",
+      "Food & Groceries": "food",
+      "Furniture": "furniture",
+      "Electronics & appliances": "electronics",
       "Health & beauty": "health",
-      "Luggages & bags": "bag",
-      "Sports & leisure": "sport",
-      "Toys & Games": "toy",
-      "Pet supplies": "pet",
+      "Women's fashion": "women",
+      "Shoes": "shoe",
       "Home, garden & DIY": "home",
-      "Arts, books, music, movies & tickets": "art",
-      "Antiques & collections": "antique",
+      "Jewelry & watches": "jewelry",
+      "Luggages & bags": "bag",
       "Men's fashion": "men",
       "Baby & kids": "baby",
-      "Electronics & appliances": "electronics",
-      "Women's fashion": "women",
-      "Jewelry & watches": "jewelry",
+      "Antiques & collections": "antique",
+      "Arts, books, music, movies & tickets": "art",
+      "Pet supplies": "pet",
       "Sublets": "sublet",
-      "Furniture": "furniture",
+      "Sports & leisure": "sport",
+      "Toys & Games": "toy",
       "Other": "other"
     };
 
@@ -1319,7 +1321,13 @@
         
         if (items.length > 0) {
           allItems = items; // store globally
-          renderGrid(items.slice(0, 50));
+          if (typeof filterAndRender === 'function') {
+            const locSel = document.getElementById('location-select');
+            const currentLoc = locSel ? locSel.value.toLowerCase() : '';
+            filterAndRender(currentLoc, getActiveCategoryKeyword());
+          } else {
+            renderGrid(items.slice(0, 50));
+          }
         }
         
         // Auto fetch fresh items
@@ -1485,11 +1493,14 @@
 
         if (activeSource !== 'foodrescue') {
           if (categoryKeyword === "FREE_FILTER") {
-            filtered = filtered.filter(item => item.price === 0);
+            filtered = filtered.filter(item => item && item.price === 0);
           } else if (categoryKeyword) {
-            filtered = filtered.filter(item =>
-              item.category && item.category.toLowerCase().includes(categoryKeyword)
-            );
+            const kw = String(categoryKeyword).toLowerCase();
+            filtered = filtered.filter(item => {
+              if (!item || !item.category) return false;
+              const cat = String(item.category).toLowerCase();
+              return cat.includes(kw) || kw.includes(cat);
+            });
           }
         }
 
