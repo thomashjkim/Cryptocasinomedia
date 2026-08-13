@@ -1269,6 +1269,33 @@
       const slug = String(targetSlug).toLowerCase();
 
       if (slug === 'free') return false;
+
+      const slugToExactCat = {
+        'electronics': 'electronics & appliances',
+        'furniture': 'furniture',
+        'womens-fashion': "women's fashion",
+        'mens-fashion': "men's fashion",
+        'shoes': 'shoes',
+        'baby-kids': 'baby & kids',
+        'food-groceries': 'food & groceries',
+        'home-garden': 'home, garden & diy',
+        'jewelry-watches': 'jewelry & watches',
+        'luggages-bags': 'luggages & bags',
+        'health-beauty': 'health & beauty',
+        'antiques': 'antiques & collections',
+        'arts-books-music': 'arts, books, music, movies & tickets',
+        'pet-supplies': 'pet supplies',
+        'sublets': 'sublets',
+        'sports-leisure': 'sports & leisure',
+        'toys-games': 'toys & games',
+        'other': 'other'
+      };
+
+      const exactDbCat = slugToExactCat[slug];
+      if (exactDbCat && cat === exactDbCat.toLowerCase()) {
+        return true;
+      }
+
       if (slug === 'electronics') {
         return cat.includes('electronic') || cat.includes('appliance') || title.includes('phone') || title.includes('laptop') || title.includes('airpods') || title.includes('ipad') || title.includes('tv') || title.includes('camera') || title.includes('charger') || title.includes('ink');
       }
@@ -1285,22 +1312,22 @@
         return cat.includes('shoe') || cat.includes('sneaker') || cat.includes('boot') || cat.includes('sandal');
       }
       if (slug === 'baby-kids') {
-        return cat.includes('baby') || cat.includes('kid') || cat.includes('stroller') || title.includes('baby') || title.includes('kid');
+        return cat.includes('baby') || cat.includes('kid') || cat.includes('stroller');
       }
       if (slug === 'food-groceries') {
         return cat.includes('food') || cat.includes('groc') || cat.includes('snack') || cat.includes('drink');
       }
       if (slug === 'home-garden') {
-        return cat.includes('home') || cat.includes('garden') || cat.includes('kitchen') || cat.includes('utensil');
+        return cat.includes('home') || cat.includes('garden') || cat.includes('kitchen');
       }
       if (slug === 'jewelry-watches') {
-        return cat.includes('jewel') || cat.includes('watch') || cat.includes('ring') || cat.includes('earring');
+        return cat.includes('jewel') || cat.includes('watch') || cat.includes('ring');
       }
       if (slug === 'luggages-bags') {
-        return cat.includes('luggage') || cat.includes('bag') || cat.includes('pouch') || cat.includes('backpack') || cat.includes('tote') || cat.includes('wallet');
+        return cat.includes('luggage') || cat.includes('bag') || cat.includes('pouch') || cat.includes('backpack') || cat.includes('wallet');
       }
       if (slug === 'health-beauty') {
-        return cat.includes('health') || cat.includes('beauty') || cat.includes('toner') || cat.includes('cosmetic') || cat.includes('skin');
+        return cat.includes('health') || cat.includes('beauty') || cat.includes('toner') || cat.includes('cosmetic');
       }
       if (slug === 'antiques') {
         return cat.includes('antique') || cat.includes('collectible') || cat.includes('vintage');
@@ -1434,6 +1461,18 @@
 
       // Apply filter instantly on current memory pool
       applyFilters(getActiveCategoryKeyword());
+
+      // Preload missing data in background
+      if (source === 'moonoh' && (allItems.filter(isStrictMoonoh).length === 0) && moonohItemsList.length === 0) {
+        preloadMoonohItems();
+      } else if (source === 'foodrescue' && foodRescueItemsList.length === 0) {
+        preloadFoodRescueItems();
+      } else if (source === 'localshops' && localShopsItemsList.length === 0) {
+        preloadLocalShopsItems();
+      } else if ((source === 'marketplaces' || source === 'others') && externalItemsList.length === 0) {
+        preloadExternalItems();
+      }
+    }
 
     async function preloadFoodRescueItems() {
       if (foodRescueItemsList.length > 0) return;
@@ -1586,7 +1625,6 @@
           }
         }
       } catch (e) {}
-    }
     }
 
     function initCategoryFromUrl() {
