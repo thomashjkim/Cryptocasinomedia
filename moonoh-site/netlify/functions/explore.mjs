@@ -152,16 +152,6 @@ async function fetchAllCombinedItems() {
       }));
     }
 
-    const combined = [...moonohItems, ...externalItems];
-    cachedCombinedItems = combined;
-    lastFetchTime = Date.now();
-    return combined;
-  } catch (error) {
-    console.error("Error in fetchAllCombinedItems:", error);
-    return cachedCombinedItems || [];
-  }
-}
-
     let foodRescueItems = [];
     if (Array.isArray(realFoodRescueItems)) {
       foodRescueItems = realFoodRescueItems.map((item, idx) => {
