@@ -15,7 +15,7 @@
   <meta content="Buy and sell secondhand items locally with your NYC and NJ neighbors on moonoh — the free neighborhood marketplace app. 0% fees, secure chat, and safe meetups on iOS &amp; Android." name="description"/>
   <meta content="moonoh – NYC & NJ Neighborhood Marketplace App" property="og:title"/>
   <meta content="Buy and sell secondhand items locally with your NYC and NJ neighbors on moonoh — the free neighborhood marketplace app. 0% fees, secure chat, and safe meetups on iOS &amp; Android." property="og:description"/>
-  <meta content="https://cdn.prod.website-files.com/65e3de602f703e1765199b30/65e3defdda5311cf141432d0_Vectors-Wrapper.svg" property="og:image"/>
+  <meta content="https://cdn.prod.website-files.com/65e3de602f703e1765199b30/65e51609210be273428d7ad8_Moonoh%2032.png" property="og:image"/>
   <meta content="https://moon-oh.com" property="og:url"/>
   <meta content="website" property="og:type"/>
   <meta content="moonoh – NYC & NJ Neighborhood Marketplace App" name="twitter:title"/>
@@ -975,11 +975,67 @@
           Sell-By Guide ↗
         </a>
       </div>
-        <div class="item-grid" id="moonoh-item-grid">
-      <p style="text-align:center; color:#888; padding:40px; grid-column:1/-1;">Loading...</p>
+      <div class="item-grid" id="moonoh-item-grid">
+        <p style="text-align:center; color:#888; padding:40px; grid-column:1/-1;">Loading...</p>
       </div>
+      <!-- Load More Button -->
+      <div id="load-more-container" style="display:none; text-align:center; margin:32px 0 8px;">
+        <p id="item-count-info" style="color:#888; font-size:14px; margin-bottom:12px;"></p>
+        <button id="btn-load-more" style="background:#4F46E5; color:#fff; border:none; border-radius:999px; padding:12px 32px; font-size:15px; font-weight:700; cursor:pointer; transition:background 0.2s;">Load More</button>
+      </div>
+    </section>
 
-<section class="comparison-section">
+    <!-- How moonoh works Expanded to Full 940px Airbnb Cards Grid -->
+    <div class="team-circles">
+      <div class="container-2">
+        <div class="title-section"><h2 class="text-2">How moonoh works</h2></div>
+        
+        <div class="small-columns">
+          <div class="column-3">
+            <div class="image-wrapper-2"><img src="https://cdn.prod.website-files.com/65e3de602f703e1765199b30/65e3ef2b342fae21f3e02704_01.png" loading="lazy" width="320" height="320" alt="moonoh app browse screen" class="image-2"/></div>
+          </div>
+          <div class="column-4">
+            <div class="author"><h3 class="text-3">1. Find Treasures or List Your Item</h3><div class="author-job">Discover a world of unique secondhand items just waiting to be found in your neighborhood, or list your pre-loved items for free in seconds.</div></div>
+          </div>
+        </div>
+
+        <div class="small-columns">
+          <div class="column-3">
+            <div class="image-wrapper-2"><img src="https://cdn.prod.website-files.com/65e3de602f703e1765199b30/65e3ef2bc7732269dfa144b9_02.png" loading="lazy" width="320" height="230" alt="moonoh app messaging" class="image-2"/></div>
+          </div>
+          <div class="column-4">
+            <div class="author"><h3 class="text-3">2. Connect and Chat Securely</h3><div class="author-job">Chat instantly with sellers or buyers using built-in secure messaging. Ask questions, negotiate prices, and arrange meetups with local neighbors safely.</div></div>
+          </div>
+        </div>
+
+        <div class="small-columns">
+          <div class="column-3">
+            <div class="image-wrapper-2"><img src="https://cdn.prod.website-files.com/65e3de602f703e1765199b30/65e3ef2af75f133236b5fd2c_03.png" loading="lazy" width="320" height="230" alt="moonoh app exchange screen" class="image-2"/></div>
+          </div>
+          <div class="column-4">
+            <div class="author"><h3 class="text-3">3. Complete the Exchange</h3><div class="author-job">Meet up at a mutually agreed local spot (coffee shop, public concourse, or police exchange zone). Hand over the item and complete your transaction.</div></div>
+          </div>
+        </div>
+
+        <div class="small-columns">
+          <div class="column-3">
+            <div class="image-wrapper-2"><img src="https://cdn.prod.website-files.com/65e3de602f703e1765199b30/65e3ef2b0fb615e194944dfe_04.png" loading="lazy" width="320" height="230" alt="moonoh app review screen" class="image-2"/></div>
+          </div>
+          <div class="column-4">
+            <div class="author"><h3 class="text-3">4. Rate Your Experience</h3><div class="author-job">Mark the item as sold within the app. Both buyer and seller leave mutual ratings and reviews to build a trustworthy local community.</div></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Summary Block -->
+    <div class="tldr-box" data-semantic-role="summary">
+      <span class="tldr-badge">ABOUT MOONOH</span>
+      <p><strong>moonoh (Moonoh Inc.)</strong> is a 100% free local marketplace mobile app serving residents across New York City and New Jersey. Founded in 2024 by CEO Ryan Seungmin Moon, moonoh enables neighbors to list secondhand items, chat securely in-app, coordinate safe local meetups, and exchange goods with zero listing fees and zero transaction commissions.</p>
+    </div>
+
+    <section class="comparison-section">
       <h2>Comparing moonoh vs. Other Local Marketplaces</h2>
       <p>See how moonoh compares to Facebook Marketplace and OfferUp for NYC and NJ residents:</p>
 
@@ -1408,6 +1464,10 @@
         return categoryMap[label];
       }
 
+      let currentFilteredPool = [];
+      let currentPage = 0;
+      const PAGE_SIZE = 50;
+
       function filterAndRender(townVal, categoryKeyword) {
         let pool = allItems;
         if (activeSource === 'marketplaces' || activeSource === 'others') pool = externalItemsList;
@@ -1433,8 +1493,21 @@
           }
         }
 
-        renderGrid(filtered.slice(0, 50));
+        currentFilteredPool = filtered;
+        currentPage = 0;
+        renderGrid(currentFilteredPool.slice(0, PAGE_SIZE));
+        updateLoadMoreBtn();
       }
+
+      function updateLoadMoreBtn() {
+        const lmc = document.getElementById('load-more-container');
+        const info = document.getElementById('item-count-info');
+        const shown = Math.min((currentPage + 1) * PAGE_SIZE, currentFilteredPool.length);
+        const total = currentFilteredPool.length;
+        if (lmc) lmc.style.display = total > PAGE_SIZE ? 'block' : 'none';
+        if (info) info.textContent = shown < total ? `Showing ${shown} of ${total} items` : `Showing all ${total} items`;
+      }
+
       // More Categories toggle button
       const btnMore = document.getElementById("btn-more-categories");
       const btnMoreText = document.getElementById("btn-more-text");
@@ -1460,6 +1533,20 @@
           filterAndRender(currentLoc, keyword);
         });
       });
+      // Load More button
+      const btnLoadMoreEl = document.getElementById('btn-load-more');
+      if (btnLoadMoreEl) {
+        btnLoadMoreEl.addEventListener('click', () => {
+          currentPage++;
+          const end = (currentPage + 1) * PAGE_SIZE;
+          renderGrid(currentFilteredPool.slice(0, end));
+          updateLoadMoreBtn();
+          if (end >= currentFilteredPool.length) {
+            const lmc = document.getElementById('load-more-container');
+            if (lmc) lmc.style.display = 'none';
+          }
+        });
+      }
     }
 
     // Modal Logic
