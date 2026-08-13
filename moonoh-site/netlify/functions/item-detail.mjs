@@ -22661,9 +22661,10 @@ export default async (req, context) => {
       description = extItem.source === 'kimc'
         ? `Discover ${title} from Kim'C Market for ${priceStr}. Part of Kim'C Market's Fight Food Waste collection. Check current availability and complete your purchase at Kim'C Market.`
         : (extItem.description || `${extItem.title} listed in ${extItem.rawTown || extItem.location}. Originally posted on ${extItem.sourceName}.`);
-      townName = extItem.location;
-      address = extItem.rawTown;
-      sellerName = extItem.sellerName || (extItem.source === 'karrot' ? 'Karrot Seller' : 'HeyKorean Seller');
+      townName = extItem.location || 'Brooklyn, NY';
+      address = extItem.rawTown || extItem.location || 'Brooklyn, NY';
+      sellerName = extItem.sellerName || (extItem.source === 'karrot' ? 'Karrot Seller' : (extItem.source === 'kimc' ? "Kim'C Market" : 'HeyKorean Seller'));
+      vendorName = extItem.source === 'kimc' ? "Kim'C Market" : (extItem.vendor || extItem.sellerName || "Moonoh");
       if (!extItem.timeAgo) {
         const img = extItem.image || '';
         const hkMatch = img.match(/\/market\/item\/(\d{4})\/(\d{2})\/(\d{2})\//);
@@ -22680,16 +22681,13 @@ export default async (req, context) => {
           extItem.timeAgo = '3 days ago';
         }
       }
-      strDayCount = extItem.timeAgo;
+      strDayCount = extItem.source === 'kimc' ? 'Fight Food Waste' : extItem.timeAgo;
       photos = [extItem.image];
       mainPhoto = extItem.image;
-      categoryName = inferCategoryFromText(title, description, extItem.category);
-      externalUrl = extItem.url;
+      categoryName = extItem.source === 'kimc' ? 'Food & Groceries' : inferCategoryFromText(title, description, extItem.category);
+      externalUrl = extItem.url || extItem.detailUrl || (extItem.source === 'kimc' ? 'https://kimcmarket.com' : '');
       externalSource = extItem.source;
-      vendorName = extItem.vendor || extItem.sellerName || "Moonoh";
-      // Use real coordinates from scraped data if available
       if (extItem.lat && extItem.lng) { lat = extItem.lat; lng = extItem.lng; }
-      // sellerName already set above from extItem.sellerName
     } else {
       const pathParts = url.pathname.split('-');
       const productNoStr = pathParts.pop() || pathParts.pop(); // last part of slug is productNo
