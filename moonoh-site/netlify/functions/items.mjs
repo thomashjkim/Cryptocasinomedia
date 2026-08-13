@@ -33,7 +33,7 @@ function generateSlug(title, locationStr, productNo) {
 // Global in-memory cache for serverless instance reuse
 let globalCachedItems = null;
 let lastCacheTimestamp = 0;
-const CACHE_DURATION_MS = 15000; // 15 seconds cache so new app uploads appear almost instantly
+const CACHE_DURATION_MS = 5 * 60 * 1000; // 5 minutes cache
 
 async function buildFullItemList() {
   const loginParams = new URLSearchParams();
@@ -65,10 +65,8 @@ async function buildFullItemList() {
   });
   
   const data = await dataRes.json();
-  // Fix: use === "Y" to exclude items with isShow="" (미노출) - not just isShow="N"
   const rawItems = (data && data.productArray) ? data.productArray.filter(item => item && item.isShow === "Y") : [];
   
-  // Fetch details for all 636 items in concurrent batches of 80 for speed
   const chunkSize = 80;
   const resultItems = [];
   
@@ -97,12 +95,9 @@ async function buildFullItemList() {
             if (typeof detailData.price === 'number') {
               realPrice = detailData.price;
             }
-            
-            // Store productTownName from detail API for borough filtering (e.g. "Queens, NY")
             if (detailData.productTownName) {
               rawTown = detailData.productTownName;
             }
-            
             const addr = detailData.address || detailData.productTownName || "";
             if (addr) {
               rawLocStr = addr;
@@ -135,7 +130,7 @@ async function buildFullItemList() {
           title: item.title || "",
           price: realPrice,
           location: realLocation,
-          rawTown: rawTown,  // e.g. "Queens, NY" - used for borough filtering
+          rawTown: rawTown,
           image: img_url,
           category: item.categoryName || "",
           url: slug
@@ -153,32 +148,48 @@ async function buildFullItemList() {
 export default async (req, context) => {
   const now = Date.now();
   
-  // Fast path: Return cached items instantly (sub-10ms response)
-  if (globalCachedItems && globalCachedItems.length > 0 && (now - lastCacheTimestamp) < CACHE_DURATION_MS) {
+  // Fast path: Return cached items instantly
+  if (globalCachedItems && globalCachedItems.length > 0) {
+    if ((now - lastCacheTimestamp) > CACHE_DURATION_MS) {
+      buildFullItemList().catch(() => {}); // refresh in background
+    }
     return new Response(JSON.stringify(globalCachedItems), {
       status: 200,
       headers: {
         "Content-Type": "application/json",
         "Access-Control-Allow-Origin": "*",
-        "Cache-Control": "public, max-age=10, s-maxage=15, stale-while-revalidate=30"
+        "Cache-Control": "public, max-age=60, s-maxage=120"
       }
     });
   }
 
   try {
-    const items = await buildFullItemList();
-    return new Response(JSON.stringify(items), {
+    const fetchPromise = buildFullItemList();
+    const timeoutPromise = new Promise(resolve => setTimeout(() => resolve(null), 1200));
+    const items = await Promise.race([fetchPromise, timeoutPromise]);
+    
+    if (items) {
+      return new Response(JSON.stringify(items), {
+        status: 200,
+        headers: {
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Origin": "*",
+          "Cache-Control": "public, max-age=60, s-maxage=120"
+        }
+      });
+    }
+    
+    // Fast fallback if live 636 HTTP calls take > 1.2s
+    fetchPromise.catch(() => {});
+    return new Response(JSON.stringify(globalCachedItems || []), {
       status: 200,
       headers: {
         "Content-Type": "application/json",
-        "Access-Control-Allow-Origin": "*",
-        "Cache-Control": "public, max-age=10, s-maxage=15, stale-while-revalidate=30"
+        "Access-Control-Allow-Origin": "*"
       }
     });
   } catch (error) {
-    console.error("items.mjs error:", error);
-    const fallback = globalCachedItems || [];
-    return new Response(JSON.stringify(fallback), {
+    return new Response(JSON.stringify(globalCachedItems || []), {
       status: 200,
       headers: {
         "Content-Type": "application/json",

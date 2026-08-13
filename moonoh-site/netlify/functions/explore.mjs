@@ -2,6 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { realFoodRescueItems } from './food-rescue-items.mjs';
+import { realKarrotItems, realHeyKoreanItems } from './external-items.mjs';
 
 const currentDir = path.dirname(fileURLToPath(import.meta.url));
 
@@ -15,6 +16,15 @@ try {
 } catch (e) {
   console.warn("Could not load local_shops_data.json:", e);
 }
+
+// Load local fallback data.json for instant cold start
+let fallbackDataJson = [];
+try {
+  const dataJsonPath = path.join(currentDir, '../../data.json');
+  if (fs.existsSync(dataJsonPath)) {
+    fallbackDataJson = JSON.parse(fs.readFileSync(dataJsonPath, 'utf8'));
+  }
+} catch (e) {}
 
 // Region Mapping
 const REGIONS = {
@@ -59,7 +69,7 @@ const CATEGORIES = {
 
 let cachedCombinedItems = null;
 let lastFetchTime = 0;
-const CACHE_TTL_MS = 15 * 1000;
+const CACHE_TTL_MS = 60 * 1000;
 
 async function fetchAllCombinedItems() {
   const now = Date.now();
@@ -68,16 +78,41 @@ async function fetchAllCombinedItems() {
   }
 
   try {
-    const [moonohRes, externalRes] = await Promise.allSettled([
-      fetch("https://moon-oh.com/api/items"),
-      fetch("https://moon-oh.com/api/external-items")
-    ]);
+    // Zero-latency in-memory external items
+    const rawExternalList = [...(realKarrotItems || []), ...(realHeyKoreanItems || [])];
+    const externalItems = rawExternalList.map((raw, idx) => {
+      let clean = (raw.title || 'item').toLowerCase().replace(/[^a-z0-9\s-]/g, '').trim().replace(/\s+/g, '-').replace(/-+/g, '-');
+      if (clean.length > 50) clean = clean.substring(0, 50).replace(/-$/, '');
+      const loc = (raw.location || 'nyc-ny').toLowerCase().replace(/[^a-z0-9\s-]/g, '').trim().replace(/\s+/g, '-');
+      const targetUrl = `https://moon-oh.com/item/${clean}-${loc}-ext-${raw.id}`;
+      return {
+        id: raw.id,
+        no: raw.id,
+        title: raw.title,
+        price: raw.price,
+        photo: raw.image,
+        image: raw.image,
+        townName: raw.location,
+        rawTown: raw.rawTown || raw.location,
+        location: raw.location,
+        categoryName: inferCategoryFromText(raw.title, raw.description, raw.category),
+        category: inferCategoryFromText(raw.title, raw.description, raw.category),
+        detailUrl: targetUrl,
+        url: targetUrl,
+        source: raw.source || 'external',
+        sourceName: raw.sourceName || 'Marketplace',
+        postedAt: raw.createdAt ? new Date(raw.createdAt).getTime() : (Date.now() - idx * 1200000)
+      };
+    });
 
+    // Fast Moonoh items fetch with 400ms timeout race to prevent TTFB latency
     let moonohItems = [];
-    if (moonohRes.status === 'fulfilled' && moonohRes.value.ok) {
-      const data = await moonohRes.value.json();
-      if (Array.isArray(data)) {
-        moonohItems = data.map((raw, idx) => ({
+    try {
+      const fetchPromise = fetch("https://moon-oh.com/api/items").then(r => r.ok ? r.json() : []);
+      const timeoutPromise = new Promise(resolve => setTimeout(() => resolve(null), 400));
+      const res = await Promise.race([fetchPromise, timeoutPromise]);
+      if (Array.isArray(res) && res.length > 0) {
+        moonohItems = res.map((raw, idx) => ({
           id: raw.id || raw.no,
           no: raw.no || raw.id,
           title: raw.title || "Secondhand Item",
@@ -95,38 +130,37 @@ async function fetchAllCombinedItems() {
           postedAt: raw.registeredAt ? new Date(raw.registeredAt).getTime() : (Date.now() - idx * 1800000)
         }));
       }
+    } catch (e) {}
+
+    if (moonohItems.length === 0 && fallbackDataJson.length > 0) {
+      moonohItems = fallbackDataJson.map((raw, idx) => ({
+        id: `item-${idx + 1}`,
+        no: idx + 1,
+        title: raw.title || "Secondhand Item",
+        price: raw.price || 0,
+        photo: raw.image || 'https://moon-oh.com/images/common/ico_profile_empty.png',
+        image: raw.image || 'https://moon-oh.com/images/common/ico_profile_empty.png',
+        townName: raw.location || 'NYC, NY',
+        rawTown: raw.location || '',
+        location: raw.location || 'NYC, NY',
+        categoryName: raw.category || 'General',
+        category: raw.category || 'General',
+        detailUrl: `https://moon-oh.com/item/item-${idx + 1}`,
+        url: `https://moon-oh.com/item/item-${idx + 1}`,
+        source: 'moonoh',
+        postedAt: Date.now() - idx * 1800000
+      }));
     }
 
-    let externalItems = [];
-    if (externalRes.status === 'fulfilled' && externalRes.value.ok) {
-      const data = await externalRes.value.json();
-      if (Array.isArray(data)) {
-        externalItems = data.map((raw, idx) => {
-          let clean = (raw.title || 'item').toLowerCase().replace(/[^a-z0-9\s-]/g, '').trim().replace(/\s+/g, '-').replace(/-+/g, '-');
-          if (clean.length > 50) clean = clean.substring(0, 50).replace(/-$/, '');
-          const loc = (raw.location || 'nyc-ny').toLowerCase().replace(/[^a-z0-9\s-]/g, '').trim().replace(/\s+/g, '-');
-          const targetUrl = `https://moon-oh.com/item/${clean}-${loc}-ext-${raw.id}`;
-          return {
-            id: raw.id,
-            no: raw.id,
-            title: raw.title,
-            price: raw.price,
-            photo: raw.image,
-            image: raw.image,
-            townName: raw.location,
-            rawTown: raw.rawTown || raw.location,
-            location: raw.location,
-            categoryName: inferCategoryFromText(raw.title, raw.description, raw.category),
-            category: inferCategoryFromText(raw.title, raw.description, raw.category),
-            detailUrl: targetUrl,
-            url: targetUrl,
-            source: raw.source || 'external',
-            sourceName: raw.sourceName || 'Marketplace',
-            postedAt: raw.createdAt ? new Date(raw.createdAt).getTime() : (Date.now() - idx * 1200000)
-          };
-        });
-      }
-    }
+    const combined = [...moonohItems, ...externalItems];
+    cachedCombinedItems = combined;
+    lastFetchTime = Date.now();
+    return combined;
+  } catch (error) {
+    console.error("Error in fetchAllCombinedItems:", error);
+    return cachedCombinedItems || [];
+  }
+}
 
     let foodRescueItems = [];
     if (Array.isArray(realFoodRescueItems)) {

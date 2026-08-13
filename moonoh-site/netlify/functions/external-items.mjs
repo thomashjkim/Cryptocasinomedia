@@ -1,7 +1,7 @@
 // netlify/functions/external-items.mjs
 // Serves REAL live scraped external listings from Karrot and HeyKorean with translated English titles and real seller photo URLs.
 
-const realKarrotItems = [
+export const realKarrotItems = [
   {
     "id": "karrot-vf1p9fqnn45j",
     "title": "HP 923 Ink Cartridge 4-Pack",
@@ -1251,7 +1251,7 @@ const realKarrotItems = [
     "url": "https://us.karrotmarket.com/buy-sell/nj-hud-05/"
   }
 ];
-const realHeyKoreanItems = [
+export const realHeyKoreanItems = [
   {
     "id": "heykorean-666647",
     "title": "Kbbq bros Round Butane Gas Table for Sale",
