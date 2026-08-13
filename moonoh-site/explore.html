@@ -493,6 +493,10 @@
       grid-template-columns: repeat(5, 1fr);
       gap: 20px;
     }
+    @keyframes fadeInCard {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
     .item-card {
       background: transparent;
       border: none;
@@ -500,6 +504,7 @@
       transition: transform 0.2s ease;
       display: flex;
       flex-direction: column;
+      animation: fadeInCard 0.25s cubic-bezier(0.16, 1, 0.3, 1);
     }
     .item-card:hover {
       transform: translateY(-4px);
@@ -1322,43 +1327,6 @@
     }
 
     function setupFilters() {
-      // Category pill clicks (exclude More Categories button from active state toggle)
-      document.querySelectorAll('.filter-pill:not(.filter-pill-more)').forEach(btn => {
-        btn.addEventListener('click', function() {
-          const label = this.textContent.trim();
-          const _p1 = window.location.pathname;
-          const _stripped1 = _p1.startsWith('/explore') ? _p1.slice('/explore'.length).replace(/^\//, '') : _p1;
-          const isAggregationPage = _stripped1.split('/').filter(Boolean).length >= 1
-            && window.__INITIAL_ITEMS__ != null;
-          if (isAggregationPage) {
-            const currentSegments = _stripped1.split('/').filter(Boolean);
-            const currentRegionSlug = currentSegments.length >= 1 ? currentSegments[0] : '';
-            const newCatSlug = pillLabelToSlug[label];
-            if (label === 'All' && currentRegionSlug) {
-              window.location.href = `/explore/${currentRegionSlug}`;
-              return;
-            }
-            if (newCatSlug && currentRegionSlug) {
-              window.location.href = `/explore/${currentRegionSlug}/${newCatSlug}`;
-              return;
-            }
-            if (newCatSlug && !currentRegionSlug) {
-              window.location.href = `/explore/${newCatSlug}`;
-              return;
-            }
-            // For Free / Other just fall through to client-side
-          }
-          document.querySelectorAll('.filter-pill:not(.filter-pill-more)').forEach(b => b.classList.remove('active'));
-          this.classList.add('active');
-          const keyword = categoryMap[label];
-          applyFilters(keyword !== undefined ? keyword : null);
-        });
-      });
-
-      // Location dropdown
-      // On aggregation pages (/explore/{region}/{category}), changing location navigates to new URL.
-      // On the main /explore page, it filters client-side.
-      const locationSelect = document.getElementById('location-select');
       const regionToSlug = {
         'Manhattan': 'manhattan',
         'Bronx': 'bronx',
@@ -1372,28 +1340,50 @@
         'Bergen': 'bergen-county-nj',
         'Hudson': 'hudson-county-nj'
       };
+
+      // Helper to update address bar URL seamlessly without page reload
+      function updateAddressBar(newRegionVal, newCatLabel) {
+        const regSlug = regionToSlug[newRegionVal] || null;
+        const catSlug = pillLabelToSlug[newCatLabel] || null;
+        let newUrl = '/explore';
+        if (regSlug && catSlug) {
+          newUrl = `/explore/${regSlug}/${catSlug}`;
+        } else if (regSlug) {
+          newUrl = `/explore/${regSlug}`;
+        } else if (catSlug) {
+          newUrl = `/explore/${catSlug}`;
+        }
+        if (window.location.pathname !== newUrl) {
+          window.history.pushState({ path: newUrl }, '', newUrl);
+        }
+      }
+
+      // Category pill clicks (smooth instant filtering without hard reload)
+      document.querySelectorAll('.filter-pill:not(.filter-pill-more)').forEach(btn => {
+        btn.addEventListener('click', function() {
+          const label = this.textContent.trim();
+          document.querySelectorAll('.filter-pill:not(.filter-pill-more)').forEach(b => b.classList.remove('active'));
+          this.classList.add('active');
+
+          const keyword = categoryMap[label];
+          applyFilters(keyword !== undefined ? keyword : null);
+
+          const locSel = document.getElementById('location-select');
+          const currentRegionVal = locSel ? locSel.value : 'all';
+          updateAddressBar(currentRegionVal, label);
+        });
+      });
+
+      // Location dropdown (smooth instant filtering without hard reload)
+      const locationSelect = document.getElementById('location-select');
       if (locationSelect) {
         locationSelect.addEventListener('change', function() {
-          const _p2 = window.location.pathname;
-          const _stripped2 = _p2.startsWith('/explore') ? _p2.slice('/explore'.length).replace(/^\//, '') : _p2;
-          const isAggregationPage = _stripped2.split('/').filter(Boolean).length >= 1
-            && window.__INITIAL_ITEMS__ != null;
-          if (isAggregationPage) {
-            // Navigate to correct URL for this region+category combo
-            const newRegionSlug = regionToSlug[this.value];
-            const currentSegments = _stripped2.split('/').filter(Boolean);
-            const currentCategorySlug = currentSegments.length >= 2 ? currentSegments[1] : (currentSegments[0] || '');
-            if (newRegionSlug && currentCategorySlug) {
-              window.location.href = `/explore/${newRegionSlug}/${currentCategorySlug}`;
-            } else if (newRegionSlug) {
-              window.location.href = `/explore/${newRegionSlug}`;
-            } else {
-              window.location.href = '/explore';
-            }
-            return;
-          }
           activeTown = this.value;
+          const activePill = document.querySelector('.filter-pill.active');
+          const activeCatLabel = activePill ? activePill.textContent.trim() : 'All';
+          
           applyFilters(getActiveCategoryKeyword());
+          updateAddressBar(this.value, activeCatLabel);
         });
       }
 
