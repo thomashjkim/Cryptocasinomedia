@@ -1210,47 +1210,10 @@
     let activeTown = ''; // '' = all areas
     let activeSource = 'moonoh'; // 'moonoh' (default for user main page) or 'others'
     let externalItemsList = [];
+    let foodRescueItemsList = [];
+    let localShopsItemsList = [];
+    let moonohItemsList = [];
 
-    function applyFilters(categoryKeyword = null) {
-      let filtered = activeSource === 'others' ? externalItemsList : allItems;
-
-      // Filter by town if selected
-      if (activeTown && boroughKeywords[activeTown]) {
-        const kws = boroughKeywords[activeTown];
-        filtered = filtered.filter(item => {
-          const locStr = ((item.rawTown || '') + ' ' + (item.location || '')).toLowerCase();
-          return kws.some(kw => locStr.includes(kw));
-        });
-      }
-
-      // Filter by category if selected
-      if (categoryKeyword === "FREE_FILTER") {
-        filtered = filtered.filter(item => item && item.price === 0);
-      } else if (categoryKeyword) {
-        const kw = String(categoryKeyword).toLowerCase();
-        filtered = filtered.filter(item => {
-          if (!item) return false;
-          const cat = String(item.category || item.categoryName || '').toLowerCase();
-          const title = String(item.title || '').toLowerCase();
-          return cat.includes(kw) || kw.includes(cat) || (kw.length >= 3 && title.includes(kw));
-        });
-      }
-
-      currentFiltered = filtered;
-      visibleCount = 40;
-      renderGrid(currentFiltered);
-      updateLocationCount(filtered.length);
-    }
-
-    function updateLocationCount(count) {
-      const countEl = document.getElementById('location-count');
-      if (countEl) {
-        countEl.textContent = count > 0 ? `${count} items` : 'No items';
-      }
-    }
-
-    function getActiveCategoryKeyword() {
-      const activeBtn = document.querySelector('.filter-pill.active');
     const pillLabelToSlug = {
       'All': 'all',
       'Free': 'free',
@@ -1361,11 +1324,133 @@
       return cat.includes(slug);
     }
 
+    function isStrictMoonoh(i) {
+      if (!i) return false;
+      const s = (i.source || '').toLowerCase();
+      if (s === 'moonoh') return true;
+      if (s === 'karrot' || s === 'heykorean' || s === 'kimc' || s === 'external' || s === 'foodrescue' || s === 'localshops' || i.shop_id) return false;
+      const idStr = String(i.id || i.no || '').toLowerCase();
+      if (idStr.startsWith('karrot') || idStr.startsWith('heykorean') || idStr.startsWith('kimc') || idStr.includes('ext')) return false;
+      const urlStr = String(i.url || i.detailUrl || '').toLowerCase();
+      if (urlStr.includes('-ext-') || urlStr.includes('local-product')) return false;
+      return true;
+    }
+
     function getActiveCategoryKeyword() {
       const activeBtn = document.querySelector('.filter-pill.active');
       if (!activeBtn) return 'all';
       const label = activeBtn.textContent.trim();
       return pillLabelToSlug[label] || 'all';
+    }
+
+    function updateLocationCount(count) {
+      const countEl = document.getElementById('location-count');
+      if (countEl) {
+        countEl.textContent = count > 0 ? `${count} items` : 'No items';
+      }
+    }
+
+    function applyFilters(categorySlug = null) {
+      const targetSlug = categorySlug || getActiveCategoryKeyword() || 'all';
+      let filtered = [];
+
+      if (activeSource === 'foodrescue') {
+        filtered = foodRescueItemsList;
+      } else if (activeSource === 'localshops') {
+        filtered = localShopsItemsList;
+      } else if (activeSource === 'marketplaces' || activeSource === 'others') {
+        filtered = externalItemsList.length > 0 ? externalItemsList : allItems.filter(i => i.source === 'karrot' || i.source === 'heykorean' || i.source === 'external' || String(i.url || '').includes('-ext-'));
+      } else {
+        // Moonoh tab
+        const moonohInAll = allItems.filter(isStrictMoonoh);
+        filtered = moonohInAll.length > 0 ? moonohInAll : (moonohItemsList.length > 0 ? moonohItemsList : allItems);
+      }
+
+      if (activeTown && boroughKeywords[activeTown]) {
+        const kws = boroughKeywords[activeTown];
+        filtered = filtered.filter(item => {
+          if (item.source === 'kimc') return true;
+          const locStr = ((item.rawTown || '') + ' ' + (item.location || '')).toLowerCase();
+          return kws.some(kw => locStr.includes(kw));
+        });
+      }
+
+      if (targetSlug === 'free') {
+        filtered = filtered.filter(item => {
+          if (!item) return false;
+          const p = item.price !== undefined ? item.price : (item.current_price !== undefined ? item.current_price : null);
+          if (p === 0 || p === '0' || p === 'Free' || p === 'free') return true;
+          const num = parseFloat(p);
+          return !isNaN(num) && num === 0;
+        });
+      } else if (targetSlug && targetSlug !== 'all') {
+        filtered = filtered.filter(item => matchesCategory(item.category || item.categoryName, item.title, targetSlug));
+      }
+
+      // Sort combined items strictly by recency order (newest first)
+      filtered.sort((a, b) => {
+        const numA = (typeof a.postedAt === 'number' && a.postedAt > 0) ? a.postedAt : (typeof a.no === 'number' ? a.no : (parseInt(String(a.id || '').replace(/\D/g, ''), 10) || 0));
+        const numB = (typeof b.postedAt === 'number' && b.postedAt > 0) ? b.postedAt : (typeof b.no === 'number' ? b.no : (parseInt(String(b.id || '').replace(/\D/g, ''), 10) || 0));
+        return numB - numA;
+      });
+
+      currentFiltered = filtered;
+      visibleCount = 40;
+      renderGrid(currentFiltered);
+      updateLocationCount(filtered.length);
+    }
+
+    async function switchSource(source) {
+      activeSource = source;
+      const btnMoonoh = document.getElementById('tab-source-moonoh');
+      const btnFoodRescue = document.getElementById('tab-source-foodrescue');
+      const btnLocalShops = document.getElementById('tab-source-localshops');
+      const btnMarketplaces = document.getElementById('tab-source-marketplaces');
+
+      if (btnMoonoh) btnMoonoh.classList.toggle('active', source === 'moonoh');
+      if (btnFoodRescue) btnFoodRescue.classList.toggle('active', source === 'foodrescue');
+      if (btnLocalShops) btnLocalShops.classList.toggle('active', source === 'localshops');
+      if (btnMarketplaces) btnMarketplaces.classList.toggle('active', source === 'marketplaces' || source === 'others');
+
+      const subtitleLabel = document.getElementById('section-subtitle-label');
+      if (subtitleLabel) {
+        if (source === 'foodrescue') subtitleLabel.textContent = "Food Rescue";
+        else if (source === 'localshops') subtitleLabel.textContent = "Local";
+        else if (source === 'marketplaces' || source === 'others') subtitleLabel.textContent = "Other Marketplaces";
+        else subtitleLabel.textContent = "Moonoh Marketplace";
+      }
+
+      const foodRescueBanner = document.getElementById("food-rescue-banner");
+      if (foodRescueBanner) {
+        foodRescueBanner.style.display = source === 'foodrescue' ? 'flex' : 'none';
+      }
+
+      const filterContainer = document.getElementById("filter-container");
+      if (filterContainer) {
+        filterContainer.style.display = (source === 'foodrescue' || source === 'localshops') ? 'none' : 'flex';
+      }
+
+      // Apply filter instantly on current memory pool
+      applyFilters(getActiveCategoryKeyword());
+
+      // Fetch in background if missing
+      if (source === 'moonoh' && (allItems.filter(isStrictMoonoh).length === 0) && moonohItemsList.length === 0) {
+        preloadMoonohItems().then(() => {
+          if (activeSource === 'moonoh') applyFilters(getActiveCategoryKeyword());
+        });
+      } else if (source === 'foodrescue' && foodRescueItemsList.length === 0) {
+        preloadFoodRescueItems().then(() => {
+          if (activeSource === 'foodrescue') applyFilters(getActiveCategoryKeyword());
+        });
+      } else if (source === 'localshops' && localShopsItemsList.length === 0) {
+        preloadLocalShopsItems().then(() => {
+          if (activeSource === 'localshops') applyFilters(getActiveCategoryKeyword());
+        });
+      } else if ((source === 'marketplaces' || source === 'others') && externalItemsList.length === 0) {
+        preloadExternalItems().then(() => {
+          if (activeSource === 'marketplaces' || activeSource === 'others') applyFilters(getActiveCategoryKeyword());
+        });
+      }
     }
 
     function initCategoryFromUrl() {
@@ -1429,7 +1514,8 @@
 
       // Category pill clicks (smooth instant filtering without hard reload)
       document.querySelectorAll('.filter-pill:not(.filter-pill-more)').forEach(btn => {
-        btn.addEventListener('click', function() {
+        btn.addEventListener('click', function(e) {
+          e.preventDefault();
           const label = this.textContent.trim();
           document.querySelectorAll('.filter-pill:not(.filter-pill-more)').forEach(b => b.classList.remove('active'));
           this.classList.add('active');
@@ -1459,7 +1545,6 @@
       let activePath = window.location.pathname.toLowerCase();
       let _pSegments = activePath.replace(/^\/explore\/?/, '').split('/').filter(Boolean);
       let isCombinedPage = _pSegments.length >= 1 && !['food-rescue', 'foodrescue', 'local-shops', 'localshops', 'local', 'marketplaces', 'others'].includes(_pSegments[0]);
-      let activeSource = 'moonoh';
 
       if (activePath.includes('food-rescue') || activePath.includes('foodrescue')) {
         activeSource = 'foodrescue';
@@ -1475,242 +1560,6 @@
       }
 
       // Source Segment Switcher (Moonoh · Food Rescue · Local Shops · Marketplaces)
-      const btnMoonoh = document.getElementById('tab-source-moonoh');
-      const btnFoodRescue = document.getElementById('tab-source-foodrescue');
-      const btnLocalShops = document.getElementById('tab-source-localshops');
-      const btnMarketplaces = document.getElementById('tab-source-marketplaces');
-      const foodRescueBanner = document.getElementById('food-rescue-banner');
-      
-      let foodRescueItemsList = [];
-      let externalItemsList = [];
-      let localShopsItemsList = [];
-      let moonohItemsList = [];
-
-      async function preloadFoodRescueItems() {
-        if (foodRescueItemsList.length === 0) {
-          if (window.__INITIAL_FOOD_RESCUE__ && Array.isArray(window.__INITIAL_FOOD_RESCUE__) && window.__INITIAL_FOOD_RESCUE__.length > 0) {
-            foodRescueItemsList = window.__INITIAL_FOOD_RESCUE__.map(raw => ({
-              no: raw.id || raw.no,
-              id: raw.id || raw.no,
-              title: raw.title,
-              price: raw.price,
-              image: raw.photo || raw.image,
-              photo: raw.photo || raw.image,
-              location: raw.townName || raw.location,
-              rawTown: raw.rawTown || raw.townName || raw.location || '',
-              category: raw.categoryName || raw.category || 'Food & Groceries',
-              categoryName: raw.categoryName || raw.category || 'Food & Groceries',
-              url: raw.detailUrl || raw.url,
-              source: 'kimc',
-              timeAgo: raw.timeAgo || 'Food Rescue'
-            }));
-            if (activeSource === 'foodrescue') {
-              applyFilters(getActiveCategoryKeyword());
-            }
-            return;
-          }
-
-          try {
-            let res = await fetch('/api/food-rescue');
-            if (!res.ok) res = await fetch('/.netlify/functions/food-rescue-items');
-            const data = await res.json();
-            if (Array.isArray(data)) {
-              foodRescueItemsList = data.map(raw => ({
-                no: raw.id,
-                id: raw.id,
-                title: raw.title,
-                price: raw.price,
-                image: raw.image,
-                photo: raw.image,
-                location: raw.location,
-                rawTown: raw.rawTown || raw.location || '',
-                category: raw.categoryName || raw.category || 'Food & Groceries',
-                categoryName: raw.categoryName || raw.category || 'Food & Groceries',
-                url: raw.detailUrl || raw.url,
-                source: 'kimc',
-                timeAgo: raw.timeAgo || 'Food Rescue'
-              }));
-            }
-            if (activeSource === 'foodrescue') {
-              applyFilters(getActiveCategoryKeyword());
-            }
-          } catch (e) {
-            console.error("Error loading Food Rescue items:", e);
-          }
-        }
-      }
-
-      async function preloadExternalItems() {
-        if (externalItemsList.length === 0) {
-          if (window.__INITIAL_EXTERNAL_ITEMS__ && Array.isArray(window.__INITIAL_EXTERNAL_ITEMS__) && window.__INITIAL_EXTERNAL_ITEMS__.length > 0) {
-            externalItemsList = window.__INITIAL_EXTERNAL_ITEMS__.map(raw => ({
-              no: raw.id || raw.no,
-              id: raw.id || raw.no,
-              title: raw.title,
-              price: raw.price,
-              image: raw.photo || raw.image,
-              photo: raw.photo || raw.image,
-              location: raw.townName || raw.location,
-              rawTown: raw.rawTown || raw.townName || raw.location || '',
-              category: raw.categoryName || raw.category,
-              categoryName: raw.categoryName || raw.category,
-              source: raw.source || 'external',
-              timeAgo: raw.timeAgo || ''
-            }));
-            if (activeSource === 'marketplaces' || activeSource === 'others') {
-              applyFilters(getActiveCategoryKeyword());
-            }
-            return;
-          }
-
-          try {
-            let res = await fetch('/api/external-items');
-            if (!res.ok) res = await fetch('/.netlify/functions/external-items');
-            const data = await res.json();
-            if (Array.isArray(data)) {
-              externalItemsList = data.map(raw => ({
-                no: raw.id,
-                id: raw.id,
-                title: raw.title,
-                price: raw.price,
-                image: raw.image,
-                photo: raw.image,
-                location: raw.location,
-                rawTown: raw.rawTown || raw.location || '',
-                category: raw.category,
-                categoryName: raw.category,
-                source: raw.source || 'external',
-                timeAgo: raw.timeAgo || ''
-              }));
-            }
-            if (activeSource === 'marketplaces' || activeSource === 'others') {
-              applyFilters(getActiveCategoryKeyword());
-            }
-          } catch (e) {
-            console.error("Error loading external items:", e);
-          }
-        }
-      }
-      preloadFoodRescueItems();
-      preloadExternalItems();
-
-      async function preloadLocalShopsItems() {
-        if (localShopsItemsList.length > 0) return;
-        try {
-          const res = await fetch('/local_shops_data.json');
-          if (res.ok) {
-            const data = await res.json();
-            localShopsItemsList = (data.products || []).map(p => ({
-              id: p.id,
-              no: p.id,
-              title: p.title,
-              price: p.current_price,
-              photo: p.image_source_url,
-              image: p.image_source_url,
-              townName: p.availability_context || 'NYC',
-              rawTown: 'NYC',
-              location: 'NYC',
-              category: p.moonoh_category || 'Grocery',
-              categoryName: p.moonoh_category || 'Grocery',
-              source: p.shop_id,
-              shop_id: p.shop_id,
-              badgeName: p.brand || (data.shops && data.shops[p.shop_id] ? data.shops[p.shop_id].name : 'Local Shop'),
-              url: `/local-product/${p.shop_id}/${p.slug}`
-            }));
-          }
-        } catch (e) {}
-      }
-
-      async function preloadMoonohItems() {
-        if (moonohItemsList.length > 0) return;
-        const moonohInAll = allItems.filter(i => i.source === 'moonoh' || (!i.source && !String(i.id || '').includes('ext') && !String(i.url || '').includes('-ext-')));
-        if (moonohInAll.length > 0) {
-          moonohItemsList = moonohInAll;
-          return;
-        }
-        try {
-          const res = await fetch('/api/items');
-          const data = await res.json();
-          if (Array.isArray(data)) {
-            moonohItemsList = data.map(raw => ({
-              no: raw.id || raw.no,
-              id: raw.id || raw.no,
-              title: raw.title,
-              price: raw.price,
-              image: raw.image || raw.photo,
-              photo: raw.image || raw.photo,
-              location: raw.location || raw.townName || 'NYC',
-              rawTown: raw.rawTown || raw.location || '',
-              category: raw.category || raw.categoryName || 'General',
-              categoryName: raw.category || raw.categoryName || 'General',
-              url: raw.url || `/item/item-${raw.no || raw.id}`,
-              source: 'moonoh'
-            }));
-          }
-        } catch (e) {}
-      }
-
-      function isStrictMoonoh(i) {
-        if (!i) return false;
-        const s = (i.source || '').toLowerCase();
-        if (s === 'moonoh') return true;
-        if (s === 'karrot' || s === 'heykorean' || s === 'kimc' || s === 'external' || s === 'foodrescue' || s === 'localshops' || i.shop_id) return false;
-        const idStr = String(i.id || i.no || '').toLowerCase();
-        if (idStr.startsWith('karrot') || idStr.startsWith('heykorean') || idStr.startsWith('kimc') || idStr.includes('ext')) return false;
-        const urlStr = String(i.url || i.detailUrl || '').toLowerCase();
-        if (urlStr.includes('-ext-') || urlStr.includes('local-product')) return false;
-        return true;
-      }
-
-      applyFilters = function(categorySlug = null) {
-        const targetSlug = categorySlug || getActiveCategoryKeyword() || 'all';
-        let filtered = [];
-
-        if (activeSource === 'foodrescue') {
-          filtered = foodRescueItemsList;
-        } else if (activeSource === 'localshops') {
-          filtered = localShopsItemsList;
-        } else if (activeSource === 'marketplaces' || activeSource === 'others') {
-          filtered = externalItemsList.length > 0 ? externalItemsList : allItems.filter(i => i.source === 'karrot' || i.source === 'heykorean' || i.source === 'external' || String(i.url || '').includes('-ext-'));
-        } else {
-          // Moonoh tab
-          const moonohInAll = allItems.filter(isStrictMoonoh);
-          filtered = moonohInAll.length > 0 ? moonohInAll : (moonohItemsList.length > 0 ? moonohItemsList : allItems);
-        }
-
-        if (activeTown && boroughKeywords[activeTown]) {
-          const kws = boroughKeywords[activeTown];
-          filtered = filtered.filter(item => {
-            if (item.source === 'kimc') return true;
-            const locStr = ((item.rawTown || '') + ' ' + (item.location || '')).toLowerCase();
-            return kws.some(kw => locStr.includes(kw));
-          });
-        }
-
-        if (targetSlug === 'free') {
-          filtered = filtered.filter(item => {
-            if (!item) return false;
-            const p = item.price !== undefined ? item.price : (item.current_price !== undefined ? item.current_price : null);
-            if (p === 0 || p === '0' || p === 'Free' || p === 'free') return true;
-            const num = parseFloat(p);
-            return !isNaN(num) && num === 0;
-          });
-        } else if (targetSlug && targetSlug !== 'all') {
-          filtered = filtered.filter(item => matchesCategory(item.category || item.categoryName, item.title, targetSlug));
-        }
-
-        // Sort combined items by original posting timestamp
-        filtered.sort((a, b) => (b.postedAt || 0) - (a.postedAt || 0));
-
-        currentFiltered = filtered;
-        visibleCount = 40;
-        renderGrid(currentFiltered);
-        updateLocationCount(filtered.length);
-      };
-
-      async function switchSource(source) {
-        activeSource = source;
-        const btnMoonoh = document.getElementById('tab-source-moonoh');
         const btnFoodRescue = document.getElementById('tab-source-foodrescue');
         const btnLocalShops = document.getElementById('tab-source-localshops');
         const btnMarketplaces = document.getElementById('tab-source-marketplaces');
