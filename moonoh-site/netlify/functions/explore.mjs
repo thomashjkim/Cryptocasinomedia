@@ -3,6 +3,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import { realFoodRescueItems } from './food-rescue-items.mjs';
 import { realKarrotItems, realHeyKoreanItems } from './external-items.mjs';
+import { realMoonohItems } from './moonoh-items-data.mjs';
 
 const currentDir = path.dirname(fileURLToPath(import.meta.url));
 
@@ -105,52 +106,25 @@ async function fetchAllCombinedItems() {
       };
     });
 
-    // Fast Moonoh items fetch with 400ms timeout race to prevent TTFB latency
-    let moonohItems = [];
-    try {
-      const fetchPromise = fetch("https://moon-oh.com/api/items").then(r => r.ok ? r.json() : []);
-      const timeoutPromise = new Promise(resolve => setTimeout(() => resolve(null), 400));
-      const res = await Promise.race([fetchPromise, timeoutPromise]);
-      if (Array.isArray(res) && res.length > 0) {
-        moonohItems = res.map((raw, idx) => ({
-          id: raw.id || raw.no,
-          no: raw.no || raw.id,
-          title: raw.title || "Secondhand Item",
-          price: raw.price || 0,
-          photo: raw.photo || raw.image || 'https://moon-oh.com/images/common/ico_profile_empty.png',
-          image: raw.photo || raw.image || 'https://moon-oh.com/images/common/ico_profile_empty.png',
-          townName: raw.townName || raw.location || 'NYC, NY',
-          rawTown: raw.townName || raw.location || '',
-          location: raw.location || 'NYC, NY',
-          categoryName: raw.category || 'General',
-          category: raw.category || 'General',
-          detailUrl: raw.url ? `https://moon-oh.com${raw.url}` : `https://moon-oh.com/item/item-${raw.no || raw.id}`,
-          url: raw.url ? `https://moon-oh.com${raw.url}` : `https://moon-oh.com/item/item-${raw.no || raw.id}`,
-          source: 'moonoh',
-          postedAt: raw.registeredAt ? new Date(raw.registeredAt).getTime() : (Date.now() - idx * 1800000)
-        }));
-      }
-    } catch (e) {}
-
-    if (moonohItems.length === 0 && fallbackDataJson.length > 0) {
-      moonohItems = fallbackDataJson.map((raw, idx) => ({
-        id: `item-${idx + 1}`,
-        no: idx + 1,
-        title: raw.title || "Secondhand Item",
-        price: raw.price || 0,
-        photo: raw.image || 'https://moon-oh.com/images/common/ico_profile_empty.png',
-        image: raw.image || 'https://moon-oh.com/images/common/ico_profile_empty.png',
-        townName: raw.location || 'NYC, NY',
-        rawTown: raw.location || '',
-        location: raw.location || 'NYC, NY',
-        categoryName: raw.category || 'General',
-        category: raw.category || 'General',
-        detailUrl: `https://moon-oh.com/item/item-${idx + 1}`,
-        url: `https://moon-oh.com/item/item-${idx + 1}`,
-        source: 'moonoh',
-        postedAt: Date.now() - idx * 1800000
-      }));
-    }
+    // Zero-latency in-memory Moonoh items with REAL prices & HTTPS proxy images
+    const rawMoonohList = realMoonohItems && realMoonohItems.length > 0 ? realMoonohItems : fallbackDataJson;
+    const moonohItems = rawMoonohList.map((raw, idx) => ({
+      id: raw.id || raw.no,
+      no: raw.no || raw.id,
+      title: raw.title || "Secondhand Item",
+      price: raw.price || 0,
+      photo: raw.image || raw.photo || 'https://moon-oh.com/images/common/ico_profile_empty.png',
+      image: raw.image || raw.photo || 'https://moon-oh.com/images/common/ico_profile_empty.png',
+      townName: raw.townName || raw.location || 'NYC, NY',
+      rawTown: raw.rawTown || raw.location || '',
+      location: raw.location || 'NYC, NY',
+      categoryName: raw.categoryName || raw.category || 'General',
+      category: raw.categoryName || raw.category || 'General',
+      detailUrl: raw.url ? `https://moon-oh.com${raw.url}` : `https://moon-oh.com/item/item-${raw.no || raw.id}`,
+      url: raw.url ? `https://moon-oh.com${raw.url}` : `https://moon-oh.com/item/item-${raw.no || raw.id}`,
+      source: 'moonoh',
+      postedAt: Date.now() - idx * 1800000
+    }));
 
     let foodRescueItems = [];
     if (Array.isArray(realFoodRescueItems)) {

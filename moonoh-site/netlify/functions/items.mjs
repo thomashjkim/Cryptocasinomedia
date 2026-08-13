@@ -1,3 +1,5 @@
+import { realMoonohItems } from './moonoh-items-data.mjs';
+
 function generateSlug(title, locationStr, productNo) {
   let cleanTitle = (title || 'item')
     .toLowerCase()
@@ -31,8 +33,8 @@ function generateSlug(title, locationStr, productNo) {
 }
 
 // Global in-memory cache for serverless instance reuse
-let globalCachedItems = null;
-let lastCacheTimestamp = 0;
+let globalCachedItems = realMoonohItems || null;
+let lastCacheTimestamp = Date.now();
 const CACHE_DURATION_MS = 5 * 60 * 1000; // 5 minutes cache
 
 async function buildFullItemList() {
