@@ -19,30 +19,16 @@ print(f"Loaded {len(all_ext)} items from real_external_items.json")
 with open('netlify/functions/item-detail.mjs', 'r', encoding='utf-8') as f:
     code = f.read()
 
-# Generate new JavaScript snippet for allRealExternalItems and getExternalItemById
-new_code = f"""const allRealExternalItems = {json.dumps(all_ext, ensure_ascii=False, indent=2)};
+# Generate only the new allRealExternalItems dict (NOT getExternalItemById — that stays in the file)
+new_dict = f"const allRealExternalItems = {json.dumps(all_ext, ensure_ascii=False, indent=2)};"
 
-function getExternalItemById(extId) {{
-  const key = (extId || '').toLowerCase();
-  if (allRealExternalItems[key]) {{
-    return allRealExternalItems[key];
-  }}
-  const parts = key.split('-');
-  const source = parts[0];
-  const num = parseInt(parts[1], 10) || 0;
-  const list = source === "karrot" ? {json.dumps(kr_items, ensure_ascii=False)} : {json.dumps(hk_items, ensure_ascii=False)};
-  if (list.length > 0) {{
-    return list[Math.abs(num) % list.length];
-  }}
-  return null;
-}}"""
-
-# Replace from 'const allRealExternalItems =' up to the end of getExternalItemById
-pattern = r'const allRealExternalItems = \{.*?\nfunction getExternalItemById\(.*?\n\}'
+# SAFE: Only replace from 'const allRealExternalItems = {' up to the closing '};'
+# This stops BEFORE inferCategoryFromText or getExternalItemById
+pattern = r'const allRealExternalItems = \{.*?\n\};'
 match = re.search(pattern, code, re.DOTALL)
 if match:
-    code = code[:match.start()] + new_code + code[match.end():]
-    print("✅ Successfully replaced allRealExternalItems and getExternalItemById in item-detail.mjs")
+    code = code[:match.start()] + new_dict + code[match.end():]
+    print("✅ Successfully replaced allRealExternalItems dict in item-detail.mjs")
 else:
     print("❌ Match failed for pattern!")
 
