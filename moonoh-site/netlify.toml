@@ -97,18 +97,33 @@
   status = 200
 
 [[redirects]]
+  from = "/sitemap-pages.xml"
+  to = "/sitemap-pages.xml"
+  status = 200
+
+[[redirects]]
+  from = "/sitemap-moonoh.xml"
+  to = "/sitemap-moonoh.xml"
+  status = 200
+
+[[redirects]]
+  from = "/sitemap-marketplace.xml"
+  to = "/sitemap-marketplace.xml"
+  status = 200
+
+[[redirects]]
   from = "/sitemap-food-rescue.xml"
   to = "/sitemap-food-rescue.xml"
   status = 200
 
 [[redirects]]
-  from = "/sitemap-external.xml"
-  to = "/sitemap-external.xml"
+  from = "/sitemap-local-products.xml"
+  to = "/sitemap-local-products.xml"
   status = 200
 
 [[redirects]]
-  from = "/sitemap-local-shops.xml"
-  to = "/sitemap-local-shops.xml"
+  from = "/sitemap-shops.xml"
+  to = "/sitemap-shops.xml"
   status = 200
 
 [[redirects]]

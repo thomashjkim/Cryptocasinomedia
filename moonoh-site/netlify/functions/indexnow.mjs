@@ -8,9 +8,16 @@ export default async (req, context) => {
   const urlList = [
     `https://${host}/`,
     `https://${host}/explore`,
-    `https://${host}/explore/brooklyn`,
-    `https://${host}/sitemap.xml`,
-    `https://${host}/sitemap-food-rescue.xml`
+    `https://${host}/explore/food-rescue`,
+    `https://${host}/explore/marketplaces`,
+    `https://${host}/explore/local-shops`,
+    `https://${host}/sitemap-index.xml`,
+    `https://${host}/sitemap-pages.xml`,
+    `https://${host}/sitemap-moonoh.xml`,
+    `https://${host}/sitemap-marketplace.xml`,
+    `https://${host}/sitemap-food-rescue.xml`,
+    `https://${host}/sitemap-local-products.xml`,
+    `https://${host}/sitemap-shops.xml`
   ];
 
   if (Array.isArray(realFoodRescueItems)) {
