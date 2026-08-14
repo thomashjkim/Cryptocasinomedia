@@ -647,8 +647,9 @@ def renderArticlePage(slug):
     thumbnail_figure = f"""
                             <figure class="mb-8 border border-gray-200 bg-gray-50 p-1">
                                 <img src="{article['thumbnailUrl']}" alt="{article['title']}" fetchpriority="high" class="w-full h-auto object-cover max-h-[450px]" />
-                                <figcaption class="text-[12px] text-gray-500 mt-2 px-2 pb-1 text-right font-sans">
-                                    Image provided by {article['sourceName']}
+                                <figcaption class="text-[12px] text-gray-500 mt-2 px-2 pb-1 text-left font-sans flex flex-col sm:flex-row sm:justify-between items-start sm:items-center gap-1 border-t border-gray-100 pt-2">
+                                    <span><strong>Caption:</strong> {article['title']}</span>
+                                    <span class="text-gray-400 shrink-0">Source: {article['sourceName']}</span>
                                 </figcaption>
                             </figure>
                             """ if article.get('thumbnailUrl') else ''
@@ -1583,7 +1584,13 @@ for article in articles_sorted:
         "publisher": {
             "@id": "https://cryptocasinomedia.com/#organization"
         },
-        "image": list(dict.fromkeys([image_16_9, image_4_3, image_1_1])),
+        "image": {
+            "@type": "ImageObject",
+            "url": image_16_9,
+            "caption": article['title'],
+            "width": "1200",
+            "height": "675"
+        },
         "articleSection": article['primaryCategory'].replace('-', ' ').title(),
         "keywords": ", ".join(article['topics']),
         "articleBody": " ".join(article['body']),
