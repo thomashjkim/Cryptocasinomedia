@@ -23068,7 +23068,7 @@ export default async (req, context) => {
 
     // Custom meta values for local shops, food rescue vs secondhand marketplace items
     let pageTitle = `Used ${title} for Sale in ${townName} | Moonoh`;
-    if (priceNum === 0) {
+    if (price === 0 || price === '0' || priceStr === 'Free') {
       pageTitle = `Free ${title} in ${townName} | Moonoh`;
     }
     let metaDescription = `Buy gently used ${title} (${priceStr}) in ${townName} on Moonoh — the 100% free neighborhood marketplace app for NYC & NJ. Zero fees, secure in-app chat, and safe local meetups.`;
