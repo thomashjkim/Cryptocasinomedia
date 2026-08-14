@@ -79,6 +79,7 @@ static_pages = [
     ('/return-policy', '0.3', 'monthly'),
     ('/fraud-prevention', '0.3', 'monthly'),
     ('/disclaimer', '0.3', 'monthly'),
+    ('/facebook-marketplace-alternative-nyc', '0.8', 'weekly'),
 ]
 
 for path, priority, freq in static_pages:

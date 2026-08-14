@@ -85,6 +85,11 @@
   to = "/return-policy.html"
   status = 200
 
+[[redirects]]
+  from = "/facebook-marketplace-alternative-nyc"
+  to = "/facebook-marketplace-alternative-nyc.html"
+  status = 200
+
 # Static Sitemaps
 [[redirects]]
   from = "/sitemap.xml"

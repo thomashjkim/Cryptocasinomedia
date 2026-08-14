@@ -168,29 +168,68 @@
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": [{
-    "@type": "Question",
-    "name": "Are there any fees to buy or sell on Moonoh?",
-    "acceptedAnswer": {
-      "@type": "Answer",
-      "text": "No. Moonoh is a 100% free local neighborhood marketplace. There are zero listing fees and zero selling commissions."
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://moon-oh.com/#organization",
+      "name": "Moonoh Inc.",
+      "legalName": "Moonoh Inc.",
+      "url": "https://moon-oh.com",
+      "logo": "https://cdn.prod.website-files.com/65e3de602f703e1765199b30/65e51874e4a73ff20cb673ec_Logo.svg",
+      "foundingDate": "2024",
+      "founder": {
+        "@type": "Person",
+        "name": "Ryan Seungmin Moon",
+        "jobTitle": "Chief Executive Officer & Founder",
+        "sameAs": "https://www.linkedin.com/in/ryan-moon-9a4954332/"
+      },
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "8 Spruce Street",
+        "addressLocality": "New York",
+        "addressRegion": "NY",
+        "postalCode": "10038",
+        "addressCountry": "US"
+      },
+      "telephone": "+1-917-584-5177",
+      "email": "info@moon-oh.com",
+      "areaServed": ["New York City", "New Jersey"],
+      "sameAs": [
+        "https://apps.apple.com/us/app/moonoh/id6477390079",
+        "https://play.google.com/store/apps/details?id=com.moonoh"
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://moon-oh.com/about#faq",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Are there any fees to buy or sell on Moonoh?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. Moonoh is a 100% free local neighborhood marketplace. There are zero listing fees and zero selling commissions."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Where is Moonoh currently available?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Moonoh is exclusively designed for local communities across New York City (Manhattan, Brooklyn, Queens, Bronx, Staten Island) and New Jersey (Jersey City, Hoboken, Fort Lee, Bergen County)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How are transactions handled?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Buyers and sellers connect via secure in-app messaging to arrange safe, in-person local meetups to exchange secondhand items."
+          }
+        }
+      ]
     }
-  }, {
-    "@type": "Question",
-    "name": "Where is Moonoh currently available?",
-    "acceptedAnswer": {
-      "@type": "Answer",
-      "text": "Moonoh is exclusively designed for local communities across New York City (all five boroughs) and parts of the New Jersey area."
-    }
-  }, {
-    "@type": "Question",
-    "name": "How are transactions handled?",
-    "acceptedAnswer": {
-      "@type": "Answer",
-      "text": "Buyers and sellers connect via secure in-app messaging to arrange safe, in-person local meetups to exchange secondhand items."
-    }
-  }]
+  ]
 }
 </script>
   <link rel="canonical" href="https://moon-oh.com/about"/>

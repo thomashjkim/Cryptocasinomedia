@@ -11,6 +11,7 @@ export default async (req, context) => {
     `https://${host}/explore/food-rescue`,
     `https://${host}/explore/marketplaces`,
     `https://${host}/explore/local-shops`,
+    `https://${host}/facebook-marketplace-alternative-nyc`,
     `https://${host}/sitemap-index.xml`,
     `https://${host}/sitemap-pages.xml`,
     `https://${host}/sitemap-moonoh.xml`,
