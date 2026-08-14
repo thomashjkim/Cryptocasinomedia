@@ -235,7 +235,7 @@ shops_dict = {
         "state": "NY",
         "postal_code": "10013",
         "country": "US",
-        "theme_color": "#55A656",
+        "theme_color": "rgb(187, 219, 184)",
         "categories": ["Grocery", "Pantry", "Snacks", "Drinks", "Home & Table"],
         "claim_status": "unclaimed",
         "verification_status": "unverified",
