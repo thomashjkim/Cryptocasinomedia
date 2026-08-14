@@ -1,4 +1,14 @@
 
+function escapeHtml(str) {
+  if (!str) return '';
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
 function generateRegionSlugUrl(locStr) {
   if (!locStr) return 'https://moon-oh.com/explore';
   let l = locStr.toLowerCase();
