@@ -1,4 +1,5 @@
 import urllib.request
+import urllib.parse
 import json
 import re
 import datetime
@@ -97,13 +98,15 @@ for p in pug_raw:
         moonoh_cat = 'Food & Groceries'
         
     slug = clean_slug(handle)
+    q_title = urllib.parse.quote_plus(title)
+    
     pug_products.append({
         "id": f"pop-up-grocer-{len(pug_products)+1}",
         "source_product_id": f"pug-{p.get('id', len(pug_products)+1)}",
         "shop_id": "pop-up-grocer",
         "slug": slug,
-        "source_url": f"https://popupgrocer.com/products/{handle}?utm_source=moonoh&utm_medium=referral&utm_campaign=local_shops",
-        "canonical_source_url": f"https://popupgrocer.com/products/{handle}",
+        "source_url": f"https://popupgrocer.com/search?q={q_title}&utm_source=moonoh&utm_medium=referral&utm_campaign=local_shops",
+        "canonical_source_url": f"https://popupgrocer.com/search?q={q_title}",
         "title": title,
         "brand": vendor,
         "source_category": p.get('product_type') or moonoh_cat,
@@ -155,13 +158,14 @@ hg_raw_list = [
 hg_products = []
 for idx, (title, brand, price, cat, size, img) in enumerate(hg_raw_list):
     slug = clean_slug(title)
+    q_title = urllib.parse.quote_plus(title)
     hg_products.append({
         "id": f"happier-grocery-{idx+1}",
         "source_product_id": f"hg-{idx+1}",
         "shop_id": "happier-grocery",
         "slug": slug,
-        "source_url": f"https://shop.happiergrocery.com/shop?departmentID=GROCERY&product={slug}&utm_source=moonoh&utm_medium=referral&utm_campaign=local_shops",
-        "canonical_source_url": f"https://www.happiergrocery.com/shop/{slug}",
+        "source_url": f"https://shop.happiergrocery.com/shop/search?q={q_title}&utm_source=moonoh&utm_medium=referral&utm_campaign=local_shops",
+        "canonical_source_url": f"https://shop.happiergrocery.com/shop/search?q={q_title}",
         "title": title,
         "brand": brand,
         "source_category": cat,
