@@ -1,5 +1,4 @@
 import urllib.request
-import urllib.parse
 import json
 import re
 import datetime
@@ -20,7 +19,7 @@ def clean_summary(text, max_words=35):
         return ' '.join(words)
     return ' '.join(words[:max_words]) + '...'
 
-# --- 1. Fetch Big Night (Exactly 20 products) ---
+# --- 1. Fetch Big Night (Exactly 20 products with direct Shopify product page URLs) ---
 print("Fetching Big Night live products...")
 req_bn = urllib.request.Request('https://bignightbk.com/products.json?limit=40', headers={'User-Agent': 'Mozilla/5.0'})
 bn_raw = json.loads(urllib.request.urlopen(req_bn).read().decode('utf-8')).get('products', [])
@@ -72,7 +71,7 @@ for p in bn_raw:
 
 print(f"✅ Big Night: {len(bn_products)} products ready.")
 
-# --- 2. Fetch Pop Up Grocer (Exactly 20 products) ---
+# --- 2. Fetch Pop Up Grocer (20 products, destination links cleanly to Pop Up Grocer Directory) ---
 print("Fetching Pop Up Grocer live products...")
 req_pug = urllib.request.Request('https://popupgrocer.com/products.json?limit=40', headers={'User-Agent': 'Mozilla/5.0'})
 pug_raw = json.loads(urllib.request.urlopen(req_pug).read().decode('utf-8')).get('products', [])
@@ -86,7 +85,7 @@ for p in pug_raw:
     vendor = p.get('vendor') or 'Pop Up Grocer'
     price = float(p['variants'][0].get('price', 0)) if p.get('variants') else 14.0
     if price <= 0:
-        price = 14.0 # Standard retail for boutique emerging brand
+        price = 14.0
     img = p['images'][0]['src']
     
     t_lower = (title + ' ' + (p.get('product_type') or '')).lower()
@@ -98,15 +97,13 @@ for p in pug_raw:
         moonoh_cat = 'Food & Groceries'
         
     slug = clean_slug(handle)
-    q_title = urllib.parse.quote_plus(title)
-    
     pug_products.append({
         "id": f"pop-up-grocer-{len(pug_products)+1}",
         "source_product_id": f"pug-{p.get('id', len(pug_products)+1)}",
         "shop_id": "pop-up-grocer",
         "slug": slug,
-        "source_url": f"https://popupgrocer.com/search?q={q_title}&utm_source=moonoh&utm_medium=referral&utm_campaign=local_shops",
-        "canonical_source_url": f"https://popupgrocer.com/search?q={q_title}",
+        "source_url": "https://popupgrocer.com/pages/directory?utm_source=moonoh&utm_medium=referral&utm_campaign=local_shops",
+        "canonical_source_url": "https://popupgrocer.com/pages/directory",
         "title": title,
         "brand": vendor,
         "source_category": p.get('product_type') or moonoh_cat,
@@ -130,7 +127,7 @@ for p in pug_raw:
 
 print(f"✅ Pop Up Grocer: {len(pug_products)} products ready.")
 
-# --- 3. Build Happier Grocery (Exactly 20 products) ---
+# --- 3. Build Happier Grocery (20 products, destination links cleanly to official Happier Grocery website) ---
 print("Building Happier Grocery curated flagship products...")
 hg_raw_list = [
     ("Happier Organic Ceremonial Matcha (100g)", "Happier Grocery", 38.00, "Food & Groceries", "100g", "https://images.unsplash.com/photo-1576092768241-dec231879fc3?w=600&auto=format&fit=crop&q=80"),
@@ -158,14 +155,13 @@ hg_raw_list = [
 hg_products = []
 for idx, (title, brand, price, cat, size, img) in enumerate(hg_raw_list):
     slug = clean_slug(title)
-    q_title = urllib.parse.quote_plus(title)
     hg_products.append({
         "id": f"happier-grocery-{idx+1}",
         "source_product_id": f"hg-{idx+1}",
         "shop_id": "happier-grocery",
         "slug": slug,
-        "source_url": f"https://shop.happiergrocery.com/shop/search?q={q_title}&utm_source=moonoh&utm_medium=referral&utm_campaign=local_shops",
-        "canonical_source_url": f"https://shop.happiergrocery.com/shop/search?q={q_title}",
+        "source_url": "https://www.happiergrocery.com/?utm_source=moonoh&utm_medium=referral&utm_campaign=local_shops",
+        "canonical_source_url": "https://www.happiergrocery.com/",
         "title": title,
         "brand": brand,
         "source_category": cat,
@@ -220,7 +216,7 @@ shops_dict = {
         "source_key": "happier_grocery",
         "business_description": "Modern independent Soho grocery market featuring artisanal pantry items, organic produce, specialty drinks, and curated neighborhood food staples.",
         "website_url": "https://www.happiergrocery.com/",
-        "shopping_url": "https://shop.happiergrocery.com/shop?departmentID=GROCERY",
+        "shopping_url": "https://www.happiergrocery.com/",
         "logo_url": "https://www.happiergrocery.com/logo.png",
         "primary_image_url": "https://shop.happiergrocery.com/store_banner.jpg",
         "neighborhood": "Soho",
@@ -271,7 +267,7 @@ full_data = {
 with open('local_shops_data.json', 'w', encoding='utf-8') as f:
     json.dump(full_data, f, indent=2, ensure_ascii=False)
 
-print(f"🎉 Saved local_shops_data.json with {len(all_60_products)} products (20 per shop).")
+print(f"🎉 Saved local_shops_data.json with {len(all_60_products)} products.")
 
 # Update localShopsDb in item-detail.mjs
 with open('netlify/functions/item-detail.mjs', 'r', encoding='utf-8') as f:
