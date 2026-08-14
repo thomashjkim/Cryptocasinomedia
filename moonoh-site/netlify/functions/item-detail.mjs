@@ -23085,7 +23085,7 @@ export default async (req, context) => {
 
     if (externalSource === 'kimc') {
       pageTitle = `${title} | Food Rescue at Kim'C Market in ${townName} - Moonoh`;
-      metaDescription = `Discover ${title} for ${priceStr} from Kim'C Market in ${townName}. Part of the Fight Food Waste collection on Moonoh. Zero food waste, local quality.`;
+      metaDescription = `Discover ${title} for ${priceStr} from Kim'C Market in ${townName}. Part of the Fight Food Waste collection on Moonoh. Free delivery over $79. In-store pickup available at Brooklyn Navy Yard.`;
     } else if (externalSource === 'happier-grocery' || externalSource === 'big-night' || externalSource === 'pop-up-grocer') {
       pageTitle = `${title} | ${sourceDisplayName} in ${townName} - Moonoh`;
       metaDescription = `Discover ${title} (${priceStr}) curated from ${sourceDisplayName} in ${townName}. Browse neighborhood specialty goods, pantry staples, and artisanal items on Moonoh.`;
@@ -23182,7 +23182,29 @@ export default async (req, context) => {
             "returnFees": "https://schema.org/FreeReturn",
             "merchantReturnLink": "https://moon-oh.com/return-policy"
           },
-          ${(externalSource === 'kimc' || isExternal) ? '' : `"shippingDetails": {
+          ${externalSource === 'kimc' ? `"shippingDetails": {
+            "@type": "OfferShippingDetails",
+            "shippingRate": {
+              "@type": "MonetaryAmount",
+              "value": "9.99",
+              "currency": "USD"
+            },
+            "shippingDestination": {
+              "@type": "DefinedRegion",
+              "addressCountry": "US"
+            },
+            "freeShippingThreshold": {
+              "@type": "DeliveryChargeSpecification",
+              "appliesToDeliveryChargeSpecification": {
+                "@type": "DeliveryMethodSpecification"
+              },
+              "eligibleTransactionVolume": {
+                "@type": "PriceSpecification",
+                "price": "79.00",
+                "priceCurrency": "USD"
+              }
+            }
+          },` : (isExternal ? '' : `"shippingDetails": {
             "@type": "OfferShippingDetails",
             "shippingRate": {
               "@type": "MonetaryAmount",
@@ -23193,7 +23215,7 @@ export default async (req, context) => {
               "@type": "DefinedRegion",
               "addressCountry": "US"
             }
-          },`}
+          },`)}
           "seller": {
             "@type": "Organization",
             "name": ${JSON.stringify(externalSource === 'kimc' ? "Kim'C Market" : (sellerName || "Moonoh"))},
@@ -23490,7 +23512,7 @@ export default async (req, context) => {
 
         ${isExternal ? `
         <div style="background:${bannerBg}; border:1px solid ${bannerBorder}; border-radius:12px; padding:12px 16px; margin-bottom:20px; font-size:13px; color:${bannerColor}; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:8px;">
-          <span>🛒 <strong>${strDayCount === "Local Shop" ? "Curated Local Shop" : "External Listing"} (${sourceDisplayName})</strong> · Last verified ${new Date().toLocaleDateString('en-US', {month:'short', day:'numeric', year:'numeric'})}</span>
+          <span>🛒 <strong>${externalSource === "kimc" ? "Fight Food Waste (Kim'C Market) · Free shipping over $79" : (strDayCount === "Local Shop" ? `Curated Local Shop (${sourceDisplayName})` : `External Listing (${sourceDisplayName})`)}</strong> · Last verified ${new Date().toLocaleDateString('en-US', {month:'short', day:'numeric', year:'numeric'})}</span>
           <a href="${externalUrl}" target="_blank" rel="noopener noreferrer" onclick="if(typeof gtag==='function')gtag('event','click_external_source',{source:'${externalSource}',item_url:'${externalUrl}'});" style="color:${bannerColor}; font-weight:700; text-decoration:underline;">View original source ↗</a>
         </div>
         ` : ''}
