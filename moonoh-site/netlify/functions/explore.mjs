@@ -465,10 +465,11 @@ export default async (req, context) => {
       return new Response("Error reading explore.html template", { status: 500 });
     }
 
-    // Dynamic AEO & SEO Title/Description Generation
+    // Dynamic AEO & SEO Title/Description/H1 Generation
     let pageTitle = "Buy and Sell Secondhand Items in NYC & NJ | Moonoh";
     let metaDesc = "Browse verified local secondhand items in NYC & NJ. 0% fees, secure chat, and safe neighborhood exchanges on Moonoh.";
-    let h1Text = "Buy and sell used items in your neighborhood";
+    let h1Text = "Explore Secondhand Marketplace Listings in NYC & NJ";
+    let dynamicIntroText = "Explore thousands of verified local secondhand goods, gently used furniture, electronics, and food rescue items across New York City and New Jersey. 100% free neighborhood marketplace with zero fees.";
     let canonicalUrl = `https://moon-oh.com${fullPath || '/explore'}`;
     let themeColor = "#4F46E5";
     let sectionName = "Moonoh Marketplace";
@@ -477,17 +478,33 @@ export default async (req, context) => {
       pageTitle = `Used ${targetCategoryObj.name} for Sale in ${targetRegionObj.name} | Moonoh`;
       metaDesc = `Find great deals on verified used ${targetCategoryObj.name.toLowerCase()} in ${targetRegionObj.name} on Moonoh. 0% fees, direct seller chat, and local meetup.`;
       h1Text = `Used ${targetCategoryObj.name} for Sale in ${targetRegionObj.name}`;
+      dynamicIntroText = `Discover verified secondhand ${targetCategoryObj.name.toLowerCase()} listed for sale by local neighbors in ${targetRegionObj.name}. Buy and sell locally with 0% listing fees, direct in-app chat, and safe neighborhood pickup on Moonoh.`;
       sectionName = `${targetCategoryObj.name} in ${targetRegionObj.shortName}`;
     } else if (targetRegionObj) {
       pageTitle = `Used Items for Sale in ${targetRegionObj.name} | Moonoh`;
       metaDesc = `Discover secondhand items listed by neighbors in ${targetRegionObj.name}. Buy and sell locally with zero fees on Moonoh.`;
       h1Text = `Used Items for Sale in ${targetRegionObj.name}`;
+      dynamicIntroText = `Browse gently used furniture, electronics, household goods, and secondhand deals listed by verified neighbors in ${targetRegionObj.name}. 100% free local exchanges with zero transaction fees.`;
       sectionName = targetRegionObj.name;
     } else if (targetCategoryObj) {
       pageTitle = `Used ${targetCategoryObj.name} for Sale in NYC & NJ | Moonoh`;
       metaDesc = `Explore secondhand ${targetCategoryObj.name.toLowerCase()} for sale in NYC and NJ on Moonoh. Connect directly with local sellers.`;
       h1Text = `Used ${targetCategoryObj.name} for Sale in NYC & NJ`;
+      dynamicIntroText = `Explore quality used ${targetCategoryObj.name.toLowerCase()} for sale across New York City (Manhattan, Brooklyn, Queens, Bronx, Staten Island) and New Jersey. Connect directly with nearby sellers with zero commissions.`;
       sectionName = targetCategoryObj.name;
+    } else if (isFoodRescueFilter) {
+      pageTitle = "NYC Food Waste Rescue & Grocery Deals | Moonoh";
+      metaDesc = "Shop discounted gourmet Korean pantry items near sell-by date in NYC from Kim'C Market on Moonoh. Fight food waste, save money.";
+      h1Text = "NYC Food Waste Rescue & Sustainable Groceries";
+      dynamicIntroText = "Rescue premium artisanal and specialty groceries near sell-by dates at up to 70% discount in NYC. Partnering with local grocers like Kim'C Market to fight food waste and promote sustainable consumption.";
+      sectionName = "Food Rescue";
+    } else if (isLocalShopsFilter || isShopProfile) {
+      const shopName = isShopProfile && localShopsData.shops && localShopsData.shops[shopProfileSlug] ? localShopsData.shops[shopProfileSlug].name : "NYC Local Shops";
+      pageTitle = `${shopName} - Curated Neighborhood Goods | Moonoh`;
+      metaDesc = `Discover curated indie brands and specialty goods from ${shopName} in NYC on Moonoh.`;
+      h1Text = `${shopName} - Curated Neighborhood Goods in NYC`;
+      dynamicIntroText = `Discover curated independent food, pantry, and lifestyle goods from ${shopName}. Hand-selected neighborhood staples from boutique NYC local shops.`;
+      sectionName = shopName;
     }
 
     // Render AEO Summary Statistics Section (for Answer Engines & Google AI Overviews)
@@ -557,7 +574,6 @@ export default async (req, context) => {
 
     // JSON-LD Breadcrumbs Schema
     const breadcrumbSchema = {
-      "@context": "https://schema.org",
       "@type": "BreadcrumbList",
       "itemListElement": [
         { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://moon-oh.com/" },
@@ -566,7 +582,43 @@ export default async (req, context) => {
       ]
     };
 
-    const breadcrumbScript = `<script type="application/ld+json">${JSON.stringify(breadcrumbSchema)}</script>`;
+    // JSON-LD CollectionPage & ItemList Schema
+    const collectionSchema = {
+      "@context": "https://schema.org",
+      "@graph": [
+        breadcrumbSchema,
+        {
+          "@type": "CollectionPage",
+          "@id": `${canonicalUrl}#collection`,
+          "url": canonicalUrl,
+          "name": pageTitle,
+          "description": metaDesc,
+          "mainEntity": {
+            "@type": "ItemList",
+            "numberOfItems": initialItems.length,
+            "itemListElement": initialItems.map((item, idx) => ({
+              "@type": "ListItem",
+              "position": idx + 1,
+              "item": {
+                "@type": "Product",
+                "name": item.title || "Used item",
+                "url": item.detailUrl || item.url || canonicalUrl,
+                "image": item.photo || item.image || item.image_source_url || "https://moon-oh.com/images/default-item-placeholder.png",
+                "offers": {
+                  "@type": "Offer",
+                  "price": (item.price !== undefined && item.price !== null) ? String(item.price) : "0",
+                  "priceCurrency": "USD",
+                  "availability": "https://schema.org/InStock",
+                  "itemCondition": "https://schema.org/UsedCondition"
+                }
+              }
+            }))
+          }
+        }
+      ]
+    };
+
+    const schemaScript = `<script type="application/ld+json">${JSON.stringify(collectionSchema)}</script>`;
     const initialItemsScript = `<script>window.__INITIAL_ITEMS__ = ${JSON.stringify(initialItems)};</script>`;
 
     if (targetRegionObj && targetRegionObj.shortName) {
@@ -574,7 +626,7 @@ export default async (req, context) => {
       template = template.replace(`<option value="${regName}">`, `<option value="${regName}" selected="selected">`);
     }
 
-        // Highlight active source tab in SSR HTML
+    // Highlight active source tab in SSR HTML
     if (isMarketplacesFilter) {
       template = template
         .replace('class="source-tab-btn active" id="tab-source-moonoh"', 'class="source-tab-btn" id="tab-source-moonoh"')
@@ -589,12 +641,19 @@ export default async (req, context) => {
         .replace('class="source-tab-btn" id="tab-source-localshops"', 'class="source-tab-btn active" id="tab-source-localshops"');
     }
 
+    // Replace generic H2 with dynamic H1 and localized intro description
+    const genericH2 = '<h2 class="item-feed-title" style="margin-bottom: 16px;">Buy and sell used items in your neighborhood</h2>';
+    const dynamicH1Block = `<h1 class="item-feed-title" style="font-size:24px; font-weight:800; color:#1E1B4B; margin-top:0; margin-bottom:10px; letter-spacing:-0.02em;">${escapeHtml(h1Text)}</h1>\n      <p class="explore-intro-text" style="font-size:15px; color:#4B5563; line-height:1.6; margin-top:0; margin-bottom:20px;">${escapeHtml(dynamicIntroText)}</p>`;
+    if (template.includes(genericH2)) {
+      template = template.replace(genericH2, dynamicH1Block);
+    }
+
     template = template
       .replace(/<title>.*?<\/title>/i, `<title>${escapeHtml(pageTitle)}</title>`)
       .replace(/<meta content=".*?" name="description"\/>/i, `<meta content="${escapeHtml(metaDesc)}" name="description"/>`)
       .replace(/<link [^>]*rel="canonical"[^>]*\/>/i, `<link rel="canonical" href="${canonicalUrl}"/>`)
       .replace('</head>', `${initialItemsScript}
-${breadcrumbScript}
+${schemaScript}
 </head>`);
 
     // Inject AEO Summary Card & Cleanly Replace Entire Grid Block

@@ -23066,13 +23066,19 @@ export default async (req, context) => {
       btnBgColor = "#FF6F0F";
     }
 
-    // Custom meta values for Kim'C Market vs marketplace items
-    let pageTitle = `${title} - ${priceStr} | ${townName} - Moonoh`;
-    let metaDescription = description;
+    // Custom meta values for local shops, food rescue vs secondhand marketplace items
+    let pageTitle = `Used ${title} for Sale in ${townName} | Moonoh`;
+    if (priceNum === 0) {
+      pageTitle = `Free ${title} in ${townName} | Moonoh`;
+    }
+    let metaDescription = `Buy gently used ${title} (${priceStr}) in ${townName} on Moonoh — the 100% free neighborhood marketplace app for NYC & NJ. Zero fees, secure in-app chat, and safe local meetups.`;
 
     if (externalSource === 'kimc') {
-      pageTitle = `${title} - Kim'C Market`;
-      metaDescription = `Discover ${title} from Kim'C Market for ${priceStr}. Part of Kim'C Market's Fight Food Waste collection. Check current availability and complete your purchase at Kim'C Market.`;
+      pageTitle = `${title} | Food Rescue at Kim'C Market in ${townName} - Moonoh`;
+      metaDescription = `Discover ${title} for ${priceStr} from Kim'C Market in ${townName}. Part of the Fight Food Waste collection on Moonoh. Zero food waste, local quality.`;
+    } else if (externalSource === 'happier-grocery' || externalSource === 'big-night' || externalSource === 'pop-up-grocer') {
+      pageTitle = `${title} | ${sourceDisplayName} in ${townName} - Moonoh`;
+      metaDescription = `Discover ${title} (${priceStr}) curated from ${sourceDisplayName} in ${townName}. Browse neighborhood specialty goods, pantry staples, and artisanal items on Moonoh.`;
     }
 
     // Render HTML Page
@@ -23443,7 +23449,7 @@ export default async (req, context) => {
       <!-- Left Column: Gallery -->
       <div>
         <div class="gallery-container">
-          <img id="main-image" itemprop="image" fetchpriority="high" src="${mainPhoto}" alt="${title}" class="gallery-main-img" onerror="this.onerror=null; this.src='/images/default-item-placeholder.png';"/>
+          <img id="main-image" itemprop="image" fetchpriority="high" src="${mainPhoto}" alt="${escapeHtml(title)} for sale in ${escapeHtml(townName)}" class="gallery-main-img" onerror="this.onerror=null; this.src='/images/default-item-placeholder.png';"/>
           <div class="like-badge">
             <svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
             <span>${likeCount}</span>
