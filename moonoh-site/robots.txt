@@ -1,6 +1,10 @@
 User-agent: *
 Allow: /
 
+# AI Agent & LLM Information File
+# Standard: https://llmstxt.org
+# File: https://moon-oh.com/llms.txt
+
 Sitemap: https://moon-oh.com/sitemap-index.xml
 Sitemap: https://moon-oh.com/sitemap-pages.xml
 Sitemap: https://moon-oh.com/sitemap-moonoh.xml
