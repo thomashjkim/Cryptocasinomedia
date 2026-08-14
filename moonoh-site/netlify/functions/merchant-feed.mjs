@@ -103,6 +103,11 @@ function isPolicyViolatingItem(title, description, categoryName) {
     return true;
   }
 
+  // 8. Real Estate, Sublets, Rentals & Non-shippable Accommodations (Strictly prohibited by Google Merchant Center)
+  if (t.includes("sublet") || t.includes("sublease") || t.includes("apartment for rent") || t.includes("room for rent") || t.includes("roommate") || categoryName.toLowerCase().includes("sublet")) {
+    return true;
+  }
+
   return false;
 }
 
