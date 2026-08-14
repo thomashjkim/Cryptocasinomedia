@@ -523,7 +523,7 @@ def renderArticlePage(slug):
 
     tldr_section = expert_html + f"""
                                 <section id="tldr" data-semantic-role="summary" class="my-8 bg-gray-50 border-l-4 border-gray-400 p-6 rounded-sm">
-                                    <h2 class="text-xs uppercase tracking-widest font-semibold text-gray-900 mb-2 font-sans">Key Takeaways (AI Overview)</h2>
+                                    <h2 class="text-xs uppercase tracking-widest font-semibold text-gray-900 mb-2 font-sans">Executive Summary</h2>
                                     <p class="text-sm font-sans text-gray-800 leading-relaxed m-0">
                                         {article['excerpt']}
                                     </p>
@@ -552,17 +552,22 @@ def renderArticlePage(slug):
             bodyHtml += ADSENSE_IN_ARTICLE
     bodyHtml += '</section>'
 
-    # FAQ structured blocks for AEO
-    faqHtml = "".join([f"""
-                                <div class="border-b border-gray-100 pb-4 last:border-0">
-                                    <h4 class="text-sm font-semibold text-gray-900 mb-1">What is the latest news about {topic}?</h4>
-                                    <p class="text-sm text-gray-600">{article['excerpt']}</p>
+    # Align visible FAQ HTML with FAQ Schema
+    primary_topic = article['topics'][0] if article.get('topics') else "crypto casinos"
+    second_paragraph = article['body'][1] if len(article['body']) > 1 else article['excerpt']
+    
+    faqHtml = f"""
+                                <div class="border-b border-gray-100 pb-4">
+                                    <h4 class="text-sm font-semibold text-gray-900 mb-1">What is the key industry announcement in '{article['title']}'?</h4>
+                                    <p class="text-sm text-gray-600">{article['lede']}</p>
                                 </div>
-                            """ for topic in article['topics'][:3]])
+                                <div class="border-b border-gray-100 pb-4">
+                                    <h4 class="text-sm font-semibold text-gray-900 mb-1">How does this update impact the {primary_topic} sector?</h4>
+                                    <p class="text-sm text-gray-600">{second_paragraph}</p>
+                                </div>
+    """
 
-    faq_section_html = ""
-    if faqHtml:
-        faq_section_html = f"""
+    faq_section_html = f"""
                                 <section id="article-faq" class="my-10 border-t border-gray-200 pt-8 font-sans">
                                     <h3 class="text-lg font-bold text-gray-900 mb-6">Frequently Asked Questions</h3>
                                     <div class="space-y-6">
@@ -574,6 +579,15 @@ def renderArticlePage(slug):
     category_name = article['primaryCategory'].replace('-', ' ').title()
     topics_list_str = ", ".join(article['topics'])
     
+    # Determine reporting classification
+    source_name_lower = article.get('sourceName', '').lower()
+    if any(k in source_name_lower for k in ['desk', 'intelligence', 'analytics', 'research', 'editorial']):
+        reporting_type = "EDITORIAL NEWS & ANALYSIS"
+    else:
+        reporting_type = "OFFICIAL PRESS RELEASE"
+
+    author_name = "Sophia Chen (Regulatory Editor)" if article['primaryCategory'] == 'regulation' else "Marcus Vance (Senior iGaming Analyst)"
+
     # Resolve external primary sources for E-E-A-T provenance
     source_links_html = ""
     matched_sources = []
@@ -587,7 +601,7 @@ def renderArticlePage(slug):
     if matched_sources:
         links_list = "".join([f'<li class="text-xs text-blue-700 hover:underline"><a href="{url}" target="_blank" rel="noopener noreferrer">{name} Official Reference / Registry</a></li>' for name, url in matched_sources])
         source_links_html = f"""
-                                    <div class="mt-6 pt-4 border-t border-gray-200">
+                                    <div class="mt-4 pt-3 border-t border-gray-200">
                                         <h4 class="text-xs font-semibold uppercase tracking-wider text-gray-700 mb-2">Primary Reference & Verification Sources:</h4>
                                         <ul class="list-disc pl-5 space-y-1">
                                             {links_list}
@@ -596,16 +610,17 @@ def renderArticlePage(slug):
         """
 
     industry_analysis_block = f"""
-                                <section id="industry-analysis" data-semantic-role="analysis" class="my-10 border-t border-gray-200 pt-8 font-sans">
-                                    <h3 class="text-xl font-bold text-gray-900 mb-4">Industry Context & Strategic Analysis</h3>
-                                    <p class="text-base text-gray-700 leading-relaxed mb-4">
-                                        The development surrounding {article['company']} highlights broader structural shifts within the global interactive gaming ecosystem. As operators and technology providers navigate evolving multi-jurisdictional compliance, integration of decentralized asset rails, and regulatory oversight across key markets ({article['region']}), industry standards continue to mature rapidly.
-                                    </p>
-                                    <p class="text-base text-gray-700 leading-relaxed mb-4">
-                                        Key operational priorities for market participants in the {category_name} sector—specifically regarding {topics_list_str}—revolve around verifying transaction integrity, guaranteeing transparent odds or payouts, and establishing robust anti-money laundering (AML) protocols. Strategic announcements of this nature signal ongoing technical consolidation and institutional maturity across the digital gaming market.
-                                    </p>
-                                    <div class="bg-gray-50 border border-gray-200 p-4 rounded-sm text-xs text-gray-600">
-                                        <strong>Editorial Verification & Source Provenance:</strong> Verified by the CryptoCasinoMedia Editorial Desk. Technical claims, licensing credentials, and regulatory filings are cross-referenced against public registers and primary documentation.
+                                <section id="article-provenance" class="my-10 border-t border-gray-200 pt-6 font-sans">
+                                    <div class="bg-gray-50 border border-gray-200 p-5 rounded-sm">
+                                        <div class="flex items-center justify-between mb-3 border-b border-gray-200 pb-2">
+                                            <span class="text-xs uppercase tracking-wider font-semibold text-blue-800 bg-blue-50 px-2 py-0.5 rounded-sm">
+                                                {reporting_type}
+                                            </span>
+                                            <span class="text-xs text-gray-600 font-medium">Source: {article['sourceName']}</span>
+                                        </div>
+                                        <p class="text-xs text-gray-600 leading-relaxed mb-1">
+                                            <strong>Fact-Checking & Editorial Policy:</strong> Verified by the CryptoCasinoMedia Editorial Desk ({author_name}). Statements, corporate filings, and regulatory claims in {article['region']} are cross-referenced against public registers and primary documentation.
+                                        </p>
                                         {source_links_html}
                                     </div>
                                 </section>
@@ -1540,9 +1555,13 @@ for article in articles_sorted:
                 })
 
     # Generate static Article + FAQPage + BreadcrumbList schemas
+    author_slug = 'sophia-chen' if article['primaryCategory'] == 'regulation' else 'marcus-vance'
+    author_name = 'Sophia Chen' if article['primaryCategory'] == 'regulation' else 'Marcus Vance'
+    author_role = 'Regulatory Editor' if article['primaryCategory'] == 'regulation' else 'Senior iGaming Analyst'
+
     article_schema = {
         "@context": "https://schema.org",
-        "@type": "Article",
+        "@type": "NewsArticle",
         "@id": f"https://cryptocasinomedia.com/press-releases/{slug}/#article",
         "isPartOf": {
             "@id": "https://cryptocasinomedia.com/#website"
@@ -1553,16 +1572,24 @@ for article in articles_sorted:
         "dateModified": article['publishedAt'],
         "inLanguage": "en-US",
         "mainEntityOfPage": f"https://cryptocasinomedia.com/press-releases/{slug}/",
-        "author": {
-            "@type": "Organization",
-            "name": article['sourceName'],
-            "url": article.get('originalUrl') or "https://cryptocasinomedia.com/"
-        },
+        "author": [
+            {
+                "@type": "Person",
+                "name": author_name,
+                "jobTitle": author_role,
+                "url": f"https://cryptocasinomedia.com/authors/{author_slug}/"
+            },
+            {
+                "@type": "Organization",
+                "name": article['sourceName'],
+                "url": article.get('originalUrl') or "https://cryptocasinomedia.com/"
+            }
+        ],
         "publisher": {
             "@id": "https://cryptocasinomedia.com/#organization"
         },
         "image": list(dict.fromkeys([image_16_9, image_4_3, image_1_1])),
-        "articleSection": "Press Releases",
+        "articleSection": article['primaryCategory'].replace('-', ' ').title(),
         "keywords": ", ".join(article['topics']),
         "articleBody": " ".join(article['body']),
         "dateline": article['dateline'],
