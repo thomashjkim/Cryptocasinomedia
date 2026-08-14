@@ -19,7 +19,7 @@ def clean_summary(text, max_words=35):
         return ' '.join(words)
     return ' '.join(words[:max_words]) + '...'
 
-# --- 1. Fetch Big Night (Exactly 30 products with direct Shopify product page URLs) ---
+# --- 1. Fetch Big Night (30 products with direct Shopify product page URLs) ---
 print("Fetching Big Night live products...")
 req_bn = urllib.request.Request('https://bignightbk.com/products.json?limit=50', headers={'User-Agent': 'Mozilla/5.0'})
 bn_raw = json.loads(urllib.request.urlopen(req_bn).read().decode('utf-8')).get('products', [])
@@ -71,7 +71,7 @@ for p in bn_raw:
 
 print(f"✅ Big Night: {len(bn_products)} products ready.")
 
-# --- 2. Fetch Pop Up Grocer (Exactly 30 products with direct Shopify product page URLs) ---
+# --- 2. Fetch Pop Up Grocer (30 products with direct Shopify product page URLs) ---
 print("Fetching Pop Up Grocer live products...")
 req_pug = urllib.request.Request('https://popupgrocer.com/products.json?limit=50', headers={'User-Agent': 'Mozilla/5.0'})
 pug_raw = json.loads(urllib.request.urlopen(req_pug).read().decode('utf-8')).get('products', [])
@@ -127,7 +127,7 @@ for p in pug_raw:
 
 print(f"✅ Pop Up Grocer: {len(pug_products)} products ready.")
 
-# --- 3. Build Happier Grocery (Exactly 30 products with working images & department catalog link) ---
+# --- 3. Build Happier Grocery (30 products with verified high-res food images) ---
 print("Building Happier Grocery curated flagship products (30 items)...")
 hg_raw_list = [
     ("Happier Organic Ceremonial Matcha (100g)", "Happier Grocery", 38.00, "Food & Groceries", "100g", "https://images.unsplash.com/photo-1576092768241-dec231879fc3?w=600&auto=format&fit=crop&q=80"),
@@ -212,7 +212,7 @@ shops_dict = {
         "state": "NY",
         "postal_code": "11222",
         "country": "US",
-        "theme_color": "#D9381E",
+        "theme_color": "#F63616",
         "categories": ["Pantry", "Home & Table", "Snacks", "Grocery", "Conservas", "Condiments", "Drinks"],
         "claim_status": "unclaimed",
         "verification_status": "unverified",
@@ -258,7 +258,7 @@ shops_dict = {
         "state": "NY",
         "postal_code": "10012",
         "country": "US",
-        "theme_color": "#FF5722",
+        "theme_color": "#005CFF",
         "categories": ["Grocery", "Pantry", "Snacks", "Drinks"],
         "claim_status": "unclaimed",
         "verification_status": "unverified",
@@ -277,9 +277,9 @@ full_data = {
 with open('local_shops_data.json', 'w', encoding='utf-8') as f:
     json.dump(full_data, f, indent=2, ensure_ascii=False)
 
-print(f"🎉 Saved local_shops_data.json with {len(all_90_products)} products (30 per shop).")
+print(f"🎉 Saved local_shops_data.json with {len(all_90_products)} products.")
 
-# Update localShopsDb and theme color in item-detail.mjs
+# Update localShopsDb and theme colors in item-detail.mjs
 with open('netlify/functions/item-detail.mjs', 'r', encoding='utf-8') as f:
     item_code = f.read()
 
@@ -293,11 +293,44 @@ if start_idx != -1:
         item_code = item_code[:start_idx + len(start_marker)] + json.dumps(full_data) + item_code[end_idx:]
         print("🎉 Updated item-detail.mjs localShopsDb successfully!")
 
-# Update theme color in item-detail.mjs
-item_code = item_code.replace('bannerColor = "#2E7D32";', 'bannerColor = "#55A656";')
-item_code = item_code.replace('btnBgColor = "#2E7D32";', 'btnBgColor = "#55A656";')
+# Update theme color blocks in item-detail.mjs
+color_block_target = '''    } else if (externalSource === "happier-grocery") {
+      bannerBg = "#E8F5E9";
+      bannerBorder = "#A5D6A7";
+      bannerColor = "#55A656";
+      btnBgColor = "#55A656";
+    } else if (externalSource === "pop-up-grocer") {
+      bannerBg = "#FFF3E0";
+      bannerBorder = "#FFCC80";
+      bannerColor = "#E65100";
+      btnBgColor = "#E65100";
+    } else if (externalSource === "big-night") {
+      bannerBg = "#F3E5F5";
+      bannerBorder = "#CE93D8";
+      bannerColor = "#7B1FA2";
+      btnBgColor = "#7B1FA2";'''
+
+color_block_replacement = '''    } else if (externalSource === "happier-grocery") {
+      bannerBg = "#EDF7ED";
+      bannerBorder = "#C8E6C9";
+      bannerColor = "#55A656";
+      btnBgColor = "#55A656";
+    } else if (externalSource === "pop-up-grocer") {
+      bannerBg = "#EBF4FF";
+      bannerBorder = "#B8D9FF";
+      bannerColor = "#005CFF";
+      btnBgColor = "#005CFF";
+    } else if (externalSource === "big-night") {
+      bannerBg = "#FFF1F0";
+      bannerBorder = "#FFCCC7";
+      bannerColor = "#F63616";
+      btnBgColor = "#F63616";'''
+
+if color_block_target in item_code:
+    item_code = item_code.replace(color_block_target, color_block_replacement)
+    print("🎉 Replaced banner/button color blocks in item-detail.mjs!")
 
 with open('netlify/functions/item-detail.mjs', 'w', encoding='utf-8') as f:
     f.write(item_code)
 
-print("🎉 Updated item-detail.mjs with theme colors and 90 products.")
+print("🎉 Updated item-detail.mjs with exact brand colors and 90 products.")
