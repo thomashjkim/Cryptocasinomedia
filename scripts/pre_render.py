@@ -734,12 +734,7 @@ def renderArticlePage(slug):
                                 
                                 {faq_section_html}
                                 
-                                <div class="my-10 border-t border-b border-gray-200 py-6 bg-gray-50 px-6 font-sans">
-                                    <h2 class="text-lg font-semibold mb-3 text-gray-900">About {article['company']}</h2>
-                                    <p class="text-sm text-gray-700 m-0">
-                                        {about_company_text}
-                                    </p>
-                                </div>
+
 
                                 <div class="my-10 bg-gradient-to-r from-blue-900 to-indigo-900 rounded-lg shadow-lg overflow-hidden flex flex-col md:flex-row items-center justify-between p-8 font-sans text-white">
                                     <div class="mb-6 md:mb-0 md:mr-8 text-center md:text-left flex-1">
