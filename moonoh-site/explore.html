@@ -1102,14 +1102,16 @@
       
 
       <!-- Food Rescue Informational Banner -->
-      <div id="food-rescue-banner" style="display: none; background: #EFF6FF; border: 1px solid #BFDBFE; border-radius: 12px; padding: 12px 16px; margin-bottom: 20px; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap;">
-        <div style="display: flex; align-items: center; gap: 10px;">
-          <span style="font-size: 20px;">🥗</span>
-          <div>
-            <strong style="color: #1E40AF; font-size: 14px;">Fight Food Waste with Local Partner Stores</strong>
-            <p style="margin: 0; font-size: 13px; color: #3B82F6;">Near-expiration artisanal groceries up to 50% off. Sourced directly from Kim'C Market.</p>
-          </div>
+            <!-- Food Rescue Informational Banner (Compact Category Pill Bar Size, Kim'C Market Green) -->
+      <div id="food-rescue-banner" style="display:none; background:#E6F5F0; border:1px solid #99D6C4; border-radius:9999px; padding:4px 16px; margin-bottom:24px; min-height:42px; box-sizing:border-box; align-items:center; justify-content:space-between; gap:12px;">
+        <div style="display:flex; align-items:center; gap:8px; overflow:hidden; white-space:nowrap;">
+          <span style="background:#006853; color:#fff; font-weight:700; font-size:12px; padding:3px 10px; border-radius:9999px; display:inline-flex; align-items:center; gap:4px; flex-shrink:0;">🌱 Kim'C Market</span>
+          <span style="font-size:13px; color:#006853; font-weight:600; text-overflow:ellipsis; overflow:hidden; white-space:nowrap;">Peak quality Korean foods near sell-by date at special discounts</span>
         </div>
+        <a href="https://kimcmarket.com/blogs/korean-food-blog/understanding-sell-by-dates" target="_blank" rel="noopener noreferrer" style="display:inline-flex; align-items:center; gap:4px; background:#006853; color:#ffffff; font-weight:700; font-size:12px; padding:5px 14px; border-radius:9999px; text-decoration:none; white-space:nowrap; flex-shrink:0;">
+          Sell-By Guide ↗
+        </a>
+      </div>
       </div>
 
       <!-- 3. Standard Category Filters (Moonoh & Marketplaces) -->
@@ -1151,24 +1153,24 @@
         <button class="filter-pill" data-local-cat="Gifts & Culture">Gifts &amp; Culture</button>
       </div>
 
-      <!-- 4. Result Count & Right-Aligned Plain Text Sort Row -->
+      <!-- 4. Result Count & Right-Aligned Pure Text Sort Row -->
       <div class="results-sort-bar" style="display: flex; align-items: center; justify-content: space-between; margin: 16px 0 20px 0; width: 100%; box-sizing: border-box;">
         <div id="explore-results-label" style="font-size: 13.5px; font-weight: 600; color: #374151; white-space: nowrap;">
         </div>
         <div class="explore-sort-wrap" style="display: inline-flex; align-items: center; gap: 4px; font-size: 13px; font-weight: 400; color: #4B5563; line-height: 1.2; margin-left: auto;">
           <span style="font-size: 13px; font-weight: 400; color: #4B5563; line-height: 1.2; user-select: none;">Sort:</span>
-          <div style="position: relative; display: inline-flex; align-items: center;">
-            <select id="explore-sort-select" aria-label="Sort products" onchange="if(typeof updateSortWidth==='function')updateSortWidth();" style="appearance: none; -webkit-appearance: none; -moz-appearance: none; background: transparent; border: none; outline: none; box-shadow: none; font-size: 13px; font-weight: 400; color: #4B5563; font-family: inherit; line-height: 1.2; padding: 0 12px 0 2px; margin: 0; cursor: pointer; -webkit-tap-highlight-color: transparent;">
+          <div class="sort-overlay-wrap" style="position: relative; display: inline-flex; align-items: center; cursor: pointer; line-height: 1.2;">
+            <span id="sort-current-text" style="font-size: 13px; font-weight: 400; color: #4B5563; line-height: 1.2; white-space: nowrap;">Newest</span>
+            <svg class="sort-caret-icon" width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="#4B5563" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-left: 4px; pointer-events: none; display: inline-block; vertical-align: middle;"><polyline points="6 9 12 15 18 9"/></svg>
+            <select id="explore-sort-select" aria-label="Sort products" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer; -webkit-appearance: none; appearance: none; margin: 0; padding: 0; font-size: 13px; border: none; outline: none;">
               <option value="newest">Newest</option>
               <option value="relevance">Relevance</option>
               <option value="price-asc">Price: Low to High</option>
               <option value="price-desc">Price: High to Low</option>
             </select>
-            <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="#4B5563" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="position: absolute; right: 0; top: 50%; transform: translateY(-50%); pointer-events: none;"><polyline points="6 9 12 15 18 9"/></svg>
           </div>
         </div>
       </div>
-
       <div class="item-grid" id="moonoh-item-grid">
       <p style="text-align:center; color:#888; padding:40px; grid-column:1/-1;">Loading...</p>
       </div>
@@ -1639,23 +1641,16 @@
     }
 
     
-    function updateSortWidth() {
+    
+    function updateSortText() {
       const select = document.getElementById('explore-sort-select');
-      if (!select) return;
-      const selectedOption = select.options[select.selectedIndex];
-      const txt = selectedOption ? selectedOption.text : '';
-      const temp = document.createElement('span');
-      temp.style.visibility = 'hidden';
-      temp.style.position = 'absolute';
-      temp.style.fontSize = '13px';
-      temp.style.fontWeight = '400';
-      temp.style.fontFamily = getComputedStyle(select).fontFamily || 'sans-serif';
-      temp.textContent = txt;
-      document.body.appendChild(temp);
-      const textWidth = Math.ceil(temp.getBoundingClientRect().width);
-      document.body.removeChild(temp);
-      select.style.width = (textWidth + 14) + 'px';
+      const textEl = document.getElementById('sort-current-text');
+      if (select && textEl) {
+        const selectedOption = select.options[select.selectedIndex];
+        textEl.textContent = selectedOption ? selectedOption.text : 'Newest';
+      }
     }
+
 
     function updateSearchUI() {
       const searchInput = document.getElementById('explore-search-input');
@@ -1672,7 +1667,7 @@
       }
       if (sortSelect) {
         sortSelect.value = currentSortOption;
-        updateSortWidth();
+        updateSortText();
       }
 
       // Check if any filter is active (search query, category !== 'all', or non-default sort)
