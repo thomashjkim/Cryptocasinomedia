@@ -25056,3 +25056,15 @@ export const realHeyKoreanItems = [
     "url": "https://market.heykorean.com/market/view/605077"
   }
 ];
+
+export default async (req, context) => {
+  const combined = [...realKarrotItems, ...realHeyKoreanItems];
+  return new Response(JSON.stringify(combined), {
+    status: 200,
+    headers: {
+      "Content-Type": "application/json",
+      "Access-Control-Allow-Origin": "*",
+      "Cache-Control": "public, max-age=0, must-revalidate, s-maxage=0"
+    }
+  });
+};

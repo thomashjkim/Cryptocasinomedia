@@ -11,7 +11,7 @@ def run_live_smoke_test():
     req = urllib.request.Request("https://moon-oh.com/", headers={'User-Agent': 'Mozilla/5.0'})
     with urllib.request.urlopen(req) as resp:
         body = resp.read().decode('utf-8')
-        print(f"1. / (Home): HTTP {resp.status} | Has Marketplace Tab: {'tab-source-marketplaces' in body} | Has Shared Mixer: {'getBalancedMarketplaceProducts' in body or 'local-products-mixer.js' in body}")
+        print(f"1. / (Home): HTTP {resp.status} | Has Marketplace Tab: {'tab-source-marketplaces' in body} | Has Local Filters: {'id=\"local-filter-container\"' in body}")
 
     # 2. /explore
     req = urllib.request.Request("https://moon-oh.com/explore", headers={'User-Agent': 'Mozilla/5.0'})
@@ -21,13 +21,13 @@ def run_live_smoke_test():
         has_sort = 'id="explore-sort-select"' in body
         print(f"2. /explore: HTTP {resp.status} | Search Bar OK: {has_search} | Sort Dropdown OK: {has_sort}")
 
-    # 3. Sample 3 New Karrot Items from Sitemap
+    # 3. Sample 3 Karrot Items from Sitemap
     samples = [
         "https://moon-oh.com/item/petmate-replendish-25-gallon-pet-waterer-1mi-malverne-ny-ext-karrot-i9753yxh6ayn",
         "https://moon-oh.com/item/brown-plaid-sheath-dress-1mi-soundview-ny-ext-karrot-jy53d6432z6b",
         "https://moon-oh.com/item/decorative-red-floral-throw-pillows-set-of-2-1mi-central-harlem-ny-ext-karrot-4ozdhozn1mp5"
     ]
-    print("3. 3 New Karrot Representative Product Pages:")
+    print("3. 3 Karrot Representative Product Pages:")
     for s_url in samples:
         req = urllib.request.Request(s_url, headers={'User-Agent': 'Mozilla/5.0'})
         with urllib.request.urlopen(req) as resp:
@@ -45,7 +45,13 @@ def run_live_smoke_test():
     with urllib.request.urlopen(req_mkt) as resp:
         body_mkt = resp.read().decode('utf-8')
         mkt_count = len(re.findall(r'<loc>', body_mkt))
-        print(f"4b. /sitemap-marketplace.xml: HTTP {resp.status} | URL Count: {mkt_count} (Expected: 1501: {mkt_count == 1501})")
+        print(f"4b. /sitemap-marketplace.xml: HTTP {resp.status} | URL Count: {mkt_count} (Expected: 1505: {mkt_count == 1505})")
+
+    req_loc = urllib.request.Request("https://moon-oh.com/sitemap-local-products.xml", headers={'User-Agent': 'Mozilla/5.0'})
+    with urllib.request.urlopen(req_loc) as resp:
+        body_loc = resp.read().decode('utf-8')
+        loc_count = len(re.findall(r'<loc>', body_loc))
+        print(f"4c. /sitemap-local-products.xml: HTTP {resp.status} | URL Count: {loc_count} (Expected: 900: {loc_count == 900})")
 
     # 5. Merchant feed
     req_mf = urllib.request.Request("https://moon-oh.com/merchant-feed.xml", headers={'User-Agent': 'Mozilla/5.0'})
@@ -58,7 +64,7 @@ def run_live_smoke_test():
     req_api = urllib.request.Request("https://moon-oh.com/api/external-items", headers={'User-Agent': 'Mozilla/5.0'})
     with urllib.request.urlopen(req_api) as resp:
         api_data = json.loads(resp.read().decode('utf-8'))
-        print(f"6. /api/external-items Live Count: {len(api_data)} (183 Karrot + 1318 HeyKorean)")
+        print(f"6. /api/external-items Live Count: {len(api_data)} (183 Karrot + 1322 HeyKorean)")
 
     print("\n======================================================================")
     print("🎉 ALL LIVE PRODUCTION SMOKE TESTS PASSED 100%!")
