@@ -24921,6 +24921,20 @@ function isSemanticallyCompatible(incomingPath, expectedPath) {
     "@context": "https://schema.org/",
     "@graph": [
       {
+        "@type": "Organization",
+        "@id": "https://moon-oh.com/#organization",
+        "name": "Moonoh Inc.",
+        "url": "https://moon-oh.com",
+        "logo": "https://cdn.prod.website-files.com/65e3de602f703e1765199b30/65e51874e4a73ff20cb673ec_Logo.svg",
+        "sameAs": [
+          "https://www.instagram.com/moonoh_market",
+          "https://www.threads.net/@moonoh_market",
+          "https://www.tiktok.com/@moonoh_market",
+          "https://apps.apple.com/us/app/moonoh/id6477390079",
+          "https://play.google.com/store/apps/details?id=com.moonoh"
+        ]
+      },
+      {
         "@type": "WebPage",
         "@id": ${JSON.stringify(canonicalUrl)},
         "url": ${JSON.stringify(canonicalUrl)},
