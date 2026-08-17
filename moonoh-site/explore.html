@@ -779,6 +779,26 @@
       color: #F63616;
       border: 1px solid #FFCCC7;
     }
+    .badge-fgs {
+      background-color: #EDF2F7;
+      color: #1A202C;
+      border: 1px solid #CBD5E0;
+    }
+    .badge-mirth {
+      background-color: #FEF3C7;
+      color: #78350F;
+      border: 1px solid #FDE68A;
+    }
+    .badge-sey {
+      background-color: #F3F4F6;
+      color: #111827;
+      border: 1px solid #E5E7EB;
+    }
+    .badge-salter {
+      background-color: #ECFDF5;
+      color: #064E3B;
+      border: 1px solid #A7F3D0;
+    }
     
     /* Modal Styles */
     .moonoh-modal-overlay {
@@ -1149,6 +1169,14 @@
           badgeHtml = `<div class="item-card-badge badge-popup">Pop Up Grocer</div>`;
         } else if (sourceVal.includes('big') || shopId.includes('big') || item.badgeName === 'Big Night') {
           badgeHtml = `<div class="item-card-badge badge-bignight">Big Night</div>`;
+        } else if (sourceVal.includes('front') || shopId.includes('front') || item.badgeName === 'Front General Store') {
+          badgeHtml = `<div class="item-card-badge badge-fgs">Front General Store</div>`;
+        } else if (sourceVal.includes('mirth') || shopId.includes('mirth') || item.badgeName === 'Mirth Vintage') {
+          badgeHtml = `<div class="item-card-badge badge-mirth">Mirth Vintage</div>`;
+        } else if (sourceVal.includes('sey') || shopId.includes('sey') || item.badgeName === 'SEY Coffee') {
+          badgeHtml = `<div class="item-card-badge badge-sey">SEY Coffee</div>`;
+        } else if (sourceVal.includes('salter') || shopId.includes('salter') || item.badgeName === 'Salter House') {
+          badgeHtml = `<div class="item-card-badge badge-salter">Salter House</div>`;
         } else if (sourceVal === 'external' || sourceVal === 'others') {
           badgeHtml = `<div class="item-card-badge badge-heykorean">Marketplace</div>`;
         } else {

@@ -24792,6 +24792,10 @@ function isSemanticallyCompatible(incomingPath, expectedPath) {
     else if (externalSource === 'happier-grocery') sourceDisplayName = "Happier Grocery";
     else if (externalSource === 'big-night') sourceDisplayName = "Big Night";
     else if (externalSource === 'pop-up-grocer') sourceDisplayName = "Pop Up Grocer";
+    else if (externalSource === 'front-general-store') sourceDisplayName = "Front General Store";
+    else if (externalSource === 'mirth-vintage') sourceDisplayName = "Mirth Vintage";
+    else if (externalSource === 'sey-coffee') sourceDisplayName = "SEY Coffee";
+    else if (externalSource === 'salter-house') sourceDisplayName = "Salter House";
 
     let bannerBg = "#FFF7ED";
     let bannerBorder = "#FFEDD5";
@@ -24820,6 +24824,26 @@ function isSemanticallyCompatible(incomingPath, expectedPath) {
       bannerBorder = "#FFCCC7";
       bannerColor = "#F63616";
       btnBgColor = "#F63616";
+    } else if (externalSource === "front-general-store") {
+      bannerBg = "#EDF2F7";
+      bannerBorder = "#CBD5E0";
+      bannerColor = "#1A202C";
+      btnBgColor = "#2C3E50";
+    } else if (externalSource === "mirth-vintage") {
+      bannerBg = "#FEF3C7";
+      bannerBorder = "#FDE68A";
+      bannerColor = "#78350F";
+      btnBgColor = "#8C6D1F";
+    } else if (externalSource === "sey-coffee") {
+      bannerBg = "#F3F4F6";
+      bannerBorder = "#E5E7EB";
+      bannerColor = "#111827";
+      btnBgColor = "#1F2937";
+    } else if (externalSource === "salter-house") {
+      bannerBg = "#ECFDF5";
+      bannerBorder = "#A7F3D0";
+      bannerColor = "#064E3B";
+      btnBgColor = "#3B5A40";
     } else if (externalSource === "heykorean") {
       bannerBg = "#EBF4FF";
       bannerBorder = "#B8D9FF";
@@ -24842,9 +24866,9 @@ function isSemanticallyCompatible(incomingPath, expectedPath) {
     if (externalSource === 'kimc') {
       pageTitle = `${title} | Food Rescue at Kim'C Market in ${townName} - Moonoh`;
       metaDescription = `Discover ${title} for ${priceStr} from Kim'C Market in ${townName}. Part of the Fight Food Waste collection on Moonoh. Shipping, returns, and checkout are handled directly by Kim'C Market.`;
-    } else if (externalSource === 'happier-grocery' || externalSource === 'big-night' || externalSource === 'pop-up-grocer') {
+    } else if (['happier-grocery', 'big-night', 'pop-up-grocer', 'front-general-store', 'mirth-vintage', 'sey-coffee', 'salter-house'].includes(externalSource) || localProductMatch) {
       pageTitle = `${title} | ${sourceDisplayName} in ${townName} - Moonoh`;
-      metaDescription = `Discover ${title} (${priceStr}) curated from ${sourceDisplayName} in ${townName}. Browse neighborhood specialty goods, pantry staples, and artisanal items on Moonoh.`;
+      metaDescription = `Discover ${title} (${priceStr}) curated from ${sourceDisplayName} in ${townName}. Browse neighborhood specialty goods, vintage, and artisanal items on Moonoh.`;
     }
 
     // Render HTML Page
