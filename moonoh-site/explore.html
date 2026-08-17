@@ -1649,7 +1649,7 @@
       const searchInput = document.getElementById('explore-search-input');
       const searchClearBtn = document.getElementById('explore-search-clear');
       const sortSelect = document.getElementById('explore-sort-select');
-      const clearAllBtn = document.getElementById('btn-clear-all-filters');
+      // Clear filters button removed
 
       if (searchInput) {
         searchInput.placeholder = tabPlaceholders[activeSource] || 'Search in this tab';
@@ -1669,9 +1669,7 @@
       const isSortActive = (userHasExplicitSort && currentSortOption !== (currentSearchQuery ? 'relevance' : 'newest'));
 
       const hasActiveFilters = Boolean(currentSearchQuery || isLocalCatActive || isNormalCatActive || isSortActive);
-      if (clearAllBtn) {
-        clearAllBtn.style.display = hasActiveFilters ? 'inline-flex' : 'none';
-      }
+      // Clear filters display logic removed
     }
 
     function syncUrlAndSeo() {
@@ -2295,7 +2293,7 @@
     const searchInputEl = document.getElementById('explore-search-input');
     const searchClearEl = document.getElementById('explore-search-clear');
     const sortSelectEl = document.getElementById('explore-sort-select');
-    const clearAllBtnEl = document.getElementById('btn-clear-all-filters');
+    // Clear filters button removed
 
     if (searchInputEl) {
       searchInputEl.addEventListener('input', (e) => {
@@ -2337,9 +2335,7 @@
       searchClearEl.addEventListener('click', clearSearchQueryOnly);
     }
 
-    if (clearAllBtnEl) {
-      clearAllBtnEl.addEventListener('click', clearAllFilters);
-    }
+    // Clear filters listener removed
 
     if (sortSelectEl) {
       sortSelectEl.addEventListener('change', (e) => {
