@@ -2001,6 +2001,35 @@
       applyFilters();
     }
 
+    
+    async function preloadFoodRescueItems() {
+      if (foodRescueItemsList.length > 0) return;
+      try {
+        let res = await fetch('/api/food-rescue');
+        if (!res.ok) res = await fetch('/.netlify/functions/food-rescue-items');
+        const data = await res.json();
+        foodRescueItemsList = (Array.isArray(data) ? data : []).map(r => ({
+          no: r.id,
+          id: r.id,
+          title: r.title,
+          price: r.price,
+          image: r.image,
+          photo: r.image,
+          location: r.location || '1mi · Brooklyn, NY',
+          rawTown: r.rawTown || 'Brooklyn, NY',
+          townName: 'Brooklyn, NY',
+          category: r.categoryName || 'Food & Groceries',
+          categoryName: r.categoryName || 'Food & Groceries',
+          source: 'kimc',
+          badgeName: "Kim'C Market",
+          url: `/item/${r.handle || 'item'}-brooklyn-ny-ext-${r.id}`
+        }));
+        if (activeSource === 'foodrescue') applyFilters();
+      } catch (e) {
+        console.error("Error loading food rescue items:", e);
+      }
+    }
+
     async function preloadExternalItems() {
       if (externalItemsList.length > 0) return;
       if (window.__INITIAL_EXTERNAL_ITEMS__ && Array.isArray(window.__INITIAL_EXTERNAL_ITEMS__) && window.__INITIAL_EXTERNAL_ITEMS__.length > 0) {
