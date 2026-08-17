@@ -31,39 +31,77 @@ function escapeHtml(str) {
     .replace(/'/g, '&#39;');
 }
 
-function generateRegionSlugUrl(locStr) {
-  if (!locStr) return 'https://moon-oh.com/explore';
+function generateRegionSlugUrl(locStr, sourceParam) {
+  if (!locStr) return sourceParam ? `/explore?source=${sourceParam}` : '/explore';
   let l = locStr.toLowerCase();
-  if (l.includes('manhattan') || l.includes('soho') || l.includes('tribeca') || l.includes('midtown') || l.includes('new york')) return 'https://moon-oh.com/explore/manhattan';
-  if (l.includes('queens') || l.includes('bayside') || l.includes('flushing') || l.includes('astoria') || l.includes('lic')) return 'https://moon-oh.com/explore/queens';
-  if (l.includes('brooklyn') || l.includes('greenpoint') || l.includes('williamsburg')) return 'https://moon-oh.com/explore/brooklyn';
-  if (l.includes('bronx')) return 'https://moon-oh.com/explore/bronx';
-  if (l.includes('staten island')) return 'https://moon-oh.com/explore/staten-island';
-  if (l.includes('hudson') || l.includes('jersey city') || l.includes('hoboken')) return 'https://moon-oh.com/explore/hudson-county';
-  if (l.includes('bergen') || l.includes('fort lee') || l.includes('palisades')) return 'https://moon-oh.com/explore/bergen-county';
-  return 'https://moon-oh.com/explore';
+  const qStr = sourceParam ? `?source=${sourceParam}` : '';
+  if (l.includes('manhattan') || l.includes('soho') || l.includes('tribeca') || l.includes('midtown') || l.includes('new york')) return `/explore/manhattan${qStr}`;
+  if (l.includes('queens') || l.includes('bayside') || l.includes('flushing') || l.includes('astoria') || l.includes('lic')) return `/explore/queens${qStr}`;
+  if (l.includes('brooklyn') || l.includes('greenpoint') || l.includes('williamsburg') || l.includes('bushwick') || l.includes('dumbo')) return `/explore/brooklyn${qStr}`;
+  if (l.includes('bronx')) return `/explore/bronx${qStr}`;
+  if (l.includes('staten island')) return `/explore/staten-island${qStr}`;
+  if (l.includes('hudson') || l.includes('jersey city') || l.includes('hoboken')) return `/explore/hudson-county-nj${qStr}`;
+  if (l.includes('bergen') || l.includes('fort lee') || l.includes('palisades')) return `/explore/bergen-county-nj${qStr}`;
+  return `/explore${qStr}`;
 }
 
-function generateCategorySlugUrl(catStr) {
-  if (!catStr) return 'https://moon-oh.com/explore';
+function generateCategorySlugUrl(catStr, regionStr, sourceParam) {
+  if (!catStr) return sourceParam ? `/explore?source=${sourceParam}` : '/explore';
   let c = catStr.toLowerCase();
-  if (c.includes('food') || c.includes('grocery') || c.includes('drink')) return 'https://moon-oh.com/explore/food-groceries';
-  if (c.includes('furniture')) return 'https://moon-oh.com/explore/furniture';
-  if (c.includes('electronic')) return 'https://moon-oh.com/explore/electronics';
-  if (c.includes('health') || c.includes('beauty')) return 'https://moon-oh.com/explore/health-beauty';
-  if (c.includes('women')) return 'https://moon-oh.com/explore/womens-fashion';
-  if (c.includes('men')) return 'https://moon-oh.com/explore/mens-fashion';
-  if (c.includes('shoe')) return 'https://moon-oh.com/explore/shoes';
-  if (c.includes('baby') || c.includes('kid')) return 'https://moon-oh.com/explore/baby-kids';
-  if (c.includes('sport') || c.includes('leisure')) return 'https://moon-oh.com/explore/sports-leisure';
-  if (c.includes('toy') || c.includes('game')) return 'https://moon-oh.com/explore/toys-games';
-  if (c.includes('home') || c.includes('garden')) return 'https://moon-oh.com/explore/home-garden';
-  if (c.includes('jewelry') || c.includes('watch')) return 'https://moon-oh.com/explore/jewelry-watches';
-  if (c.includes('bag') || c.includes('luggage')) return 'https://moon-oh.com/explore/luggages-bags';
-  if (c.includes('art') || c.includes('book') || c.includes('music')) return 'https://moon-oh.com/explore/arts-books-music';
-  if (c.includes('pet')) return 'https://moon-oh.com/explore/pet-supplies';
-  if (c.includes('antique')) return 'https://moon-oh.com/explore/antiques';
-  return 'https://moon-oh.com/explore';
+  const qStr = sourceParam ? `?source=${sourceParam}` : '';
+
+  // Local Category URLs
+  if (c.includes('vintage') || c.includes('fashion') || c.includes('clothing')) {
+    return sourceParam === 'localshops' ? `/explore?source=localshops&category=vintage-fashion` : `/explore/womens-fashion${qStr}`;
+  }
+  if (c.includes('coffee') || c.includes('pantry')) {
+    return sourceParam === 'localshops' ? `/explore?source=localshops&category=coffee-pantry` : `/explore/food-groceries${qStr}`;
+  }
+  if (c.includes('home & objects') || c.includes('objects') || c.includes('tableware')) {
+    return sourceParam === 'localshops' ? `/explore?source=localshops&category=home-objects` : `/explore/home-garden${qStr}`;
+  }
+  if (c.includes('gifts') || c.includes('culture')) {
+    return sourceParam === 'localshops' ? `/explore?source=localshops&category=gifts-culture` : `/explore/arts-books-music${qStr}`;
+  }
+
+  // General Categories
+  let catSlug = 'other';
+  if (c.includes('food') || c.includes('grocery') || c.includes('drink')) catSlug = 'food-groceries';
+  else if (c.includes('furniture')) catSlug = 'furniture';
+  else if (c.includes('electronic')) catSlug = 'electronics';
+  else if (c.includes('health') || c.includes('beauty')) catSlug = 'health-beauty';
+  else if (c.includes('women')) catSlug = 'womens-fashion';
+  else if (c.includes('men')) catSlug = 'mens-fashion';
+  else if (c.includes('shoe')) catSlug = 'shoes';
+  else if (c.includes('baby') || c.includes('kid')) catSlug = 'baby-kids';
+  else if (c.includes('sport') || c.includes('leisure')) catSlug = 'sports-leisure';
+  else if (c.includes('toy') || c.includes('game')) catSlug = 'toys-games';
+  else if (c.includes('home') || c.includes('garden')) catSlug = 'home-garden';
+  else if (c.includes('jewelry') || c.includes('watch')) catSlug = 'jewelry-watches';
+  else if (c.includes('bag') || c.includes('luggage')) catSlug = 'luggages-bags';
+  else if (c.includes('art') || c.includes('book') || c.includes('music')) catSlug = 'arts-books-music';
+  else if (c.includes('pet')) catSlug = 'pet-supplies';
+  else if (c.includes('antique')) catSlug = 'antiques';
+
+  let regSlug = null;
+  if (regionStr) {
+    let l = regionStr.toLowerCase();
+    if (l.includes('manhattan')) regSlug = 'manhattan';
+    else if (l.includes('queens')) regSlug = 'queens';
+    else if (l.includes('brooklyn')) regSlug = 'brooklyn';
+    else if (l.includes('bronx')) regSlug = 'bronx';
+    else if (l.includes('staten island')) regSlug = 'staten-island';
+    else if (l.includes('fort lee')) regSlug = 'fort-lee-nj';
+    else if (l.includes('bergen')) regSlug = 'bergen-county-nj';
+    else if (l.includes('hudson')) regSlug = 'hudson-county-nj';
+  }
+
+  if (regSlug && catSlug !== 'other') {
+    return `/explore/${regSlug}/${catSlug}${qStr}`;
+  } else if (catSlug !== 'other') {
+    return `/explore/${catSlug}${qStr}`;
+  }
+  return `/explore${qStr}`;
 }
 
 function generateSlug(title, locationStr, productNo) {
@@ -24373,6 +24411,7 @@ function getExternalItemById(extId) {
 export default async (req, context) => {
   try {
     const url = new URL(req.url);
+    const localShopsDb = getLocalShopsDb();
     let isExternal = false;
     let externalUrl = "";
     let externalSource = "";
@@ -24852,10 +24891,11 @@ function isSemanticallyCompatible(incomingPath, expectedPath) {
       bannerColor = "#1A202C";
       btnBgColor = "#2C3E50";
     } else if (externalSource === "mirth-vintage") {
-      bannerBg = "#FEF3C7";
-      bannerBorder = "#FDE68A";
-      bannerColor = "#78350F";
-      btnBgColor = "#8C6D1F";
+      bannerBg = "#F9FAFB";
+      bannerBorder = "#E5E7EB";
+      bannerColor = "#111827";
+      btnBgColor = "#000000";
+      btnTextColor = "#FFFFFF";
     } else if (externalSource === "sey-coffee") {
       bannerBg = "#F3F4F6";
       bannerBorder = "#E5E7EB";
@@ -24891,6 +24931,75 @@ function isSemanticallyCompatible(incomingPath, expectedPath) {
     } else if (['happier-grocery', 'big-night', 'pop-up-grocer', 'front-general-store', 'mirth-vintage', 'sey-coffee', 'salter-house'].includes(externalSource) || localProductMatch) {
       pageTitle = `${title} | ${sourceDisplayName} in ${townName} - Moonoh`;
       metaDescription = `Discover ${title} (${priceStr}) curated from ${sourceDisplayName} in ${townName}. Browse neighborhood specialty goods, vintage, and artisanal items on Moonoh.`;
+    }
+
+    
+    // Determine exact source context and fallback URLs
+    let currentSourceKey = 'moonoh';
+    let fallbackExploreUrl = '/explore?source=moonoh';
+    let breadcrumbHtml = '';
+
+    if (localProductMatch) {
+      const shopSlug = localProductMatch[1];
+      currentSourceKey = 'localshops';
+      fallbackExploreUrl = '/explore?source=localshops';
+      const shopInfo = (localShopsDb.shops && localShopsDb.shops[shopSlug]) || {};
+      const shopDisplayName = shopInfo.name || sellerName || 'Local Shop';
+      const shopProfileUrl = `/local-shops/${shopSlug}`;
+      const categoryLinkUrl = generateCategorySlugUrl(categoryName, townName, 'localshops');
+      const regionLinkUrl = generateRegionSlugUrl(townName, 'localshops');
+
+      breadcrumbHtml = `
+        <a href="/explore?source=localshops">Local Shops</a>
+        <span class="sep">›</span>
+        <a href="${shopProfileUrl}">${shopDisplayName}</a>
+        <span class="sep">›</span>
+        <a href="${regionLinkUrl}">${townName}</a>
+        <span class="sep">›</span>
+        <a href="${categoryLinkUrl}">${categoryName}</a>
+        <span class="sep">›</span>
+      `;
+    } else if (isExternal) {
+      if (externalSource === 'kimc') {
+        currentSourceKey = 'foodrescue';
+        fallbackExploreUrl = '/explore?source=foodrescue';
+        const regionLinkUrl = generateRegionSlugUrl(townName, 'foodrescue');
+        const categoryLinkUrl = generateCategorySlugUrl(categoryName, townName, 'foodrescue');
+        breadcrumbHtml = `
+          <a href="/explore?source=foodrescue">Food Rescue</a>
+          <span class="sep">›</span>
+          <a href="${regionLinkUrl}">${townName}</a>
+          <span class="sep">›</span>
+          <a href="${categoryLinkUrl}">${categoryName}</a>
+          <span class="sep">›</span>
+        `;
+      } else {
+        currentSourceKey = 'marketplaces';
+        fallbackExploreUrl = '/explore?source=marketplaces';
+        const regionLinkUrl = generateRegionSlugUrl(townName, 'marketplaces');
+        const categoryLinkUrl = generateCategorySlugUrl(categoryName, townName, 'marketplaces');
+        breadcrumbHtml = `
+          <a href="/explore?source=marketplaces">Marketplaces</a>
+          <span class="sep">›</span>
+          <a href="${regionLinkUrl}">${townName}</a>
+          <span class="sep">›</span>
+          <a href="${categoryLinkUrl}">${categoryName}</a>
+          <span class="sep">›</span>
+        `;
+      }
+    } else {
+      currentSourceKey = 'moonoh';
+      fallbackExploreUrl = '/explore?source=moonoh';
+      const regionLinkUrl = generateRegionSlugUrl(townName, 'moonoh');
+      const categoryLinkUrl = generateCategorySlugUrl(categoryName, townName, 'moonoh');
+      breadcrumbHtml = `
+        <a href="/explore?source=moonoh">Explore</a>
+        <span class="sep">›</span>
+        <a href="${regionLinkUrl}">${townName}</a>
+        <span class="sep">›</span>
+        <a href="${categoryLinkUrl}">${categoryName}</a>
+        <span class="sep">›</span>
+      `;
     }
 
     // Render HTML Page
@@ -25227,10 +25336,10 @@ function isSemanticallyCompatible(incomingPath, expectedPath) {
 </head>
 <body>
 
-  <!-- Top Header -->
+    <!-- Top Header -->
   <header class="header-nav">
     <div class="header-content">
-      <a href="${isExternal ? (externalSource === 'kimc' ? '/explore?source=foodrescue' : '/explore?source=others') : '/explore'}" class="header-back">
+      <a href="${fallbackExploreUrl}" class="header-back" onclick="handleBackNavigation(event, '${fallbackExploreUrl}')">
         ← <span class="back-text-full">Back to Explore</span><span class="back-text-short">Back</span>
       </a>
       <a href="/" class="header-logo">
@@ -25246,16 +25355,11 @@ function isSemanticallyCompatible(incomingPath, expectedPath) {
   <!-- Product Detail Container -->
   <main class="item-detail-container">
 
-    <!-- Explicit HTML Breadcrumbs for Crawlers & PageRank -->
+    <!-- Smart Filter-Linked Breadcrumbs -->
     <nav class="breadcrumb-bar" aria-label="Breadcrumb">
       <a href="/">Home</a>
       <span class="sep">›</span>
-      <a href="${isExternal ? (externalSource === 'kimc' ? '/explore?source=foodrescue' : '/explore?source=others') : '/explore'}">Explore</a>
-      <span class="sep">›</span>
-      <a href="${generateRegionSlugUrl(townName)}">${townName}</a>
-      <span class="sep">›</span>
-      <a href="${generateCategorySlugUrl(categoryName)}">${categoryName}</a>
-      <span class="sep">›</span>
+      ${breadcrumbHtml}
       <span class="current">${title}</span>
     </nav>
 
@@ -25587,6 +25691,16 @@ function isSemanticallyCompatible(incomingPath, expectedPath) {
         L.marker([lat, lng], { icon: customPinIcon }).addTo(map);
       }
     });
+  </script>
+  <script>
+    function handleBackNavigation(e, fallbackUrl) {
+      e.preventDefault();
+      if (window.history.length > 1 && document.referrer && (document.referrer.includes(window.location.host) || document.referrer.includes('moon-oh.com')) && !document.referrer.includes('/item/') && !document.referrer.includes('/local-product/')) {
+        window.history.back();
+      } else {
+        window.location.href = fallbackUrl;
+      }
+    }
   </script>
 </body>
 </html>`;

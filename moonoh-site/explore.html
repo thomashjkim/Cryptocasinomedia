@@ -2506,12 +2506,19 @@
     // Parse initial URL parameters on page load
     try {
       const initialParams = new URLSearchParams(window.location.search);
-      if (initialParams.has('tab')) {
-        const t = initialParams.get('tab');
-        activeSource = (t === 'local') ? 'localshops' : t;
+      if (initialParams.has('tab') || initialParams.has('source')) {
+        const t = (initialParams.get('tab') || initialParams.get('source') || '').toLowerCase();
+        if (t === 'local' || t === 'localshops' || t === 'local-shops') activeSource = 'localshops';
+        else if (t === 'marketplaces' || t === 'marketplace' || t === 'others') activeSource = 'marketplaces';
+        else if (t === 'foodrescue' || t === 'food-rescue') activeSource = 'foodrescue';
+        else if (t === 'moonoh') activeSource = 'moonoh';
+        else activeSource = t;
       }
       if (initialParams.has('q')) {
         currentSearchQuery = initialParams.get('q') || '';
+      }
+      if (initialParams.has('shop')) {
+        currentSearchQuery = initialParams.get('shop') || '';
       }
       if (initialParams.has('sort')) {
         currentSortOption = initialParams.get('sort');
@@ -2524,6 +2531,36 @@
         activeTown = initialParams.get('area') || '';
         const locSelect = document.getElementById('location-select');
         if (locSelect) locSelect.value = activeTown;
+      }
+      
+      // Handle local category parameter (e.g. ?category=vintage-fashion or ?category=Coffee & Pantry)
+      if (initialParams.has('category') || initialParams.has('cat')) {
+        const rawCat = (initialParams.get('category') || initialParams.get('cat') || '').toLowerCase().replace(/[^a-z0-9]/g, '');
+        const localCatMap = {
+          'vintagefashion': 'Vintage & Fashion',
+          'vintage': 'Vintage & Fashion',
+          'fashion': 'Vintage & Fashion',
+          'homeobjects': 'Home & Objects',
+          'home': 'Home & Objects',
+          'objects': 'Home & Objects',
+          'coffeepantry': 'Coffee & Pantry',
+          'coffee': 'Coffee & Pantry',
+          'pantry': 'Coffee & Pantry',
+          'giftsculture': 'Gifts & Culture',
+          'gifts': 'Gifts & Culture',
+          'culture': 'Gifts & Culture',
+          'all': 'All'
+        };
+        if (localCatMap[rawCat]) {
+          activeLocalCategory = localCatMap[rawCat];
+          document.querySelectorAll('#local-filter-container .filter-pill').forEach(btn => {
+            if ((btn.getAttribute('data-local-cat') || '').toLowerCase() === activeLocalCategory.toLowerCase()) {
+              btn.classList.add('active');
+            } else {
+              btn.classList.remove('active');
+            }
+          });
+        }
       }
       updateSearchUI();
     } catch (err) {}
