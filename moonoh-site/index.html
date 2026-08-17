@@ -1422,7 +1422,10 @@
           try {
             let res = await fetch('/api/external-items');
             if (!res.ok) res = await fetch('/.netlify/functions/external-items');
-            externalItemsList = await res.json();
+            const data = await res.json();
+            externalItemsList = (typeof getBalancedMarketplaceProducts === 'function')
+              ? getBalancedMarketplaceProducts(data, { context: 'home-marketplace' })
+              : data;
           } catch (e) {
             console.error("Error loading external items:", e);
           }

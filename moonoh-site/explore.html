@@ -1639,6 +1639,10 @@
           if (typeof getBalancedLocalProducts === 'function') {
             filtered = getBalancedLocalProducts(filtered, { context: 'explore-local' });
           }
+        } else if (activeSource === 'marketplaces' || activeSource === 'others') {
+          if (typeof getBalancedMarketplaceProducts === 'function') {
+            filtered = getBalancedMarketplaceProducts(filtered, { context: 'explore-marketplace' });
+          }
         } else {
           filtered.sort((a, b) => {
             const numA = (typeof a.postedAt === 'number' && a.postedAt > 0) ? a.postedAt : (typeof a.no === 'number' ? a.no : (parseInt(String(a.id || '').replace(/\D/g, ''), 10) || 0));

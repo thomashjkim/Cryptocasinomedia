@@ -1,6 +1,7 @@
 /**
- * Moonoh Local Products Deterministic Mixer
- * Balances representation across local NYC shops without letting large inventories dominate.
+ * Moonoh Local & Marketplace Products Deterministic Mixer
+ * Balances representation across local NYC shops and external marketplace platforms (Karrot & HeyKorean)
+ * without letting any single shop or platform dominate the feed.
  */
 (function (root, factory) {
   if (typeof define === 'function' && define.amd) {
@@ -8,7 +9,9 @@
   } else if (typeof module === 'object' && module.exports) {
     module.exports = factory();
   } else {
-    root.getBalancedLocalProducts = factory().getBalancedLocalProducts;
+    const exports = factory();
+    root.getBalancedLocalProducts = exports.getBalancedLocalProducts;
+    root.getBalancedMarketplaceProducts = exports.getBalancedMarketplaceProducts;
   }
 }(typeof self !== 'undefined' ? self : this, function () {
 
@@ -41,8 +44,7 @@
       storeMap.get(sId).push(p);
     }
 
-    // 1. Internal Store Sorting:
-    // Priority: 1. source_published_at, 2. source_created_at, 3. source_updated_at, 4. source_order, 5. source_product_id
+    // Internal Store Sorting
     for (const [sId, items] of storeMap.entries()) {
       items.sort((a, b) => {
         const aPub = a.source_published_at ? new Date(a.source_published_at).getTime() : 0;
@@ -65,7 +67,7 @@
       });
     }
 
-    // 2. Deterministic Seed from America/New_York date + context
+    // Deterministic Seed
     let nyDate = dateKey;
     if (!nyDate) {
       try {
@@ -93,21 +95,128 @@
       queues.set(s, [...storeMap.get(s)]);
     }
 
-    // 3. Round-Robin Queue Drain with maxConsecutivePerStore constraint
     const result = [];
     let lastStore = null;
     let consecutiveCount = 0;
+    const totalItems = pool.length;
 
-    while (result.length < limit) {
-      let anyAddedInRound = false;
+    while (result.length < totalItems && result.length < limit) {
+      let progressMade = false;
 
-      for (const s of rotatedStores) {
-        if (result.length >= limit) break;
-        const queue = queues.get(s);
+      for (const store of rotatedStores) {
+        const queue = queues.get(store);
         if (!queue || queue.length === 0) continue;
 
-        if (lastStore === s && consecutiveCount >= maxConsecutivePerStore) {
-          const otherAvailable = rotatedStores.find(other => other !== s && queues.get(other)?.length > 0);
+        if (store === lastStore && consecutiveCount >= maxConsecutivePerStore) {
+          const otherStoresAvailable = Array.from(queues.entries()).some(([s, q]) => s !== store && q.length > 0);
+          if (otherStoresAvailable) {
+            continue;
+          }
+        }
+
+        const item = queue.shift();
+        result.push(item);
+        progressMade = true;
+
+        if (store === lastStore) {
+          consecutiveCount++;
+        } else {
+          lastStore = store;
+          consecutiveCount = 1;
+        }
+
+        if (result.length >= limit) break;
+      }
+
+      if (!progressMade) {
+        for (const queue of queues.values()) {
+          while (queue.length > 0 && result.length < limit) {
+            result.push(queue.shift());
+          }
+        }
+        break;
+      }
+    }
+
+    return result;
+  }
+
+  function getBalancedMarketplaceProducts(products, options = {}) {
+    const {
+      limit = Infinity,
+      context = 'default',
+      dateKey = null,
+      maxConsecutivePerPlatform = 2
+    } = options;
+
+    if (!Array.isArray(products) || products.length === 0) return [];
+
+    // Separate into platforms (karrot vs heykorean vs other)
+    const platformMap = new Map();
+    for (const p of products) {
+      let plat = (p.source || p.sourceName || 'other').toLowerCase();
+      if (plat.includes('karrot')) plat = 'karrot';
+      else if (plat.includes('heykorean')) plat = 'heykorean';
+      else plat = 'other';
+
+      if (!platformMap.has(plat)) {
+        platformMap.set(plat, []);
+      }
+      platformMap.get(plat).push(p);
+    }
+
+    // Sort internal platform queues strictly by authentic posting recency
+    for (const [plat, items] of platformMap.entries()) {
+      items.sort((a, b) => {
+        const aDate = a.postedAt ? new Date(a.postedAt).getTime() : (a.source_published_at ? new Date(a.source_published_at).getTime() : (typeof a.no === 'number' ? a.no : 0));
+        const bDate = b.postedAt ? new Date(b.postedAt).getTime() : (b.source_published_at ? new Date(b.source_published_at).getTime() : (typeof b.no === 'number' ? b.no : 0));
+        if (aDate !== bDate) return bDate - aDate;
+        return String(a.id || '').localeCompare(String(b.id || ''));
+      });
+    }
+
+    // Deterministic rotation seed
+    let nyDate = dateKey;
+    if (!nyDate) {
+      try {
+        const nyFormatter = new Intl.DateTimeFormat('en-CA', { timeZone: 'America/New_York' });
+        nyDate = nyFormatter.format(new Date());
+      } catch (e) {
+        nyDate = new Date().toISOString().split('T')[0];
+      }
+    }
+
+    let seedStr = `${nyDate}:${context}:marketplace`;
+    let seedHash = 0;
+    for (let i = 0; i < seedStr.length; i++) {
+      seedHash = ((seedHash << 5) - seedHash) + seedStr.charCodeAt(i);
+      seedHash |= 0;
+    }
+    const positiveSeed = Math.abs(seedHash);
+
+    const platformKeys = Array.from(platformMap.keys()).sort();
+    const startIndex = positiveSeed % platformKeys.length;
+    const rotatedPlatforms = [...platformKeys.slice(startIndex), ...platformKeys.slice(0, startIndex)];
+
+    const queues = new Map();
+    for (const plat of rotatedPlatforms) {
+      queues.set(plat, [...platformMap.get(plat)]);
+    }
+
+    const result = [];
+    let lastPlatform = null;
+    let consecutiveCount = 0;
+    const totalItems = products.length;
+
+    while (result.length < totalItems && result.length < limit) {
+      let progressMade = false;
+
+      for (const plat of rotatedPlatforms) {
+        const queue = queues.get(plat);
+        if (!queue || queue.length === 0) continue;
+
+        if (plat === lastPlatform && consecutiveCount >= maxConsecutivePerPlatform) {
+          const otherAvailable = Array.from(queues.entries()).some(([otherPlat, otherQ]) => otherPlat !== plat && otherQ.length > 0);
           if (otherAvailable) {
             continue;
           }
@@ -115,32 +224,33 @@
 
         const item = queue.shift();
         result.push(item);
-        anyAddedInRound = true;
+        progressMade = true;
 
-        if (lastStore === s) {
+        if (plat === lastPlatform) {
           consecutiveCount++;
         } else {
-          lastStore = s;
+          lastPlatform = plat;
           consecutiveCount = 1;
         }
+
+        if (result.length >= limit) break;
       }
 
-      if (!anyAddedInRound) {
-        const remainingStores = rotatedStores.filter(s => queues.get(s)?.length > 0);
-        if (remainingStores.length === 0) break;
-        for (const s of remainingStores) {
-          if (result.length >= limit) break;
-          const queue = queues.get(s);
-          if (queue && queue.length > 0) {
+      if (!progressMade) {
+        for (const queue of queues.values()) {
+          while (queue.length > 0 && result.length < limit) {
             result.push(queue.shift());
-            lastStore = s;
           }
         }
+        break;
       }
     }
 
     return result;
   }
 
-  return { getBalancedLocalProducts };
+  return {
+    getBalancedLocalProducts,
+    getBalancedMarketplaceProducts
+  };
 }));
