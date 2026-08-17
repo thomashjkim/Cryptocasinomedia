@@ -958,24 +958,23 @@
     }
 
   
-    /* Sort: Perfect Typography, Alignment & Zero Focus Outline */
+    
+    /* Sort: Perfect Baseline & Zero Outline */
     .explore-sort-wrap {
       display: inline-flex !important;
       align-items: center !important;
       gap: 4px !important;
-      font-size: 13.5px !important;
+      font-size: 13px !important;
       font-weight: 400 !important;
       color: #4B5563 !important;
-      line-height: 1 !important;
+      line-height: 1.2 !important;
+      vertical-align: middle !important;
     }
-    .explore-sort-wrap label {
-      font-size: 13.5px !important;
+    .explore-sort-wrap span {
+      font-size: 13px !important;
       font-weight: 400 !important;
       color: #4B5563 !important;
-      margin: 0 !important;
-      padding: 0 !important;
-      line-height: 1 !important;
-      cursor: pointer !important;
+      line-height: 1.2 !important;
     }
     #explore-sort-select {
       appearance: none !important;
@@ -985,14 +984,15 @@
       border: none !important;
       box-shadow: none !important;
       outline: none !important;
-      font-size: 13.5px !important;
+      font-size: 13px !important;
       font-weight: 400 !important;
       color: #4B5563 !important;
       font-family: inherit !important;
-      line-height: 1 !important;
-      padding: 0 14px 0 2px !important;
+      line-height: 1.2 !important;
+      padding: 0 13px 0 0 !important;
       margin: 0 !important;
       cursor: pointer !important;
+      width: auto !important;
       -webkit-tap-highlight-color: transparent !important;
     }
     #explore-sort-select:focus,
@@ -1004,30 +1004,6 @@
       box-shadow: none !important;
       background: transparent !important;
       color: #111827 !important;
-    }
-    .explore-sort-wrap:hover label,
-    .explore-sort-wrap:hover svg {
-      color: #111827 !important;
-      stroke: #111827 !important;
-    }
-
-  
-    /* More Button Exact Pill Design & Focus Reset */
-    .filter-pill-more {
-      display: inline-flex !important;
-      align-items: center !important;
-      gap: 6px !important;
-      cursor: pointer !important;
-      -webkit-tap-highlight-color: transparent !important;
-      outline: none !important;
-      box-shadow: none !important;
-    }
-    .filter-pill-more:focus,
-    .filter-pill-more:active,
-    .filter-pill-more:focus-visible {
-      outline: none !important;
-      box-shadow: none !important;
-      border-color: #E5E7EB !important;
     }
 
   </style>
@@ -1123,19 +1099,7 @@
         </div>
       </div>
 
-      <!-- 2. Scoped Search Bar (Sub-item directly under selected tab, Airbnb style) -->
-      <div class="explore-search-bar-row" style="margin: 0 auto 20px auto; width: 100%; max-width: 680px; box-sizing: border-box;">
-        <div class="explore-search-inner" style="position: relative; display: flex; align-items: center; width: 100%; border: 1.5px solid #E5E7EB; border-radius: 9999px; background: #FFFFFF; box-shadow: 0 2px 8px rgba(0,0,0,0.04); transition: border-color 0.2s, box-shadow 0.2s;">
-          <svg class="explore-search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#6B7280" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="position: absolute; left: 16px; pointer-events: none;">
-            <circle cx="11" cy="11" r="8"></circle>
-            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-          </svg>
-          <input type="text" id="explore-search-input" class="explore-search-input" placeholder="Search in Moonoh" aria-label="Search listings in current tab" style="width: 100%; height: 44px; padding: 0 44px 0 46px; border: none; border-radius: 9999px; font-size: 14px; color: #111827; background: transparent; outline: none; box-sizing: border-box;" />
-          <button id="explore-search-clear" class="explore-search-clear" aria-label="Clear search keyword" style="display: none; position: absolute; right: 10px; width: 26px; height: 26px; border: none; background: #F3F4F6; color: #4B5563; cursor: pointer; border-radius: 50%; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; padding: 0; line-height: 1;">
-            ✕
-          </button>
-        </div>
-      </div>
+      
 
       <!-- Food Rescue Informational Banner -->
       <div id="food-rescue-banner" style="display: none; background: #EFF6FF; border: 1px solid #BFDBFE; border-radius: 12px; padding: 12px 16px; margin-bottom: 20px; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap;">
@@ -1193,16 +1157,16 @@
         </div>
         <div style="display: flex; align-items: center; gap: 14px;">
           <!-- 100% Seamless Plain Text Sort Selector (Exact same font size, weight 400, color & perfect vertical alignment) -->
-          <div class="explore-sort-wrap" style="display: inline-flex; align-items: center; gap: 4px; font-size: 13.5px; font-weight: 400; color: #4B5563; line-height: 1;">
-            <label for="explore-sort-select" style="font-size: 13.5px; font-weight: 400; color: #4B5563; margin: 0; padding: 0; line-height: 1; cursor: pointer; white-space: nowrap;">Sort:</label>
+          <div class="explore-sort-wrap" style="display: inline-flex; align-items: center; gap: 4px; font-size: 13px; font-weight: 400; color: #4B5563; line-height: 1.2;">
+            <span style="font-size: 13px; font-weight: 400; color: #4B5563; line-height: 1.2; user-select: none;">Sort:</span>
             <div style="position: relative; display: inline-flex; align-items: center;">
-              <select id="explore-sort-select" aria-label="Sort products" style="appearance: none; -webkit-appearance: none; -moz-appearance: none; background: transparent; border: none; padding: 0 14px 0 2px; margin: 0; font-size: 13.5px; font-weight: 400; color: #4B5563; cursor: pointer; outline: none; box-shadow: none; font-family: inherit; line-height: 1; vertical-align: baseline;">
-                <option value="relevance">Relevance</option>
+              <select id="explore-sort-select" aria-label="Sort products" style="appearance: none; -webkit-appearance: none; -moz-appearance: none; background: transparent; border: none; outline: none; box-shadow: none; font-size: 13px; font-weight: 400; color: #4B5563; font-family: inherit; line-height: 1.2; padding: 0 13px 0 0; margin: 0; cursor: pointer; -webkit-tap-highlight-color: transparent; width: auto;">
                 <option value="newest">Newest</option>
+                <option value="relevance">Relevance</option>
                 <option value="price-asc">Price: Low to High</option>
                 <option value="price-desc">Price: High to Low</option>
               </select>
-              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#4B5563" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="position: absolute; right: 0; pointer-events: none;"><polyline points="6 9 12 15 18 9"/></svg>
+              <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="#4B5563" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="position: absolute; right: 0; top: 50%; transform: translateY(-50%); pointer-events: none;"><polyline points="6 9 12 15 18 9"/></svg>
             </div>
           </div>
           <!-- Clear Filters Link / Minimal Button -->
