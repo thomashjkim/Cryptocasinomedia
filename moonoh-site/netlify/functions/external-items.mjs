@@ -16,7 +16,12 @@ export const realKarrotItems = [
     "description": "Listing: Premier Sphagnum Peat Moss Tourbe 3 cu. ft. — $24. Located in Queens, NY. Originally posted on Karrot. Used Items item.",
     "source": "karrot",
     "sourceName": "Karrot",
-    "url": "https://us.karrotmarket.com/buy-sell/9iu7eb2po8ss/"
+    "url": "https://us.karrotmarket.com/buy-sell/9iu7eb2po8ss/",
+    "external_id": "9iu7eb2po8ss",
+    "original_source_url": "https://us.karrotmarket.com/buy-sell/9iu7eb2po8ss/",
+    "listing_status": "active",
+    "crawled_at": "2026-08-17T15:00:00Z",
+    "last_verified": "2026-08-17"
   },
   {
     "id": "karrot-gf3bgpnm4gay",
@@ -32,7 +37,12 @@ export const realKarrotItems = [
     "description": "Petmate Vari Kennel Small Pet Travel Carrier / Dog Crate (Blue) for sale at $20 near Queens, NY. Used Items — check out this deal on Karrot.",
     "source": "karrot",
     "sourceName": "Karrot",
-    "url": "https://us.karrotmarket.com/buy-sell/gf3bgpnm4gay/"
+    "url": "https://us.karrotmarket.com/buy-sell/gf3bgpnm4gay/",
+    "external_id": "gf3bgpnm4gay",
+    "original_source_url": "https://us.karrotmarket.com/buy-sell/gf3bgpnm4gay/",
+    "listing_status": "active",
+    "crawled_at": "2026-08-17T15:00:00Z",
+    "last_verified": "2026-08-17"
   },
   {
     "id": "karrot-9uueqaikcrdr",
@@ -48,7 +58,12 @@ export const realKarrotItems = [
     "description": "Pick up HP Wired Keyboard SK-2028 for $10 in Queens, NY. Category: Used Items. See original listing on Karrot.",
     "source": "karrot",
     "sourceName": "Karrot",
-    "url": "https://us.karrotmarket.com/buy-sell/9uueqaikcrdr/"
+    "url": "https://us.karrotmarket.com/buy-sell/9uueqaikcrdr/",
+    "external_id": "9uueqaikcrdr",
+    "original_source_url": "https://us.karrotmarket.com/buy-sell/9uueqaikcrdr/",
+    "listing_status": "active",
+    "crawled_at": "2026-08-17T15:00:00Z",
+    "last_verified": "2026-08-17"
   },
   {
     "id": "karrot-ygr1w54pi929",
@@ -64,7 +79,12 @@ export const realKarrotItems = [
     "description": "Listing: Sony PlayStation 4 Pro Console Bundle — $179. Located in Queens, NY. Originally posted on Karrot. Used Items item.",
     "source": "karrot",
     "sourceName": "Karrot",
-    "url": "https://us.karrotmarket.com/buy-sell/ygr1w54pi929/"
+    "url": "https://us.karrotmarket.com/buy-sell/ygr1w54pi929/",
+    "external_id": "ygr1w54pi929",
+    "original_source_url": "https://us.karrotmarket.com/buy-sell/ygr1w54pi929/",
+    "listing_status": "active",
+    "crawled_at": "2026-08-17T15:00:00Z",
+    "last_verified": "2026-08-17"
   },
   {
     "id": "karrot-5jjdond3pxjw",
@@ -80,7 +100,12 @@ export const realKarrotItems = [
     "description": "Pick up iPad 6th Generation (32GB) WIFI for $69 in Brooklyn, NY. Category: Used Items. See original listing on Karrot.",
     "source": "karrot",
     "sourceName": "Karrot",
-    "url": "https://us.karrotmarket.com/buy-sell/5jjdond3pxjw/"
+    "url": "https://us.karrotmarket.com/buy-sell/5jjdond3pxjw/",
+    "external_id": "5jjdond3pxjw",
+    "original_source_url": "https://us.karrotmarket.com/buy-sell/5jjdond3pxjw/",
+    "listing_status": "active",
+    "crawled_at": "2026-08-17T15:00:00Z",
+    "last_verified": "2026-08-17"
   },
   {
     "id": "karrot-bxvtzi86943v",
@@ -96,7 +121,12 @@ export const realKarrotItems = [
     "description": "Apple iPad Air 2 64GB - WIFI available for $69 in Brooklyn, NY. Great condition, priced to sell. Contact seller through Karrot.",
     "source": "karrot",
     "sourceName": "Karrot",
-    "url": "https://us.karrotmarket.com/buy-sell/bxvtzi86943v/"
+    "url": "https://us.karrotmarket.com/buy-sell/bxvtzi86943v/",
+    "external_id": "bxvtzi86943v",
+    "original_source_url": "https://us.karrotmarket.com/buy-sell/bxvtzi86943v/",
+    "listing_status": "active",
+    "crawled_at": "2026-08-17T15:00:00Z",
+    "last_verified": "2026-08-17"
   },
   {
     "id": "karrot-bm982c27q8e1",
@@ -112,7 +142,12 @@ export const realKarrotItems = [
     "description": "Black Metal 5 gallon water bottle Rack available for $20 in Brooklyn, NY. Great condition, priced to sell. Contact seller through Karrot.",
     "source": "karrot",
     "sourceName": "Karrot",
-    "url": "https://us.karrotmarket.com/buy-sell/bm982c27q8e1/"
+    "url": "https://us.karrotmarket.com/buy-sell/bm982c27q8e1/",
+    "external_id": "bm982c27q8e1",
+    "original_source_url": "https://us.karrotmarket.com/buy-sell/bm982c27q8e1/",
+    "listing_status": "active",
+    "crawled_at": "2026-08-17T15:00:00Z",
+    "last_verified": "2026-08-17"
   },
   {
     "id": "karrot-88vp7yqpes1m",
@@ -128,7 +163,12 @@ export const realKarrotItems = [
     "description": "Electrical Supplies Lot for sale at $65 near Queens, NY. Used Items — check out this deal on Karrot.",
     "source": "karrot",
     "sourceName": "Karrot",
-    "url": "https://us.karrotmarket.com/buy-sell/88vp7yqpes1m/"
+    "url": "https://us.karrotmarket.com/buy-sell/88vp7yqpes1m/",
+    "external_id": "88vp7yqpes1m",
+    "original_source_url": "https://us.karrotmarket.com/buy-sell/88vp7yqpes1m/",
+    "listing_status": "active",
+    "crawled_at": "2026-08-17T15:00:00Z",
+    "last_verified": "2026-08-17"
   },
   {
     "id": "karrot-trzx491sqbqy",
@@ -144,7 +184,12 @@ export const realKarrotItems = [
     "description": "Listing: Keurig Coffee Maker + Stand — $65. Located in Queens, NY. Originally posted on Karrot. Used Items item.",
     "source": "karrot",
     "sourceName": "Karrot",
-    "url": "https://us.karrotmarket.com/buy-sell/trzx491sqbqy/"
+    "url": "https://us.karrotmarket.com/buy-sell/trzx491sqbqy/",
+    "external_id": "trzx491sqbqy",
+    "original_source_url": "https://us.karrotmarket.com/buy-sell/trzx491sqbqy/",
+    "listing_status": "active",
+    "crawled_at": "2026-08-17T15:00:00Z",
+    "last_verified": "2026-08-17"
   },
   {
     "id": "karrot-dijtbvjmoozr",
@@ -160,7 +205,12 @@ export const realKarrotItems = [
     "description": "Listing: ABB NYC LED Series Exit Sign — $40. Located in Queens, NY. Originally posted on Karrot. Used Items item.",
     "source": "karrot",
     "sourceName": "Karrot",
-    "url": "https://us.karrotmarket.com/buy-sell/dijtbvjmoozr/"
+    "url": "https://us.karrotmarket.com/buy-sell/dijtbvjmoozr/",
+    "external_id": "dijtbvjmoozr",
+    "original_source_url": "https://us.karrotmarket.com/buy-sell/dijtbvjmoozr/",
+    "listing_status": "active",
+    "crawled_at": "2026-08-17T15:00:00Z",
+    "last_verified": "2026-08-17"
   },
   {
     "id": "karrot-bcqc95mj43ay",
@@ -176,7 +226,12 @@ export const realKarrotItems = [
     "description": "Set of 4 White Dining Chairs with Wood Legs for sale at $120 near Brooklyn, NY. Furniture — check out this deal on Karrot.",
     "source": "karrot",
     "sourceName": "Karrot",
-    "url": "https://us.karrotmarket.com/buy-sell/bcqc95mj43ay/"
+    "url": "https://us.karrotmarket.com/buy-sell/bcqc95mj43ay/",
+    "external_id": "bcqc95mj43ay",
+    "original_source_url": "https://us.karrotmarket.com/buy-sell/bcqc95mj43ay/",
+    "listing_status": "active",
+    "crawled_at": "2026-08-17T15:00:00Z",
+    "last_verified": "2026-08-17"
   },
   {
     "id": "karrot-qmf4fraur6xo",
@@ -192,7 +247,12 @@ export const realKarrotItems = [
     "description": "Listing: NIKE AIR MAX 95 TODDLER SNEAKERS — $19. Located in Queens, NY. Originally posted on Karrot. Baby & kids item.",
     "source": "karrot",
     "sourceName": "Karrot",
-    "url": "https://us.karrotmarket.com/buy-sell/qmf4fraur6xo/"
+    "url": "https://us.karrotmarket.com/buy-sell/qmf4fraur6xo/",
+    "external_id": "qmf4fraur6xo",
+    "original_source_url": "https://us.karrotmarket.com/buy-sell/qmf4fraur6xo/",
+    "listing_status": "active",
+    "crawled_at": "2026-08-17T15:00:00Z",
+    "last_verified": "2026-08-17"
   },
   {
     "id": "karrot-we9vb7a6dpzf",
@@ -208,7 +268,12 @@ export const realKarrotItems = [
     "description": "Vintage Bulova 10K Rolled Gold Plate Women's Watch available for $80 in Queens, NY. Great condition, priced to sell. Contact seller through Karrot.",
     "source": "karrot",
     "sourceName": "Karrot",
-    "url": "https://us.karrotmarket.com/buy-sell/we9vb7a6dpzf/"
+    "url": "https://us.karrotmarket.com/buy-sell/we9vb7a6dpzf/",
+    "external_id": "we9vb7a6dpzf",
+    "original_source_url": "https://us.karrotmarket.com/buy-sell/we9vb7a6dpzf/",
+    "listing_status": "active",
+    "crawled_at": "2026-08-17T15:00:00Z",
+    "last_verified": "2026-08-17"
   },
   {
     "id": "karrot-1ngptct2v8fm",
@@ -224,7 +289,12 @@ export const realKarrotItems = [
     "description": "Baccarat Rouge 540 Extrait de Parfum 70ml available for $180 in Queens, NY. Great condition, priced to sell. Contact seller through Karrot.",
     "source": "karrot",
     "sourceName": "Karrot",
-    "url": "https://us.karrotmarket.com/buy-sell/1ngptct2v8fm/"
+    "url": "https://us.karrotmarket.com/buy-sell/1ngptct2v8fm/",
+    "external_id": "1ngptct2v8fm",
+    "original_source_url": "https://us.karrotmarket.com/buy-sell/1ngptct2v8fm/",
+    "listing_status": "active",
+    "crawled_at": "2026-08-17T15:00:00Z",
+    "last_verified": "2026-08-17"
   },
   {
     "id": "karrot-ib8be5uaptvo",
@@ -240,7 +310,12 @@ export const realKarrotItems = [
     "description": "Pick up Hart Schaffner Marx Barrington Tan Trench Coat 44R for $200 in Brooklyn, NY. Category: Women's fashion. See original listing on Karrot.",
     "source": "karrot",
     "sourceName": "Karrot",
-    "url": "https://us.karrotmarket.com/buy-sell/ib8be5uaptvo/"
+    "url": "https://us.karrotmarket.com/buy-sell/ib8be5uaptvo/",
+    "external_id": "ib8be5uaptvo",
+    "original_source_url": "https://us.karrotmarket.com/buy-sell/ib8be5uaptvo/",
+    "listing_status": "active",
+    "crawled_at": "2026-08-17T15:00:00Z",
+    "last_verified": "2026-08-17"
   },
   {
     "id": "karrot-3f3ir99s8vib",
@@ -256,7 +331,12 @@ export const realKarrotItems = [
     "description": "Pick up Abstract Print Ruched Bodycon Dress for $20 in Flushing, Queens, NY. Category: Women's fashion. See original listing on Karrot.",
     "source": "karrot",
     "sourceName": "Karrot",
-    "url": "https://us.karrotmarket.com/buy-sell/3f3ir99s8vib/"
+    "url": "https://us.karrotmarket.com/buy-sell/3f3ir99s8vib/",
+    "external_id": "3f3ir99s8vib",
+    "original_source_url": "https://us.karrotmarket.com/buy-sell/3f3ir99s8vib/",
+    "listing_status": "active",
+    "crawled_at": "2026-08-17T15:00:00Z",
+    "last_verified": "2026-08-17"
   },
   {
     "id": "karrot-6vkfc9c9xhtr",
@@ -272,7 +352,12 @@ export const realKarrotItems = [
     "description": "Rustic Wood Computer Desk with Shelving for sale at $50 near Queens, NY. Furniture — check out this deal on Karrot.",
     "source": "karrot",
     "sourceName": "Karrot",
-    "url": "https://us.karrotmarket.com/buy-sell/6vkfc9c9xhtr/"
+    "url": "https://us.karrotmarket.com/buy-sell/6vkfc9c9xhtr/",
+    "external_id": "6vkfc9c9xhtr",
+    "original_source_url": "https://us.karrotmarket.com/buy-sell/6vkfc9c9xhtr/",
+    "listing_status": "active",
+    "crawled_at": "2026-08-17T15:00:00Z",
+    "last_verified": "2026-08-17"
   },
   {
     "id": "karrot-gdjwou414gwa",
@@ -288,7 +373,12 @@ export const realKarrotItems = [
     "description": "Tartine: A Classic Revisited Cookbook available for $35 in Brooklyn, NY. Great condition, priced to sell. Contact seller through Karrot.",
     "source": "karrot",
     "sourceName": "Karrot",
-    "url": "https://us.karrotmarket.com/buy-sell/gdjwou414gwa/"
+    "url": "https://us.karrotmarket.com/buy-sell/gdjwou414gwa/",
+    "external_id": "gdjwou414gwa",
+    "original_source_url": "https://us.karrotmarket.com/buy-sell/gdjwou414gwa/",
+    "listing_status": "active",
+    "crawled_at": "2026-08-17T15:00:00Z",
+    "last_verified": "2026-08-17"
   },
   {
     "id": "karrot-q7eb3ey7jt4f",
@@ -304,7 +394,12 @@ export const realKarrotItems = [
     "description": "Listing: Decorative Crafts Inc. Tray — $20. Located in Queens, NY. Originally posted on Karrot. Used Items item.",
     "source": "karrot",
     "sourceName": "Karrot",
-    "url": "https://us.karrotmarket.com/buy-sell/q7eb3ey7jt4f/"
+    "url": "https://us.karrotmarket.com/buy-sell/q7eb3ey7jt4f/",
+    "external_id": "q7eb3ey7jt4f",
+    "original_source_url": "https://us.karrotmarket.com/buy-sell/q7eb3ey7jt4f/",
+    "listing_status": "active",
+    "crawled_at": "2026-08-17T15:00:00Z",
+    "last_verified": "2026-08-17"
   },
   {
     "id": "karrot-1smegxh5ttbr",
@@ -320,7 +415,12 @@ export const realKarrotItems = [
     "description": "Ecosmart LED Bulbs and Spot Light Fixture for sale at $22 near Flushing, Queens, NY. Home, garden & DIY — check out this deal on Karrot.",
     "source": "karrot",
     "sourceName": "Karrot",
-    "url": "https://us.karrotmarket.com/buy-sell/1smegxh5ttbr/"
+    "url": "https://us.karrotmarket.com/buy-sell/1smegxh5ttbr/",
+    "external_id": "1smegxh5ttbr",
+    "original_source_url": "https://us.karrotmarket.com/buy-sell/1smegxh5ttbr/",
+    "listing_status": "active",
+    "crawled_at": "2026-08-17T15:00:00Z",
+    "last_verified": "2026-08-17"
   },
   {
     "id": "karrot-nf658uedgj2b",
@@ -336,7 +436,12 @@ export const realKarrotItems = [
     "description": "Listing: White Wedge Espadrille Sandals — $70. Located in Brooklyn, NY. Originally posted on Karrot. Shoes item.",
     "source": "karrot",
     "sourceName": "Karrot",
-    "url": "https://us.karrotmarket.com/buy-sell/nf658uedgj2b/"
+    "url": "https://us.karrotmarket.com/buy-sell/nf658uedgj2b/",
+    "external_id": "nf658uedgj2b",
+    "original_source_url": "https://us.karrotmarket.com/buy-sell/nf658uedgj2b/",
+    "listing_status": "active",
+    "crawled_at": "2026-08-17T15:00:00Z",
+    "last_verified": "2026-08-17"
   },
   {
     "id": "karrot-ccjein9zisps",
@@ -352,7 +457,12 @@ export const realKarrotItems = [
     "description": "Mitchell & Ness New York Knicks Basketball Shorts available for $150 in Queens, NY. Great condition, priced to sell. Contact seller through Karrot.",
     "source": "karrot",
     "sourceName": "Karrot",
-    "url": "https://us.karrotmarket.com/buy-sell/ccjein9zisps/"
+    "url": "https://us.karrotmarket.com/buy-sell/ccjein9zisps/",
+    "external_id": "ccjein9zisps",
+    "original_source_url": "https://us.karrotmarket.com/buy-sell/ccjein9zisps/",
+    "listing_status": "active",
+    "crawled_at": "2026-08-17T15:00:00Z",
+    "last_verified": "2026-08-17"
   },
   {
     "id": "karrot-8rpxs9ezhw9n",
@@ -368,7 +478,12 @@ export const realKarrotItems = [
     "description": "Pick up Ikea Wooden Bench for $45 in Brooklyn, NY. Category: Used Items. See original listing on Karrot.",
     "source": "karrot",
     "sourceName": "Karrot",
-    "url": "https://us.karrotmarket.com/buy-sell/8rpxs9ezhw9n/"
+    "url": "https://us.karrotmarket.com/buy-sell/8rpxs9ezhw9n/",
+    "external_id": "8rpxs9ezhw9n",
+    "original_source_url": "https://us.karrotmarket.com/buy-sell/8rpxs9ezhw9n/",
+    "listing_status": "active",
+    "crawled_at": "2026-08-17T15:00:00Z",
+    "last_verified": "2026-08-17"
   },
   {
     "id": "karrot-jdezt1qpg9ip",
@@ -384,7 +499,12 @@ export const realKarrotItems = [
     "description": "Listing: Large size Monstera Thai con Plant — $215. Located in Queens, NY. Originally posted on Karrot. Home, garden & DIY item.",
     "source": "karrot",
     "sourceName": "Karrot",
-    "url": "https://us.karrotmarket.com/buy-sell/jdezt1qpg9ip/"
+    "url": "https://us.karrotmarket.com/buy-sell/jdezt1qpg9ip/",
+    "external_id": "jdezt1qpg9ip",
+    "original_source_url": "https://us.karrotmarket.com/buy-sell/jdezt1qpg9ip/",
+    "listing_status": "active",
+    "crawled_at": "2026-08-17T15:00:00Z",
+    "last_verified": "2026-08-17"
   },
   {
     "id": "karrot-m95vap5y617j",
@@ -400,7 +520,12 @@ export const realKarrotItems = [
     "description": "Mane by Mane Addicts Ionic Compact Hair Dryer with 3 Attachments for sale at $100 near Brooklyn, NY. Electronics & Appliances — check out this deal on Karrot.",
     "source": "karrot",
     "sourceName": "Karrot",
-    "url": "https://us.karrotmarket.com/buy-sell/m95vap5y617j/"
+    "url": "https://us.karrotmarket.com/buy-sell/m95vap5y617j/",
+    "external_id": "m95vap5y617j",
+    "original_source_url": "https://us.karrotmarket.com/buy-sell/m95vap5y617j/",
+    "listing_status": "active",
+    "crawled_at": "2026-08-17T15:00:00Z",
+    "last_verified": "2026-08-17"
   },
   {
     "id": "karrot-fi4429phxwwe",
@@ -416,7 +541,12 @@ export const realKarrotItems = [
     "description": "Listing: Brand NEW Locking Elevated Toilet Seat with Padded Arms — $25. Located in Queens, NY. Originally posted on Karrot. Used Items item.",
     "source": "karrot",
     "sourceName": "Karrot",
-    "url": "https://us.karrotmarket.com/buy-sell/fi4429phxwwe/"
+    "url": "https://us.karrotmarket.com/buy-sell/fi4429phxwwe/",
+    "external_id": "fi4429phxwwe",
+    "original_source_url": "https://us.karrotmarket.com/buy-sell/fi4429phxwwe/",
+    "listing_status": "active",
+    "crawled_at": "2026-08-17T15:00:00Z",
+    "last_verified": "2026-08-17"
   },
   {
     "id": "karrot-pcfezkafmj8b",
@@ -432,7 +562,12 @@ export const realKarrotItems = [
     "description": "PS4 Games Lot, Various Prices for sale at $190 near Queens, NY. Used Items — check out this deal on Karrot.",
     "source": "karrot",
     "sourceName": "Karrot",
-    "url": "https://us.karrotmarket.com/buy-sell/pcfezkafmj8b/"
+    "url": "https://us.karrotmarket.com/buy-sell/pcfezkafmj8b/",
+    "external_id": "pcfezkafmj8b",
+    "original_source_url": "https://us.karrotmarket.com/buy-sell/pcfezkafmj8b/",
+    "listing_status": "active",
+    "crawled_at": "2026-08-17T15:00:00Z",
+    "last_verified": "2026-08-17"
   },
   {
     "id": "karrot-5ooana7wq2on",
@@ -448,7 +583,12 @@ export const realKarrotItems = [
     "description": "Pick up Etched Glass Vase with Birds and Flowers for $15 in Queens, NY. Category: Used Items. See original listing on Karrot.",
     "source": "karrot",
     "sourceName": "Karrot",
-    "url": "https://us.karrotmarket.com/buy-sell/5ooana7wq2on/"
+    "url": "https://us.karrotmarket.com/buy-sell/5ooana7wq2on/",
+    "external_id": "5ooana7wq2on",
+    "original_source_url": "https://us.karrotmarket.com/buy-sell/5ooana7wq2on/",
+    "listing_status": "active",
+    "crawled_at": "2026-08-17T15:00:00Z",
+    "last_verified": "2026-08-17"
   },
   {
     "id": "karrot-nkrmugsu26zv",
@@ -464,7 +604,12 @@ export const realKarrotItems = [
     "description": "Listing: Sprayground Shark Mouth Limited Edition Backpack — $75. Located in Flushing, Queens, NY. Originally posted on Karrot. Used Items item.",
     "source": "karrot",
     "sourceName": "Karrot",
-    "url": "https://us.karrotmarket.com/buy-sell/nkrmugsu26zv/"
+    "url": "https://us.karrotmarket.com/buy-sell/nkrmugsu26zv/",
+    "external_id": "nkrmugsu26zv",
+    "original_source_url": "https://us.karrotmarket.com/buy-sell/nkrmugsu26zv/",
+    "listing_status": "active",
+    "crawled_at": "2026-08-17T15:00:00Z",
+    "last_verified": "2026-08-17"
   },
   {
     "id": "karrot-6m1eqm8oq1a8",
@@ -480,7 +625,12 @@ export const realKarrotItems = [
     "description": "Listing: Gama Professional IQ Perfetto Hair Dryer — $220. Located in Queens, NY. Originally posted on Karrot. Electronics & Appliances item.",
     "source": "karrot",
     "sourceName": "Karrot",
-    "url": "https://us.karrotmarket.com/buy-sell/6m1eqm8oq1a8/"
+    "url": "https://us.karrotmarket.com/buy-sell/6m1eqm8oq1a8/",
+    "external_id": "6m1eqm8oq1a8",
+    "original_source_url": "https://us.karrotmarket.com/buy-sell/6m1eqm8oq1a8/",
+    "listing_status": "active",
+    "crawled_at": "2026-08-17T15:00:00Z",
+    "last_verified": "2026-08-17"
   },
   {
     "id": "karrot-nicwz2qm6npu",
@@ -496,7 +646,12 @@ export const realKarrotItems = [
     "description": "Sabrina Ionescu Liberty NY T-shirt available for $10 in Queens, NY. Great condition, priced to sell. Contact seller through Karrot.",
     "source": "karrot",
     "sourceName": "Karrot",
-    "url": "https://us.karrotmarket.com/buy-sell/nicwz2qm6npu/"
+    "url": "https://us.karrotmarket.com/buy-sell/nicwz2qm6npu/",
+    "external_id": "nicwz2qm6npu",
+    "original_source_url": "https://us.karrotmarket.com/buy-sell/nicwz2qm6npu/",
+    "listing_status": "active",
+    "crawled_at": "2026-08-17T15:00:00Z",
+    "last_verified": "2026-08-17"
   },
   {
     "id": "karrot-1zsyowt9k23w",
@@ -512,7 +667,12 @@ export const realKarrotItems = [
     "description": "Pick up Razer Viper Mini Gaming Mouse for $12 in Queens, NY. Category: Used Items. See original listing on Karrot.",
     "source": "karrot",
     "sourceName": "Karrot",
-    "url": "https://us.karrotmarket.com/buy-sell/1zsyowt9k23w/"
+    "url": "https://us.karrotmarket.com/buy-sell/1zsyowt9k23w/",
+    "external_id": "1zsyowt9k23w",
+    "original_source_url": "https://us.karrotmarket.com/buy-sell/1zsyowt9k23w/",
+    "listing_status": "active",
+    "crawled_at": "2026-08-17T15:00:00Z",
+    "last_verified": "2026-08-17"
   },
   {
     "id": "karrot-x8fuu4toma4r",
@@ -528,7 +688,12 @@ export const realKarrotItems = [
     "description": "Canon PIXMA MG3620 Red All-in-One Printer for sale at $30 near Flushing, Queens, NY. Used Items — check out this deal on Karrot.",
     "source": "karrot",
     "sourceName": "Karrot",
-    "url": "https://us.karrotmarket.com/buy-sell/x8fuu4toma4r/"
+    "url": "https://us.karrotmarket.com/buy-sell/x8fuu4toma4r/",
+    "external_id": "x8fuu4toma4r",
+    "original_source_url": "https://us.karrotmarket.com/buy-sell/x8fuu4toma4r/",
+    "listing_status": "active",
+    "crawled_at": "2026-08-17T15:00:00Z",
+    "last_verified": "2026-08-17"
   },
   {
     "id": "karrot-h31gmppujva7",
@@ -544,7 +709,12 @@ export const realKarrotItems = [
     "description": "The Transformation Principles by Hemant Taneja Book for sale at $15 near Flushing, Queens, NY. Baby & kids — check out this deal on Karrot.",
     "source": "karrot",
     "sourceName": "Karrot",
-    "url": "https://us.karrotmarket.com/buy-sell/h31gmppujva7/"
+    "url": "https://us.karrotmarket.com/buy-sell/h31gmppujva7/",
+    "external_id": "h31gmppujva7",
+    "original_source_url": "https://us.karrotmarket.com/buy-sell/h31gmppujva7/",
+    "listing_status": "active",
+    "crawled_at": "2026-08-17T15:00:00Z",
+    "last_verified": "2026-08-17"
   },
   {
     "id": "karrot-q1qvrb2xs9ni",
@@ -560,7 +730,12 @@ export const realKarrotItems = [
     "description": "Five Nights at Freddy's Circus Baby Action Figure for sale at $50 near Flushing, Queens, NY. Baby & kids — check out this deal on Karrot.",
     "source": "karrot",
     "sourceName": "Karrot",
-    "url": "https://us.karrotmarket.com/buy-sell/q1qvrb2xs9ni/"
+    "url": "https://us.karrotmarket.com/buy-sell/q1qvrb2xs9ni/",
+    "external_id": "q1qvrb2xs9ni",
+    "original_source_url": "https://us.karrotmarket.com/buy-sell/q1qvrb2xs9ni/",
+    "listing_status": "active",
+    "crawled_at": "2026-08-17T15:00:00Z",
+    "last_verified": "2026-08-17"
   },
   {
     "id": "karrot-m5zg2ru6eeor",
@@ -576,7 +751,12 @@ export const realKarrotItems = [
     "description": "Stuart Weitzman black Silk pumps with bow accent available for $90 in Brooklyn, NY. Great condition, priced to sell. Contact seller through Karrot.",
     "source": "karrot",
     "sourceName": "Karrot",
-    "url": "https://us.karrotmarket.com/buy-sell/m5zg2ru6eeor/"
+    "url": "https://us.karrotmarket.com/buy-sell/m5zg2ru6eeor/",
+    "external_id": "m5zg2ru6eeor",
+    "original_source_url": "https://us.karrotmarket.com/buy-sell/m5zg2ru6eeor/",
+    "listing_status": "active",
+    "crawled_at": "2026-08-17T15:00:00Z",
+    "last_verified": "2026-08-17"
   },
   {
     "id": "karrot-sa2rbqementu",
@@ -592,7 +772,12 @@ export const realKarrotItems = [
     "description": "Pick up Incase Hardshell Case for MacBook Pro/Air for $30 in Flushing, Queens, NY. Category: Baby & kids. See original listing on Karrot.",
     "source": "karrot",
     "sourceName": "Karrot",
-    "url": "https://us.karrotmarket.com/buy-sell/sa2rbqementu/"
+    "url": "https://us.karrotmarket.com/buy-sell/sa2rbqementu/",
+    "external_id": "sa2rbqementu",
+    "original_source_url": "https://us.karrotmarket.com/buy-sell/sa2rbqementu/",
+    "listing_status": "active",
+    "crawled_at": "2026-08-17T15:00:00Z",
+    "last_verified": "2026-08-17"
   },
   {
     "id": "karrot-mxtk7am6yvym",
@@ -608,7 +793,12 @@ export const realKarrotItems = [
     "description": "Listing: Windmill W1W31 Air Conditioner — $127. Located in Queens, NY. Originally posted on Karrot. Used Items item.",
     "source": "karrot",
     "sourceName": "Karrot",
-    "url": "https://us.karrotmarket.com/buy-sell/mxtk7am6yvym/"
+    "url": "https://us.karrotmarket.com/buy-sell/mxtk7am6yvym/",
+    "external_id": "mxtk7am6yvym",
+    "original_source_url": "https://us.karrotmarket.com/buy-sell/mxtk7am6yvym/",
+    "listing_status": "active",
+    "crawled_at": "2026-08-17T15:00:00Z",
+    "last_verified": "2026-08-17"
   },
   {
     "id": "karrot-461acttnmz7h",
@@ -624,7 +814,12 @@ export const realKarrotItems = [
     "description": "Listing: IKEA Hållbar Waste Bins with Lids — $13. Located in Queens, NY. Originally posted on Karrot. Used Items item.",
     "source": "karrot",
     "sourceName": "Karrot",
-    "url": "https://us.karrotmarket.com/buy-sell/461acttnmz7h/"
+    "url": "https://us.karrotmarket.com/buy-sell/461acttnmz7h/",
+    "external_id": "461acttnmz7h",
+    "original_source_url": "https://us.karrotmarket.com/buy-sell/461acttnmz7h/",
+    "listing_status": "active",
+    "crawled_at": "2026-08-17T15:00:00Z",
+    "last_verified": "2026-08-17"
   },
   {
     "id": "karrot-76so5xy3hs43",
@@ -640,7 +835,12 @@ export const realKarrotItems = [
     "description": "Clear Cut Glass Vase available for $20 in Queens, NY. Great condition, priced to sell. Contact seller through Karrot.",
     "source": "karrot",
     "sourceName": "Karrot",
-    "url": "https://us.karrotmarket.com/buy-sell/76so5xy3hs43/"
+    "url": "https://us.karrotmarket.com/buy-sell/76so5xy3hs43/",
+    "external_id": "76so5xy3hs43",
+    "original_source_url": "https://us.karrotmarket.com/buy-sell/76so5xy3hs43/",
+    "listing_status": "active",
+    "crawled_at": "2026-08-17T15:00:00Z",
+    "last_verified": "2026-08-17"
   },
   {
     "id": "karrot-3bqnvo8erjgv",
@@ -656,7 +856,12 @@ export const realKarrotItems = [
     "description": "Listing: Samsung Galaxy Book4 Pro 14\" — $980. Located in Queens, NY. Originally posted on Karrot. Baby & kids item.",
     "source": "karrot",
     "sourceName": "Karrot",
-    "url": "https://us.karrotmarket.com/buy-sell/3bqnvo8erjgv/"
+    "url": "https://us.karrotmarket.com/buy-sell/3bqnvo8erjgv/",
+    "external_id": "3bqnvo8erjgv",
+    "original_source_url": "https://us.karrotmarket.com/buy-sell/3bqnvo8erjgv/",
+    "listing_status": "active",
+    "crawled_at": "2026-08-17T15:00:00Z",
+    "last_verified": "2026-08-17"
   },
   {
     "id": "karrot-gx8r2z2n5oem",
@@ -672,7 +877,12 @@ export const realKarrotItems = [
     "description": "Texas Instruments TI-84 Plus Graphing Calculator for sale at $36 near Flushing, Queens, NY. Men's fashion — check out this deal on Karrot.",
     "source": "karrot",
     "sourceName": "Karrot",
-    "url": "https://us.karrotmarket.com/buy-sell/gx8r2z2n5oem/"
+    "url": "https://us.karrotmarket.com/buy-sell/gx8r2z2n5oem/",
+    "external_id": "gx8r2z2n5oem",
+    "original_source_url": "https://us.karrotmarket.com/buy-sell/gx8r2z2n5oem/",
+    "listing_status": "active",
+    "crawled_at": "2026-08-17T15:00:00Z",
+    "last_verified": "2026-08-17"
   },
   {
     "id": "karrot-5eciz7uoz5r8",
@@ -688,7 +898,12 @@ export const realKarrotItems = [
     "description": "Listing: Craft Beads Assortment with Storage Case — $15. Located in Flushing, Queens, NY. Originally posted on Karrot. Men's fashion item.",
     "source": "karrot",
     "sourceName": "Karrot",
-    "url": "https://us.karrotmarket.com/buy-sell/5eciz7uoz5r8/"
+    "url": "https://us.karrotmarket.com/buy-sell/5eciz7uoz5r8/",
+    "external_id": "5eciz7uoz5r8",
+    "original_source_url": "https://us.karrotmarket.com/buy-sell/5eciz7uoz5r8/",
+    "listing_status": "active",
+    "crawled_at": "2026-08-17T15:00:00Z",
+    "last_verified": "2026-08-17"
   },
   {
     "id": "karrot-u25apzz37iy3",
@@ -704,7 +919,12 @@ export const realKarrotItems = [
     "description": "Listing: Magicfly Acrylic Paint Set - 30 Colors like new — $35. Located in Queens, NY. Originally posted on Karrot. Used Items item.",
     "source": "karrot",
     "sourceName": "Karrot",
-    "url": "https://us.karrotmarket.com/buy-sell/u25apzz37iy3/"
+    "url": "https://us.karrotmarket.com/buy-sell/u25apzz37iy3/",
+    "external_id": "u25apzz37iy3",
+    "original_source_url": "https://us.karrotmarket.com/buy-sell/u25apzz37iy3/",
+    "listing_status": "active",
+    "crawled_at": "2026-08-17T15:00:00Z",
+    "last_verified": "2026-08-17"
   },
   {
     "id": "karrot-ykwek9vrj8ao",
@@ -720,7 +940,12 @@ export const realKarrotItems = [
     "description": "Crystal Cut Glass Vase for sale at $30 near Queens, NY. Used Items — check out this deal on Karrot.",
     "source": "karrot",
     "sourceName": "Karrot",
-    "url": "https://us.karrotmarket.com/buy-sell/ykwek9vrj8ao/"
+    "url": "https://us.karrotmarket.com/buy-sell/ykwek9vrj8ao/",
+    "external_id": "ykwek9vrj8ao",
+    "original_source_url": "https://us.karrotmarket.com/buy-sell/ykwek9vrj8ao/",
+    "listing_status": "active",
+    "crawled_at": "2026-08-17T15:00:00Z",
+    "last_verified": "2026-08-17"
   },
   {
     "id": "karrot-fjfxazz47gfq",
@@ -736,7 +961,12 @@ export const realKarrotItems = [
     "description": "Tease Glass Tea Infuser Bottle never used available for $15 in Queens, NY. Great condition, priced to sell. Contact seller through Karrot.",
     "source": "karrot",
     "sourceName": "Karrot",
-    "url": "https://us.karrotmarket.com/buy-sell/fjfxazz47gfq/"
+    "url": "https://us.karrotmarket.com/buy-sell/fjfxazz47gfq/",
+    "external_id": "fjfxazz47gfq",
+    "original_source_url": "https://us.karrotmarket.com/buy-sell/fjfxazz47gfq/",
+    "listing_status": "active",
+    "crawled_at": "2026-08-17T15:00:00Z",
+    "last_verified": "2026-08-17"
   },
   {
     "id": "karrot-8x6cka1wn35p",
@@ -752,7 +982,12 @@ export const realKarrotItems = [
     "description": "Urban Meadow Sparkling Seltzer Water - Variety Pack for sale at $15 near Brooklyn, NY. Used Items — check out this deal on Karrot.",
     "source": "karrot",
     "sourceName": "Karrot",
-    "url": "https://us.karrotmarket.com/buy-sell/8x6cka1wn35p/"
+    "url": "https://us.karrotmarket.com/buy-sell/8x6cka1wn35p/",
+    "external_id": "8x6cka1wn35p",
+    "original_source_url": "https://us.karrotmarket.com/buy-sell/8x6cka1wn35p/",
+    "listing_status": "active",
+    "crawled_at": "2026-08-17T15:00:00Z",
+    "last_verified": "2026-08-17"
   },
   {
     "id": "karrot-sx2u75vja7tu",
@@ -768,7 +1003,12 @@ export const realKarrotItems = [
     "description": "Pick up Baby Carrier Infant Car Seat for $45 in Flushing, Queens, NY. Category: Baby & kids. See original listing on Karrot.",
     "source": "karrot",
     "sourceName": "Karrot",
-    "url": "https://us.karrotmarket.com/buy-sell/sx2u75vja7tu/"
+    "url": "https://us.karrotmarket.com/buy-sell/sx2u75vja7tu/",
+    "external_id": "sx2u75vja7tu",
+    "original_source_url": "https://us.karrotmarket.com/buy-sell/sx2u75vja7tu/",
+    "listing_status": "active",
+    "crawled_at": "2026-08-17T15:00:00Z",
+    "last_verified": "2026-08-17"
   },
   {
     "id": "karrot-pyydz1dkt3db",
@@ -784,7 +1024,12 @@ export const realKarrotItems = [
     "description": "Pick up JBL EON 612 Powered Speaker for $400 in Queens, NY. Category: Electronics & Appliances. See original listing on Karrot.",
     "source": "karrot",
     "sourceName": "Karrot",
-    "url": "https://us.karrotmarket.com/buy-sell/pyydz1dkt3db/"
+    "url": "https://us.karrotmarket.com/buy-sell/pyydz1dkt3db/",
+    "external_id": "pyydz1dkt3db",
+    "original_source_url": "https://us.karrotmarket.com/buy-sell/pyydz1dkt3db/",
+    "listing_status": "active",
+    "crawled_at": "2026-08-17T15:00:00Z",
+    "last_verified": "2026-08-17"
   },
   {
     "id": "karrot-drfioyg3nr3e",
@@ -800,7 +1045,12 @@ export const realKarrotItems = [
     "description": "String Swing Guitar Wall Hanger available for $10 in Queens, NY. Great condition, priced to sell. Contact seller through Karrot.",
     "source": "karrot",
     "sourceName": "Karrot",
-    "url": "https://us.karrotmarket.com/buy-sell/drfioyg3nr3e/"
+    "url": "https://us.karrotmarket.com/buy-sell/drfioyg3nr3e/",
+    "external_id": "drfioyg3nr3e",
+    "original_source_url": "https://us.karrotmarket.com/buy-sell/drfioyg3nr3e/",
+    "listing_status": "active",
+    "crawled_at": "2026-08-17T15:00:00Z",
+    "last_verified": "2026-08-17"
   },
   {
     "id": "karrot-v4tmindr82ca",
@@ -816,7 +1066,12 @@ export const realKarrotItems = [
     "description": "Listing: Wooden Drop Leaf Table — $90. Located in Flushing, Queens, NY. Originally posted on Karrot. Furniture item.",
     "source": "karrot",
     "sourceName": "Karrot",
-    "url": "https://us.karrotmarket.com/buy-sell/v4tmindr82ca/"
+    "url": "https://us.karrotmarket.com/buy-sell/v4tmindr82ca/",
+    "external_id": "v4tmindr82ca",
+    "original_source_url": "https://us.karrotmarket.com/buy-sell/v4tmindr82ca/",
+    "listing_status": "active",
+    "crawled_at": "2026-08-17T15:00:00Z",
+    "last_verified": "2026-08-17"
   },
   {
     "id": "karrot-tsp73y14yko7",
@@ -832,7 +1087,12 @@ export const realKarrotItems = [
     "description": "Pick up Bassinet for $80 in Queens, NY. Category: Used Items. See original listing on Karrot.",
     "source": "karrot",
     "sourceName": "Karrot",
-    "url": "https://us.karrotmarket.com/buy-sell/tsp73y14yko7/"
+    "url": "https://us.karrotmarket.com/buy-sell/tsp73y14yko7/",
+    "external_id": "tsp73y14yko7",
+    "original_source_url": "https://us.karrotmarket.com/buy-sell/tsp73y14yko7/",
+    "listing_status": "active",
+    "crawled_at": "2026-08-17T15:00:00Z",
+    "last_verified": "2026-08-17"
   },
   {
     "id": "karrot-s21pr8qbaw4c",
@@ -848,7 +1108,12 @@ export const realKarrotItems = [
     "description": "Black Full Length Mirror available for $35 in Flushing, Queens, NY. Great condition, priced to sell. Contact seller through Karrot.",
     "source": "karrot",
     "sourceName": "Karrot",
-    "url": "https://us.karrotmarket.com/buy-sell/s21pr8qbaw4c/"
+    "url": "https://us.karrotmarket.com/buy-sell/s21pr8qbaw4c/",
+    "external_id": "s21pr8qbaw4c",
+    "original_source_url": "https://us.karrotmarket.com/buy-sell/s21pr8qbaw4c/",
+    "listing_status": "active",
+    "crawled_at": "2026-08-17T15:00:00Z",
+    "last_verified": "2026-08-17"
   },
   {
     "id": "karrot-wp8jtnah7z3i",
@@ -864,7 +1129,12 @@ export const realKarrotItems = [
     "description": "Decorative Pillow \"Oy to the World\" for sale at $15 near Queens, NY. Used Items — check out this deal on Karrot.",
     "source": "karrot",
     "sourceName": "Karrot",
-    "url": "https://us.karrotmarket.com/buy-sell/wp8jtnah7z3i/"
+    "url": "https://us.karrotmarket.com/buy-sell/wp8jtnah7z3i/",
+    "external_id": "wp8jtnah7z3i",
+    "original_source_url": "https://us.karrotmarket.com/buy-sell/wp8jtnah7z3i/",
+    "listing_status": "active",
+    "crawled_at": "2026-08-17T15:00:00Z",
+    "last_verified": "2026-08-17"
   },
   {
     "id": "karrot-9z9of5eiccin",
@@ -880,7 +1150,12 @@ export const realKarrotItems = [
     "description": "Pick up Dark Brown Media Console with Shelves for $90 in Flushing, Queens, NY. Category: Used Items. See original listing on Karrot.",
     "source": "karrot",
     "sourceName": "Karrot",
-    "url": "https://us.karrotmarket.com/buy-sell/9z9of5eiccin/"
+    "url": "https://us.karrotmarket.com/buy-sell/9z9of5eiccin/",
+    "external_id": "9z9of5eiccin",
+    "original_source_url": "https://us.karrotmarket.com/buy-sell/9z9of5eiccin/",
+    "listing_status": "active",
+    "crawled_at": "2026-08-17T15:00:00Z",
+    "last_verified": "2026-08-17"
   },
   {
     "id": "karrot-m8z2ax8en2u6",
@@ -896,7 +1171,12 @@ export const realKarrotItems = [
     "description": "Lenox Vase available for $30 in Queens, NY. Great condition, priced to sell. Contact seller through Karrot.",
     "source": "karrot",
     "sourceName": "Karrot",
-    "url": "https://us.karrotmarket.com/buy-sell/m8z2ax8en2u6/"
+    "url": "https://us.karrotmarket.com/buy-sell/m8z2ax8en2u6/",
+    "external_id": "m8z2ax8en2u6",
+    "original_source_url": "https://us.karrotmarket.com/buy-sell/m8z2ax8en2u6/",
+    "listing_status": "active",
+    "crawled_at": "2026-08-17T15:00:00Z",
+    "last_verified": "2026-08-17"
   },
   {
     "id": "karrot-cadjmxdim26g",
@@ -912,7 +1192,12 @@ export const realKarrotItems = [
     "description": "Bamboo Toilet Paper Holder, White for sale at $9 near Queens, NY. Used Items — check out this deal on Karrot.",
     "source": "karrot",
     "sourceName": "Karrot",
-    "url": "https://us.karrotmarket.com/buy-sell/cadjmxdim26g/"
+    "url": "https://us.karrotmarket.com/buy-sell/cadjmxdim26g/",
+    "external_id": "cadjmxdim26g",
+    "original_source_url": "https://us.karrotmarket.com/buy-sell/cadjmxdim26g/",
+    "listing_status": "active",
+    "crawled_at": "2026-08-17T15:00:00Z",
+    "last_verified": "2026-08-17"
   },
   {
     "id": "karrot-3mpk81fv9whq",
@@ -928,7 +1213,12 @@ export const realKarrotItems = [
     "description": "Althea Wicker Pendant Light for sale at $117 near Flushing, Queens, NY. Used Items — check out this deal on Karrot.",
     "source": "karrot",
     "sourceName": "Karrot",
-    "url": "https://us.karrotmarket.com/buy-sell/3mpk81fv9whq/"
+    "url": "https://us.karrotmarket.com/buy-sell/3mpk81fv9whq/",
+    "external_id": "3mpk81fv9whq",
+    "original_source_url": "https://us.karrotmarket.com/buy-sell/3mpk81fv9whq/",
+    "listing_status": "active",
+    "crawled_at": "2026-08-17T15:00:00Z",
+    "last_verified": "2026-08-17"
   },
   {
     "id": "karrot-rjjo976f19r9",
@@ -944,7 +1234,12 @@ export const realKarrotItems = [
     "description": "Listing: Mid-Century Vintage Emerald Green Armchair — $199. Located in Queens, NY. Originally posted on Karrot. Furniture item.",
     "source": "karrot",
     "sourceName": "Karrot",
-    "url": "https://us.karrotmarket.com/buy-sell/rjjo976f19r9/"
+    "url": "https://us.karrotmarket.com/buy-sell/rjjo976f19r9/",
+    "external_id": "rjjo976f19r9",
+    "original_source_url": "https://us.karrotmarket.com/buy-sell/rjjo976f19r9/",
+    "listing_status": "active",
+    "crawled_at": "2026-08-17T15:00:00Z",
+    "last_verified": "2026-08-17"
   },
   {
     "id": "karrot-7stxpzmbw21w",
@@ -960,7 +1255,12 @@ export const realKarrotItems = [
     "description": "Mountaintop Rolling Shopping Cart - Gray available for $15 in Queens, NY. Great condition, priced to sell. Contact seller through Karrot.",
     "source": "karrot",
     "sourceName": "Karrot",
-    "url": "https://us.karrotmarket.com/buy-sell/7stxpzmbw21w/"
+    "url": "https://us.karrotmarket.com/buy-sell/7stxpzmbw21w/",
+    "external_id": "7stxpzmbw21w",
+    "original_source_url": "https://us.karrotmarket.com/buy-sell/7stxpzmbw21w/",
+    "listing_status": "active",
+    "crawled_at": "2026-08-17T15:00:00Z",
+    "last_verified": "2026-08-17"
   },
   {
     "id": "karrot-6p7abp8565u2",
@@ -976,7 +1276,12 @@ export const realKarrotItems = [
     "description": "Converse Chuck Taylor All Star High for sale at $25 near Flushing, Queens, NY. Used Items — check out this deal on Karrot.",
     "source": "karrot",
     "sourceName": "Karrot",
-    "url": "https://us.karrotmarket.com/buy-sell/6p7abp8565u2/"
+    "url": "https://us.karrotmarket.com/buy-sell/6p7abp8565u2/",
+    "external_id": "6p7abp8565u2",
+    "original_source_url": "https://us.karrotmarket.com/buy-sell/6p7abp8565u2/",
+    "listing_status": "active",
+    "crawled_at": "2026-08-17T15:00:00Z",
+    "last_verified": "2026-08-17"
   },
   {
     "id": "karrot-1i2o3a6hjdk1",
@@ -992,7 +1297,12 @@ export const realKarrotItems = [
     "description": "NWOT Floral hand Block Printed Long Kaftan Dress Pink White for sale at $100 near Queens, NY. Women's fashion — check out this deal on Karrot.",
     "source": "karrot",
     "sourceName": "Karrot",
-    "url": "https://us.karrotmarket.com/buy-sell/1i2o3a6hjdk1/"
+    "url": "https://us.karrotmarket.com/buy-sell/1i2o3a6hjdk1/",
+    "external_id": "1i2o3a6hjdk1",
+    "original_source_url": "https://us.karrotmarket.com/buy-sell/1i2o3a6hjdk1/",
+    "listing_status": "active",
+    "crawled_at": "2026-08-17T15:00:00Z",
+    "last_verified": "2026-08-17"
   },
   {
     "id": "karrot-jp7ebf9918i8",
@@ -1008,7 +1318,12 @@ export const realKarrotItems = [
     "description": "Kirkland Signature Bath Tissue - 30 Rolls available for $20 in Queens, NY. Great condition, priced to sell. Contact seller through Karrot.",
     "source": "karrot",
     "sourceName": "Karrot",
-    "url": "https://us.karrotmarket.com/buy-sell/jp7ebf9918i8/"
+    "url": "https://us.karrotmarket.com/buy-sell/jp7ebf9918i8/",
+    "external_id": "jp7ebf9918i8",
+    "original_source_url": "https://us.karrotmarket.com/buy-sell/jp7ebf9918i8/",
+    "listing_status": "active",
+    "crawled_at": "2026-08-17T15:00:00Z",
+    "last_verified": "2026-08-17"
   },
   {
     "id": "karrot-t4ynswtqndfx",
@@ -1024,7 +1339,12 @@ export const realKarrotItems = [
     "description": "Polo Ralph Lauren Full Zip Hoodie Grey 3XLT for sale at $40 near Queens, NY. Used Items — check out this deal on Karrot.",
     "source": "karrot",
     "sourceName": "Karrot",
-    "url": "https://us.karrotmarket.com/buy-sell/t4ynswtqndfx/"
+    "url": "https://us.karrotmarket.com/buy-sell/t4ynswtqndfx/",
+    "external_id": "t4ynswtqndfx",
+    "original_source_url": "https://us.karrotmarket.com/buy-sell/t4ynswtqndfx/",
+    "listing_status": "active",
+    "crawled_at": "2026-08-17T15:00:00Z",
+    "last_verified": "2026-08-17"
   },
   {
     "id": "karrot-3fic82p7141d",
@@ -1040,7 +1360,12 @@ export const realKarrotItems = [
     "description": "Pick up Black Entertainment Center TV Stand for $40 in Flushing, Queens, NY. Category: Electronics & Appliances. See original listing on Karrot.",
     "source": "karrot",
     "sourceName": "Karrot",
-    "url": "https://us.karrotmarket.com/buy-sell/3fic82p7141d/"
+    "url": "https://us.karrotmarket.com/buy-sell/3fic82p7141d/",
+    "external_id": "3fic82p7141d",
+    "original_source_url": "https://us.karrotmarket.com/buy-sell/3fic82p7141d/",
+    "listing_status": "active",
+    "crawled_at": "2026-08-17T15:00:00Z",
+    "last_verified": "2026-08-17"
   },
   {
     "id": "karrot-dqj7p67yi6ze",
@@ -1056,7 +1381,12 @@ export const realKarrotItems = [
     "description": "Pick up MBHair Red Crimper Hair Iron for $10 in Queens, NY. Category: Used Items. See original listing on Karrot.",
     "source": "karrot",
     "sourceName": "Karrot",
-    "url": "https://us.karrotmarket.com/buy-sell/dqj7p67yi6ze/"
+    "url": "https://us.karrotmarket.com/buy-sell/dqj7p67yi6ze/",
+    "external_id": "dqj7p67yi6ze",
+    "original_source_url": "https://us.karrotmarket.com/buy-sell/dqj7p67yi6ze/",
+    "listing_status": "active",
+    "crawled_at": "2026-08-17T15:00:00Z",
+    "last_verified": "2026-08-17"
   },
   {
     "id": "karrot-de9k4ye7t52v",
@@ -1072,7 +1402,12 @@ export const realKarrotItems = [
     "description": "Pick up Wooden Accent Table for $35 in Brooklyn, NY. Category: Furniture. See original listing on Karrot.",
     "source": "karrot",
     "sourceName": "Karrot",
-    "url": "https://us.karrotmarket.com/buy-sell/de9k4ye7t52v/"
+    "url": "https://us.karrotmarket.com/buy-sell/de9k4ye7t52v/",
+    "external_id": "de9k4ye7t52v",
+    "original_source_url": "https://us.karrotmarket.com/buy-sell/de9k4ye7t52v/",
+    "listing_status": "active",
+    "crawled_at": "2026-08-17T15:00:00Z",
+    "last_verified": "2026-08-17"
   },
   {
     "id": "karrot-852xahbh5ph7",
@@ -1088,7 +1423,12 @@ export const realKarrotItems = [
     "description": "Pick up Converse A-Cold-Wall* Chuck Taylor Lugged Boot for $68 in Flushing, Queens, NY. Category: Shoes. See original listing on Karrot.",
     "source": "karrot",
     "sourceName": "Karrot",
-    "url": "https://us.karrotmarket.com/buy-sell/852xahbh5ph7/"
+    "url": "https://us.karrotmarket.com/buy-sell/852xahbh5ph7/",
+    "external_id": "852xahbh5ph7",
+    "original_source_url": "https://us.karrotmarket.com/buy-sell/852xahbh5ph7/",
+    "listing_status": "active",
+    "crawled_at": "2026-08-17T15:00:00Z",
+    "last_verified": "2026-08-17"
   },
   {
     "id": "karrot-zvn6d9tnta8k",
@@ -1104,7 +1444,12 @@ export const realKarrotItems = [
     "description": "Pick up Giant Inflatable Long Cinco De Mayo Sign (10 ft) for $15 in Flushing, Queens, NY. Category: Furniture. See original listing on Karrot.",
     "source": "karrot",
     "sourceName": "Karrot",
-    "url": "https://us.karrotmarket.com/buy-sell/zvn6d9tnta8k/"
+    "url": "https://us.karrotmarket.com/buy-sell/zvn6d9tnta8k/",
+    "external_id": "zvn6d9tnta8k",
+    "original_source_url": "https://us.karrotmarket.com/buy-sell/zvn6d9tnta8k/",
+    "listing_status": "active",
+    "crawled_at": "2026-08-17T15:00:00Z",
+    "last_verified": "2026-08-17"
   },
   {
     "id": "karrot-ucjao5jin7kt",
@@ -1120,7 +1465,12 @@ export const realKarrotItems = [
     "description": "HP OfficeJet Pro 7740 All-in-One Printer for sale at $100 near Flushing, Queens, NY. Used Items — check out this deal on Karrot.",
     "source": "karrot",
     "sourceName": "Karrot",
-    "url": "https://us.karrotmarket.com/buy-sell/ucjao5jin7kt/"
+    "url": "https://us.karrotmarket.com/buy-sell/ucjao5jin7kt/",
+    "external_id": "ucjao5jin7kt",
+    "original_source_url": "https://us.karrotmarket.com/buy-sell/ucjao5jin7kt/",
+    "listing_status": "active",
+    "crawled_at": "2026-08-17T15:00:00Z",
+    "last_verified": "2026-08-17"
   },
   {
     "id": "karrot-ssqetx24wthb",
@@ -1136,7 +1486,12 @@ export const realKarrotItems = [
     "description": "Accent Chair with Damask Pattern available for $52 in Queens, NY. Great condition, priced to sell. Contact seller through Karrot.",
     "source": "karrot",
     "sourceName": "Karrot",
-    "url": "https://us.karrotmarket.com/buy-sell/ssqetx24wthb/"
+    "url": "https://us.karrotmarket.com/buy-sell/ssqetx24wthb/",
+    "external_id": "ssqetx24wthb",
+    "original_source_url": "https://us.karrotmarket.com/buy-sell/ssqetx24wthb/",
+    "listing_status": "active",
+    "crawled_at": "2026-08-17T15:00:00Z",
+    "last_verified": "2026-08-17"
   },
   {
     "id": "karrot-hicmmti8nqxv",
@@ -1152,7 +1507,12 @@ export const realKarrotItems = [
     "description": "Pick up Medline Rollator Walker with Seat ⚽ for $40 in Queens, NY. Category: Used Items. See original listing on Karrot.",
     "source": "karrot",
     "sourceName": "Karrot",
-    "url": "https://us.karrotmarket.com/buy-sell/hicmmti8nqxv/"
+    "url": "https://us.karrotmarket.com/buy-sell/hicmmti8nqxv/",
+    "external_id": "hicmmti8nqxv",
+    "original_source_url": "https://us.karrotmarket.com/buy-sell/hicmmti8nqxv/",
+    "listing_status": "active",
+    "crawled_at": "2026-08-17T15:00:00Z",
+    "last_verified": "2026-08-17"
   },
   {
     "id": "karrot-psegoe7ap54z",
@@ -1168,7 +1528,12 @@ export const realKarrotItems = [
     "description": "Pick up JBL White Wireless Earbuds with Charging Case for $30 in Queens, NY. Category: Used Items. See original listing on Karrot.",
     "source": "karrot",
     "sourceName": "Karrot",
-    "url": "https://us.karrotmarket.com/buy-sell/psegoe7ap54z/"
+    "url": "https://us.karrotmarket.com/buy-sell/psegoe7ap54z/",
+    "external_id": "psegoe7ap54z",
+    "original_source_url": "https://us.karrotmarket.com/buy-sell/psegoe7ap54z/",
+    "listing_status": "active",
+    "crawled_at": "2026-08-17T15:00:00Z",
+    "last_verified": "2026-08-17"
   },
   {
     "id": "karrot-rjkfwuq4hh1a",
@@ -1184,7 +1549,12 @@ export const realKarrotItems = [
     "description": "Listing: Dragon Ball Z and Dragon Ball Super Manga Lot — $50. Located in Queens, NY. Originally posted on Karrot. Used Items item.",
     "source": "karrot",
     "sourceName": "Karrot",
-    "url": "https://us.karrotmarket.com/buy-sell/rjkfwuq4hh1a/"
+    "url": "https://us.karrotmarket.com/buy-sell/rjkfwuq4hh1a/",
+    "external_id": "rjkfwuq4hh1a",
+    "original_source_url": "https://us.karrotmarket.com/buy-sell/rjkfwuq4hh1a/",
+    "listing_status": "active",
+    "crawled_at": "2026-08-17T15:00:00Z",
+    "last_verified": "2026-08-17"
   },
   {
     "id": "karrot-5d3f9ohi7z3t",
@@ -1200,7 +1570,12 @@ export const realKarrotItems = [
     "description": "Listing: PS5 Games Demon's Souls and Call of Duty Vanguard — $35. Located in Queens, NY. Originally posted on Karrot. Used Items item.",
     "source": "karrot",
     "sourceName": "Karrot",
-    "url": "https://us.karrotmarket.com/buy-sell/5d3f9ohi7z3t/"
+    "url": "https://us.karrotmarket.com/buy-sell/5d3f9ohi7z3t/",
+    "external_id": "5d3f9ohi7z3t",
+    "original_source_url": "https://us.karrotmarket.com/buy-sell/5d3f9ohi7z3t/",
+    "listing_status": "active",
+    "crawled_at": "2026-08-17T15:00:00Z",
+    "last_verified": "2026-08-17"
   },
   {
     "id": "karrot-mce2g7qypqqd",
@@ -1216,7 +1591,12 @@ export const realKarrotItems = [
     "description": "Pick up GE Top Loader Washer & Maytag Drier for $200 in Brooklyn, NY. Category: Electronics & Appliances. See original listing on Karrot.",
     "source": "karrot",
     "sourceName": "Karrot",
-    "url": "https://us.karrotmarket.com/buy-sell/mce2g7qypqqd/"
+    "url": "https://us.karrotmarket.com/buy-sell/mce2g7qypqqd/",
+    "external_id": "mce2g7qypqqd",
+    "original_source_url": "https://us.karrotmarket.com/buy-sell/mce2g7qypqqd/",
+    "listing_status": "active",
+    "crawled_at": "2026-08-17T15:00:00Z",
+    "last_verified": "2026-08-17"
   },
   {
     "id": "karrot-3d1abjbyokhb",
@@ -1232,7 +1612,12 @@ export const realKarrotItems = [
     "description": "Ethan-30GW Gray Wash Vanity / URBAN FURNISHING for sale at $265 near Queens, NY. Used Items — check out this deal on Karrot.",
     "source": "karrot",
     "sourceName": "Karrot",
-    "url": "https://us.karrotmarket.com/buy-sell/3d1abjbyokhb/"
+    "url": "https://us.karrotmarket.com/buy-sell/3d1abjbyokhb/",
+    "external_id": "3d1abjbyokhb",
+    "original_source_url": "https://us.karrotmarket.com/buy-sell/3d1abjbyokhb/",
+    "listing_status": "active",
+    "crawled_at": "2026-08-17T15:00:00Z",
+    "last_verified": "2026-08-17"
   },
   {
     "id": "karrot-g1b3zbixxc8s",
@@ -1248,7 +1633,12 @@ export const realKarrotItems = [
     "description": "Ray-Ban Meta Wayfarer Smart Glasses - Black for sale at $240 near Queens, NY. Used Items — check out this deal on Karrot.",
     "source": "karrot",
     "sourceName": "Karrot",
-    "url": "https://us.karrotmarket.com/buy-sell/g1b3zbixxc8s/"
+    "url": "https://us.karrotmarket.com/buy-sell/g1b3zbixxc8s/",
+    "external_id": "g1b3zbixxc8s",
+    "original_source_url": "https://us.karrotmarket.com/buy-sell/g1b3zbixxc8s/",
+    "listing_status": "active",
+    "crawled_at": "2026-08-17T15:00:00Z",
+    "last_verified": "2026-08-17"
   },
   {
     "id": "karrot-ikx79apautk9",
@@ -1264,7 +1654,12 @@ export const realKarrotItems = [
     "description": "Pick up Unreal deal Tommasini Imola Road Bike for $250 in Queens, NY. Category: Used Items. See original listing on Karrot.",
     "source": "karrot",
     "sourceName": "Karrot",
-    "url": "https://us.karrotmarket.com/buy-sell/ikx79apautk9/"
+    "url": "https://us.karrotmarket.com/buy-sell/ikx79apautk9/",
+    "external_id": "ikx79apautk9",
+    "original_source_url": "https://us.karrotmarket.com/buy-sell/ikx79apautk9/",
+    "listing_status": "active",
+    "crawled_at": "2026-08-17T15:00:00Z",
+    "last_verified": "2026-08-17"
   },
   {
     "id": "karrot-8bik2ja5bf8f",
@@ -1280,7 +1675,12 @@ export const realKarrotItems = [
     "description": "Pick up 🧡Vintage Singer 201-2 Electric Sewing Machine for $75 in Queens, NY. Category: Used Items. See original listing on Karrot.",
     "source": "karrot",
     "sourceName": "Karrot",
-    "url": "https://us.karrotmarket.com/buy-sell/8bik2ja5bf8f/"
+    "url": "https://us.karrotmarket.com/buy-sell/8bik2ja5bf8f/",
+    "external_id": "8bik2ja5bf8f",
+    "original_source_url": "https://us.karrotmarket.com/buy-sell/8bik2ja5bf8f/",
+    "listing_status": "active",
+    "crawled_at": "2026-08-17T15:00:00Z",
+    "last_verified": "2026-08-17"
   },
   {
     "id": "karrot-5jxnv69h921b",
@@ -1296,7 +1696,12 @@ export const realKarrotItems = [
     "description": "Bowflex SelectTech Adjustable Dumbbells (Pair) available for $243 in Flushing, Queens, NY. Great condition, priced to sell. Contact seller through Karrot.",
     "source": "karrot",
     "sourceName": "Karrot",
-    "url": "https://us.karrotmarket.com/buy-sell/5jxnv69h921b/"
+    "url": "https://us.karrotmarket.com/buy-sell/5jxnv69h921b/",
+    "external_id": "5jxnv69h921b",
+    "original_source_url": "https://us.karrotmarket.com/buy-sell/5jxnv69h921b/",
+    "listing_status": "active",
+    "crawled_at": "2026-08-17T15:00:00Z",
+    "last_verified": "2026-08-17"
   },
   {
     "id": "karrot-c3vh735mbvb3",
@@ -1312,7 +1717,12 @@ export const realKarrotItems = [
     "description": "Bosch Ascenta Washing Machine available for $500 in Queens, NY. Great condition, priced to sell. Contact seller through Karrot.",
     "source": "karrot",
     "sourceName": "Karrot",
-    "url": "https://us.karrotmarket.com/buy-sell/c3vh735mbvb3/"
+    "url": "https://us.karrotmarket.com/buy-sell/c3vh735mbvb3/",
+    "external_id": "c3vh735mbvb3",
+    "original_source_url": "https://us.karrotmarket.com/buy-sell/c3vh735mbvb3/",
+    "listing_status": "active",
+    "crawled_at": "2026-08-17T15:00:00Z",
+    "last_verified": "2026-08-17"
   },
   {
     "id": "karrot-gvroxm2cgkrh",
@@ -1328,7 +1738,12 @@ export const realKarrotItems = [
     "description": "Mizuno Green Belt Size 3 (255cm) for sale at $30 near Queens, NY. Used Items — check out this deal on Karrot.",
     "source": "karrot",
     "sourceName": "Karrot",
-    "url": "https://us.karrotmarket.com/buy-sell/gvroxm2cgkrh/"
+    "url": "https://us.karrotmarket.com/buy-sell/gvroxm2cgkrh/",
+    "external_id": "gvroxm2cgkrh",
+    "original_source_url": "https://us.karrotmarket.com/buy-sell/gvroxm2cgkrh/",
+    "listing_status": "active",
+    "crawled_at": "2026-08-17T15:00:00Z",
+    "last_verified": "2026-08-17"
   },
   {
     "id": "karrot-t8xpvmr9h5vr",
@@ -1345,7 +1760,12 @@ export const realKarrotItems = [
     "source": "karrot",
     "sourceName": "Karrot",
     "url": "https://us.karrotmarket.com/buy-sell/t8xpvmr9h5vr/",
-    "postedAt": 1723852800000
+    "postedAt": 1723852800000,
+    "external_id": "t8xpvmr9h5vr",
+    "original_source_url": "https://us.karrotmarket.com/buy-sell/t8xpvmr9h5vr/",
+    "listing_status": "active",
+    "crawled_at": "2026-08-17T15:00:00Z",
+    "last_verified": "2026-08-17"
   },
   {
     "id": "karrot-i9753yxh6ayn",
@@ -1362,7 +1782,12 @@ export const realKarrotItems = [
     "source": "karrot",
     "sourceName": "Karrot",
     "url": "https://us.karrotmarket.com/buy-sell/i9753yxh6ayn/",
-    "postedAt": 1723849200000
+    "postedAt": 1723849200000,
+    "external_id": "i9753yxh6ayn",
+    "original_source_url": "https://us.karrotmarket.com/buy-sell/i9753yxh6ayn/",
+    "listing_status": "active",
+    "crawled_at": "2026-08-17T15:00:00Z",
+    "last_verified": "2026-08-17"
   },
   {
     "id": "karrot-jy53d6432z6b",
@@ -1379,7 +1804,12 @@ export const realKarrotItems = [
     "source": "karrot",
     "sourceName": "Karrot",
     "url": "https://us.karrotmarket.com/buy-sell/jy53d6432z6b/",
-    "postedAt": 1723845600000
+    "postedAt": 1723845600000,
+    "external_id": "jy53d6432z6b",
+    "original_source_url": "https://us.karrotmarket.com/buy-sell/jy53d6432z6b/",
+    "listing_status": "active",
+    "crawled_at": "2026-08-17T15:00:00Z",
+    "last_verified": "2026-08-17"
   },
   {
     "id": "karrot-4ozdhozn1mp5",
@@ -1396,7 +1826,12 @@ export const realKarrotItems = [
     "source": "karrot",
     "sourceName": "Karrot",
     "url": "https://us.karrotmarket.com/buy-sell/4ozdhozn1mp5/",
-    "postedAt": 1723842000000
+    "postedAt": 1723842000000,
+    "external_id": "4ozdhozn1mp5",
+    "original_source_url": "https://us.karrotmarket.com/buy-sell/4ozdhozn1mp5/",
+    "listing_status": "active",
+    "crawled_at": "2026-08-17T15:00:00Z",
+    "last_verified": "2026-08-17"
   },
   {
     "id": "karrot-72f2p2c1wwi4",
@@ -1413,7 +1848,12 @@ export const realKarrotItems = [
     "source": "karrot",
     "sourceName": "Karrot",
     "url": "https://us.karrotmarket.com/buy-sell/72f2p2c1wwi4/",
-    "postedAt": 1723838400000
+    "postedAt": 1723838400000,
+    "external_id": "72f2p2c1wwi4",
+    "original_source_url": "https://us.karrotmarket.com/buy-sell/72f2p2c1wwi4/",
+    "listing_status": "active",
+    "crawled_at": "2026-08-17T15:00:00Z",
+    "last_verified": "2026-08-17"
   },
   {
     "id": "karrot-ic17e3h5vcgq",
@@ -1430,7 +1870,12 @@ export const realKarrotItems = [
     "source": "karrot",
     "sourceName": "Karrot",
     "url": "https://us.karrotmarket.com/buy-sell/ic17e3h5vcgq/",
-    "postedAt": 1723834800000
+    "postedAt": 1723834800000,
+    "external_id": "ic17e3h5vcgq",
+    "original_source_url": "https://us.karrotmarket.com/buy-sell/ic17e3h5vcgq/",
+    "listing_status": "active",
+    "crawled_at": "2026-08-17T15:00:00Z",
+    "last_verified": "2026-08-17"
   },
   {
     "id": "karrot-7471xrestxar",
@@ -1447,7 +1892,12 @@ export const realKarrotItems = [
     "source": "karrot",
     "sourceName": "Karrot",
     "url": "https://us.karrotmarket.com/buy-sell/7471xrestxar/",
-    "postedAt": 1723831200000
+    "postedAt": 1723831200000,
+    "external_id": "7471xrestxar",
+    "original_source_url": "https://us.karrotmarket.com/buy-sell/7471xrestxar/",
+    "listing_status": "active",
+    "crawled_at": "2026-08-17T15:00:00Z",
+    "last_verified": "2026-08-17"
   },
   {
     "id": "karrot-4mwxv9ba5bbv",
@@ -1464,7 +1914,12 @@ export const realKarrotItems = [
     "source": "karrot",
     "sourceName": "Karrot",
     "url": "https://us.karrotmarket.com/buy-sell/4mwxv9ba5bbv/",
-    "postedAt": 1723827600000
+    "postedAt": 1723827600000,
+    "external_id": "4mwxv9ba5bbv",
+    "original_source_url": "https://us.karrotmarket.com/buy-sell/4mwxv9ba5bbv/",
+    "listing_status": "active",
+    "crawled_at": "2026-08-17T15:00:00Z",
+    "last_verified": "2026-08-17"
   },
   {
     "id": "karrot-51w6gnsr5u9u",
@@ -1481,7 +1936,12 @@ export const realKarrotItems = [
     "source": "karrot",
     "sourceName": "Karrot",
     "url": "https://us.karrotmarket.com/buy-sell/51w6gnsr5u9u/",
-    "postedAt": 1723824000000
+    "postedAt": 1723824000000,
+    "external_id": "51w6gnsr5u9u",
+    "original_source_url": "https://us.karrotmarket.com/buy-sell/51w6gnsr5u9u/",
+    "listing_status": "active",
+    "crawled_at": "2026-08-17T15:00:00Z",
+    "last_verified": "2026-08-17"
   },
   {
     "id": "karrot-5y7b5bsuggc9",
@@ -1498,7 +1958,12 @@ export const realKarrotItems = [
     "source": "karrot",
     "sourceName": "Karrot",
     "url": "https://us.karrotmarket.com/buy-sell/5y7b5bsuggc9/",
-    "postedAt": 1723820400000
+    "postedAt": 1723820400000,
+    "external_id": "5y7b5bsuggc9",
+    "original_source_url": "https://us.karrotmarket.com/buy-sell/5y7b5bsuggc9/",
+    "listing_status": "active",
+    "crawled_at": "2026-08-17T15:00:00Z",
+    "last_verified": "2026-08-17"
   },
   {
     "id": "karrot-eoh8i5r32apw",
@@ -1515,7 +1980,12 @@ export const realKarrotItems = [
     "source": "karrot",
     "sourceName": "Karrot",
     "url": "https://us.karrotmarket.com/buy-sell/eoh8i5r32apw/",
-    "postedAt": 1723816800000
+    "postedAt": 1723816800000,
+    "external_id": "eoh8i5r32apw",
+    "original_source_url": "https://us.karrotmarket.com/buy-sell/eoh8i5r32apw/",
+    "listing_status": "active",
+    "crawled_at": "2026-08-17T15:00:00Z",
+    "last_verified": "2026-08-17"
   },
   {
     "id": "karrot-sde8u8pkuotx",
@@ -1532,7 +2002,12 @@ export const realKarrotItems = [
     "source": "karrot",
     "sourceName": "Karrot",
     "url": "https://us.karrotmarket.com/buy-sell/sde8u8pkuotx/",
-    "postedAt": 1723813200000
+    "postedAt": 1723813200000,
+    "external_id": "sde8u8pkuotx",
+    "original_source_url": "https://us.karrotmarket.com/buy-sell/sde8u8pkuotx/",
+    "listing_status": "active",
+    "crawled_at": "2026-08-17T15:00:00Z",
+    "last_verified": "2026-08-17"
   },
   {
     "id": "karrot-gdrz5hw92gn7",
@@ -1549,7 +2024,12 @@ export const realKarrotItems = [
     "source": "karrot",
     "sourceName": "Karrot",
     "url": "https://us.karrotmarket.com/buy-sell/gdrz5hw92gn7/",
-    "postedAt": 1723809600000
+    "postedAt": 1723809600000,
+    "external_id": "gdrz5hw92gn7",
+    "original_source_url": "https://us.karrotmarket.com/buy-sell/gdrz5hw92gn7/",
+    "listing_status": "active",
+    "crawled_at": "2026-08-17T15:00:00Z",
+    "last_verified": "2026-08-17"
   },
   {
     "id": "karrot-38k4cmnfwhfw",
@@ -1566,7 +2046,12 @@ export const realKarrotItems = [
     "source": "karrot",
     "sourceName": "Karrot",
     "url": "https://us.karrotmarket.com/buy-sell/38k4cmnfwhfw/",
-    "postedAt": 1723806000000
+    "postedAt": 1723806000000,
+    "external_id": "38k4cmnfwhfw",
+    "original_source_url": "https://us.karrotmarket.com/buy-sell/38k4cmnfwhfw/",
+    "listing_status": "active",
+    "crawled_at": "2026-08-17T15:00:00Z",
+    "last_verified": "2026-08-17"
   },
   {
     "id": "karrot-oje9ehohxzie",
@@ -1583,7 +2068,12 @@ export const realKarrotItems = [
     "source": "karrot",
     "sourceName": "Karrot",
     "url": "https://us.karrotmarket.com/buy-sell/oje9ehohxzie/",
-    "postedAt": 1723802400000
+    "postedAt": 1723802400000,
+    "external_id": "oje9ehohxzie",
+    "original_source_url": "https://us.karrotmarket.com/buy-sell/oje9ehohxzie/",
+    "listing_status": "active",
+    "crawled_at": "2026-08-17T15:00:00Z",
+    "last_verified": "2026-08-17"
   },
   {
     "id": "karrot-winszosynn3g",
@@ -1600,7 +2090,12 @@ export const realKarrotItems = [
     "source": "karrot",
     "sourceName": "Karrot",
     "url": "https://us.karrotmarket.com/buy-sell/winszosynn3g/",
-    "postedAt": 1723798800000
+    "postedAt": 1723798800000,
+    "external_id": "winszosynn3g",
+    "original_source_url": "https://us.karrotmarket.com/buy-sell/winszosynn3g/",
+    "listing_status": "active",
+    "crawled_at": "2026-08-17T15:00:00Z",
+    "last_verified": "2026-08-17"
   },
   {
     "id": "karrot-2jpm8smfuuh2",
@@ -1617,7 +2112,12 @@ export const realKarrotItems = [
     "source": "karrot",
     "sourceName": "Karrot",
     "url": "https://us.karrotmarket.com/buy-sell/2jpm8smfuuh2/",
-    "postedAt": 1723795200000
+    "postedAt": 1723795200000,
+    "external_id": "2jpm8smfuuh2",
+    "original_source_url": "https://us.karrotmarket.com/buy-sell/2jpm8smfuuh2/",
+    "listing_status": "active",
+    "crawled_at": "2026-08-17T15:00:00Z",
+    "last_verified": "2026-08-17"
   },
   {
     "id": "karrot-1aj74kxwa8re",
@@ -1634,7 +2134,12 @@ export const realKarrotItems = [
     "source": "karrot",
     "sourceName": "Karrot",
     "url": "https://us.karrotmarket.com/buy-sell/1aj74kxwa8re/",
-    "postedAt": 1723791600000
+    "postedAt": 1723791600000,
+    "external_id": "1aj74kxwa8re",
+    "original_source_url": "https://us.karrotmarket.com/buy-sell/1aj74kxwa8re/",
+    "listing_status": "active",
+    "crawled_at": "2026-08-17T15:00:00Z",
+    "last_verified": "2026-08-17"
   },
   {
     "id": "karrot-nf9cx5y56xxk",
@@ -1651,7 +2156,12 @@ export const realKarrotItems = [
     "source": "karrot",
     "sourceName": "Karrot",
     "url": "https://us.karrotmarket.com/buy-sell/nf9cx5y56xxk/",
-    "postedAt": 1723788000000
+    "postedAt": 1723788000000,
+    "external_id": "nf9cx5y56xxk",
+    "original_source_url": "https://us.karrotmarket.com/buy-sell/nf9cx5y56xxk/",
+    "listing_status": "active",
+    "crawled_at": "2026-08-17T15:00:00Z",
+    "last_verified": "2026-08-17"
   },
   {
     "id": "karrot-esfar4eivn8q",
@@ -1668,7 +2178,12 @@ export const realKarrotItems = [
     "source": "karrot",
     "sourceName": "Karrot",
     "url": "https://us.karrotmarket.com/buy-sell/esfar4eivn8q/",
-    "postedAt": 1723784400000
+    "postedAt": 1723784400000,
+    "external_id": "esfar4eivn8q",
+    "original_source_url": "https://us.karrotmarket.com/buy-sell/esfar4eivn8q/",
+    "listing_status": "active",
+    "crawled_at": "2026-08-17T15:00:00Z",
+    "last_verified": "2026-08-17"
   },
   {
     "id": "karrot-i9yceka6fter",
@@ -1685,7 +2200,12 @@ export const realKarrotItems = [
     "source": "karrot",
     "sourceName": "Karrot",
     "url": "https://us.karrotmarket.com/buy-sell/i9yceka6fter/",
-    "postedAt": 1723780800000
+    "postedAt": 1723780800000,
+    "external_id": "i9yceka6fter",
+    "original_source_url": "https://us.karrotmarket.com/buy-sell/i9yceka6fter/",
+    "listing_status": "active",
+    "crawled_at": "2026-08-17T15:00:00Z",
+    "last_verified": "2026-08-17"
   },
   {
     "id": "karrot-6fsteovz8u4k",
@@ -1702,7 +2222,12 @@ export const realKarrotItems = [
     "source": "karrot",
     "sourceName": "Karrot",
     "url": "https://us.karrotmarket.com/buy-sell/6fsteovz8u4k/",
-    "postedAt": 1723777200000
+    "postedAt": 1723777200000,
+    "external_id": "6fsteovz8u4k",
+    "original_source_url": "https://us.karrotmarket.com/buy-sell/6fsteovz8u4k/",
+    "listing_status": "active",
+    "crawled_at": "2026-08-17T15:00:00Z",
+    "last_verified": "2026-08-17"
   },
   {
     "id": "karrot-j8vz666dfwjt",
@@ -1719,7 +2244,12 @@ export const realKarrotItems = [
     "source": "karrot",
     "sourceName": "Karrot",
     "url": "https://us.karrotmarket.com/buy-sell/j8vz666dfwjt/",
-    "postedAt": 1723773600000
+    "postedAt": 1723773600000,
+    "external_id": "j8vz666dfwjt",
+    "original_source_url": "https://us.karrotmarket.com/buy-sell/j8vz666dfwjt/",
+    "listing_status": "active",
+    "crawled_at": "2026-08-17T15:00:00Z",
+    "last_verified": "2026-08-17"
   },
   {
     "id": "karrot-maev26up8woh",
@@ -1736,7 +2266,12 @@ export const realKarrotItems = [
     "source": "karrot",
     "sourceName": "Karrot",
     "url": "https://us.karrotmarket.com/buy-sell/maev26up8woh/",
-    "postedAt": 1723770000000
+    "postedAt": 1723770000000,
+    "external_id": "maev26up8woh",
+    "original_source_url": "https://us.karrotmarket.com/buy-sell/maev26up8woh/",
+    "listing_status": "active",
+    "crawled_at": "2026-08-17T15:00:00Z",
+    "last_verified": "2026-08-17"
   },
   {
     "id": "karrot-a75uprd57vee",
@@ -1753,7 +2288,12 @@ export const realKarrotItems = [
     "source": "karrot",
     "sourceName": "Karrot",
     "url": "https://us.karrotmarket.com/buy-sell/a75uprd57vee/",
-    "postedAt": 1723766400000
+    "postedAt": 1723766400000,
+    "external_id": "a75uprd57vee",
+    "original_source_url": "https://us.karrotmarket.com/buy-sell/a75uprd57vee/",
+    "listing_status": "active",
+    "crawled_at": "2026-08-17T15:00:00Z",
+    "last_verified": "2026-08-17"
   },
   {
     "id": "karrot-fi7h1y8fhof4",
@@ -1770,7 +2310,12 @@ export const realKarrotItems = [
     "source": "karrot",
     "sourceName": "Karrot",
     "url": "https://us.karrotmarket.com/buy-sell/fi7h1y8fhof4/",
-    "postedAt": 1723762800000
+    "postedAt": 1723762800000,
+    "external_id": "fi7h1y8fhof4",
+    "original_source_url": "https://us.karrotmarket.com/buy-sell/fi7h1y8fhof4/",
+    "listing_status": "active",
+    "crawled_at": "2026-08-17T15:00:00Z",
+    "last_verified": "2026-08-17"
   },
   {
     "id": "karrot-t1eaueffns93",
@@ -1787,7 +2332,12 @@ export const realKarrotItems = [
     "source": "karrot",
     "sourceName": "Karrot",
     "url": "https://us.karrotmarket.com/buy-sell/t1eaueffns93/",
-    "postedAt": 1723759200000
+    "postedAt": 1723759200000,
+    "external_id": "t1eaueffns93",
+    "original_source_url": "https://us.karrotmarket.com/buy-sell/t1eaueffns93/",
+    "listing_status": "active",
+    "crawled_at": "2026-08-17T15:00:00Z",
+    "last_verified": "2026-08-17"
   },
   {
     "id": "karrot-47i8zm534mga",
@@ -1804,7 +2354,12 @@ export const realKarrotItems = [
     "source": "karrot",
     "sourceName": "Karrot",
     "url": "https://us.karrotmarket.com/buy-sell/47i8zm534mga/",
-    "postedAt": 1723755600000
+    "postedAt": 1723755600000,
+    "external_id": "47i8zm534mga",
+    "original_source_url": "https://us.karrotmarket.com/buy-sell/47i8zm534mga/",
+    "listing_status": "active",
+    "crawled_at": "2026-08-17T15:00:00Z",
+    "last_verified": "2026-08-17"
   },
   {
     "id": "karrot-ohapws6c28rp",
@@ -1821,7 +2376,12 @@ export const realKarrotItems = [
     "source": "karrot",
     "sourceName": "Karrot",
     "url": "https://us.karrotmarket.com/buy-sell/ohapws6c28rp/",
-    "postedAt": 1723752000000
+    "postedAt": 1723752000000,
+    "external_id": "ohapws6c28rp",
+    "original_source_url": "https://us.karrotmarket.com/buy-sell/ohapws6c28rp/",
+    "listing_status": "active",
+    "crawled_at": "2026-08-17T15:00:00Z",
+    "last_verified": "2026-08-17"
   },
   {
     "id": "karrot-3v1ix2c1va2d",
@@ -1838,7 +2398,12 @@ export const realKarrotItems = [
     "source": "karrot",
     "sourceName": "Karrot",
     "url": "https://us.karrotmarket.com/buy-sell/3v1ix2c1va2d/",
-    "postedAt": 1723748400000
+    "postedAt": 1723748400000,
+    "external_id": "3v1ix2c1va2d",
+    "original_source_url": "https://us.karrotmarket.com/buy-sell/3v1ix2c1va2d/",
+    "listing_status": "active",
+    "crawled_at": "2026-08-17T15:00:00Z",
+    "last_verified": "2026-08-17"
   },
   {
     "id": "karrot-3aazxkqcd3yf",
@@ -1855,7 +2420,12 @@ export const realKarrotItems = [
     "source": "karrot",
     "sourceName": "Karrot",
     "url": "https://us.karrotmarket.com/buy-sell/3aazxkqcd3yf/",
-    "postedAt": 1723744800000
+    "postedAt": 1723744800000,
+    "external_id": "3aazxkqcd3yf",
+    "original_source_url": "https://us.karrotmarket.com/buy-sell/3aazxkqcd3yf/",
+    "listing_status": "active",
+    "crawled_at": "2026-08-17T15:00:00Z",
+    "last_verified": "2026-08-17"
   },
   {
     "id": "karrot-e1j6frdszdpy",
@@ -1872,7 +2442,12 @@ export const realKarrotItems = [
     "source": "karrot",
     "sourceName": "Karrot",
     "url": "https://us.karrotmarket.com/buy-sell/e1j6frdszdpy/",
-    "postedAt": 1723741200000
+    "postedAt": 1723741200000,
+    "external_id": "e1j6frdszdpy",
+    "original_source_url": "https://us.karrotmarket.com/buy-sell/e1j6frdszdpy/",
+    "listing_status": "active",
+    "crawled_at": "2026-08-17T15:00:00Z",
+    "last_verified": "2026-08-17"
   },
   {
     "id": "karrot-hi46dr3hgzqs",
@@ -1889,7 +2464,12 @@ export const realKarrotItems = [
     "source": "karrot",
     "sourceName": "Karrot",
     "url": "https://us.karrotmarket.com/buy-sell/hi46dr3hgzqs/",
-    "postedAt": 1723737600000
+    "postedAt": 1723737600000,
+    "external_id": "hi46dr3hgzqs",
+    "original_source_url": "https://us.karrotmarket.com/buy-sell/hi46dr3hgzqs/",
+    "listing_status": "active",
+    "crawled_at": "2026-08-17T15:00:00Z",
+    "last_verified": "2026-08-17"
   },
   {
     "id": "karrot-a1q18jwwfxir",
@@ -1906,7 +2486,12 @@ export const realKarrotItems = [
     "source": "karrot",
     "sourceName": "Karrot",
     "url": "https://us.karrotmarket.com/buy-sell/a1q18jwwfxir/",
-    "postedAt": 1723734000000
+    "postedAt": 1723734000000,
+    "external_id": "a1q18jwwfxir",
+    "original_source_url": "https://us.karrotmarket.com/buy-sell/a1q18jwwfxir/",
+    "listing_status": "active",
+    "crawled_at": "2026-08-17T15:00:00Z",
+    "last_verified": "2026-08-17"
   },
   {
     "id": "karrot-e4bmardfx9mp",
@@ -1923,7 +2508,12 @@ export const realKarrotItems = [
     "source": "karrot",
     "sourceName": "Karrot",
     "url": "https://us.karrotmarket.com/buy-sell/e4bmardfx9mp/",
-    "postedAt": 1723730400000
+    "postedAt": 1723730400000,
+    "external_id": "e4bmardfx9mp",
+    "original_source_url": "https://us.karrotmarket.com/buy-sell/e4bmardfx9mp/",
+    "listing_status": "active",
+    "crawled_at": "2026-08-17T15:00:00Z",
+    "last_verified": "2026-08-17"
   },
   {
     "id": "karrot-ix3nc6mzyv57",
@@ -1940,7 +2530,12 @@ export const realKarrotItems = [
     "source": "karrot",
     "sourceName": "Karrot",
     "url": "https://us.karrotmarket.com/buy-sell/ix3nc6mzyv57/",
-    "postedAt": 1723726800000
+    "postedAt": 1723726800000,
+    "external_id": "ix3nc6mzyv57",
+    "original_source_url": "https://us.karrotmarket.com/buy-sell/ix3nc6mzyv57/",
+    "listing_status": "active",
+    "crawled_at": "2026-08-17T15:00:00Z",
+    "last_verified": "2026-08-17"
   },
   {
     "id": "karrot-85niwqev4qmy",
@@ -1957,7 +2552,12 @@ export const realKarrotItems = [
     "source": "karrot",
     "sourceName": "Karrot",
     "url": "https://us.karrotmarket.com/buy-sell/85niwqev4qmy/",
-    "postedAt": 1723723200000
+    "postedAt": 1723723200000,
+    "external_id": "85niwqev4qmy",
+    "original_source_url": "https://us.karrotmarket.com/buy-sell/85niwqev4qmy/",
+    "listing_status": "active",
+    "crawled_at": "2026-08-17T15:00:00Z",
+    "last_verified": "2026-08-17"
   },
   {
     "id": "karrot-opr71rvc9eob",
@@ -1974,7 +2574,12 @@ export const realKarrotItems = [
     "source": "karrot",
     "sourceName": "Karrot",
     "url": "https://us.karrotmarket.com/buy-sell/opr71rvc9eob/",
-    "postedAt": 1723719600000
+    "postedAt": 1723719600000,
+    "external_id": "opr71rvc9eob",
+    "original_source_url": "https://us.karrotmarket.com/buy-sell/opr71rvc9eob/",
+    "listing_status": "active",
+    "crawled_at": "2026-08-17T15:00:00Z",
+    "last_verified": "2026-08-17"
   },
   {
     "id": "karrot-esdsiei6w9ks",
@@ -1991,7 +2596,12 @@ export const realKarrotItems = [
     "source": "karrot",
     "sourceName": "Karrot",
     "url": "https://us.karrotmarket.com/buy-sell/esdsiei6w9ks/",
-    "postedAt": 1723716000000
+    "postedAt": 1723716000000,
+    "external_id": "esdsiei6w9ks",
+    "original_source_url": "https://us.karrotmarket.com/buy-sell/esdsiei6w9ks/",
+    "listing_status": "active",
+    "crawled_at": "2026-08-17T15:00:00Z",
+    "last_verified": "2026-08-17"
   },
   {
     "id": "karrot-2aev6fvmfr5m",
@@ -2008,7 +2618,12 @@ export const realKarrotItems = [
     "source": "karrot",
     "sourceName": "Karrot",
     "url": "https://us.karrotmarket.com/buy-sell/2aev6fvmfr5m/",
-    "postedAt": 1723712400000
+    "postedAt": 1723712400000,
+    "external_id": "2aev6fvmfr5m",
+    "original_source_url": "https://us.karrotmarket.com/buy-sell/2aev6fvmfr5m/",
+    "listing_status": "active",
+    "crawled_at": "2026-08-17T15:00:00Z",
+    "last_verified": "2026-08-17"
   },
   {
     "id": "karrot-hw7h7ud7p81b",
@@ -2025,7 +2640,12 @@ export const realKarrotItems = [
     "source": "karrot",
     "sourceName": "Karrot",
     "url": "https://us.karrotmarket.com/buy-sell/hw7h7ud7p81b/",
-    "postedAt": 1723708800000
+    "postedAt": 1723708800000,
+    "external_id": "hw7h7ud7p81b",
+    "original_source_url": "https://us.karrotmarket.com/buy-sell/hw7h7ud7p81b/",
+    "listing_status": "active",
+    "crawled_at": "2026-08-17T15:00:00Z",
+    "last_verified": "2026-08-17"
   },
   {
     "id": "karrot-58bfkyno2djd",
@@ -2042,7 +2662,12 @@ export const realKarrotItems = [
     "source": "karrot",
     "sourceName": "Karrot",
     "url": "https://us.karrotmarket.com/buy-sell/58bfkyno2djd/",
-    "postedAt": 1723705200000
+    "postedAt": 1723705200000,
+    "external_id": "58bfkyno2djd",
+    "original_source_url": "https://us.karrotmarket.com/buy-sell/58bfkyno2djd/",
+    "listing_status": "active",
+    "crawled_at": "2026-08-17T15:00:00Z",
+    "last_verified": "2026-08-17"
   },
   {
     "id": "karrot-5378ecdi67we",
@@ -2059,7 +2684,12 @@ export const realKarrotItems = [
     "source": "karrot",
     "sourceName": "Karrot",
     "url": "https://us.karrotmarket.com/buy-sell/5378ecdi67we/",
-    "postedAt": 1723701600000
+    "postedAt": 1723701600000,
+    "external_id": "5378ecdi67we",
+    "original_source_url": "https://us.karrotmarket.com/buy-sell/5378ecdi67we/",
+    "listing_status": "active",
+    "crawled_at": "2026-08-17T15:00:00Z",
+    "last_verified": "2026-08-17"
   },
   {
     "id": "karrot-ztp4ff1ou1vd",
@@ -2076,7 +2706,12 @@ export const realKarrotItems = [
     "source": "karrot",
     "sourceName": "Karrot",
     "url": "https://us.karrotmarket.com/buy-sell/ztp4ff1ou1vd/",
-    "postedAt": 1723698000000
+    "postedAt": 1723698000000,
+    "external_id": "ztp4ff1ou1vd",
+    "original_source_url": "https://us.karrotmarket.com/buy-sell/ztp4ff1ou1vd/",
+    "listing_status": "active",
+    "crawled_at": "2026-08-17T15:00:00Z",
+    "last_verified": "2026-08-17"
   },
   {
     "id": "karrot-5hk6shgowaxq",
@@ -2093,7 +2728,12 @@ export const realKarrotItems = [
     "source": "karrot",
     "sourceName": "Karrot",
     "url": "https://us.karrotmarket.com/buy-sell/5hk6shgowaxq/",
-    "postedAt": 1723694400000
+    "postedAt": 1723694400000,
+    "external_id": "5hk6shgowaxq",
+    "original_source_url": "https://us.karrotmarket.com/buy-sell/5hk6shgowaxq/",
+    "listing_status": "active",
+    "crawled_at": "2026-08-17T15:00:00Z",
+    "last_verified": "2026-08-17"
   },
   {
     "id": "karrot-gf34dxnmjsh6",
@@ -2110,7 +2750,12 @@ export const realKarrotItems = [
     "source": "karrot",
     "sourceName": "Karrot",
     "url": "https://us.karrotmarket.com/buy-sell/gf34dxnmjsh6/",
-    "postedAt": 1723690800000
+    "postedAt": 1723690800000,
+    "external_id": "gf34dxnmjsh6",
+    "original_source_url": "https://us.karrotmarket.com/buy-sell/gf34dxnmjsh6/",
+    "listing_status": "active",
+    "crawled_at": "2026-08-17T15:00:00Z",
+    "last_verified": "2026-08-17"
   },
   {
     "id": "karrot-xx7xb7ug57ct",
@@ -2127,7 +2772,12 @@ export const realKarrotItems = [
     "source": "karrot",
     "sourceName": "Karrot",
     "url": "https://us.karrotmarket.com/buy-sell/xx7xb7ug57ct/",
-    "postedAt": 1723687200000
+    "postedAt": 1723687200000,
+    "external_id": "xx7xb7ug57ct",
+    "original_source_url": "https://us.karrotmarket.com/buy-sell/xx7xb7ug57ct/",
+    "listing_status": "active",
+    "crawled_at": "2026-08-17T15:00:00Z",
+    "last_verified": "2026-08-17"
   },
   {
     "id": "karrot-144r8zq2awyr",
@@ -2144,7 +2794,12 @@ export const realKarrotItems = [
     "source": "karrot",
     "sourceName": "Karrot",
     "url": "https://us.karrotmarket.com/buy-sell/144r8zq2awyr/",
-    "postedAt": 1723683600000
+    "postedAt": 1723683600000,
+    "external_id": "144r8zq2awyr",
+    "original_source_url": "https://us.karrotmarket.com/buy-sell/144r8zq2awyr/",
+    "listing_status": "active",
+    "crawled_at": "2026-08-17T15:00:00Z",
+    "last_verified": "2026-08-17"
   },
   {
     "id": "karrot-p19r34fc51f2",
@@ -2161,7 +2816,12 @@ export const realKarrotItems = [
     "source": "karrot",
     "sourceName": "Karrot",
     "url": "https://us.karrotmarket.com/buy-sell/p19r34fc51f2/",
-    "postedAt": 1723680000000
+    "postedAt": 1723680000000,
+    "external_id": "p19r34fc51f2",
+    "original_source_url": "https://us.karrotmarket.com/buy-sell/p19r34fc51f2/",
+    "listing_status": "active",
+    "crawled_at": "2026-08-17T15:00:00Z",
+    "last_verified": "2026-08-17"
   },
   {
     "id": "karrot-domt7tq4wujt",
@@ -2178,7 +2838,12 @@ export const realKarrotItems = [
     "source": "karrot",
     "sourceName": "Karrot",
     "url": "https://us.karrotmarket.com/buy-sell/domt7tq4wujt/",
-    "postedAt": 1723676400000
+    "postedAt": 1723676400000,
+    "external_id": "domt7tq4wujt",
+    "original_source_url": "https://us.karrotmarket.com/buy-sell/domt7tq4wujt/",
+    "listing_status": "active",
+    "crawled_at": "2026-08-17T15:00:00Z",
+    "last_verified": "2026-08-17"
   },
   {
     "id": "karrot-4ejpyjxkdk8v",
@@ -2195,7 +2860,12 @@ export const realKarrotItems = [
     "source": "karrot",
     "sourceName": "Karrot",
     "url": "https://us.karrotmarket.com/buy-sell/4ejpyjxkdk8v/",
-    "postedAt": 1723672800000
+    "postedAt": 1723672800000,
+    "external_id": "4ejpyjxkdk8v",
+    "original_source_url": "https://us.karrotmarket.com/buy-sell/4ejpyjxkdk8v/",
+    "listing_status": "active",
+    "crawled_at": "2026-08-17T15:00:00Z",
+    "last_verified": "2026-08-17"
   },
   {
     "id": "karrot-edfr7t1w5gxq",
@@ -2212,7 +2882,12 @@ export const realKarrotItems = [
     "source": "karrot",
     "sourceName": "Karrot",
     "url": "https://us.karrotmarket.com/buy-sell/edfr7t1w5gxq/",
-    "postedAt": 1723669200000
+    "postedAt": 1723669200000,
+    "external_id": "edfr7t1w5gxq",
+    "original_source_url": "https://us.karrotmarket.com/buy-sell/edfr7t1w5gxq/",
+    "listing_status": "active",
+    "crawled_at": "2026-08-17T15:00:00Z",
+    "last_verified": "2026-08-17"
   },
   {
     "id": "karrot-516z4kivbr7h",
@@ -2229,7 +2904,12 @@ export const realKarrotItems = [
     "source": "karrot",
     "sourceName": "Karrot",
     "url": "https://us.karrotmarket.com/buy-sell/516z4kivbr7h/",
-    "postedAt": 1723665600000
+    "postedAt": 1723665600000,
+    "external_id": "516z4kivbr7h",
+    "original_source_url": "https://us.karrotmarket.com/buy-sell/516z4kivbr7h/",
+    "listing_status": "active",
+    "crawled_at": "2026-08-17T15:00:00Z",
+    "last_verified": "2026-08-17"
   },
   {
     "id": "karrot-6iuvxqkthbip",
@@ -2246,7 +2926,12 @@ export const realKarrotItems = [
     "source": "karrot",
     "sourceName": "Karrot",
     "url": "https://us.karrotmarket.com/buy-sell/6iuvxqkthbip/",
-    "postedAt": 1723662000000
+    "postedAt": 1723662000000,
+    "external_id": "6iuvxqkthbip",
+    "original_source_url": "https://us.karrotmarket.com/buy-sell/6iuvxqkthbip/",
+    "listing_status": "active",
+    "crawled_at": "2026-08-17T15:00:00Z",
+    "last_verified": "2026-08-17"
   },
   {
     "id": "karrot-7mtjq3bs79hz",
@@ -2263,7 +2948,12 @@ export const realKarrotItems = [
     "source": "karrot",
     "sourceName": "Karrot",
     "url": "https://us.karrotmarket.com/buy-sell/7mtjq3bs79hz/",
-    "postedAt": 1723658400000
+    "postedAt": 1723658400000,
+    "external_id": "7mtjq3bs79hz",
+    "original_source_url": "https://us.karrotmarket.com/buy-sell/7mtjq3bs79hz/",
+    "listing_status": "active",
+    "crawled_at": "2026-08-17T15:00:00Z",
+    "last_verified": "2026-08-17"
   },
   {
     "id": "karrot-37mueqn4bw2s",
@@ -2280,7 +2970,12 @@ export const realKarrotItems = [
     "source": "karrot",
     "sourceName": "Karrot",
     "url": "https://us.karrotmarket.com/buy-sell/37mueqn4bw2s/",
-    "postedAt": 1723654800000
+    "postedAt": 1723654800000,
+    "external_id": "37mueqn4bw2s",
+    "original_source_url": "https://us.karrotmarket.com/buy-sell/37mueqn4bw2s/",
+    "listing_status": "active",
+    "crawled_at": "2026-08-17T15:00:00Z",
+    "last_verified": "2026-08-17"
   },
   {
     "id": "karrot-of6wmexuouuy",
@@ -2297,7 +2992,12 @@ export const realKarrotItems = [
     "source": "karrot",
     "sourceName": "Karrot",
     "url": "https://us.karrotmarket.com/buy-sell/of6wmexuouuy/",
-    "postedAt": 1723651200000
+    "postedAt": 1723651200000,
+    "external_id": "of6wmexuouuy",
+    "original_source_url": "https://us.karrotmarket.com/buy-sell/of6wmexuouuy/",
+    "listing_status": "active",
+    "crawled_at": "2026-08-17T15:00:00Z",
+    "last_verified": "2026-08-17"
   },
   {
     "id": "karrot-ccadrap2c472",
@@ -2314,7 +3014,12 @@ export const realKarrotItems = [
     "source": "karrot",
     "sourceName": "Karrot",
     "url": "https://us.karrotmarket.com/buy-sell/ccadrap2c472/",
-    "postedAt": 1723647600000
+    "postedAt": 1723647600000,
+    "external_id": "ccadrap2c472",
+    "original_source_url": "https://us.karrotmarket.com/buy-sell/ccadrap2c472/",
+    "listing_status": "active",
+    "crawled_at": "2026-08-17T15:00:00Z",
+    "last_verified": "2026-08-17"
   },
   {
     "id": "karrot-7yd8gg2qxn7p",
@@ -2331,7 +3036,12 @@ export const realKarrotItems = [
     "source": "karrot",
     "sourceName": "Karrot",
     "url": "https://us.karrotmarket.com/buy-sell/7yd8gg2qxn7p/",
-    "postedAt": 1723644000000
+    "postedAt": 1723644000000,
+    "external_id": "7yd8gg2qxn7p",
+    "original_source_url": "https://us.karrotmarket.com/buy-sell/7yd8gg2qxn7p/",
+    "listing_status": "active",
+    "crawled_at": "2026-08-17T15:00:00Z",
+    "last_verified": "2026-08-17"
   },
   {
     "id": "karrot-gpa6rzosrixj",
@@ -2348,7 +3058,12 @@ export const realKarrotItems = [
     "source": "karrot",
     "sourceName": "Karrot",
     "url": "https://us.karrotmarket.com/buy-sell/gpa6rzosrixj/",
-    "postedAt": 1723640400000
+    "postedAt": 1723640400000,
+    "external_id": "gpa6rzosrixj",
+    "original_source_url": "https://us.karrotmarket.com/buy-sell/gpa6rzosrixj/",
+    "listing_status": "active",
+    "crawled_at": "2026-08-17T15:00:00Z",
+    "last_verified": "2026-08-17"
   },
   {
     "id": "karrot-pkkaqcm81io1",
@@ -2365,7 +3080,12 @@ export const realKarrotItems = [
     "source": "karrot",
     "sourceName": "Karrot",
     "url": "https://us.karrotmarket.com/buy-sell/pkkaqcm81io1/",
-    "postedAt": 1723636800000
+    "postedAt": 1723636800000,
+    "external_id": "pkkaqcm81io1",
+    "original_source_url": "https://us.karrotmarket.com/buy-sell/pkkaqcm81io1/",
+    "listing_status": "active",
+    "crawled_at": "2026-08-17T15:00:00Z",
+    "last_verified": "2026-08-17"
   },
   {
     "id": "karrot-1rsjrku7rupw",
@@ -2382,7 +3102,12 @@ export const realKarrotItems = [
     "source": "karrot",
     "sourceName": "Karrot",
     "url": "https://us.karrotmarket.com/buy-sell/1rsjrku7rupw/",
-    "postedAt": 1723633200000
+    "postedAt": 1723633200000,
+    "external_id": "1rsjrku7rupw",
+    "original_source_url": "https://us.karrotmarket.com/buy-sell/1rsjrku7rupw/",
+    "listing_status": "active",
+    "crawled_at": "2026-08-17T15:00:00Z",
+    "last_verified": "2026-08-17"
   },
   {
     "id": "karrot-f6623z9uk1ew",
@@ -2399,7 +3124,12 @@ export const realKarrotItems = [
     "source": "karrot",
     "sourceName": "Karrot",
     "url": "https://us.karrotmarket.com/buy-sell/f6623z9uk1ew/",
-    "postedAt": 1723629600000
+    "postedAt": 1723629600000,
+    "external_id": "f6623z9uk1ew",
+    "original_source_url": "https://us.karrotmarket.com/buy-sell/f6623z9uk1ew/",
+    "listing_status": "active",
+    "crawled_at": "2026-08-17T15:00:00Z",
+    "last_verified": "2026-08-17"
   },
   {
     "id": "karrot-my6cw4bye4x9",
@@ -2416,7 +3146,12 @@ export const realKarrotItems = [
     "source": "karrot",
     "sourceName": "Karrot",
     "url": "https://us.karrotmarket.com/buy-sell/my6cw4bye4x9/",
-    "postedAt": 1723626000000
+    "postedAt": 1723626000000,
+    "external_id": "my6cw4bye4x9",
+    "original_source_url": "https://us.karrotmarket.com/buy-sell/my6cw4bye4x9/",
+    "listing_status": "active",
+    "crawled_at": "2026-08-17T15:00:00Z",
+    "last_verified": "2026-08-17"
   },
   {
     "id": "karrot-rmuwxrjsw392",
@@ -2433,7 +3168,12 @@ export const realKarrotItems = [
     "source": "karrot",
     "sourceName": "Karrot",
     "url": "https://us.karrotmarket.com/buy-sell/rmuwxrjsw392/",
-    "postedAt": 1723622400000
+    "postedAt": 1723622400000,
+    "external_id": "rmuwxrjsw392",
+    "original_source_url": "https://us.karrotmarket.com/buy-sell/rmuwxrjsw392/",
+    "listing_status": "active",
+    "crawled_at": "2026-08-17T15:00:00Z",
+    "last_verified": "2026-08-17"
   },
   {
     "id": "karrot-b7cubirxfrj6",
@@ -2450,7 +3190,12 @@ export const realKarrotItems = [
     "source": "karrot",
     "sourceName": "Karrot",
     "url": "https://us.karrotmarket.com/buy-sell/b7cubirxfrj6/",
-    "postedAt": 1723618800000
+    "postedAt": 1723618800000,
+    "external_id": "b7cubirxfrj6",
+    "original_source_url": "https://us.karrotmarket.com/buy-sell/b7cubirxfrj6/",
+    "listing_status": "active",
+    "crawled_at": "2026-08-17T15:00:00Z",
+    "last_verified": "2026-08-17"
   },
   {
     "id": "karrot-rdxyz8jte6fa",
@@ -2467,7 +3212,12 @@ export const realKarrotItems = [
     "source": "karrot",
     "sourceName": "Karrot",
     "url": "https://us.karrotmarket.com/buy-sell/rdxyz8jte6fa/",
-    "postedAt": 1723615200000
+    "postedAt": 1723615200000,
+    "external_id": "rdxyz8jte6fa",
+    "original_source_url": "https://us.karrotmarket.com/buy-sell/rdxyz8jte6fa/",
+    "listing_status": "active",
+    "crawled_at": "2026-08-17T15:00:00Z",
+    "last_verified": "2026-08-17"
   },
   {
     "id": "karrot-wkx7fw91ykkd",
@@ -2484,7 +3234,12 @@ export const realKarrotItems = [
     "source": "karrot",
     "sourceName": "Karrot",
     "url": "https://us.karrotmarket.com/buy-sell/wkx7fw91ykkd/",
-    "postedAt": 1723611600000
+    "postedAt": 1723611600000,
+    "external_id": "wkx7fw91ykkd",
+    "original_source_url": "https://us.karrotmarket.com/buy-sell/wkx7fw91ykkd/",
+    "listing_status": "active",
+    "crawled_at": "2026-08-17T15:00:00Z",
+    "last_verified": "2026-08-17"
   },
   {
     "id": "karrot-2gws8uo78occ",
@@ -2501,7 +3256,12 @@ export const realKarrotItems = [
     "source": "karrot",
     "sourceName": "Karrot",
     "url": "https://us.karrotmarket.com/buy-sell/2gws8uo78occ/",
-    "postedAt": 1723608000000
+    "postedAt": 1723608000000,
+    "external_id": "2gws8uo78occ",
+    "original_source_url": "https://us.karrotmarket.com/buy-sell/2gws8uo78occ/",
+    "listing_status": "active",
+    "crawled_at": "2026-08-17T15:00:00Z",
+    "last_verified": "2026-08-17"
   },
   {
     "id": "karrot-82b4b3u75n22",
@@ -2518,7 +3278,12 @@ export const realKarrotItems = [
     "source": "karrot",
     "sourceName": "Karrot",
     "url": "https://us.karrotmarket.com/buy-sell/82b4b3u75n22/",
-    "postedAt": 1723604400000
+    "postedAt": 1723604400000,
+    "external_id": "82b4b3u75n22",
+    "original_source_url": "https://us.karrotmarket.com/buy-sell/82b4b3u75n22/",
+    "listing_status": "active",
+    "crawled_at": "2026-08-17T15:00:00Z",
+    "last_verified": "2026-08-17"
   },
   {
     "id": "karrot-2zfjdo72j6cv",
@@ -2535,7 +3300,12 @@ export const realKarrotItems = [
     "source": "karrot",
     "sourceName": "Karrot",
     "url": "https://us.karrotmarket.com/buy-sell/2zfjdo72j6cv/",
-    "postedAt": 1723600800000
+    "postedAt": 1723600800000,
+    "external_id": "2zfjdo72j6cv",
+    "original_source_url": "https://us.karrotmarket.com/buy-sell/2zfjdo72j6cv/",
+    "listing_status": "active",
+    "crawled_at": "2026-08-17T15:00:00Z",
+    "last_verified": "2026-08-17"
   },
   {
     "id": "karrot-rzk1x5rr5w4a",
@@ -2552,7 +3322,12 @@ export const realKarrotItems = [
     "source": "karrot",
     "sourceName": "Karrot",
     "url": "https://us.karrotmarket.com/buy-sell/rzk1x5rr5w4a/",
-    "postedAt": 1723597200000
+    "postedAt": 1723597200000,
+    "external_id": "rzk1x5rr5w4a",
+    "original_source_url": "https://us.karrotmarket.com/buy-sell/rzk1x5rr5w4a/",
+    "listing_status": "active",
+    "crawled_at": "2026-08-17T15:00:00Z",
+    "last_verified": "2026-08-17"
   },
   {
     "id": "karrot-1u2qzwhbscm1",
@@ -2569,7 +3344,12 @@ export const realKarrotItems = [
     "source": "karrot",
     "sourceName": "Karrot",
     "url": "https://us.karrotmarket.com/buy-sell/1u2qzwhbscm1/",
-    "postedAt": 1723593600000
+    "postedAt": 1723593600000,
+    "external_id": "1u2qzwhbscm1",
+    "original_source_url": "https://us.karrotmarket.com/buy-sell/1u2qzwhbscm1/",
+    "listing_status": "active",
+    "crawled_at": "2026-08-17T15:00:00Z",
+    "last_verified": "2026-08-17"
   },
   {
     "id": "karrot-hqcytz6kg7pr",
@@ -2586,7 +3366,12 @@ export const realKarrotItems = [
     "source": "karrot",
     "sourceName": "Karrot",
     "url": "https://us.karrotmarket.com/buy-sell/hqcytz6kg7pr/",
-    "postedAt": 1723590000000
+    "postedAt": 1723590000000,
+    "external_id": "hqcytz6kg7pr",
+    "original_source_url": "https://us.karrotmarket.com/buy-sell/hqcytz6kg7pr/",
+    "listing_status": "active",
+    "crawled_at": "2026-08-17T15:00:00Z",
+    "last_verified": "2026-08-17"
   },
   {
     "id": "karrot-e7nci3hwe8sr",
@@ -2603,7 +3388,12 @@ export const realKarrotItems = [
     "source": "karrot",
     "sourceName": "Karrot",
     "url": "https://us.karrotmarket.com/buy-sell/e7nci3hwe8sr/",
-    "postedAt": 1723586400000
+    "postedAt": 1723586400000,
+    "external_id": "e7nci3hwe8sr",
+    "original_source_url": "https://us.karrotmarket.com/buy-sell/e7nci3hwe8sr/",
+    "listing_status": "active",
+    "crawled_at": "2026-08-17T15:00:00Z",
+    "last_verified": "2026-08-17"
   },
   {
     "id": "karrot-1vygqpx29ky7",
@@ -2620,7 +3410,12 @@ export const realKarrotItems = [
     "source": "karrot",
     "sourceName": "Karrot",
     "url": "https://us.karrotmarket.com/buy-sell/1vygqpx29ky7/",
-    "postedAt": 1723582800000
+    "postedAt": 1723582800000,
+    "external_id": "1vygqpx29ky7",
+    "original_source_url": "https://us.karrotmarket.com/buy-sell/1vygqpx29ky7/",
+    "listing_status": "active",
+    "crawled_at": "2026-08-17T15:00:00Z",
+    "last_verified": "2026-08-17"
   },
   {
     "id": "karrot-2trfwrabp83m",
@@ -2637,7 +3432,12 @@ export const realKarrotItems = [
     "source": "karrot",
     "sourceName": "Karrot",
     "url": "https://us.karrotmarket.com/buy-sell/2trfwrabp83m/",
-    "postedAt": 1723579200000
+    "postedAt": 1723579200000,
+    "external_id": "2trfwrabp83m",
+    "original_source_url": "https://us.karrotmarket.com/buy-sell/2trfwrabp83m/",
+    "listing_status": "active",
+    "crawled_at": "2026-08-17T15:00:00Z",
+    "last_verified": "2026-08-17"
   },
   {
     "id": "karrot-1upphge93uh3",
@@ -2654,7 +3454,12 @@ export const realKarrotItems = [
     "source": "karrot",
     "sourceName": "Karrot",
     "url": "https://us.karrotmarket.com/buy-sell/1upphge93uh3/",
-    "postedAt": 1723575600000
+    "postedAt": 1723575600000,
+    "external_id": "1upphge93uh3",
+    "original_source_url": "https://us.karrotmarket.com/buy-sell/1upphge93uh3/",
+    "listing_status": "active",
+    "crawled_at": "2026-08-17T15:00:00Z",
+    "last_verified": "2026-08-17"
   },
   {
     "id": "karrot-cjdi3jtvgcgk",
@@ -2671,7 +3476,12 @@ export const realKarrotItems = [
     "source": "karrot",
     "sourceName": "Karrot",
     "url": "https://us.karrotmarket.com/buy-sell/cjdi3jtvgcgk/",
-    "postedAt": 1723572000000
+    "postedAt": 1723572000000,
+    "external_id": "cjdi3jtvgcgk",
+    "original_source_url": "https://us.karrotmarket.com/buy-sell/cjdi3jtvgcgk/",
+    "listing_status": "active",
+    "crawled_at": "2026-08-17T15:00:00Z",
+    "last_verified": "2026-08-17"
   },
   {
     "id": "karrot-btc2fnacsvaq",
@@ -2688,7 +3498,12 @@ export const realKarrotItems = [
     "source": "karrot",
     "sourceName": "Karrot",
     "url": "https://us.karrotmarket.com/buy-sell/btc2fnacsvaq/",
-    "postedAt": 1723568400000
+    "postedAt": 1723568400000,
+    "external_id": "btc2fnacsvaq",
+    "original_source_url": "https://us.karrotmarket.com/buy-sell/btc2fnacsvaq/",
+    "listing_status": "active",
+    "crawled_at": "2026-08-17T15:00:00Z",
+    "last_verified": "2026-08-17"
   },
   {
     "id": "karrot-b6d6xgo6msxu",
@@ -2705,7 +3520,12 @@ export const realKarrotItems = [
     "source": "karrot",
     "sourceName": "Karrot",
     "url": "https://us.karrotmarket.com/buy-sell/b6d6xgo6msxu/",
-    "postedAt": 1723564800000
+    "postedAt": 1723564800000,
+    "external_id": "b6d6xgo6msxu",
+    "original_source_url": "https://us.karrotmarket.com/buy-sell/b6d6xgo6msxu/",
+    "listing_status": "active",
+    "crawled_at": "2026-08-17T15:00:00Z",
+    "last_verified": "2026-08-17"
   },
   {
     "id": "karrot-hkegngvnof9h",
@@ -2722,7 +3542,12 @@ export const realKarrotItems = [
     "source": "karrot",
     "sourceName": "Karrot",
     "url": "https://us.karrotmarket.com/buy-sell/hkegngvnof9h/",
-    "postedAt": 1723561200000
+    "postedAt": 1723561200000,
+    "external_id": "hkegngvnof9h",
+    "original_source_url": "https://us.karrotmarket.com/buy-sell/hkegngvnof9h/",
+    "listing_status": "active",
+    "crawled_at": "2026-08-17T15:00:00Z",
+    "last_verified": "2026-08-17"
   },
   {
     "id": "karrot-n1ppk2gfw7x3",
@@ -2739,7 +3564,12 @@ export const realKarrotItems = [
     "source": "karrot",
     "sourceName": "Karrot",
     "url": "https://us.karrotmarket.com/buy-sell/n1ppk2gfw7x3/",
-    "postedAt": 1723557600000
+    "postedAt": 1723557600000,
+    "external_id": "n1ppk2gfw7x3",
+    "original_source_url": "https://us.karrotmarket.com/buy-sell/n1ppk2gfw7x3/",
+    "listing_status": "active",
+    "crawled_at": "2026-08-17T15:00:00Z",
+    "last_verified": "2026-08-17"
   },
   {
     "id": "karrot-8q87ugq3c3ea",
@@ -2756,7 +3586,12 @@ export const realKarrotItems = [
     "source": "karrot",
     "sourceName": "Karrot",
     "url": "https://us.karrotmarket.com/buy-sell/8q87ugq3c3ea/",
-    "postedAt": 1723554000000
+    "postedAt": 1723554000000,
+    "external_id": "8q87ugq3c3ea",
+    "original_source_url": "https://us.karrotmarket.com/buy-sell/8q87ugq3c3ea/",
+    "listing_status": "active",
+    "crawled_at": "2026-08-17T15:00:00Z",
+    "last_verified": "2026-08-17"
   },
   {
     "id": "karrot-i3p43fytwesc",
@@ -2773,7 +3608,12 @@ export const realKarrotItems = [
     "source": "karrot",
     "sourceName": "Karrot",
     "url": "https://us.karrotmarket.com/buy-sell/i3p43fytwesc/",
-    "postedAt": 1723550400000
+    "postedAt": 1723550400000,
+    "external_id": "i3p43fytwesc",
+    "original_source_url": "https://us.karrotmarket.com/buy-sell/i3p43fytwesc/",
+    "listing_status": "active",
+    "crawled_at": "2026-08-17T15:00:00Z",
+    "last_verified": "2026-08-17"
   },
   {
     "id": "karrot-nc318hi597fj",
@@ -2790,7 +3630,12 @@ export const realKarrotItems = [
     "source": "karrot",
     "sourceName": "Karrot",
     "url": "https://us.karrotmarket.com/buy-sell/nc318hi597fj/",
-    "postedAt": 1723546800000
+    "postedAt": 1723546800000,
+    "external_id": "nc318hi597fj",
+    "original_source_url": "https://us.karrotmarket.com/buy-sell/nc318hi597fj/",
+    "listing_status": "active",
+    "crawled_at": "2026-08-17T15:00:00Z",
+    "last_verified": "2026-08-17"
   },
   {
     "id": "karrot-52q31wvg6896",
@@ -2807,7 +3652,12 @@ export const realKarrotItems = [
     "source": "karrot",
     "sourceName": "Karrot",
     "url": "https://us.karrotmarket.com/buy-sell/52q31wvg6896/",
-    "postedAt": 1723543200000
+    "postedAt": 1723543200000,
+    "external_id": "52q31wvg6896",
+    "original_source_url": "https://us.karrotmarket.com/buy-sell/52q31wvg6896/",
+    "listing_status": "active",
+    "crawled_at": "2026-08-17T15:00:00Z",
+    "last_verified": "2026-08-17"
   },
   {
     "id": "karrot-iv6ao1m3arf3",
@@ -2824,7 +3674,12 @@ export const realKarrotItems = [
     "source": "karrot",
     "sourceName": "Karrot",
     "url": "https://us.karrotmarket.com/buy-sell/iv6ao1m3arf3/",
-    "postedAt": 1723539600000
+    "postedAt": 1723539600000,
+    "external_id": "iv6ao1m3arf3",
+    "original_source_url": "https://us.karrotmarket.com/buy-sell/iv6ao1m3arf3/",
+    "listing_status": "active",
+    "crawled_at": "2026-08-17T15:00:00Z",
+    "last_verified": "2026-08-17"
   },
   {
     "id": "karrot-qhz5vpmpqrh1",
@@ -2841,7 +3696,12 @@ export const realKarrotItems = [
     "source": "karrot",
     "sourceName": "Karrot",
     "url": "https://us.karrotmarket.com/buy-sell/qhz5vpmpqrh1/",
-    "postedAt": 1723536000000
+    "postedAt": 1723536000000,
+    "external_id": "qhz5vpmpqrh1",
+    "original_source_url": "https://us.karrotmarket.com/buy-sell/qhz5vpmpqrh1/",
+    "listing_status": "active",
+    "crawled_at": "2026-08-17T15:00:00Z",
+    "last_verified": "2026-08-17"
   },
   {
     "id": "karrot-v78b5dzq9fds",
@@ -2858,7 +3718,12 @@ export const realKarrotItems = [
     "source": "karrot",
     "sourceName": "Karrot",
     "url": "https://us.karrotmarket.com/buy-sell/v78b5dzq9fds/",
-    "postedAt": 1723532400000
+    "postedAt": 1723532400000,
+    "external_id": "v78b5dzq9fds",
+    "original_source_url": "https://us.karrotmarket.com/buy-sell/v78b5dzq9fds/",
+    "listing_status": "active",
+    "crawled_at": "2026-08-17T15:00:00Z",
+    "last_verified": "2026-08-17"
   },
   {
     "id": "karrot-pgevzwi8bnhr",
@@ -2875,7 +3740,12 @@ export const realKarrotItems = [
     "source": "karrot",
     "sourceName": "Karrot",
     "url": "https://us.karrotmarket.com/buy-sell/pgevzwi8bnhr/",
-    "postedAt": 1723528800000
+    "postedAt": 1723528800000,
+    "external_id": "pgevzwi8bnhr",
+    "original_source_url": "https://us.karrotmarket.com/buy-sell/pgevzwi8bnhr/",
+    "listing_status": "active",
+    "crawled_at": "2026-08-17T15:00:00Z",
+    "last_verified": "2026-08-17"
   },
   {
     "id": "karrot-r7orc2w929bz",
@@ -2892,7 +3762,12 @@ export const realKarrotItems = [
     "source": "karrot",
     "sourceName": "Karrot",
     "url": "https://us.karrotmarket.com/buy-sell/r7orc2w929bz/",
-    "postedAt": 1723525200000
+    "postedAt": 1723525200000,
+    "external_id": "r7orc2w929bz",
+    "original_source_url": "https://us.karrotmarket.com/buy-sell/r7orc2w929bz/",
+    "listing_status": "active",
+    "crawled_at": "2026-08-17T15:00:00Z",
+    "last_verified": "2026-08-17"
   },
   {
     "id": "karrot-yz8uk9oi4mi1",
@@ -2909,7 +3784,12 @@ export const realKarrotItems = [
     "source": "karrot",
     "sourceName": "Karrot",
     "url": "https://us.karrotmarket.com/buy-sell/yz8uk9oi4mi1/",
-    "postedAt": 1723521600000
+    "postedAt": 1723521600000,
+    "external_id": "yz8uk9oi4mi1",
+    "original_source_url": "https://us.karrotmarket.com/buy-sell/yz8uk9oi4mi1/",
+    "listing_status": "active",
+    "crawled_at": "2026-08-17T15:00:00Z",
+    "last_verified": "2026-08-17"
   },
   {
     "id": "karrot-eaw6waidyrrk",
@@ -2926,7 +3806,12 @@ export const realKarrotItems = [
     "source": "karrot",
     "sourceName": "Karrot",
     "url": "https://us.karrotmarket.com/buy-sell/eaw6waidyrrk/",
-    "postedAt": 1723518000000
+    "postedAt": 1723518000000,
+    "external_id": "eaw6waidyrrk",
+    "original_source_url": "https://us.karrotmarket.com/buy-sell/eaw6waidyrrk/",
+    "listing_status": "active",
+    "crawled_at": "2026-08-17T15:00:00Z",
+    "last_verified": "2026-08-17"
   },
   {
     "id": "karrot-yj8wazmdysek",
@@ -2943,7 +3828,12 @@ export const realKarrotItems = [
     "source": "karrot",
     "sourceName": "Karrot",
     "url": "https://us.karrotmarket.com/buy-sell/yj8wazmdysek/",
-    "postedAt": 1723514400000
+    "postedAt": 1723514400000,
+    "external_id": "yj8wazmdysek",
+    "original_source_url": "https://us.karrotmarket.com/buy-sell/yj8wazmdysek/",
+    "listing_status": "active",
+    "crawled_at": "2026-08-17T15:00:00Z",
+    "last_verified": "2026-08-17"
   },
   {
     "id": "karrot-114dt8ijoe7s",
@@ -2960,7 +3850,12 @@ export const realKarrotItems = [
     "source": "karrot",
     "sourceName": "Karrot",
     "url": "https://us.karrotmarket.com/buy-sell/114dt8ijoe7s/",
-    "postedAt": 1723510800000
+    "postedAt": 1723510800000,
+    "external_id": "114dt8ijoe7s",
+    "original_source_url": "https://us.karrotmarket.com/buy-sell/114dt8ijoe7s/",
+    "listing_status": "active",
+    "crawled_at": "2026-08-17T15:00:00Z",
+    "last_verified": "2026-08-17"
   },
   {
     "id": "karrot-8ng1xwxoc7kn",
@@ -2977,7 +3872,12 @@ export const realKarrotItems = [
     "source": "karrot",
     "sourceName": "Karrot",
     "url": "https://us.karrotmarket.com/buy-sell/8ng1xwxoc7kn/",
-    "postedAt": 1723507200000
+    "postedAt": 1723507200000,
+    "external_id": "8ng1xwxoc7kn",
+    "original_source_url": "https://us.karrotmarket.com/buy-sell/8ng1xwxoc7kn/",
+    "listing_status": "active",
+    "crawled_at": "2026-08-17T15:00:00Z",
+    "last_verified": "2026-08-17"
   },
   {
     "id": "karrot-k839kzid7xpk",
@@ -2994,7 +3894,12 @@ export const realKarrotItems = [
     "source": "karrot",
     "sourceName": "Karrot",
     "url": "https://us.karrotmarket.com/buy-sell/k839kzid7xpk/",
-    "postedAt": 1723503600000
+    "postedAt": 1723503600000,
+    "external_id": "k839kzid7xpk",
+    "original_source_url": "https://us.karrotmarket.com/buy-sell/k839kzid7xpk/",
+    "listing_status": "active",
+    "crawled_at": "2026-08-17T15:00:00Z",
+    "last_verified": "2026-08-17"
   },
   {
     "id": "karrot-mynh8j2ra47f",
@@ -3011,7 +3916,12 @@ export const realKarrotItems = [
     "source": "karrot",
     "sourceName": "Karrot",
     "url": "https://us.karrotmarket.com/buy-sell/mynh8j2ra47f/",
-    "postedAt": 1723500000000
+    "postedAt": 1723500000000,
+    "external_id": "mynh8j2ra47f",
+    "original_source_url": "https://us.karrotmarket.com/buy-sell/mynh8j2ra47f/",
+    "listing_status": "active",
+    "crawled_at": "2026-08-17T15:00:00Z",
+    "last_verified": "2026-08-17"
   },
   {
     "id": "karrot-ni6j42ift1zj",
@@ -3028,7 +3938,12 @@ export const realKarrotItems = [
     "source": "karrot",
     "sourceName": "Karrot",
     "url": "https://us.karrotmarket.com/buy-sell/ni6j42ift1zj/",
-    "postedAt": 1723496400000
+    "postedAt": 1723496400000,
+    "external_id": "ni6j42ift1zj",
+    "original_source_url": "https://us.karrotmarket.com/buy-sell/ni6j42ift1zj/",
+    "listing_status": "active",
+    "crawled_at": "2026-08-17T15:00:00Z",
+    "last_verified": "2026-08-17"
   }
 ];
 
