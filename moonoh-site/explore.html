@@ -1151,28 +1151,21 @@
         <button class="filter-pill" data-local-cat="Gifts & Culture">Gifts &amp; Culture</button>
       </div>
 
-      <!-- 4. Result Count & Plain Text Sort Row -->
-      <div class="results-sort-bar" style="display: flex; align-items: center; justify-content: space-between; gap: 12px; margin: 16px 0 20px 0; width: 100%; box-sizing: border-box;">
+      <!-- 4. Result Count & Right-Aligned Plain Text Sort Row -->
+      <div class="results-sort-bar" style="display: flex; align-items: center; justify-content: space-between; margin: 16px 0 20px 0; width: 100%; box-sizing: border-box;">
         <div id="explore-results-label" style="font-size: 13.5px; font-weight: 600; color: #374151; white-space: nowrap;">
         </div>
-        <div style="display: flex; align-items: center; gap: 14px;">
-          <!-- 100% Seamless Plain Text Sort Selector (Exact same font size, weight 400, color & perfect vertical alignment) -->
-          <div class="explore-sort-wrap" style="display: inline-flex; align-items: center; gap: 4px; font-size: 13px; font-weight: 400; color: #4B5563; line-height: 1.2;">
-            <span style="font-size: 13px; font-weight: 400; color: #4B5563; line-height: 1.2; user-select: none;">Sort:</span>
-            <div style="position: relative; display: inline-flex; align-items: center;">
-              <select id="explore-sort-select" aria-label="Sort products" style="appearance: none; -webkit-appearance: none; -moz-appearance: none; background: transparent; border: none; outline: none; box-shadow: none; font-size: 13px; font-weight: 400; color: #4B5563; font-family: inherit; line-height: 1.2; padding: 0 13px 0 0; margin: 0; cursor: pointer; -webkit-tap-highlight-color: transparent; width: auto;">
-                <option value="newest">Newest</option>
-                <option value="relevance">Relevance</option>
-                <option value="price-asc">Price: Low to High</option>
-                <option value="price-desc">Price: High to Low</option>
-              </select>
-              <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="#4B5563" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="position: absolute; right: 0; top: 50%; transform: translateY(-50%); pointer-events: none;"><polyline points="6 9 12 15 18 9"/></svg>
-            </div>
+        <div class="explore-sort-wrap" style="display: inline-flex; align-items: center; gap: 4px; font-size: 13px; font-weight: 400; color: #4B5563; line-height: 1.2; margin-left: auto;">
+          <span style="font-size: 13px; font-weight: 400; color: #4B5563; line-height: 1.2; user-select: none;">Sort:</span>
+          <div style="position: relative; display: inline-flex; align-items: center;">
+            <select id="explore-sort-select" aria-label="Sort products" onchange="if(typeof updateSortWidth==='function')updateSortWidth();" style="appearance: none; -webkit-appearance: none; -moz-appearance: none; background: transparent; border: none; outline: none; box-shadow: none; font-size: 13px; font-weight: 400; color: #4B5563; font-family: inherit; line-height: 1.2; padding: 0 12px 0 2px; margin: 0; cursor: pointer; -webkit-tap-highlight-color: transparent;">
+              <option value="newest">Newest</option>
+              <option value="relevance">Relevance</option>
+              <option value="price-asc">Price: Low to High</option>
+              <option value="price-desc">Price: High to Low</option>
+            </select>
+            <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="#4B5563" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="position: absolute; right: 0; top: 50%; transform: translateY(-50%); pointer-events: none;"><polyline points="6 9 12 15 18 9"/></svg>
           </div>
-          <!-- Clear Filters Link / Minimal Button -->
-          <button id="btn-clear-all-filters" class="btn-clear-all-filters" aria-label="Clear all active filters" style="display: none; align-items: center; justify-content: center; height: 32px; padding: 0 12px; background: #F3F4F6; color: #4F46E5; font-size: 12px; font-weight: 700; border: 1px solid #E0E7FF; border-radius: 9999px; cursor: pointer; white-space: nowrap; transition: background 0.2s;">
-            Clear Filters
-          </button>
         </div>
       </div>
 
@@ -1645,6 +1638,25 @@
       return score;
     }
 
+    
+    function updateSortWidth() {
+      const select = document.getElementById('explore-sort-select');
+      if (!select) return;
+      const selectedOption = select.options[select.selectedIndex];
+      const txt = selectedOption ? selectedOption.text : '';
+      const temp = document.createElement('span');
+      temp.style.visibility = 'hidden';
+      temp.style.position = 'absolute';
+      temp.style.fontSize = '13px';
+      temp.style.fontWeight = '400';
+      temp.style.fontFamily = getComputedStyle(select).fontFamily || 'sans-serif';
+      temp.textContent = txt;
+      document.body.appendChild(temp);
+      const textWidth = Math.ceil(temp.getBoundingClientRect().width);
+      document.body.removeChild(temp);
+      select.style.width = (textWidth + 14) + 'px';
+    }
+
     function updateSearchUI() {
       const searchInput = document.getElementById('explore-search-input');
       const searchClearBtn = document.getElementById('explore-search-clear');
@@ -1660,6 +1672,7 @@
       }
       if (sortSelect) {
         sortSelect.value = currentSortOption;
+        updateSortWidth();
       }
 
       // Check if any filter is active (search query, category !== 'all', or non-default sort)
