@@ -49,7 +49,7 @@ def build_local_shops_data():
             "state": "NY",
             "postal_code": "10013",
             "country": "US",
-            "theme_color": "#05452E",
+            "theme_color": "#007a51",
             "categories": ["Grocery", "Pantry", "Snacks", "Drinks", "Home & Table"],
             "claim_status": "unclaimed",
             "verification_status": "unverified",
