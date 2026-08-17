@@ -124,6 +124,30 @@ with open('sitemap-pages.xml', 'w', encoding='utf-8') as f:
 print('✅ Saved sitemap-pages.xml')
 
 
+def generate_canonical_url(title, loc_str, item_id, is_ext=False):
+    clean_t = clean_slug(title or 'item')
+    if len(clean_t) > 50:
+        clean_t = clean_t[:50].rstrip('-')
+    if not clean_t:
+        clean_t = 'item'
+    
+    loc_slug = 'nyc-ny'
+    if loc_str:
+        l = loc_str.lower()
+        if 'bayside' in l: loc_slug = 'bayside-queens-ny'
+        elif 'flushing' in l: loc_slug = 'flushing-queens-ny'
+        elif 'astoria' in l: loc_slug = 'astoria-queens-ny'
+        elif 'queens' in l: loc_slug = 'queens-ny'
+        elif 'brooklyn' in l: loc_slug = 'brooklyn-ny'
+        elif 'manhattan' in l: loc_slug = 'manhattan-ny'
+        elif 'palisades' in l: loc_slug = 'palisades-park-nj'
+        elif 'fort lee' in l: loc_slug = 'fort-lee-nj'
+        else:
+            loc_slug = clean_slug(loc_str) or 'nyc-ny'
+            
+    id_suffix = f"ext-{item_id}" if is_ext else str(item_id)
+    return f"https://moon-oh.com/item/{clean_t}-{loc_slug}-{id_suffix}"
+
 # =========================================================================
 # 2. sitemap-moonoh.xml (Moonoh User Secondhand Items + Images)
 # =========================================================================
@@ -131,10 +155,8 @@ xml_moonoh = ['<?xml version="1.0" encoding="UTF-8"?>',
               '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">']
 
 for item in moonoh_items:
-    slug = clean_slug(item.get('title', 'item'))
-    loc = clean_slug(item.get('rawTown', item.get('location', 'nyc-ny')))
     no = item.get('no', item.get('id', ''))
-    url = f"https://moon-oh.com/item/{slug}-{loc}-{no}"
+    url = generate_canonical_url(item.get('title'), item.get('rawTown', item.get('location', '')), no, is_ext=False)
     img = to_web_jpg(item.get('image', item.get('photo', '')))
     title = item.get('title', '')
     
@@ -143,7 +165,9 @@ for item in moonoh_items:
     xml_moonoh.append(f'    <lastmod>{today_str}</lastmod>')
     xml_moonoh.append('    <changefreq>daily</changefreq>')
     xml_moonoh.append('    <priority>0.8</priority>')
-    if img:
+    
+    # Exclude temporary, non-permanent or HEIC image URLs from XML sitemaps
+    if img and not ('/temp/' in img or img.lower().endswith('.heic') or '/image-proxy/temp' in img):
         abs_img = img if img.startswith('http') else f"https://moon-oh.com{img}"
         xml_moonoh.append('    <image:image>')
         xml_moonoh.append(f'      <image:loc>{escape_xml(abs_img)}</image:loc>')
@@ -164,10 +188,8 @@ xml_market = ['<?xml version="1.0" encoding="UTF-8"?>',
               '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">']
 
 for item in karrot_items + heykorean_items:
-    slug = clean_slug(item.get('title', 'item'))
-    loc = clean_slug(item.get('location', 'nyc-ny'))
     item_id = item.get('id', '')
-    url = f"https://moon-oh.com/item/{slug}-{loc}-ext-{item_id}"
+    url = generate_canonical_url(item.get('title'), item.get('location', ''), item_id, is_ext=True)
     img = to_web_jpg(item.get('image', ''))
     title = item.get('title', '')
     
@@ -176,7 +198,7 @@ for item in karrot_items + heykorean_items:
     xml_market.append(f'    <lastmod>{today_str}</lastmod>')
     xml_market.append('    <changefreq>daily</changefreq>')
     xml_market.append('    <priority>0.7</priority>')
-    if img and img.startswith('http'):
+    if img and img.startswith('http') and not ('/temp/' in img or img.lower().endswith('.heic') or '/image-proxy/temp' in img):
         xml_market.append('    <image:image>')
         xml_market.append(f'      <image:loc>{escape_xml(img)}</image:loc>')
         xml_market.append(f'      <image:title>{escape_xml(title)}</image:title>')
@@ -196,9 +218,8 @@ xml_fr = ['<?xml version="1.0" encoding="UTF-8"?>',
           '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">']
 
 for item in food_rescue_items:
-    slug = clean_slug(item.get('title', 'item'))
     item_id = item.get('id', '')
-    url = f"https://moon-oh.com/item/{slug}-brooklyn-ny-ext-{item_id}"
+    url = generate_canonical_url(item.get('title'), item.get('location', 'brooklyn-ny'), item_id, is_ext=True)
     img = item.get('image', '')
     title = item.get('title', '')
     
@@ -207,7 +228,7 @@ for item in food_rescue_items:
     xml_fr.append(f'    <lastmod>{today_str}</lastmod>')
     xml_fr.append('    <changefreq>daily</changefreq>')
     xml_fr.append('    <priority>0.8</priority>')
-    if img:
+    if img and img.startswith('http'):
         xml_fr.append('    <image:image>')
         xml_fr.append(f'      <image:loc>{escape_xml(img)}</image:loc>')
         xml_fr.append(f'      <image:title>{escape_xml(title)}</image:title>')

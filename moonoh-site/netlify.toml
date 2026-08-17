@@ -42,7 +42,7 @@
 
 [[redirects]]
   from = "/image-proxy/*"
-  to = "http://52.44.113.58:8080/file/:splat"
+  to = "/.netlify/functions/image-proxy"
   status = 200
 
 [[redirects]]

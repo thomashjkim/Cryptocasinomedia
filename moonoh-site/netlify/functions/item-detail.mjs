@@ -23002,7 +23002,35 @@ export default async (req, context) => {
       }
     } catch (e) {}
 
-    // Page URL & Canonical (Enforce strict 301 Permanent Redirect for any alias URL)
+function isSemanticallyCompatible(incomingPath, expectedPath) {
+  const getTokens = (p) => {
+    const clean = p.replace(/^\/(item|local-product)\//, '')
+      .replace(/-ext-[a-z0-9-]+$/, '')
+      .replace(/-\d+$/, '')
+      .replace(/-(nyc-ny|manhattan-ny|queens-ny|brooklyn-ny|flushing-queens-ny|bayside-queens-ny|astoria-queens-ny|fort-lee-nj|palisades-park-nj|bergen-county-nj|hudson-county-nj|1mi-[a-z-]+)/g, '')
+      .replace(/-/g, ' ')
+      .toLowerCase();
+    const words = clean.match(/[a-z0-9]{2,}/g) || [];
+    const stopwords = new Set(['item', 'for', 'sale', 'and', 'the', 'with', 'usa', 'nyc', 'ny', 'nj', 'new', 'used']);
+    return words.filter(w => !stopwords.has(w));
+  };
+
+  const incomingTokens = getTokens(incomingPath);
+  const expectedTokens = getTokens(expectedPath);
+  
+  // Generic structural alias (e.g. "item-12345" or "-12345") is a valid redirect
+  if (incomingTokens.length === 0 || expectedTokens.length === 0) {
+    return true;
+  }
+
+  // Check if any significant token overlaps
+  const hasOverlap = incomingTokens.some(t => expectedTokens.includes(t)) || 
+                     expectedTokens.some(t => incomingTokens.includes(t));
+  
+  return hasOverlap;
+}
+
+    // Page URL & Canonical (Enforce strict 301 Permanent Redirect for semantic aliases only)
     let expectedCanonicalPath = "";
     if (localProductMatch) {
       const shopSlug = localProductMatch[1];
@@ -23015,6 +23043,14 @@ export default async (req, context) => {
     }
 
     if (url.pathname !== expectedCanonicalPath) {
+      // If incoming URL has completely unrelated keywords from the current listing, return 404
+      if (!isSemanticallyCompatible(url.pathname, expectedCanonicalPath)) {
+        return new Response("Not Found", {
+          status: 404,
+          headers: { "Content-Type": "text/plain", "X-Robots-Tag": "noindex" }
+        });
+      }
+
       return new Response(null, {
         status: 301,
         headers: {
@@ -23085,7 +23121,7 @@ export default async (req, context) => {
 
     if (externalSource === 'kimc') {
       pageTitle = `${title} | Food Rescue at Kim'C Market in ${townName} - Moonoh`;
-      metaDescription = `Discover ${title} for ${priceStr} from Kim'C Market in ${townName}. Part of the Fight Food Waste collection on Moonoh. Free delivery over $79. In-store pickup available at Brooklyn Navy Yard.`;
+      metaDescription = `Discover ${title} for ${priceStr} from Kim'C Market in ${townName}. Part of the Fight Food Waste collection on Moonoh. Shipping, returns, and checkout are handled directly by Kim'C Market.`;
     } else if (externalSource === 'happier-grocery' || externalSource === 'big-night' || externalSource === 'pop-up-grocer') {
       pageTitle = `${title} | ${sourceDisplayName} in ${townName} - Moonoh`;
       metaDescription = `Discover ${title} (${priceStr}) curated from ${sourceDisplayName} in ${townName}. Browse neighborhood specialty goods, pantry staples, and artisanal items on Moonoh.`;
@@ -23162,7 +23198,7 @@ export default async (req, context) => {
         "identifier": ${JSON.stringify(`MOONOH-${productNo}`)},
         "brand": {
           "@type": "Brand",
-          "name": ${JSON.stringify(externalSource === 'kimc' ? "Kim'C Market" : (vendorName || sellerName || "Moonoh"))}
+          "name": ${JSON.stringify(externalSource === 'kimc' ? "Kim'C Market" : (isExternal && strDayCount === 'Local Shop' ? sourceDisplayName : (vendorName || "Secondhand")))}
         },
         "offers": {
           "@type": "Offer",
@@ -23172,54 +23208,21 @@ export default async (req, context) => {
           "priceValidUntil": "2027-12-31T23:59:59Z",
           "validFrom": "2026-01-01T00:00:00Z",
           "availability": ${JSON.stringify(externalSource === 'kimc' ? 'https://schema.org/OutOfStock' : 'https://schema.org/InStock')},
-          "itemCondition": ${JSON.stringify(externalSource === 'kimc' ? 'https://schema.org/NewCondition' : 'https://schema.org/UsedCondition')},
-          "hasMerchantReturnPolicy": {
-            "@type": "MerchantReturnPolicy",
-            "applicableCountry": "US",
-            "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
-            "merchantReturnDays": 14,
-            "returnMethod": "https://schema.org/ReturnInStore",
-            "returnFees": "https://schema.org/FreeReturn",
-            "merchantReturnLink": "https://moon-oh.com/return-policy"
-          },
-          ${externalSource === 'kimc' ? `"shippingDetails": {
-            "@type": "OfferShippingDetails",
-            "shippingRate": {
-              "@type": "MonetaryAmount",
-              "value": "9.99",
-              "currency": "USD"
-            },
-            "shippingDestination": {
-              "@type": "DefinedRegion",
-              "addressCountry": "US"
-            },
-            "freeShippingThreshold": {
-              "@type": "DeliveryChargeSpecification",
-              "appliesToDeliveryChargeSpecification": {
-                "@type": "DeliveryMethodSpecification"
-              },
-              "eligibleTransactionVolume": {
-                "@type": "PriceSpecification",
-                "price": "79.00",
-                "priceCurrency": "USD"
-              }
-            }
-          },` : (isExternal ? '' : `"shippingDetails": {
-            "@type": "OfferShippingDetails",
-            "shippingRate": {
-              "@type": "MonetaryAmount",
-              "value": "0.00",
-              "currency": "USD"
-            },
-            "shippingDestination": {
-              "@type": "DefinedRegion",
-              "addressCountry": "US"
-            }
-          },`)}
+          "itemCondition": ${JSON.stringify(externalSource === 'kimc' ? 'https://schema.org/NewCondition' : (isExternal ? 'https://schema.org/NewCondition' : 'https://schema.org/UsedCondition'))}${
+            (externalSource === 'kimc' || (isExternal && strDayCount === 'Local Shop'))
+              ? `,
           "seller": {
             "@type": "Organization",
-            "name": ${JSON.stringify(externalSource === 'kimc' ? "Kim'C Market" : (sellerName || "Moonoh"))},
-            "url": ${JSON.stringify(externalSource === 'kimc' ? externalUrl : (externalSource === 'heykorean' ? 'https://market.heykorean.com' : (externalSource === 'karrot' ? 'https://us.karrotmarket.com' : 'https://moon-oh.com')))}
+            "name": ${JSON.stringify(sourceDisplayName)},
+            "url": ${JSON.stringify(externalUrl)}
+          }`
+              : (sellerName && sellerName !== 'Moonoh' && sellerName !== 'HeyKorean' && sellerName !== 'Karrot')
+                ? `,
+          "seller": {
+            "@type": "Person",
+            "name": ${JSON.stringify(sellerName)}
+          }`
+                : ''
           }
         }
       }
@@ -23512,8 +23515,8 @@ export default async (req, context) => {
 
         ${isExternal ? `
         <div style="background:${bannerBg}; border:1px solid ${bannerBorder}; border-radius:12px; padding:12px 16px; margin-bottom:20px; font-size:13px; color:${bannerColor}; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:8px;">
-          <span>🛒 <strong>${externalSource === "kimc" ? "Fight Food Waste (Kim'C Market) · Free shipping over $79" : (strDayCount === "Local Shop" ? `Curated Local Shop (${sourceDisplayName})` : `External Listing (${sourceDisplayName})`)}</strong> · Last verified ${new Date().toLocaleDateString('en-US', {month:'short', day:'numeric', year:'numeric'})}</span>
-          <a href="${externalUrl}" target="_blank" rel="noopener noreferrer" onclick="if(typeof gtag==='function')gtag('event','click_external_source',{source:'${externalSource}',item_url:'${externalUrl}'});" style="color:${bannerColor}; font-weight:700; text-decoration:underline;">View original source ↗</a>
+          <span>🛒 <strong>${sourceDisplayName}</strong> · Shipping, returns, and checkout are handled by ${sourceDisplayName}.</span>
+          <a href="${externalUrl}" target="_blank" rel="noopener noreferrer" onclick="if(typeof gtag==='function')gtag('event','click_external_source',{source:'${externalSource}',item_url:'${externalUrl}'});" style="color:${bannerColor}; font-weight:700; text-decoration:underline;">View on ${sourceDisplayName} ↗</a>
         </div>
         ` : ''}
 
@@ -23541,13 +23544,13 @@ export default async (req, context) => {
 
         <div class="divider"></div>
 
-        <!-- How to Purchase / Buy Button -->
+        <!-- How to Purchase / Contact Seller -->
         <div class="section-block" style="background:#F9FAFB; border:1px solid #E5E7EB; border-radius:16px; padding:20px; margin-top:8px; margin-bottom:8px;">
-          <h2 class="section-title" style="margin-top:0; font-size:16px; color:#111827;">How to Purchase</h2>
-          <p style="font-size:14px; color:#4B5563; margin-bottom:14px; line-height:1.5;">${isExternal ? `This item is listed on ${sourceDisplayName}. Click below to view the listing and contact the seller directly.` : `Download the free Moonoh app to chat directly with ${sellerName}, arrange local meetup in ${townName}, and purchase with zero fees.`}</p>
+          <h2 class="section-title" style="margin-top:0; font-size:16px; color:#111827;">${isExternal ? "How to View & Purchase" : "How to Contact Seller"}</h2>
+          <p style="font-size:14px; color:#4B5563; margin-bottom:14px; line-height:1.5;">${isExternal ? `This item is listed on ${sourceDisplayName}. Shipping, returns, and checkout are handled by ${sourceDisplayName}. Click below to view the official listing on ${sourceDisplayName}.` : `Download the free Moonoh app to chat directly with ${sellerName}, arrange local in-person pickup in ${townName}, and complete your exchange with zero fees.`}</p>
           ${isExternal 
-            ? `<a href="${externalUrl}" target="_blank" rel="noopener noreferrer" onclick="if(typeof gtag==='function')gtag('event','click_external_source',{source:'${externalSource}',item_url:'${externalUrl}'});" style="width:100%; background:${btnBgColor}; color:${btnTextColor || '#FFFFFF'}; border:none; padding:14px; border-radius:12px; font-weight:700; font-size:15px; cursor:pointer; display:inline-flex; align-items:center; justify-content:center; gap:8px; text-decoration:none;"><span>Buy &amp; View</span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></a>`
-            : `<a href="https://apps.apple.com/us/app/moonoh/id6477390079" target="_blank" rel="noopener noreferrer" onclick="if(typeof gtag==='function')gtag('event','click_buy_chat',{item_id:'${productNo}'});" style="width:100%; background:#4F46E5; color:#FFFFFF; border:none; padding:14px; border-radius:12px; font-weight:700; font-size:15px; cursor:pointer; display:inline-flex; align-items:center; justify-content:center; gap:8px; text-decoration:none;"><span>Buy &amp; Chat on App</span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg></a>`
+            ? `<a href="${externalUrl}" target="_blank" rel="noopener noreferrer" onclick="if(typeof gtag==='function')gtag('event','click_external_source',{source:'${externalSource}',item_url:'${externalUrl}'});" style="width:100%; background:${btnBgColor}; color:${btnTextColor || '#FFFFFF'}; border:none; padding:14px; border-radius:12px; font-weight:700; font-size:15px; cursor:pointer; display:inline-flex; align-items:center; justify-content:center; gap:8px; text-decoration:none;"><span>View on ${sourceDisplayName}</span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></a>`
+            : `<a href="https://apps.apple.com/us/app/moonoh/id6477390079" target="_blank" rel="noopener noreferrer" onclick="if(typeof gtag==='function')gtag('event','click_buy_chat',{item_id:'${productNo}'});" style="width:100%; background:#4F46E5; color:#FFFFFF; border:none; padding:14px; border-radius:12px; font-weight:700; font-size:15px; cursor:pointer; display:inline-flex; align-items:center; justify-content:center; gap:8px; text-decoration:none;"><span>Open App to Message Seller</span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg></a>`
           }
         </div>
 
@@ -23577,18 +23580,18 @@ export default async (req, context) => {
     </div>
   </section>
 
-  <!-- Crawlable Footer for Google Merchant Policy & SEO -->
+  <!-- Crawlable Footer for Transparency & SEO -->
   <footer style="background:#F9FAFB; border-top:1px solid #E5E7EB; margin-top:64px; padding:48px 20px 120px; font-size:13px; color:#6B7280;">
     <div style="max-width:940px; margin:0 auto; display:grid; grid-template-columns:2fr 1fr 1fr; gap:32px;">
       <div>
         <h4 style="font-size:15px; font-weight:800; color:#111827; margin-bottom:8px;">Moonoh Inc.</h4>
         <p style="line-height:1.6; margin-bottom:8px;">8 Spruce Street, New York, NY 10038<br/>Phone: +1 (917) 584-5177 | Email: info@moon-oh.com</p>
-        <p style="font-size:12px; color:#9CA3AF;">© 2026 Moonoh Inc. All rights reserved.</p>
+        <p style="font-size:12px; color:#9CA3AF;">© 2026 Moonoh Inc. All rights reserved. Peer-to-peer neighborhood marketplace.</p>
       </div>
       <div>
         <h4 style="font-size:14px; font-weight:700; color:#111827; margin-bottom:10px;">Support &amp; Policy</h4>
         <ul style="list-style:none; padding:0; margin:0; line-height:2.0;">
-          <li><a href="/return-policy" style="color:#4F46E5; font-weight:600; text-decoration:underline;">Return &amp; Refund Policy</a></li>
+          <li><a href="/return-policy" style="color:#4F46E5; font-weight:600; text-decoration:underline;">Marketplace Transaction Policy</a></li>
           <li><a href="/terms" style="color:#4F46E5; font-weight:600; text-decoration:underline;">Terms of Use</a></li>
           <li><a href="/privacy" style="color:#4F46E5; font-weight:600; text-decoration:underline;">Privacy Policy</a></li>
           <li><a href="/disclaimer" style="color:#4B5563; text-decoration:none;">Disclaimer</a></li>
@@ -23614,8 +23617,8 @@ export default async (req, context) => {
         <div class="bottom-price-label">Initial price</div>
       </div>
       ${isExternal 
-        ? `<a href="${externalUrl}" target="_blank" rel="noopener noreferrer" onclick="if(typeof gtag==='function')gtag('event','click_external_source',{source:'${externalSource}',item_url:'${externalUrl}'});" class="chat-btn" style="display:inline-flex; align-items:center; justify-content:center; gap:6px; text-decoration:none; background:${btnBgColor};">Buy on ${sourceDisplayName} <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></a>`
-        : `<a href="https://apps.apple.com/us/app/moonoh/id6477390079" target="_blank" rel="noopener noreferrer" onclick="if(typeof gtag==='function')gtag('event','click_buy_chat',{item_id:'${productNo}'});" class="chat-btn" style="display:inline-flex; align-items:center; justify-content:center; gap:6px; text-decoration:none;">Buy &amp; Chat on App</a>`
+        ? `<a href="${externalUrl}" target="_blank" rel="noopener noreferrer" onclick="if(typeof gtag==='function')gtag('event','click_external_source',{source:'${externalSource}',item_url:'${externalUrl}'});" class="chat-btn" style="display:inline-flex; align-items:center; justify-content:center; gap:6px; text-decoration:none; background:${btnBgColor};">View on ${sourceDisplayName} <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></a>`
+        : `<a href="https://apps.apple.com/us/app/moonoh/id6477390079" target="_blank" rel="noopener noreferrer" onclick="if(typeof gtag==='function')gtag('event','click_buy_chat',{item_id:'${productNo}'});" class="chat-btn" style="display:inline-flex; align-items:center; justify-content:center; gap:6px; text-decoration:none;">Chat with Seller in App</a>`
       }
     </div>
   </div>

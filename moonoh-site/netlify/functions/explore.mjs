@@ -29,43 +29,43 @@ try {
 
 // Region Mapping
 const REGIONS = {
-  'new-york-area': { name: 'New York Area', shortName: '', keywords: [] },
-  'manhattan': { name: 'Manhattan, NY', shortName: 'Manhattan', keywords: ['manhattan', 'upper east', 'upper west', 'downtown manhattan', 'midtown', 'harlem', 'tribeca', 'soho', 'lower east', 'east village', 'west village', 'chelsea', 'gramercy', 'inwood', 'washington heights', 'morningside', 'financial district', 'wall street', 'murray hill', 'kips bay', 'flatiron', 'new york'] },
-  'queens': { name: 'Queens, NY', shortName: 'Queens', keywords: ['queens', 'bayside', 'flushing', 'astoria', 'jamaica', 'forest hills', 'jackson heights', 'woodside', 'ridgewood', 'ozone park', 'fresh meadows', 'corona', 'elmhurst', 'sunnyside', 'long island city', 'rego park', 'maspeth', 'howard beach', 'far rockaway', 'college point', 'whitestone', 'douglaston'] },
-  'brooklyn': { name: 'Brooklyn, NY', shortName: 'Brooklyn', keywords: ['brooklyn', 'park slope', 'williamsburg', 'bushwick', 'bed stuy', 'flatbush', 'crown heights', 'bay ridge', 'bensonhurst', 'canarsie', 'east new york', 'greenpoint', 'cobble hill', 'carroll gardens', 'boerum', 'sunset park', 'borough park', 'brighton beach', 'coney island', 'sheepshead', 'ditmas'] },
-  'bronx': { name: 'The Bronx, NY', shortName: 'Bronx', keywords: ['bronx'] },
-  'staten-island': { name: 'Staten Island, NY', shortName: 'Staten Island', keywords: ['staten island'] },
-  'flushing': { name: 'Flushing, Queens, NY', shortName: 'Flushing', keywords: ['flushing'] },
-  'bayside': { name: 'Bayside, Queens, NY', shortName: 'Bayside', keywords: ['bayside'] },
-  'astoria': { name: 'Astoria, Queens, NY', shortName: 'Astoria', keywords: ['astoria', 'long island city', 'lic'] },
-  'fort-lee-nj': { name: 'Fort Lee, NJ', shortName: 'Fort Lee', keywords: ['fort lee', 'fortlee', 'palisades park', 'palisades', 'leonia', 'cliffside park', 'edgewater', 'fort-lee', 'bergen'] },
-  'fort-lee': { name: 'Fort Lee, NJ', shortName: 'Fort Lee', keywords: ['fort lee', 'fortlee', 'palisades park', 'palisades', 'leonia', 'cliffside park', 'edgewater', 'fort-lee', 'bergen'] },
-  'bergen-county-nj': { name: 'Bergen County, NJ', shortName: 'Bergen', keywords: ['bergen', 'hackensack', 'paramus', 'fort lee', 'englewood', 'teaneck', 'palisades', 'fair lawn', 'garfield', 'ridgewood nj', 'rutherford'] },
-  'bergen-county': { name: 'Bergen County, NJ', shortName: 'Bergen', keywords: ['bergen', 'hackensack', 'paramus', 'fort lee', 'englewood', 'teaneck', 'palisades', 'fair lawn', 'garfield', 'ridgewood nj', 'rutherford'] },
-  'hudson-county-nj': { name: 'Hudson County, NJ', shortName: 'Hudson', keywords: ['hudson', 'jersey city', 'hoboken', 'bayonne', 'weehawken', 'union city', 'north bergen', 'secaucus', 'kearny'] },
-  'hudson-county': { name: 'Hudson County, NJ', shortName: 'Hudson', keywords: ['hudson', 'jersey city', 'hoboken', 'bayonne', 'weehawken', 'union city', 'north bergen', 'secaucus', 'kearny'] }
+  'new-york-area': { slug: 'new-york-area', name: 'New York Area', shortName: '', keywords: [] },
+  'manhattan': { slug: 'manhattan', name: 'Manhattan, NY', shortName: 'Manhattan', keywords: ['manhattan', 'upper east', 'upper west', 'downtown manhattan', 'midtown', 'harlem', 'tribeca', 'soho', 'lower east', 'east village', 'west village', 'chelsea', 'gramercy', 'inwood', 'washington heights', 'morningside', 'financial district', 'wall street', 'murray hill', 'kips bay', 'flatiron', 'new york'] },
+  'queens': { slug: 'queens', name: 'Queens, NY', shortName: 'Queens', keywords: ['queens', 'bayside', 'flushing', 'astoria', 'jamaica', 'forest hills', 'jackson heights', 'woodside', 'ridgewood', 'ozone park', 'fresh meadows', 'corona', 'elmhurst', 'sunnyside', 'long island city', 'rego park', 'maspeth', 'howard beach', 'far rockaway', 'college point', 'whitestone', 'douglaston'] },
+  'brooklyn': { slug: 'brooklyn', name: 'Brooklyn, NY', shortName: 'Brooklyn', keywords: ['brooklyn', 'park slope', 'williamsburg', 'bushwick', 'bed stuy', 'flatbush', 'crown heights', 'bay ridge', 'bensonhurst', 'canarsie', 'east new york', 'greenpoint', 'cobble hill', 'carroll gardens', 'boerum', 'sunset park', 'borough park', 'brighton beach', 'coney island', 'sheepshead', 'ditmas'] },
+  'bronx': { slug: 'bronx', name: 'The Bronx, NY', shortName: 'Bronx', keywords: ['bronx'] },
+  'staten-island': { slug: 'staten-island', name: 'Staten Island, NY', shortName: 'Staten Island', keywords: ['staten island'] },
+  'flushing': { slug: 'flushing', name: 'Flushing, Queens, NY', shortName: 'Flushing', keywords: ['flushing'] },
+  'bayside': { slug: 'bayside', name: 'Bayside, Queens, NY', shortName: 'Bayside', keywords: ['bayside'] },
+  'astoria': { slug: 'astoria', name: 'Astoria, Queens, NY', shortName: 'Astoria', keywords: ['astoria', 'long island city', 'lic'] },
+  'fort-lee-nj': { slug: 'fort-lee-nj', name: 'Fort Lee, NJ', shortName: 'Fort Lee', keywords: ['fort lee', 'fortlee', 'palisades park', 'palisades', 'leonia', 'cliffside park', 'edgewater', 'fort-lee', 'bergen'] },
+  'fort-lee': { slug: 'fort-lee', name: 'Fort Lee, NJ', shortName: 'Fort Lee', keywords: ['fort lee', 'fortlee', 'palisades park', 'palisades', 'leonia', 'cliffside park', 'edgewater', 'fort-lee', 'bergen'] },
+  'bergen-county-nj': { slug: 'bergen-county-nj', name: 'Bergen County, NJ', shortName: 'Bergen', keywords: ['bergen', 'hackensack', 'paramus', 'fort lee', 'englewood', 'teaneck', 'palisades', 'fair lawn', 'garfield', 'ridgewood nj', 'rutherford'] },
+  'bergen-county': { slug: 'bergen-county', name: 'Bergen County, NJ', shortName: 'Bergen', keywords: ['bergen', 'hackensack', 'paramus', 'fort lee', 'englewood', 'teaneck', 'palisades', 'fair lawn', 'garfield', 'ridgewood nj', 'rutherford'] },
+  'hudson-county-nj': { slug: 'hudson-county-nj', name: 'Hudson County, NJ', shortName: 'Hudson', keywords: ['hudson', 'jersey city', 'hoboken', 'bayonne', 'weehawken', 'union city', 'north bergen', 'secaucus', 'kearny'] },
+  'hudson-county': { slug: 'hudson-county', name: 'Hudson County, NJ', shortName: 'Hudson', keywords: ['hudson', 'jersey city', 'hoboken', 'bayonne', 'weehawken', 'union city', 'north bergen', 'secaucus', 'kearny'] }
 };
 
 // Category Mapping
 const CATEGORIES = {
-  'electronics': { name: 'Electronics', kw: 'electronics', keywords: ['electronics', 'phone', 'laptop', 'appliances', 'audio', 'gadget', 'ink', 'camera', 'tv', 'monitor', 'headphone', 'airpods', 'ipad', 'charger', 'speaker', 'printer', 'game', 'ps5', 'nintendo', 'xbox'] },
-  'furniture': { name: 'Furniture', kw: 'furniture', keywords: ['furniture', 'sofa', 'table', 'chair', 'bed', 'desk', 'couch', 'dresser', 'mattress', 'shelf', 'nightstand', 'cabinet', 'stool', 'bench', 'ottoman', 'headboard', 'drawers', '소파', '침대', '식탁', '의자', '책상', '서랍', '매트리스', '선반', '테이블', '가구'], excludes: ['pillow', 'hanger', 'curtain rod', 'fan', 'keyboard', 'monitor', 'massager', 'phone stand', 'photo printer', 'gymnastic', 'printer'] },
-  'womens-fashion': { name: "Women's Fashion", kw: 'women', keywords: ["women's fashion", 'women', 'dress', 'handbag', 'skirt', 'coat'] },
-  'mens-fashion': { name: "Men's Fashion", kw: 'men', keywords: ["men's fashion", 'men', 'suit', 'jacket'] },
-  'shoes': { name: 'Shoes', kw: 'shoe', keywords: ['shoes', 'sneakers', 'boots', 'sandals', 'shoe', 'nike', 'adidas'] },
-  'home-garden': { name: 'Home & Garden', kw: 'home', keywords: ['home, garden & diy', 'home', 'garden', 'kitchen', 'utensil', 'decor'] },
-  'health-beauty': { name: 'Health & Beauty', kw: 'health', keywords: ['health', 'beauty', 'cosmetics'] },
-  'pet-supplies': { name: 'Pet Supplies', kw: 'pet', keywords: ['pet', 'dog', 'cat'] },
-  'baby-kids': { name: 'Baby & Kids', kw: 'baby', keywords: ['baby & kids', 'baby', 'kids', 'stroller', 'toy'] },
-  'sports-leisure': { name: 'Sports & Leisure', kw: 'sport', keywords: ['sports', 'leisure', 'bike', 'ski', 'exercise'] },
-  'toys-games': { name: 'Toys & Games', kw: 'toy', keywords: ['toys', 'games', 'card', 'figure'] },
-  'jewelry-watches': { name: 'Jewelry & Watches', kw: 'jewelry', keywords: ['jewelry', 'watches', 'ring', 'earrings', 'watch'] },
-  'luggages-bags': { name: 'Luggages & Bags', kw: 'bag', keywords: ['luggages', 'bags', 'pouch', 'backpack', 'tote', 'wallet', 'bag'] },
-  'antiques': { name: 'Antiques', kw: 'antique', keywords: ['antiques', 'vintage', 'collectible'] },
-  'arts-books-music': { name: 'Arts, Books & Music', kw: 'art', keywords: ['arts', 'books', 'music', 'book', 'print'] },
-  'food-groceries': { name: 'Food & Groceries', kw: 'food', keywords: ['food', 'groceries', 'snack', 'sauce', 'oil', 'rice', 'tea', 'noodle', 'kimchi', 'pantry', 'drink', 'beverage', 'korean food', 'cookie', 'juice', 'chip'] },
-  'free': { name: 'Free Items', kw: 'free', isFree: true, keywords: ['free'] },
-  'other': { name: 'Other', kw: 'other', keywords: ['other', 'general'] }
+  'electronics': { slug: 'electronics', name: 'Electronics', kw: 'electronics', keywords: ['electronics', 'phone', 'laptop', 'appliances', 'audio', 'gadget', 'ink', 'camera', 'tv', 'monitor', 'headphone', 'airpods', 'ipad', 'charger', 'speaker', 'printer', 'game', 'ps5', 'nintendo', 'xbox'] },
+  'furniture': { slug: 'furniture', name: 'Furniture', kw: 'furniture', keywords: ['furniture', 'sofa', 'table', 'chair', 'bed', 'desk', 'couch', 'dresser', 'mattress', 'shelf', 'nightstand', 'cabinet', 'stool', 'bench', 'ottoman', 'headboard', 'drawers', '소파', '침대', '식탁', '의자', '책상', '서랍', '매트리스', '선반', '테이블', '가구'], excludes: ['pillow', 'hanger', 'curtain rod', 'fan', 'keyboard', 'monitor', 'massager', 'phone stand', 'photo printer', 'gymnastic', 'printer'] },
+  'womens-fashion': { slug: 'womens-fashion', name: "Women's Fashion", kw: 'women', keywords: ["women's fashion", 'women', 'dress', 'handbag', 'skirt', 'coat'] },
+  'mens-fashion': { slug: 'mens-fashion', name: "Men's Fashion", kw: 'men', keywords: ["men's fashion", 'men', 'suit', 'jacket'] },
+  'shoes': { slug: 'shoes', name: 'Shoes', kw: 'shoe', keywords: ['shoes', 'sneakers', 'boots', 'sandals', 'shoe', 'nike', 'adidas'] },
+  'home-garden': { slug: 'home-garden', name: 'Home & Garden', kw: 'home', keywords: ['home, garden & diy', 'home', 'garden', 'kitchen', 'utensil', 'decor'] },
+  'health-beauty': { slug: 'health-beauty', name: 'Health & Beauty', kw: 'health', keywords: ['health', 'beauty', 'cosmetics'] },
+  'pet-supplies': { slug: 'pet-supplies', name: 'Pet Supplies', kw: 'pet', keywords: ['pet', 'dog', 'cat'] },
+  'baby-kids': { slug: 'baby-kids', name: 'Baby & Kids', kw: 'baby', keywords: ['baby & kids', 'baby', 'kids', 'stroller', 'toy'] },
+  'sports-leisure': { slug: 'sports-leisure', name: 'Sports & Leisure', kw: 'sport', keywords: ['sports', 'leisure', 'bike', 'ski', 'exercise'] },
+  'toys-games': { slug: 'toys-games', name: 'Toys & Games', kw: 'toy', keywords: ['toys', 'games', 'card', 'figure'] },
+  'jewelry-watches': { slug: 'jewelry-watches', name: 'Jewelry & Watches', kw: 'jewelry', keywords: ['jewelry', 'watches', 'ring', 'earrings', 'watch'] },
+  'luggages-bags': { slug: 'luggages-bags', name: 'Luggages & Bags', kw: 'bag', keywords: ['luggages', 'bags', 'pouch', 'backpack', 'tote', 'wallet', 'bag'] },
+  'antiques': { slug: 'antiques', name: 'Antiques', kw: 'antique', keywords: ['antiques', 'vintage', 'collectible'] },
+  'arts-books-music': { slug: 'arts-books-music', name: 'Arts, Books & Music', kw: 'art', keywords: ['arts', 'books', 'music', 'book', 'print'] },
+  'food-groceries': { slug: 'food-groceries', name: 'Food & Groceries', kw: 'food', keywords: ['food', 'groceries', 'snack', 'sauce', 'oil', 'rice', 'tea', 'noodle', 'kimchi', 'pantry', 'drink', 'beverage', 'korean food', 'cookie', 'juice', 'chip'] },
+  'free': { slug: 'free', name: 'Free Items', kw: 'free', isFree: true, keywords: ['free'] },
+  'other': { slug: 'other', name: 'Other', kw: 'other', keywords: ['other', 'general'] }
 };
 
 let cachedCombinedItems = null;
@@ -349,6 +349,8 @@ export default async (req, context) => {
   try {
     const url = new URL(req.url);
     const qSource = url.searchParams.get('source');
+    const qCategory = url.searchParams.get('category');
+    const qTownName = url.searchParams.get('town') || url.searchParams.get('townName') || url.searchParams.get('location');
 
     const fullPath = url.pathname.replace(/\/$/, '');
     let isShopProfile = false;
@@ -377,6 +379,26 @@ export default async (req, context) => {
       if (REGIONS[s]) targetRegionObj = REGIONS[s];
       if (CATEGORIES[s]) targetCategoryObj = CATEGORIES[s];
     });
+
+    // Also support query parameters for category/town canonicalization
+    const qCat = (qCategory || '').toLowerCase().trim();
+    const qTown = (qTownName || '').toLowerCase().trim();
+    if (!targetCategoryObj && qCat) {
+      for (const [k, v] of Object.entries(CATEGORIES)) {
+        if (k === qCat || v.slug === qCat || v.name.toLowerCase() === qCat || (v.keywords && v.keywords.includes(qCat))) {
+          targetCategoryObj = v;
+          break;
+        }
+      }
+    }
+    if (!targetRegionObj && qTown) {
+      for (const [k, v] of Object.entries(REGIONS)) {
+        if (k === qTown || v.slug === qTown || v.shortName.toLowerCase() === qTown || v.name.toLowerCase().includes(qTown)) {
+          targetRegionObj = v;
+          break;
+        }
+      }
+    }
 
     const isFoodRescueFilter = isFoodRescuePage || qSource === 'food-rescue' || qSource === 'kimc';
     const isLocalShopsFilter = isLocalShopsPage || qSource === 'local-shops' || qSource === 'local';
@@ -470,41 +492,51 @@ export default async (req, context) => {
     let metaDesc = "Browse verified local secondhand items in NYC & NJ. 0% fees, secure chat, and safe neighborhood exchanges on Moonoh.";
     let h1Text = "Explore Secondhand Marketplace Listings in NYC & NJ";
     let dynamicIntroText = "Explore thousands of verified local secondhand goods, gently used furniture, electronics, and food rescue items across New York City and New Jersey. 100% free neighborhood marketplace with zero fees.";
-    let canonicalUrl = `https://moon-oh.com${fullPath || '/explore'}`;
+    let canonicalUrl = `https://moon-oh.com/explore`;
     let themeColor = "#4F46E5";
     let sectionName = "Moonoh Marketplace";
 
-    if (targetRegionObj && targetCategoryObj) {
-      pageTitle = `Used ${targetCategoryObj.name} for Sale in ${targetRegionObj.name} | Moonoh`;
-      metaDesc = `Find great deals on verified used ${targetCategoryObj.name.toLowerCase()} in ${targetRegionObj.name} on Moonoh. 0% fees, direct seller chat, and local meetup.`;
-      h1Text = `Used ${targetCategoryObj.name} for Sale in ${targetRegionObj.name}`;
-      dynamicIntroText = `Discover verified secondhand ${targetCategoryObj.name.toLowerCase()} listed for sale by local neighbors in ${targetRegionObj.name}. Buy and sell locally with 0% listing fees, direct in-app chat, and safe neighborhood pickup on Moonoh.`;
-      sectionName = `${targetCategoryObj.name} in ${targetRegionObj.shortName}`;
-    } else if (targetRegionObj) {
-      pageTitle = `Used Items for Sale in ${targetRegionObj.name} | Moonoh`;
-      metaDesc = `Discover secondhand items listed by neighbors in ${targetRegionObj.name}. Buy and sell locally with zero fees on Moonoh.`;
-      h1Text = `Used Items for Sale in ${targetRegionObj.name}`;
-      dynamicIntroText = `Browse gently used furniture, electronics, household goods, and secondhand deals listed by verified neighbors in ${targetRegionObj.name}. 100% free local exchanges with zero transaction fees.`;
-      sectionName = targetRegionObj.name;
-    } else if (targetCategoryObj) {
-      pageTitle = `Used ${targetCategoryObj.name} for Sale in NYC & NJ | Moonoh`;
-      metaDesc = `Explore secondhand ${targetCategoryObj.name.toLowerCase()} for sale in NYC and NJ on Moonoh. Connect directly with local sellers.`;
-      h1Text = `Used ${targetCategoryObj.name} for Sale in NYC & NJ`;
-      dynamicIntroText = `Explore quality used ${targetCategoryObj.name.toLowerCase()} for sale across New York City (Manhattan, Brooklyn, Queens, Bronx, Staten Island) and New Jersey. Connect directly with nearby sellers with zero commissions.`;
-      sectionName = targetCategoryObj.name;
-    } else if (isFoodRescueFilter) {
+    if (isFoodRescueFilter) {
+      canonicalUrl = `https://moon-oh.com/explore/food-rescue`;
       pageTitle = "NYC Food Waste Rescue & Grocery Deals | Moonoh";
       metaDesc = "Shop discounted gourmet Korean pantry items near sell-by date in NYC from Kim'C Market on Moonoh. Fight food waste, save money.";
       h1Text = "NYC Food Waste Rescue & Sustainable Groceries";
       dynamicIntroText = "Rescue premium artisanal and specialty groceries near sell-by dates at up to 70% discount in NYC. Partnering with local grocers like Kim'C Market to fight food waste and promote sustainable consumption.";
       sectionName = "Food Rescue";
     } else if (isLocalShopsFilter || isShopProfile) {
-      const shopName = isShopProfile && localShopsData.shops && localShopsData.shops[shopProfileSlug] ? localShopsData.shops[shopProfileSlug].name : "NYC Local Shops";
-      pageTitle = `${shopName} - Curated Neighborhood Goods | Moonoh`;
-      metaDesc = `Discover curated indie brands and specialty goods from ${shopName} in NYC on Moonoh.`;
-      h1Text = `${shopName} - Curated Neighborhood Goods in NYC`;
-      dynamicIntroText = `Discover curated independent food, pantry, and lifestyle goods from ${shopName}. Hand-selected neighborhood staples from boutique NYC local shops.`;
-      sectionName = shopName;
+      canonicalUrl = `https://moon-oh.com/explore/local-shops`;
+      pageTitle = "NYC Local Shops - Curated Neighborhood Goods | Moonoh";
+      metaDesc = "Discover iconic local New York City specialty shops and neighborhood staples on Moonoh. Curated pantry goods, tableware, and specialty items.";
+      h1Text = "NYC Local Shops - Curated Neighborhood Goods in NYC";
+      dynamicIntroText = "Explore curated collections from iconic independent New York City shops including Big Night (Greenpoint), Happier Grocery (SoHo), and Pop Up Grocer (Bleecker St). Support local NYC merchants.";
+      sectionName = isShopProfile ? (localShopsData.shops[shopProfileSlug]?.name || "Local Shop") : "Local NYC Shops";
+    } else if (isMarketplacesFilter) {
+      canonicalUrl = `https://moon-oh.com/explore/marketplaces`;
+      pageTitle = "NYC & NJ Community Marketplace Feed | Moonoh";
+      metaDesc = "Browse aggregated local secondhand listings across NYC & NJ from Karrot and HeyKorean on Moonoh.";
+      h1Text = "NYC & NJ Community Marketplace Feed";
+      dynamicIntroText = "Discover community secondhand items from verified neighborhood marketplaces across New York City and New Jersey.";
+      sectionName = "Community Marketplaces";
+    } else if (targetRegionObj && targetCategoryObj) {
+      canonicalUrl = `https://moon-oh.com/explore/${targetRegionObj.slug}/${targetCategoryObj.slug}`;
+      pageTitle = `Used ${targetCategoryObj.name} for Sale in ${targetRegionObj.name} | Moonoh`;
+      metaDesc = `Find great deals on verified used ${targetCategoryObj.name.toLowerCase()} in ${targetRegionObj.name} on Moonoh. 0% fees, direct seller chat, and local meetup.`;
+      h1Text = `Used ${targetCategoryObj.name} for Sale in ${targetRegionObj.name}`;
+      dynamicIntroText = `Discover verified secondhand ${targetCategoryObj.name.toLowerCase()} listed for sale by local neighbors in ${targetRegionObj.name}. Buy and sell locally with 0% listing fees, direct in-app chat, and safe neighborhood pickup on Moonoh.`;
+      sectionName = `${targetCategoryObj.name} in ${targetRegionObj.shortName}`;
+    } else if (targetRegionObj) {
+      canonicalUrl = `https://moon-oh.com/explore/${targetRegionObj.slug}`;
+      pageTitle = `Used Items for Sale in ${targetRegionObj.name} | Moonoh`;
+      metaDesc = `Discover secondhand items listed by neighbors in ${targetRegionObj.name}. Buy and sell locally with zero fees on Moonoh.`;
+      h1Text = `Used Items for Sale in ${targetRegionObj.name}`;
+      dynamicIntroText = `Browse gently used furniture, electronics, household goods, and secondhand deals listed by verified neighbors in ${targetRegionObj.name}. 100% free local exchanges with zero transaction fees.`;
+      sectionName = targetRegionObj.name;
+    } else if (targetCategoryObj) {
+      canonicalUrl = `https://moon-oh.com/explore/${targetCategoryObj.slug}`;
+      pageTitle = `Used ${targetCategoryObj.name} for Sale in NYC & NJ | Moonoh`;
+      metaDesc = `Explore secondhand ${targetCategoryObj.name.toLowerCase()} for sale in NYC and NJ on Moonoh. Connect directly with local sellers.`;
+      h1Text = `Used ${targetCategoryObj.name} for Sale in NYC & NJ`;
+      dynamicIntroText = `Explore quality used ${targetCategoryObj.name.toLowerCase()} for sale across New York City (Manhattan, Brooklyn, Queens, Bronx, Staten Island) and New Jersey. Connect directly with nearby sellers with zero commissions.`;
     }
 
     // Render AEO Summary Statistics Section (for Answer Engines & Google AI Overviews)
