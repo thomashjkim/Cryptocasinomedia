@@ -182,7 +182,14 @@ async function fetchAllCombinedItems() {
 
     cachedCombinedItems = [...moonohItems, ...externalItems, ...foodRescueItems, ...localItems];
     // Sort all combined items by original posting timestamp (recency order)
-    cachedCombinedItems.sort((a, b) => (b.postedAt || 0) - (a.postedAt || 0));
+    cachedCombinedItems.sort((a, b) => {
+      const tA = getItemTimestamp(a);
+      const tB = getItemTimestamp(b);
+      if (tB !== tA) return tB - tA;
+      const numA = parseInt(String(a.no || a.id || '').replace(/\D/g, ''), 10) || 0;
+      const numB = parseInt(String(b.no || b.id || '').replace(/\D/g, ''), 10) || 0;
+      return numB - numA;
+    });
     
     lastFetchTime = now;
     return cachedCombinedItems;
@@ -190,6 +197,30 @@ async function fetchAllCombinedItems() {
     console.error("Error in fetchAllCombinedItems:", e);
     return cachedCombinedItems || [];
   }
+}
+
+function getItemTimestamp(item) {
+  if (!item) return 0;
+  if (item.postedAt) {
+    const t = typeof item.postedAt === 'number' ? item.postedAt : new Date(item.postedAt).getTime();
+    if (!isNaN(t) && t > 0) return t;
+  }
+  if (item.source_published_at) {
+    const t = new Date(item.source_published_at).getTime();
+    if (!isNaN(t) && t > 0) return t;
+  }
+  const img = item.photo || item.image || item.image_source_url || '';
+  const mTemp = String(img).match(/\/temp\/(\d{13})\//);
+  if (mTemp) {
+    const t = parseInt(mTemp[1], 10);
+    if (!isNaN(t) && t > 0) return t;
+  }
+  const numStr = String(item.no || item.id || '').replace(/\D/g, '');
+  const num = parseInt(numStr, 10) || 0;
+  if (num > 0) {
+    return 1700000000000 + num * 100000;
+  }
+  return 0;
 }
 
 function inferCategoryFromText(title = '', description = '', rawCategory = '') {
