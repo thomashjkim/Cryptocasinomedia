@@ -199,6 +199,49 @@ async function fetchAllCombinedItems() {
   }
 }
 
+function interleaveLocalProducts(products) {
+  if (!Array.isArray(products) || products.length === 0) return [];
+  const shopMap = new Map();
+  for (const p of products) {
+    const sId = p.shop_id || p.source || 'other';
+    if (!shopMap.has(sId)) shopMap.set(sId, []);
+    shopMap.get(sId).push(p);
+  }
+  const shopKeys = Array.from(shopMap.keys());
+  const maxLen = Math.max(...shopKeys.map(k => shopMap.get(k).length));
+  const result = [];
+  for (let i = 0; i < maxLen; i++) {
+    for (const k of shopKeys) {
+      const list = shopMap.get(k);
+      if (i < list.length) {
+        result.push(list[i]);
+      }
+    }
+  }
+  return result;
+}
+
+function interleaveMarketplaceProducts(products) {
+  if (!Array.isArray(products) || products.length === 0) return [];
+  const karrot = [];
+  const heykorean = [];
+  const others = [];
+  for (const p of products) {
+    const src = (p.source || '').toLowerCase();
+    if (src.includes('karrot')) karrot.push(p);
+    else if (src.includes('heykorean')) heykorean.push(p);
+    else others.push(p);
+  }
+  const result = [];
+  let kIdx = 0, hIdx = 0;
+  while (kIdx < karrot.length || hIdx < heykorean.length) {
+    if (kIdx < karrot.length) result.push(karrot[kIdx++]);
+    if (hIdx < heykorean.length) result.push(heykorean[hIdx++]);
+    if (hIdx < heykorean.length) result.push(heykorean[hIdx++]);
+  }
+  return result.concat(others);
+}
+
 function getItemTimestamp(item) {
   if (!item) return 0;
   if (item.postedAt) {
@@ -445,10 +488,12 @@ export default async (req, context) => {
     if (isFoodRescueFilter) {
       filteredItems = allItems.filter(item => item.source === 'kimc');
     } else if (isMarketplacesFilter) {
-      filteredItems = allItems.filter(item => item.source === 'karrot' || item.source === 'heykorean' || item.source === 'external');
+      const mktItems = allItems.filter(item => item.source === 'karrot' || item.source === 'heykorean' || item.source === 'external');
+      filteredItems = interleaveMarketplaceProducts(mktItems);
     } else if (isLocalShopsFilter || isShopProfile) {
       const prods = (isShopProfile ? localShopsData.products.filter(p => p.shop_id === shopProfileSlug) : localShopsData.products) || [];
-      filteredItems = prods.map(p => ({
+      const baseLocal = isShopProfile ? prods : interleaveLocalProducts(prods);
+      filteredItems = (isShopProfile ? prods : interleaveLocalProducts(prods)).map(p => ({
         id: p.id,
         no: p.id,
         title: p.title,

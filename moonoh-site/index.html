@@ -1517,7 +1517,50 @@
       let currentPage = 0;
       const PAGE_SIZE = 50;
 
-          function getItemTimestamp(item) {
+              function interleaveLocalProducts(products) {
+      if (!Array.isArray(products) || products.length === 0) return [];
+      const shopMap = new Map();
+      for (const p of products) {
+        const sId = p.shop_id || p.source || 'other';
+        if (!shopMap.has(sId)) shopMap.set(sId, []);
+        shopMap.get(sId).push(p);
+      }
+      const shopKeys = Array.from(shopMap.keys());
+      const maxLen = Math.max(...shopKeys.map(k => shopMap.get(k).length));
+      const result = [];
+      for (let i = 0; i < maxLen; i++) {
+        for (const k of shopKeys) {
+          const list = shopMap.get(k);
+          if (i < list.length) {
+            result.push(list[i]);
+          }
+        }
+      }
+      return result;
+    }
+
+    function interleaveMarketplaceProducts(products) {
+      if (!Array.isArray(products) || products.length === 0) return [];
+      const karrot = [];
+      const heykorean = [];
+      const others = [];
+      for (const p of products) {
+        const src = (p.source || '').toLowerCase();
+        if (src.includes('karrot')) karrot.push(p);
+        else if (src.includes('heykorean')) heykorean.push(p);
+        else others.push(p);
+      }
+      const result = [];
+      let kIdx = 0, hIdx = 0;
+      while (kIdx < karrot.length || hIdx < heykorean.length) {
+        if (kIdx < karrot.length) result.push(karrot[kIdx++]);
+        if (hIdx < heykorean.length) result.push(heykorean[hIdx++]);
+        if (hIdx < heykorean.length) result.push(heykorean[hIdx++]); // 1 Karrot : 2 HeyKorean ratio to match proportions
+      }
+      return result.concat(others);
+    }
+
+      function getItemTimestamp(item) {
       if (!item) return 0;
       if (item.postedAt) {
         const t = typeof item.postedAt === 'number' ? item.postedAt : new Date(item.postedAt).getTime();
@@ -1587,14 +1630,20 @@
           }
         }
 
-        filtered.sort((a, b) => {
-          const tA = getItemTimestamp(a);
-          const tB = getItemTimestamp(b);
-          if (tB !== tA) return tB - tA;
-          const numA = parseInt(String(a.no || a.id || '').replace(/\D/g, ''), 10) || 0;
-          const numB = parseInt(String(b.no || b.id || '').replace(/\D/g, ''), 10) || 0;
-          return numB - numA;
-        });
+        if (activeSource === 'localshops') {
+          filtered = interleaveLocalProducts(filtered);
+        } else if (activeSource === 'marketplaces' || activeSource === 'others') {
+          filtered = interleaveMarketplaceProducts(filtered);
+        } else {
+          filtered.sort((a, b) => {
+            const tA = getItemTimestamp(a);
+            const tB = getItemTimestamp(b);
+            if (tB !== tA) return tB - tA;
+            const numA = parseInt(String(a.no || a.id || '').replace(/\D/g, ''), 10) || 0;
+            const numB = parseInt(String(b.no || b.id || '').replace(/\D/g, ''), 10) || 0;
+            return numB - numA;
+          });
+        }
         currentFilteredPool = filtered;
         currentPage = 0;
         renderGrid(currentFilteredPool.slice(0, PAGE_SIZE));
