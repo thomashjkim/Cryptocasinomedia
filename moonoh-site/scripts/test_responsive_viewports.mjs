@@ -1,11 +1,9 @@
 import { spawn } from 'child_process';
 import http from 'http';
-import fs from 'fs';
 
 async function testViewportLayouts() {
   console.log('=== TESTING RESPONSIVE VIEWPORT RENDERING (375px, 390px, 475px, Desktop) ===\n');
 
-  // Start a local static/test server to serve the page rendered by item-detail.mjs
   import('../netlify/functions/item-detail.mjs').then(async (mod) => {
     const defaultHandler = mod.default;
 
@@ -69,7 +67,7 @@ async function testViewportLayouts() {
             mobile: vp.width < 1000
           });
 
-          await call('Page.navigate', { url: 'http://127.0.0.1:8999/local-product/happier-grocery/happier-organic-ceremonial-matcha-100g' });
+          await call('Page.navigate', { url: 'http://127.0.0.1:8999/local-product/happier-grocery/lasso-watermelon-lime-gelatin-cups' });
           await new Promise(r => setTimeout(r, 2000));
 
           const metrics = await call('Runtime.evaluate', {
