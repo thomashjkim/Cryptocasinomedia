@@ -855,6 +855,7 @@
   }
 }
 </script>
+  <script src="/js/local-products-mixer.js"></script>
 </head>
 <body>
       <div data-animation="default" data-collapse="medium" data-duration="400" data-easing="ease" role="banner" class="navbar w-nav">
@@ -1375,19 +1376,25 @@
           const res = await fetch('/local_shops_data.json');
           if (res.ok) {
             const data = await res.json();
-            localShopsItemsList = (data.products || []).map(p => ({
+            const rawProds = data.products || [];
+            const shops = data.shops || {};
+            const balanced = (typeof getBalancedLocalProducts === 'function')
+              ? getBalancedLocalProducts(rawProds, { context: 'home' })
+              : rawProds;
+
+            localShopsItemsList = balanced.map(p => ({
               id: p.id,
               no: p.id,
               title: p.title,
               price: p.current_price,
               image: p.image_source_url,
               photo: p.image_source_url,
-              location: p.availability_context || 'NYC',
+              location: p.availability_context || (p.store_city ? `${p.store_city}, ${p.store_state}` : 'NYC'),
               rawTown: 'NYC',
-              category: p.moonoh_category || 'Grocery',
-              categoryName: p.moonoh_category || 'Grocery',
+              category: p.primary_category || p.moonoh_category || 'General',
+              categoryName: p.primary_category || p.moonoh_category || 'General',
               source: p.shop_id,
-              badgeName: p.brand || 'Local Shop',
+              badgeName: p.brand || (shops[p.shop_id] ? shops[p.shop_id].name : 'Local Shop'),
               url: `/local-product/${p.shop_id}/${p.slug}`
             }));
           }

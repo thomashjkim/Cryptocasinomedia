@@ -156,24 +156,28 @@ async function fetchAllCombinedItems() {
 
     let localItems = [];
     if (localShopsData && Array.isArray(localShopsData.products)) {
-      localItems = localShopsData.products.map((p, idx) => ({
-        id: p.id,
-        no: p.id,
-        title: p.title,
-        price: p.current_price,
-        photo: p.image_source_url,
-        image: p.image_source_url,
-        townName: p.shop_id === 'happier-grocery' ? 'Soho, NY' : (p.shop_id === 'big-night' ? 'Greenpoint, NY' : 'West Village, NY'),
-        rawTown: p.shop_id === 'happier-grocery' ? 'Soho, NY' : (p.shop_id === 'big-night' ? 'Greenpoint, NY' : 'West Village, NY'),
-        location: p.shop_id === 'happier-grocery' ? 'Soho, NY' : (p.shop_id === 'big-night' ? 'Greenpoint, NY' : 'West Village, NY'),
-        categoryName: p.moonoh_category || 'Food & Groceries',
-        category: p.moonoh_category || 'Food & Groceries',
-        detailUrl: `https://moon-oh.com/local-product/${p.shop_id}/${p.slug}`,
-        url: `https://moon-oh.com/local-product/${p.shop_id}/${p.slug}`,
-        source: p.shop_id,
-        badgeName: p.brand || (localShopsData.shops[p.shop_id] ? localShopsData.shops[p.shop_id].name : 'Local Shop'),
-        postedAt: p.last_checked_at ? new Date(p.last_checked_at).getTime() - (idx * 1500000) : (Date.now() - idx * 1500000)
-      }));
+      localItems = localShopsData.products.map((p, idx) => {
+        const shop = (localShopsData.shops && localShopsData.shops[p.shop_id]) || {};
+        const neighborhood = shop.neighborhood ? `${shop.neighborhood}, NY` : 'NYC, NY';
+        return {
+          id: p.id,
+          no: p.id,
+          title: p.title,
+          price: p.current_price,
+          photo: p.image_source_url,
+          image: p.image_source_url,
+          townName: neighborhood,
+          rawTown: neighborhood,
+          location: neighborhood,
+          categoryName: p.primary_category || p.moonoh_category || 'General',
+          category: p.primary_category || p.moonoh_category || 'General',
+          detailUrl: `https://moon-oh.com/local-product/${p.shop_id}/${p.slug}`,
+          url: `https://moon-oh.com/local-product/${p.shop_id}/${p.slug}`,
+          source: p.shop_id,
+          badgeName: p.brand || shop.name || 'Local Shop',
+          postedAt: p.source_published_at ? new Date(p.source_published_at).getTime() : (p.last_checked_at ? new Date(p.last_checked_at).getTime() - (idx * 1500000) : (Date.now() - idx * 1500000))
+        };
+      });
     }
 
     cachedCombinedItems = [...moonohItems, ...externalItems, ...foodRescueItems, ...localItems];

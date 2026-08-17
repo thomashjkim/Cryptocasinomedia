@@ -883,6 +883,7 @@
   }
 }
 </script>
+  <script src="/js/local-products-mixer.js"></script>
 </head>
 <body>
       <div data-animation="default" data-collapse="medium" data-duration="400" data-easing="ease" role="banner" class="navbar w-nav">
@@ -984,6 +985,14 @@
           <span id="btn-more-text">More Categories</span>
           <svg class="more-cat-caret" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
         </button>
+      </div>
+
+      <div class="filter-container" id="local-filter-container" style="display:none;">
+        <button class="filter-pill active" data-local-cat="All">All</button>
+        <button class="filter-pill" data-local-cat="Vintage & Fashion">Vintage & Fashion</button>
+        <button class="filter-pill" data-local-cat="Home & Objects">Home & Objects</button>
+        <button class="filter-pill" data-local-cat="Coffee & Pantry">Coffee & Pantry</button>
+        <button class="filter-pill" data-local-cat="Gifts & Culture">Gifts & Culture</button>
       </div>
 
       <!-- Food Rescue Informational Banner (Compact Category Pill Bar Size) -->
@@ -1386,7 +1395,37 @@
       if (activeSource === 'foodrescue') {
         filtered = foodRescueItemsList;
       } else if (activeSource === 'localshops') {
+        if (localShopsRawData) {
+          const rawProds = localShopsRawData.products || [];
+          const shops = localShopsRawData.shops || {};
+          const balanced = (typeof getBalancedLocalProducts === 'function')
+            ? getBalancedLocalProducts(rawProds, { category: activeLocalCategory, context: 'explore-local' })
+            : rawProds;
+
+          localShopsItemsList = balanced.map(p => ({
+            id: p.id,
+            no: p.id,
+            title: p.title,
+            price: p.current_price,
+            photo: p.image_source_url,
+            image: p.image_source_url,
+            townName: p.availability_context || (p.store_city ? `${p.store_city}, ${p.store_state}` : 'NYC'),
+            rawTown: 'NYC',
+            location: 'NYC',
+            category: p.primary_category || p.moonoh_category || 'General',
+            categoryName: p.primary_category || p.moonoh_category || 'General',
+            source: p.shop_id,
+            shop_id: p.shop_id,
+            badgeName: p.brand || (shops[p.shop_id] ? shops[p.shop_id].name : 'Local Shop'),
+            url: `/local-product/${p.shop_id}/${p.slug}`
+          }));
+        }
         filtered = localShopsItemsList;
+        currentFiltered = filtered;
+        visibleCount = 40;
+        renderGrid(currentFiltered);
+        updateLocationCount(filtered.length);
+        return;
       } else if (activeSource === 'marketplaces' || activeSource === 'others') {
         filtered = externalItemsList.length > 0 ? externalItemsList : allItems.filter(i => i.source === 'karrot' || i.source === 'heykorean' || i.source === 'external' || String(i.url || '').includes('-ext-'));
       } else {
@@ -1455,8 +1494,12 @@
       }
 
       const filterContainer = document.getElementById("filter-container");
+      const localFilterContainer = document.getElementById("local-filter-container");
       if (filterContainer) {
         filterContainer.style.display = (source === 'foodrescue' || source === 'localshops') ? 'none' : 'flex';
+      }
+      if (localFilterContainer) {
+        localFilterContainer.style.display = source === 'localshops' ? 'flex' : 'none';
       }
 
       // Apply filter instantly on current memory pool
@@ -1465,6 +1508,16 @@
       // Preload missing data in background
       if (source === 'moonoh' && (allItems.filter(isStrictMoonoh).length === 0) && moonohItemsList.length === 0) {
         preloadMoonohItems();
+    // Local filter pill clicks
+    document.querySelectorAll('#local-filter-container .filter-pill').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        document.querySelectorAll('#local-filter-container .filter-pill').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        activeLocalCategory = btn.getAttribute('data-local-cat') || 'All';
+        applyFilters();
+      });
+    });
+
       } else if (source === 'foodrescue' && foodRescueItemsList.length === 0) {
         preloadFoodRescueItems();
       } else if (source === 'localshops' && localShopsItemsList.length === 0) {
@@ -1564,32 +1617,46 @@
       } catch (e) {}
     }
 
+    let localShopsRawData = null;
+    let activeLocalCategory = 'All';
+
     async function preloadLocalShopsItems() {
-      if (localShopsItemsList.length > 0) return;
       try {
-        const res = await fetch('/local_shops_data.json');
-        if (res.ok) {
-          const data = await res.json();
-          localShopsItemsList = (data.products || []).map(p => ({
+        if (!localShopsRawData) {
+          const res = await fetch('/local_shops_data.json');
+          if (res.ok) {
+            localShopsRawData = await res.json();
+          }
+        }
+        if (localShopsRawData) {
+          const rawProds = localShopsRawData.products || [];
+          const shops = localShopsRawData.shops || {};
+          const balanced = (typeof getBalancedLocalProducts === 'function')
+            ? getBalancedLocalProducts(rawProds, { category: activeLocalCategory, context: 'explore-local' })
+            : rawProds;
+
+          localShopsItemsList = balanced.map(p => ({
             id: p.id,
             no: p.id,
             title: p.title,
             price: p.current_price,
             photo: p.image_source_url,
             image: p.image_source_url,
-            townName: p.availability_context || 'NYC',
+            townName: p.availability_context || (p.store_city ? `${p.store_city}, ${p.store_state}` : 'NYC'),
             rawTown: 'NYC',
             location: 'NYC',
-            category: p.moonoh_category || 'Grocery',
-            categoryName: p.moonoh_category || 'Grocery',
+            category: p.primary_category || p.moonoh_category || 'General',
+            categoryName: p.primary_category || p.moonoh_category || 'General',
             source: p.shop_id,
             shop_id: p.shop_id,
-            badgeName: p.brand || (data.shops && data.shops[p.shop_id] ? data.shops[p.shop_id].name : 'Local Shop'),
+            badgeName: p.brand || (shops[p.shop_id] ? shops[p.shop_id].name : 'Local Shop'),
             url: `/local-product/${p.shop_id}/${p.slug}`
           }));
           if (activeSource === 'localshops') applyFilters(getActiveCategoryKeyword());
         }
-      } catch (e) {}
+      } catch (e) {
+        console.error("Error loading local shops:", e);
+      }
     }
 
     async function preloadMoonohItems() {
@@ -1803,6 +1870,16 @@
     function initAll() {
       renderItems();
       preloadMoonohItems();
+    // Local filter pill clicks
+    document.querySelectorAll('#local-filter-container .filter-pill').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        document.querySelectorAll('#local-filter-container .filter-pill').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        activeLocalCategory = btn.getAttribute('data-local-cat') || 'All';
+        applyFilters();
+      });
+    });
+
       setupFilters();
       initCategoryFromUrl();
 
