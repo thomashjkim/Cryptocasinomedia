@@ -1011,6 +1011,25 @@
       stroke: #111827 !important;
     }
 
+  
+    /* More Button Exact Pill Design & Focus Reset */
+    .filter-pill-more {
+      display: inline-flex !important;
+      align-items: center !important;
+      gap: 6px !important;
+      cursor: pointer !important;
+      -webkit-tap-highlight-color: transparent !important;
+      outline: none !important;
+      box-shadow: none !important;
+    }
+    .filter-pill-more:focus,
+    .filter-pill-more:active,
+    .filter-pill-more:focus-visible {
+      outline: none !important;
+      box-shadow: none !important;
+      border-color: #E5E7EB !important;
+    }
+
   </style>
 <script type="application/ld+json">
 {
@@ -1154,7 +1173,7 @@
         <button class="filter-pill filter-pill-extra">Toys &amp; Games</button>
         <button class="filter-pill filter-pill-extra">Other</button>
 
-        <button class="filter-pill-more" id="filter-pill-more" aria-expanded="false" aria-label="Show more categories">
+        <button class="filter-pill filter-pill-more" id="filter-pill-more" aria-expanded="false" aria-label="Show more categories">
           <span id="filter-pill-more-text">More</span> <svg class="filter-more-icon" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
         </button>
       </div>
