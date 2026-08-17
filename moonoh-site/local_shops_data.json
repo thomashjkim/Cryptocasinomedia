@@ -164,7 +164,7 @@
       "state": "NY",
       "postal_code": "11222",
       "country": "US",
-      "theme_color": "#B8860B",
+      "theme_color": "#000000",
       "categories": [
         "Vintage & Fashion",
         "Gifts & Culture"
@@ -178,9 +178,9 @@
       "longitude": -73.9511,
       "verified_physical_location": "603 Manhattan Ave, Brooklyn, NY 11222 (Greenpoint)",
       "badge_theme": {
-        "bg": "#FEF3C7",
-        "color": "#78350F",
-        "border": "#8C6D1F"
+        "bg": "#F3F4F6",
+        "color": "#000000",
+        "border": "#000000"
       }
     },
     "sey-coffee": {
