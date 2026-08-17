@@ -24902,10 +24902,11 @@ function isSemanticallyCompatible(incomingPath, expectedPath) {
       bannerColor = "#111827";
       btnBgColor = "#1F2937";
     } else if (externalSource === "salter-house") {
-      bannerBg = "#ECFDF5";
-      bannerBorder = "#A7F3D0";
-      bannerColor = "#064E3B";
-      btnBgColor = "#3B5A40";
+      bannerBg = "#E6F5F0";
+      bannerBorder = "#99D6C4";
+      bannerColor = "#007A4B";
+      btnBgColor = "#007A4B";
+      btnTextColor = "#FFFFFF";
     } else if (externalSource === "heykorean") {
       bannerBg = "#EBF4FF";
       bannerBorder = "#B8D9FF";
