@@ -14,29 +14,33 @@ PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sitemap_path = os.path.join(PROJECT_ROOT, "index/sitemap.xml")
 news_sitemap_path = os.path.join(PROJECT_ROOT, "index/news-sitemap.xml")
 
-today_date = datetime.date.today().isoformat()
+now_utc_str = datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
 
-# Standard core pages with stable modification dates
+# Filter only published articles (publishedAt <= now_utc_str)
+published_articles = [a for a in articles_data if a.get('publishedAt', '') <= now_utc_str]
+published_sorted = sorted(published_articles, key=lambda x: x['publishedAt'], reverse=True)
+
+# Standard core pages with stable modification dates (no build-time lastmod dynamic inflation)
 core_pages = [
-    ("https://cryptocasinomedia.com/", today_date, "daily", "1.0"),
-    ("https://cryptocasinomedia.com/press-releases/", today_date, "daily", "0.9"),
-    ("https://cryptocasinomedia.com/crypto-casinos/", today_date, "daily", "0.8"),
-    ("https://cryptocasinomedia.com/sportsbook/", today_date, "daily", "0.8"),
-    ("https://cryptocasinomedia.com/regulation/", today_date, "weekly", "0.8"),
-    ("https://cryptocasinomedia.com/payments/", today_date, "weekly", "0.7"),
-    ("https://cryptocasinomedia.com/sweepstakes/", today_date, "weekly", "0.7"),
-    ("https://cryptocasinomedia.com/guides/", today_date, "weekly", "0.7"),
+    ("https://cryptocasinomedia.com/", "2026-08-18", "daily", "1.0"),
+    ("https://cryptocasinomedia.com/press-releases/", "2026-08-18", "daily", "0.9"),
+    ("https://cryptocasinomedia.com/crypto-casinos/", "2026-08-18", "daily", "0.8"),
+    ("https://cryptocasinomedia.com/sportsbook/", "2026-08-18", "daily", "0.8"),
+    ("https://cryptocasinomedia.com/regulation/", "2026-08-18", "weekly", "0.8"),
+    ("https://cryptocasinomedia.com/payments/", "2026-08-18", "weekly", "0.7"),
+    ("https://cryptocasinomedia.com/sweepstakes/", "2026-08-18", "weekly", "0.7"),
+    ("https://cryptocasinomedia.com/guides/", "2026-08-18", "weekly", "0.7"),
     ("https://cryptocasinomedia.com/about/", "2026-08-18", "monthly", "0.7"),
     ("https://cryptocasinomedia.com/editorial-standards/", "2026-08-18", "monthly", "0.6"),
     ("https://cryptocasinomedia.com/advertise/", "2026-08-18", "monthly", "0.7"),
     ("https://cryptocasinomedia.com/submit/", "2026-08-18", "monthly", "0.7"),
     ("https://cryptocasinomedia.com/contact/", "2026-08-18", "monthly", "0.7"),
-    ("https://cryptocasinomedia.com/industry/crypto/", today_date, "weekly", "0.8"),
-    ("https://cryptocasinomedia.com/industry/igaming/", today_date, "weekly", "0.8"),
+    ("https://cryptocasinomedia.com/industry/crypto/", "2026-08-18", "weekly", "0.8"),
+    ("https://cryptocasinomedia.com/industry/igaming/", "2026-08-18", "weekly", "0.8"),
     ("https://cryptocasinomedia.com/how-crypto-casino-news-works/", "2026-08-18", "monthly", "0.7"),
     ("https://cryptocasinomedia.com/aeo-best-practices/", "2026-08-18", "monthly", "0.7"),
     ("https://cryptocasinomedia.com/press-release-seo/", "2026-08-18", "monthly", "0.7"),
-    ("https://cryptocasinomedia.com/agent/", today_date, "weekly", "0.7"),
+    ("https://cryptocasinomedia.com/agent/", "2026-08-18", "weekly", "0.7"),
     ("https://cryptocasinomedia.com/guides/regulation-2026/", "2026-08-18", "monthly", "0.9"),
     ("https://cryptocasinomedia.com/guides/sweepstakes-market/", "2026-08-18", "monthly", "0.9"),
     ("https://cryptocasinomedia.com/guides/gamblefi-telegram/", "2026-08-18", "monthly", "0.9")
@@ -51,10 +55,11 @@ for url, lastmod, changefreq, priority in core_pages:
     xml_lines.append(f'  <url><loc>{url}</loc><lastmod>{lastmod}</lastmod><changefreq>{changefreq}</changefreq><priority>{priority}</priority></url>')
 
 # Dynamic articles for main sitemap
-for article in articles_data:
+for article in published_sorted:
     slug = article["slug"]
     published_at = article["publishedAt"]
-    date_part = published_at.split("T")[0]
+    modified_at = article.get("modifiedAt", published_at)
+    date_part = modified_at.split("T")[0]
     loc = f"https://cryptocasinomedia.com/press-releases/{slug}/"
     xml_lines.append(f'  <url><loc>{loc}</loc><lastmod>{date_part}</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>')
 
@@ -64,18 +69,18 @@ xml_content = "\n".join(xml_lines) + "\n"
 try:
     with open(sitemap_path, "w", encoding="utf-8") as f:
         f.write(xml_content)
-    print(f"SUCCESS: sitemap.xml successfully updated at {sitemap_path} with {len(articles_data)} articles!")
+    print(f"SUCCESS: sitemap.xml successfully updated at {sitemap_path} with {len(published_sorted)} articles!")
 except Exception as e:
     print(f"Error writing sitemap.xml: {e}")
     sys.exit(1)
 
-# Generate Google News Sitemap (news-sitemap.xml) for recent articles (top 15 recent articles)
+# Generate Google News Sitemap (news-sitemap.xml) for recent articles (top 15 published articles)
 news_xml_lines = [
     '<?xml version="1.0" encoding="UTF-8"?>',
     '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">'
 ]
 
-recent_articles = articles_data[:15]
+recent_articles = published_sorted[:15]
 for article in recent_articles:
     slug = article["slug"]
     published_at = article["publishedAt"]
@@ -103,4 +108,5 @@ try:
 except Exception as e:
     print(f"Error writing news-sitemap.xml: {e}")
     sys.exit(1)
+
 

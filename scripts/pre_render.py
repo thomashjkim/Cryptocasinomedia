@@ -2,6 +2,7 @@ import sys
 import os
 import re
 import json
+import shutil
 import urllib.parse
 from datetime import datetime
 
@@ -33,8 +34,12 @@ PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 template_path = os.path.join(PROJECT_ROOT, "index/index.html.template")
 output_base_dir = os.path.join(PROJECT_ROOT, "index")
 
-# Sort articles newest first
-articles_sorted = sorted(articles_data, key=lambda x: x['publishedAt'], reverse=True)
+from datetime import timezone
+now_utc_str = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+
+# Sort published articles (publishedAt <= now_utc_str) newest first; future scheduled releases remain unpublished
+articles_published = [a for a in articles_data if a.get('publishedAt', '') <= now_utc_str]
+articles_sorted = sorted(articles_published, key=lambda x: x['publishedAt'], reverse=True)
 
 try:
     with open(os.path.join(PROJECT_ROOT, "data", "expert_analysis.json"), "r", encoding="utf-8") as f:
@@ -1641,10 +1646,19 @@ ENTITY_MAPPINGS = {
     "LBLOCK": "https://www.wikidata.org/wiki/Q110823377"
 }
 
+# Clean up any stale press release output directories for unpublished or future scheduled releases
+pr_output_dir = os.path.join(output_base_dir, "press-releases")
+if os.path.exists(pr_output_dir):
+    valid_pr_slugs = {article['slug'] for article in articles_sorted}
+    for item in os.listdir(pr_output_dir):
+        full_item_path = os.path.join(pr_output_dir, item)
+        if os.path.isdir(full_item_path) and item not in valid_pr_slugs:
+            shutil.rmtree(full_item_path)
+
 pages_generated = 0
 
 # List of pages to compile:
-# 1. 34 Articles
+# 1. Published Articles
 for article in articles_sorted:
     slug = article['slug']
     path = f"/press-releases/{slug}/"
@@ -1688,11 +1702,6 @@ for article in articles_sorted:
     author_name = 'Sophia Chen' if article['primaryCategory'] == 'regulation' else 'Marcus Vance'
     author_role = 'Regulatory Editor' if article['primaryCategory'] == 'regulation' else 'Senior iGaming Analyst'
 
-    from datetime import timezone
-    pub_raw = article['publishedAt']
-    curr_utc_str = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
-    effective_date_published = curr_utc_str if pub_raw > curr_utc_str else pub_raw
-
     article_schema = {
         "@context": "https://schema.org",
         "@type": "NewsArticle",
@@ -1702,8 +1711,8 @@ for article in articles_sorted:
         },
         "headline": article['title'],
         "description": article['excerpt'],
-        "datePublished": effective_date_published,
-        "dateModified": effective_date_published,
+        "datePublished": article['publishedAt'],
+        "dateModified": article.get('modifiedAt') or article['publishedAt'],
         "inLanguage": "en-US",
         "mainEntityOfPage": f"https://cryptocasinomedia.com/press-releases/{slug}/",
         "author": [

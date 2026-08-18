@@ -1,17 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
-    <loc>https://cryptocasinomedia.com/press-releases/dominator-play-fruits-story-sweet-domination-classic-slot-2026/</loc>
-    <news:news>
-      <news:publication>
-        <news:name>CryptoCasinoMedia</news:name>
-        <news:language>en</news:language>
-      </news:publication>
-      <news:publication_date>2026-08-19T09:00:00-04:00</news:publication_date>
-      <news:title>Dominator Play Puts a Fresh Spin on the Classic Fruit Slot with Fruits Story: Sweet Domination</news:title>
-    </news:news>
-  </url>
-  <url>
     <loc>https://cryptocasinomedia.com/press-releases/baltimore-city-lawsuit-polymarket-kalshi-unlicensed-sportsbook-prediction-markets-2026/</loc>
     <news:news>
       <news:publication>
@@ -163,6 +152,17 @@
       </news:publication>
       <news:publication_date>2026-07-20T11:00:00-04:00</news:publication_date>
       <news:title>Spain's 1-0 World Cup Final Triumph Over Argentina Resolves $1.8 Billion in Crypto &amp; CFTC-Regulated Prediction Markets, Smashing Industry Records</news:title>
+    </news:news>
+  </url>
+  <url>
+    <loc>https://cryptocasinomedia.com/press-releases/argentina-spain-world-cup-final-metlife-stadium-betting-records/</loc>
+    <news:news>
+      <news:publication>
+        <news:name>CryptoCasinoMedia</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2026-07-17T11:00:00-04:00</news:publication_date>
+      <news:title>Argentina vs. Spain World Cup Final in New Jersey Set to Smash iGaming Records with Over $1.5 Billion in Crypto Bets</news:title>
     </news:news>
   </url>
 </urlset>
