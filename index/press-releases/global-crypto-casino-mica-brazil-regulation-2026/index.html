@@ -420,13 +420,13 @@
                                     </div>
                                     <div class="p-5 space-y-4 text-sm">
                                         <div>
-                                            <span class="block text-gray-500 text-[11px] uppercase tracking-wider mb-1">Author</span>
-                                            <span class="font-semibold text-gray-900">CryptoCasinoMedia Desk</span>
-                                        </div>
-                                        <div>
-                                            <span class="block text-gray-500 text-[11px] uppercase tracking-wider mb-1">Source</span>
-                                            <span class="font-semibold text-gray-900">ZyCrypto</span>
-                                        </div>
+                                             <span class="block text-gray-500 text-[11px] uppercase tracking-wider mb-1">Original Source</span>
+                                             <span class="font-semibold text-gray-900">ZyCrypto</span>
+                                         </div>
+                                         <div>
+                                             <span class="block text-gray-500 text-[11px] uppercase tracking-wider mb-1">Editorial Review</span>
+                                             <span class="font-semibold text-gray-900">Sophia Chen (Regulatory Editor)</span>
+                                         </div>
                                         <div>
                                             <span class="block text-gray-500 text-[11px] uppercase tracking-wider mb-1">Region</span>
                                             <div class="flex items-center text-gray-900">
@@ -3425,14 +3425,25 @@
                                         <h3 class="text-xs uppercase tracking-widest font-semibold text-gray-900">Release Facts</h3>
                                     </div>
                                     <div class="p-5 space-y-4 text-sm">
-                                        <div>
-                                            <span class="block text-gray-500 text-[11px] uppercase tracking-wider mb-1">Author</span>
-                                            <span class="font-semibold text-gray-900">CryptoCasinoMedia Desk</span>
-                                        </div>
-                                        <div>
-                                            <span class="block text-gray-500 text-[11px] uppercase tracking-wider mb-1">Source</span>
-                                            <span class="font-semibold text-gray-900">${article.sourceName}</span>
-                                        </div>
+                                        ${isThirdParty ? `
+                                            <div>
+                                                <span class="block text-gray-500 text-[11px] uppercase tracking-wider mb-1">Original Source</span>
+                                                <span class="font-semibold text-gray-900">${article.sourceName || article.company}</span>
+                                            </div>
+                                            <div>
+                                                <span class="block text-gray-500 text-[11px] uppercase tracking-wider mb-1">Editorial Review</span>
+                                                <span class="font-semibold text-gray-900">${editorName} (${editorRole})</span>
+                                            </div>
+                                        ` : `
+                                            <div>
+                                                <span class="block text-gray-500 text-[11px] uppercase tracking-wider mb-1">Author</span>
+                                                <span class="font-semibold text-gray-900">${editorName} (${editorRole})</span>
+                                            </div>
+                                            <div>
+                                                <span class="block text-gray-500 text-[11px] uppercase tracking-wider mb-1">Publisher</span>
+                                                <span class="font-semibold text-gray-900">CryptoCasinoMedia</span>
+                                            </div>
+                                        `}
                                         <div>
                                             <span class="block text-gray-500 text-[11px] uppercase tracking-wider mb-1">Region</span>
                                             <div class="flex items-center text-gray-900">

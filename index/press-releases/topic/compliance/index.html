@@ -261,7 +261,7 @@
             <div class="mt-6 p-6 bg-blue-50/60 border-l-4 border-blue-600 rounded-r-lg font-sans">
                 <h2 class="text-xs uppercase tracking-widest font-semibold text-blue-900 mb-2">Category Overview & B2B Industry Scope</h2>
                 <p class="text-sm text-blue-950 leading-relaxed m-0">
-                    Welcome to the CryptoCasinoMedia B2B coverage hub for <strong>Compliance</strong>. This archive provides real-time operator press releases, regulatory compliance mandates, financial transaction data, and market analysis. All published releases are verified against primary registries and structured with machine-readable schema for search engines and answer engines.
+                    Welcome to the CryptoCasinoMedia B2B coverage hub for <strong>Compliance</strong>. This archive provides real-time operator press releases, regulatory compliance updates, technology developments, and market analysis. Submitted releases are reviewed under <a href="/editorial-standards/" class="text-blue-700 underline">CryptoCasinoMedia's Editorial Standards</a> and clearly attributed to their original source.
                 </p>
             </div>
     
@@ -3708,14 +3708,25 @@
                                         <h3 class="text-xs uppercase tracking-widest font-semibold text-gray-900">Release Facts</h3>
                                     </div>
                                     <div class="p-5 space-y-4 text-sm">
-                                        <div>
-                                            <span class="block text-gray-500 text-[11px] uppercase tracking-wider mb-1">Author</span>
-                                            <span class="font-semibold text-gray-900">CryptoCasinoMedia Desk</span>
-                                        </div>
-                                        <div>
-                                            <span class="block text-gray-500 text-[11px] uppercase tracking-wider mb-1">Source</span>
-                                            <span class="font-semibold text-gray-900">${article.sourceName}</span>
-                                        </div>
+                                        ${isThirdParty ? `
+                                            <div>
+                                                <span class="block text-gray-500 text-[11px] uppercase tracking-wider mb-1">Original Source</span>
+                                                <span class="font-semibold text-gray-900">${article.sourceName || article.company}</span>
+                                            </div>
+                                            <div>
+                                                <span class="block text-gray-500 text-[11px] uppercase tracking-wider mb-1">Editorial Review</span>
+                                                <span class="font-semibold text-gray-900">${editorName} (${editorRole})</span>
+                                            </div>
+                                        ` : `
+                                            <div>
+                                                <span class="block text-gray-500 text-[11px] uppercase tracking-wider mb-1">Author</span>
+                                                <span class="font-semibold text-gray-900">${editorName} (${editorRole})</span>
+                                            </div>
+                                            <div>
+                                                <span class="block text-gray-500 text-[11px] uppercase tracking-wider mb-1">Publisher</span>
+                                                <span class="font-semibold text-gray-900">CryptoCasinoMedia</span>
+                                            </div>
+                                        `}
                                         <div>
                                             <span class="block text-gray-500 text-[11px] uppercase tracking-wider mb-1">Region</span>
                                             <div class="flex items-center text-gray-900">
