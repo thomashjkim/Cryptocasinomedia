@@ -248,7 +248,7 @@ def renderStoryRow(article):
     return f"""
                 <a href="/press-releases/{article['slug']}" class="group flex flex-col sm:flex-row gap-4 py-5 border-b border-gray-200 hover:bg-gray-50 transition-colors -mx-4 px-4 sm:mx-0 sm:px-0 rounded-sm">
                     <div class="sm:w-1/3 md:w-1/4 flex-shrink-0">
-                        <div class="aspect-[3/2] w-full bg-gray-100 overflow-hidden border border-gray-200">
+                        <div class="aspect-[4/3] w-full bg-gray-100 overflow-hidden border border-gray-200">
                             <img src="{article['thumbnailUrl']}" alt="{article['title']}" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                         </div>
                     </div>
@@ -267,7 +267,7 @@ def renderStoryRow(article):
 def renderStoryGridCard(article):
     return f"""
                 <a href="/press-releases/{article['slug']}" class="group flex flex-col border-b sm:border-b-0 sm:border-r border-gray-200 sm:last:border-r-0 pb-6 sm:pb-0 sm:pr-6 sm:last:pr-0">
-                    <div class="aspect-[3/2] w-full bg-gray-100 overflow-hidden mb-4 border border-gray-200">
+                    <div class="aspect-[4/3] w-full bg-gray-100 overflow-hidden mb-4 border border-gray-200">
                         <img src="{article['thumbnailUrl']}" alt="{article['title']}" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                     </div>
                     {renderArticleMeta(article)}
@@ -309,7 +309,7 @@ def renderHomePage():
                     <div class="flex flex-col lg:flex-row gap-8 lg:gap-12">
                         <div class="lg:w-[70%]">
                             <a href="/press-releases/{leadStory['slug']}" class="group block mb-10">
-                                <div class="aspect-[21/9] w-full bg-gray-100 overflow-hidden border border-gray-200 mb-4 relative">
+                                <div class="aspect-[4/3] w-full bg-gray-100 overflow-hidden border border-gray-200 mb-4 relative">
                                     <img src="{leadStory['thumbnailUrl']}" alt="{leadStory['title']}" fetchpriority="high" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
                                 </div>
                                 {renderArticleMeta(leadStory)}
