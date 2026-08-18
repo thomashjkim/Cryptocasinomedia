@@ -59,60 +59,66 @@ if os.path.exists('local_shops_data.json'):
 
 print(f"Data Loaded: {len(moonoh_items)} Moonoh, {len(food_rescue_items)} KimC, {len(karrot_items)} Karrot, {len(heykorean_items)} HeyKorean, {len(local_shops_data.get('products', []))} Local Products, {len(local_shops_data.get('shops', {}))} Shops")
 
+def generate_canonical_url(title_str, loc_str, item_id, is_ext=False):
+    clean_t = clean_slug(title_str)
+    loc_slug = 'manhattan-ny'
+    if loc_str:
+        l = str(loc_str).lower()
+        l = re.sub(r'^\d+mi\s*·\s*', '', l)
+        l = re.sub(r'^\d+mi\s+', '', l)
+        if 'bayside' in l: loc_slug = 'bayside-queens-ny'
+        elif 'flushing' in l: loc_slug = 'flushing-queens-ny'
+        elif 'astoria' in l: loc_slug = 'astoria-queens-ny'
+        elif 'queens' in l: loc_slug = 'queens-ny'
+        elif 'brooklyn' in l: loc_slug = 'brooklyn-ny'
+        elif 'manhattan' in l: loc_slug = 'manhattan-ny'
+        elif 'bronx' in l: loc_slug = 'bronx-ny'
+        elif 'staten' in l: loc_slug = 'staten-island-ny'
+        elif any(w in l for w in ['fort lee', 'palisades', 'bergen', 'edgewater', 'leonia', 'paramus']): loc_slug = 'bergen-county-nj'
+        elif any(w in l for w in ['jersey city', 'hoboken', 'hudson']): loc_slug = 'hudson-county-nj'
+        else:
+            loc_slug = clean_slug(loc_str) or 'manhattan-ny'
+            
+    id_suffix = f"ext-{item_id}" if is_ext else str(item_id)
+    return f"https://moon-oh.com/item/{clean_t}-{loc_slug}-{id_suffix}"
+
 # =========================================================================
-# 1. sitemap-pages.xml (Static + Hub / Category / Region Landing Pages)
+# 1. sitemap-pages.xml
 # =========================================================================
 xml_pages = ['<?xml version="1.0" encoding="UTF-8"?>',
              '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">']
 
-static_pages = [
-    ('/', '1.0', 'daily'),
-    ('/explore', '0.9', 'daily'),
-    ('/explore/food-rescue', '0.9', 'daily'),
-    ('/explore/marketplaces', '0.8', 'daily'),
-    ('/explore/local-shops', '0.8', 'daily'),
-    ('/about', '0.5', 'monthly'),
-    ('/press', '0.5', 'monthly'),
-    ('/contact', '0.5', 'monthly'),
-    ('/terms', '0.3', 'monthly'),
-    ('/privacy', '0.3', 'monthly'),
-    ('/return-policy', '0.3', 'monthly'),
-    ('/fraud-prevention', '0.3', 'monthly'),
-    ('/disclaimer', '0.3', 'monthly'),
-    ('/facebook-marketplace-alternative-nyc', '0.8', 'weekly'),
+main_pages = [
+    ("https://moon-oh.com/", "1.0", "daily"),
+    ("https://moon-oh.com/explore", "0.9", "daily"),
+    ("https://moon-oh.com/about", "0.8", "monthly"),
+    ("https://moon-oh.com/safety-trust", "0.8", "monthly"),
+    ("https://moon-oh.com/terms", "0.5", "yearly"),
+    ("https://moon-oh.com/privacy", "0.5", "yearly"),
 ]
 
-for path, priority, freq in static_pages:
+for url, pri, freq in main_pages:
     xml_pages.append('  <url>')
-    xml_pages.append(f'    <loc>https://moon-oh.com{path}</loc>')
+    xml_pages.append(f'    <loc>{escape_xml(url)}</loc>')
     xml_pages.append(f'    <lastmod>{today_str}</lastmod>')
     xml_pages.append(f'    <changefreq>{freq}</changefreq>')
-    xml_pages.append(f'    <priority>{priority}</priority>')
+    xml_pages.append(f'    <priority>{pri}</priority>')
     xml_pages.append('  </url>')
 
-regions = ['manhattan', 'queens', 'brooklyn', 'flushing', 'bayside', 'astoria', 'fort-lee-nj', 'bergen-county-nj']
-categories = ['electronics', 'furniture', 'womens-fashion', 'mens-fashion', 'shoes', 'home-garden', 'health-beauty', 'pet-supplies', 'baby-kids', 'sports-leisure', 'food-groceries', 'arts-books-music', 'antiques']
+# Programmatic SEO Location & Category Hubs
+regions = ['manhattan', 'brooklyn', 'queens', 'bronx', 'staten-island', 'bergen-county-nj', 'hudson-county-nj']
+categories = ['electronics', 'furniture', 'fashion', 'baby-kids', 'home-garden', 'food-groceries', 'health-beauty', 'pet-supplies']
 
-for reg in regions:
+for r in regions:
     xml_pages.append('  <url>')
-    xml_pages.append(f'    <loc>https://moon-oh.com/explore/{reg}</loc>')
+    xml_pages.append(f'    <loc>https://moon-oh.com/explore/{r}</loc>')
     xml_pages.append(f'    <lastmod>{today_str}</lastmod>')
     xml_pages.append('    <changefreq>daily</changefreq>')
     xml_pages.append('    <priority>0.8</priority>')
     xml_pages.append('  </url>')
-
-for cat in categories:
-    xml_pages.append('  <url>')
-    xml_pages.append(f'    <loc>https://moon-oh.com/explore/{cat}</loc>')
-    xml_pages.append(f'    <lastmod>{today_str}</lastmod>')
-    xml_pages.append('    <changefreq>daily</changefreq>')
-    xml_pages.append('    <priority>0.8</priority>')
-    xml_pages.append('  </url>')
-
-for reg in regions:
-    for cat in categories:
+    for c in categories:
         xml_pages.append('  <url>')
-        xml_pages.append(f'    <loc>https://moon-oh.com/explore/{reg}/{cat}</loc>')
+        xml_pages.append(f'    <loc>https://moon-oh.com/explore/{r}/{c}</loc>')
         xml_pages.append(f'    <lastmod>{today_str}</lastmod>')
         xml_pages.append('    <changefreq>daily</changefreq>')
         xml_pages.append('    <priority>0.7</priority>')
@@ -121,35 +127,9 @@ for reg in regions:
 xml_pages.append('</urlset>')
 with open('sitemap-pages.xml', 'w', encoding='utf-8') as f:
     f.write('\n'.join(xml_pages))
-print('✅ Saved sitemap-pages.xml')
-
-
-def generate_canonical_url(title, loc_str, item_id, is_ext=False):
-    clean_t = clean_slug(title or 'item')
-    if len(clean_t) > 50:
-        clean_t = clean_t[:50].rstrip('-')
-    if not clean_t:
-        clean_t = 'item'
-    
-    loc_slug = 'nyc-ny'
-    if loc_str:
-        l = loc_str.lower()
-        if 'bayside' in l: loc_slug = 'bayside-queens-ny'
-        elif 'flushing' in l: loc_slug = 'flushing-queens-ny'
-        elif 'astoria' in l: loc_slug = 'astoria-queens-ny'
-        elif 'queens' in l: loc_slug = 'queens-ny'
-        elif 'brooklyn' in l: loc_slug = 'brooklyn-ny'
-        elif 'manhattan' in l: loc_slug = 'manhattan-ny'
-        elif 'palisades' in l: loc_slug = 'palisades-park-nj'
-        elif 'fort lee' in l: loc_slug = 'fort-lee-nj'
-        else:
-            loc_slug = clean_slug(loc_str) or 'nyc-ny'
-            
-    id_suffix = f"ext-{item_id}" if is_ext else str(item_id)
-    return f"https://moon-oh.com/item/{clean_t}-{loc_slug}-{id_suffix}"
 
 # =========================================================================
-# 2. sitemap-moonoh.xml (Moonoh User Secondhand Items + Images)
+# 2. sitemap-moonoh.xml (Moonoh User Items + Images)
 # =========================================================================
 xml_moonoh = ['<?xml version="1.0" encoding="UTF-8"?>',
               '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">']
@@ -163,165 +143,151 @@ for item in moonoh_items:
     xml_moonoh.append('  <url>')
     xml_moonoh.append(f'    <loc>{escape_xml(url)}</loc>')
     xml_moonoh.append(f'    <lastmod>{today_str}</lastmod>')
-    xml_moonoh.append('    <changefreq>daily</changefreq>')
-    xml_moonoh.append('    <priority>0.8</priority>')
-    
-    # Exclude temporary, non-permanent or HEIC image URLs from XML sitemaps
-    if img and not ('/temp/' in img or img.lower().endswith('.heic') or '/image-proxy/temp' in img):
-        abs_img = img if img.startswith('http') else f"https://moon-oh.com{img}"
+    xml_moonoh.append('    <changefreq>weekly</changefreq>')
+    xml_moonoh.append('    <priority>0.7</priority>')
+    if img and img.startswith('http'):
         xml_moonoh.append('    <image:image>')
-        xml_moonoh.append(f'      <image:loc>{escape_xml(abs_img)}</image:loc>')
-        xml_moonoh.append(f'      <image:title>{escape_xml(title)}</image:title>')
+        xml_moonoh.append(f'      <image:loc>{escape_xml(img)}</image:loc>')
+        if title:
+            xml_moonoh.append(f'      <image:title>{escape_xml(title)}</image:title>')
         xml_moonoh.append('    </image:image>')
     xml_moonoh.append('  </url>')
 
 xml_moonoh.append('</urlset>')
 with open('sitemap-moonoh.xml', 'w', encoding='utf-8') as f:
     f.write('\n'.join(xml_moonoh))
-print('✅ Saved sitemap-moonoh.xml')
-
 
 # =========================================================================
-# 3. sitemap-marketplace.xml (Karrot & HeyKorean Items + Images)
+# 3. sitemap-marketplace.xml (Karrot + HeyKorean)
 # =========================================================================
-xml_market = ['<?xml version="1.0" encoding="UTF-8"?>',
-              '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">']
+xml_marketplace = ['<?xml version="1.0" encoding="UTF-8"?>',
+                   '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">']
 
-for item in karrot_items + heykorean_items:
+all_market = karrot_items + heykorean_items
+for item in all_market:
     item_id = item.get('id', '')
     url = generate_canonical_url(item.get('title'), item.get('location', ''), item_id, is_ext=True)
     img = to_web_jpg(item.get('image', ''))
     title = item.get('title', '')
     
-    xml_market.append('  <url>')
-    xml_market.append(f'    <loc>{escape_xml(url)}</loc>')
-    xml_market.append(f'    <lastmod>{today_str}</lastmod>')
-    xml_market.append('    <changefreq>daily</changefreq>')
-    xml_market.append('    <priority>0.7</priority>')
-    if img and img.startswith('http') and not ('/temp/' in img or img.lower().endswith('.heic') or '/image-proxy/temp' in img):
-        xml_market.append('    <image:image>')
-        xml_market.append(f'      <image:loc>{escape_xml(img)}</image:loc>')
-        xml_market.append(f'      <image:title>{escape_xml(title)}</image:title>')
-        xml_market.append('    </image:image>')
-    xml_market.append('  </url>')
+    xml_marketplace.append('  <url>')
+    xml_marketplace.append(f'    <loc>{escape_xml(url)}</loc>')
+    xml_marketplace.append(f'    <lastmod>{today_str}</lastmod>')
+    xml_marketplace.append('    <changefreq>daily</changefreq>')
+    xml_marketplace.append('    <priority>0.6</priority>')
+    if img and img.startswith('http'):
+        xml_marketplace.append('    <image:image>')
+        xml_marketplace.append(f'      <image:loc>{escape_xml(img)}</image:loc>')
+        if title:
+            xml_marketplace.append(f'      <image:title>{escape_xml(title)}</image:title>')
+        xml_marketplace.append('    </image:image>')
+    xml_marketplace.append('  </url>')
 
-xml_market.append('</urlset>')
+xml_marketplace.append('</urlset>')
 with open('sitemap-marketplace.xml', 'w', encoding='utf-8') as f:
-    f.write('\n'.join(xml_market))
-print('✅ Saved sitemap-marketplace.xml')
-
+    f.write('\n'.join(xml_marketplace))
 
 # =========================================================================
-# 4. sitemap-food-rescue.xml (Kim'C Market Fight Food Waste Items + Images)
+# 4. sitemap-food-rescue.xml (Kim'C Market Items)
 # =========================================================================
-xml_fr = ['<?xml version="1.0" encoding="UTF-8"?>',
-          '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">']
+xml_food = ['<?xml version="1.0" encoding="UTF-8"?>',
+            '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">']
 
 for item in food_rescue_items:
     item_id = item.get('id', '')
-    url = generate_canonical_url(item.get('title'), item.get('location', 'brooklyn-ny'), item_id, is_ext=True)
-    img = item.get('image', '')
+    url = generate_canonical_url(item.get('title'), item.get('location', ''), item_id, is_ext=True)
+    img = to_web_jpg(item.get('image', ''))
     title = item.get('title', '')
     
-    xml_fr.append('  <url>')
-    xml_fr.append(f'    <loc>{escape_xml(url)}</loc>')
-    xml_fr.append(f'    <lastmod>{today_str}</lastmod>')
-    xml_fr.append('    <changefreq>daily</changefreq>')
-    xml_fr.append('    <priority>0.8</priority>')
+    xml_food.append('  <url>')
+    xml_food.append(f'    <loc>{escape_xml(url)}</loc>')
+    xml_food.append(f'    <lastmod>{today_str}</lastmod>')
+    xml_food.append('    <changefreq>daily</changefreq>')
+    xml_food.append('    <priority>0.7</priority>')
     if img and img.startswith('http'):
-        xml_fr.append('    <image:image>')
-        xml_fr.append(f'      <image:loc>{escape_xml(img)}</image:loc>')
-        xml_fr.append(f'      <image:title>{escape_xml(title)}</image:title>')
-        xml_fr.append('    </image:image>')
-    xml_fr.append('  </url>')
+        xml_food.append('    <image:image>')
+        xml_food.append(f'      <image:loc>{escape_xml(img)}</image:loc>')
+        if title:
+            xml_food.append(f'      <image:title>{escape_xml(title)}</image:title>')
+        xml_food.append('    </image:image>')
+    xml_food.append('  </url>')
 
-xml_fr.append('</urlset>')
+xml_food.append('</urlset>')
 with open('sitemap-food-rescue.xml', 'w', encoding='utf-8') as f:
-    f.write('\n'.join(xml_fr))
-print('✅ Saved sitemap-food-rescue.xml')
-
+    f.write('\n'.join(xml_food))
 
 # =========================================================================
-# 5. sitemap-local-products.xml (Curated Local Shop Products + Images)
-# =========================================================================
-xml_local_prod = ['<?xml version="1.0" encoding="UTF-8"?>',
-                  '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">']
-
-for prod in local_shops_data.get('products', []):
-    shop_id = prod.get('shop_id', '')
-    slug = prod.get('slug', '')
-    url = f"https://moon-oh.com/local-product/{shop_id}/{slug}"
-    img = prod.get('image_source_url', '')
-    title = prod.get('title', '')
-    
-    xml_local_prod.append('  <url>')
-    xml_local_prod.append(f'    <loc>{escape_xml(url)}</loc>')
-    xml_local_prod.append(f'    <lastmod>{today_str}</lastmod>')
-    xml_local_prod.append('    <changefreq>daily</changefreq>')
-    xml_local_prod.append('    <priority>0.7</priority>')
-    if img and img.startswith('http'):
-        xml_local_prod.append('    <image:image>')
-        xml_local_prod.append(f'      <image:loc>{escape_xml(img)}</image:loc>')
-        xml_local_prod.append(f'      <image:title>{escape_xml(title)}</image:title>')
-        xml_local_prod.append('    </image:image>')
-    xml_local_prod.append('  </url>')
-
-xml_local_prod.append('</urlset>')
-with open('sitemap-local-products.xml', 'w', encoding='utf-8') as f:
-    f.write('\n'.join(xml_local_prod))
-print('✅ Saved sitemap-local-products.xml')
-
-
-# =========================================================================
-# 6. sitemap-shops.xml (Local Shop Brand / Directory Hub Pages)
+# 5. sitemap-shops.xml (Local Shop Hubs)
 # =========================================================================
 xml_shops = ['<?xml version="1.0" encoding="UTF-8"?>',
-             '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">']
+             '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">']
 
-for shop_id, shop_info in local_shops_data.get('shops', {}).items():
-    url = f"https://moon-oh.com/local-shops/{shop_id}"
+for s_id, s_info in local_shops_data.get('shops', {}).items():
+    url = f"https://moon-oh.com/local-shops/{s_id}"
+    img = s_info.get('primary_image_url') or s_info.get('logo_url') or ''
+    name = s_info.get('name', '')
+    
     xml_shops.append('  <url>')
     xml_shops.append(f'    <loc>{escape_xml(url)}</loc>')
     xml_shops.append(f'    <lastmod>{today_str}</lastmod>')
     xml_shops.append('    <changefreq>weekly</changefreq>')
     xml_shops.append('    <priority>0.8</priority>')
+    if img and img.startswith('http'):
+        xml_shops.append('    <image:image>')
+        xml_shops.append(f'      <image:loc>{escape_xml(img)}</image:loc>')
+        if name:
+            xml_shops.append(f'      <image:title>{escape_xml(name)}</image:title>')
+        xml_shops.append('    </image:image>')
     xml_shops.append('  </url>')
 
 xml_shops.append('</urlset>')
 with open('sitemap-shops.xml', 'w', encoding='utf-8') as f:
     f.write('\n'.join(xml_shops))
-print('✅ Saved sitemap-shops.xml')
-
 
 # =========================================================================
-# 7. sitemap-index.xml (Master Index) & sitemap.xml fallback
+# 6. sitemap-local-products.xml (900 Local Products + Images)
 # =========================================================================
-sub_sitemaps = [
-    'https://moon-oh.com/sitemap-pages.xml',
-    'https://moon-oh.com/sitemap-moonoh.xml',
-    'https://moon-oh.com/sitemap-marketplace.xml',
-    'https://moon-oh.com/sitemap-food-rescue.xml',
-    'https://moon-oh.com/sitemap-local-products.xml',
-    'https://moon-oh.com/sitemap-shops.xml'
-]
+xml_local_prods = ['<?xml version="1.0" encoding="UTF-8"?>',
+                   '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">']
 
-xml_idx = ['<?xml version="1.0" encoding="UTF-8"?>',
-           '<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">']
+for p in local_shops_data.get('products', []):
+    shop_id = p.get('shop_id', '')
+    slug = p.get('slug', '')
+    url = f"https://moon-oh.com/local-product/{shop_id}/{slug}"
+    img = p.get('image_source_url') or p.get('primary_image_url') or ''
+    title = p.get('title', '')
+    
+    xml_local_prods.append('  <url>')
+    xml_local_prods.append(f'    <loc>{escape_xml(url)}</loc>')
+    xml_local_prods.append(f'    <lastmod>{today_str}</lastmod>')
+    xml_local_prods.append('    <changefreq>daily</changefreq>')
+    xml_local_prods.append('    <priority>0.8</priority>')
+    if img and img.startswith('http'):
+        xml_local_prods.append('    <image:image>')
+        xml_local_prods.append(f'      <image:loc>{escape_xml(img)}</image:loc>')
+        if title:
+            xml_local_prods.append(f'      <image:title>{escape_xml(title)}</image:title>')
+        xml_local_prods.append('    </image:image>')
+    xml_local_prods.append('  </url>')
 
-for sm_url in sub_sitemaps:
-    xml_idx.append('  <sitemap>')
-    xml_idx.append(f'    <loc>{sm_url}</loc>')
-    xml_idx.append(f'    <lastmod>{today_str}</lastmod>')
-    xml_idx.append('  </sitemap>')
+xml_local_prods.append('</urlset>')
+with open('sitemap-local-products.xml', 'w', encoding='utf-8') as f:
+    f.write('\n'.join(xml_local_prods))
 
-xml_idx.append('</sitemapindex>')
-sitemap_index_content = '\n'.join(xml_idx)
+# =========================================================================
+# 7. sitemap-index.xml (Master Index)
+# =========================================================================
+xml_index = ['<?xml version="1.0" encoding="UTF-8"?>',
+             '<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
+             '  <sitemap><loc>https://moon-oh.com/sitemap-pages.xml</loc><lastmod>' + today_str + '</lastmod></sitemap>',
+             '  <sitemap><loc>https://moon-oh.com/sitemap-moonoh.xml</loc><lastmod>' + today_str + '</lastmod></sitemap>',
+             '  <sitemap><loc>https://moon-oh.com/sitemap-marketplace.xml</loc><lastmod>' + today_str + '</lastmod></sitemap>',
+             '  <sitemap><loc>https://moon-oh.com/sitemap-food-rescue.xml</loc><lastmod>' + today_str + '</lastmod></sitemap>',
+             '  <sitemap><loc>https://moon-oh.com/sitemap-shops.xml</loc><lastmod>' + today_str + '</lastmod></sitemap>',
+             '  <sitemap><loc>https://moon-oh.com/sitemap-local-products.xml</loc><lastmod>' + today_str + '</lastmod></sitemap>',
+             '</sitemapindex>']
 
 with open('sitemap-index.xml', 'w', encoding='utf-8') as f:
-    f.write(sitemap_index_content)
+    f.write('\n'.join(xml_index))
 
-# Keep sitemap.xml identical to sitemap-index.xml so both /sitemap.xml and /sitemap-index.xml work seamlessly
-with open('sitemap.xml', 'w', encoding='utf-8') as f:
-    f.write(sitemap_index_content)
-
-print('✅ Saved sitemap-index.xml and sitemap.xml (Master Index)')
+print("✅ All XML Sitemaps successfully regenerated!")
