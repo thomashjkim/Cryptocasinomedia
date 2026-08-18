@@ -9,6 +9,34 @@ import subprocess
 # Detailed list of the 34 articles with 4-5 paragraphs each, including quotes starting with "“"
 articles_data = [
   {
+    "id": "pr-96-dominator-play-fruits-story-sweet-domination-slot-launch-2026",
+    "slug": "dominator-play-fruits-story-sweet-domination-classic-slot-2026",
+    "originalUrl": "",
+    "title": "Dominator Play Puts a Fresh Spin on the Classic Fruit Slot with Fruits Story: Sweet Domination",
+    "publishedAt": "2026-08-19T09:00:00-04:00",
+    "sourceName": "Dominator Play",
+    "thumbnailUrl": "https://cryptocasinomedia.com/images/dominator_play_fruits_story.jpg",
+    "dateline": "KYIV, UKRAINE, Aug. 19, 2026",
+    "lede": "Dominator Play has announced the launch of Fruits Story: Sweet Domination, taking a fresh look at classic fruit-slot gameplay with viral TikTok-inspired visual design and Hold&Win mechanics.",
+    "body": [
+      "Dominator Play has announced the launch of Fruits Story: Sweet Domination, the latest addition to its growing portfolio of performance-driven content. One of the casino industry's most enduring themes takes a fresh look. The new release pairs the instant appeal of classic fruit-slot gameplay with trendy visuals.",
+      "The casino game provider took the inspiration for the fruits slot from the viral TikTok trend of humanized fruit characters. Fruits Story: Sweet Domination reimagines a timeless theme with expressive personalities, vibrant animations, and a playful visual identity. It gives familiar symbols a contemporary appeal.",
+      "The game stays true to the classic fruit slot formula with a 5x3 reel layout and 15 paylines, then builds on it with a feature set. Hold&Win leads the experience, joined by a Collector Mechanic, Mystery Symbols, Coin Multipliers, and a four-level jackpot system. Together, these mechanics create plenty of opportunities for players to extend the excitement from one spin to the next.",
+      "During feature rounds, multipliers of up to x1500 can significantly boost win potential, adding another rewarding layer to the gameplay experience.",
+      "\"Entertainment trends don't stop at social media. They shape how people respond to visual experiences across every digital product. We looked at how the humanized fruit trend took off on TikTok and saw an opportunity to bring that energy into a casino format,\" said Ivan Kalashniuk, CEO of Dominator Play.",
+      "Fruits Story: Sweet Domination also offers the same full branding flexibility available across the Dominator Play portfolio. Every key visual touchpoint, from the interface to audio, can be tailored to reflect an operator's brand.",
+      "Operators can also explore the game through a Cheat Demo. It allows them to activate every feature, evaluate gameplay mechanics, and experience the complete player journey in a controlled environment.",
+      "Familiar enough to catch players' attention and fresh enough to keep their interest, Fruits Story: Sweet Domination gives online casinos a title that works hard both on the casino floor and behind the numbers.",
+      "About Dominator Play: Dominator Play is an iGaming content provider focused on delivering branded & bespoke games, commercially proven mechanics, and flexible solutions for operators worldwide. Combining creativity, best practices in mobile gamedev, and industry expertise, the studio develops products that connect with broad audiences and align with emerging trends."
+    ],
+    "topics": ["Sweepstakes", "Crypto Casinos", "Technology", "New Launches"],
+    "primaryCategory": "sweepstakes",
+    "company": "Dominator Play",
+    "region": "Global",
+    "contact": "kateryna.lysenko@dominatorplay.com",
+    "excerpt": "Dominator Play releases Fruits Story: Sweet Domination, combining classic 5x3 fruit slot mechanics with viral TikTok visual trends and Hold&Win jackpots."
+  },
+  {
     "id": "pr-95-baltimore-lawsuit-polymarket-kalshi-unlicensed-sportsbook-2026",
     "slug": "baltimore-city-lawsuit-polymarket-kalshi-unlicensed-sportsbook-prediction-markets-2026",
     "originalUrl": "",
@@ -28,7 +56,7 @@ articles_data = [
     "primaryCategory": "regulation",
     "company": "City of Baltimore",
     "region": "USA",
-    "contact": "desk@cryptocasinomedia.com",
+    "contact": "cryptocasinomedia@gmail.com",
     "excerpt": "Baltimore files lawsuit against Polymarket and Kalshi alleging unlicensed sports betting operations in violation of Maryland gambling laws."
   },
   {
@@ -51,7 +79,7 @@ articles_data = [
     "primaryCategory": "crypto-casinos",
     "company": "Telegram / TON Network",
     "region": "Global",
-    "contact": "desk@cryptocasinomedia.com",
+    "contact": "cryptocasinomedia@gmail.com",
     "excerpt": "Telegram crypto casino Mini Apps pass $500M monthly wager volume milestone powered by TON network speed and Solana multi-chain payment rails."
   },
   {
@@ -74,7 +102,7 @@ articles_data = [
     "primaryCategory": "regulation",
     "company": "Curacao Gaming Control Board",
     "region": "Curaçao",
-    "contact": "desk@cryptocasinomedia.com",
+    "contact": "cryptocasinomedia@gmail.com",
     "excerpt": "Curaçao Gaming Control Board issues mandatory LOK licensing transition guidelines for international crypto casino operators."
   },
   {
@@ -98,7 +126,7 @@ articles_data = [
     "primaryCategory": "regulation",
     "company": "New York Supreme Court",
     "region": "USA",
-    "contact": "desk@cryptocasinomedia.com",
+    "contact": "cryptocasinomedia@gmail.com",
     "excerpt": "New York Supreme Court class-action suit alleges Stake.com and Coinbase enabled underage gambling via influencer promotions and VPN-accessible mirror sites."
   },
   {
@@ -121,7 +149,7 @@ articles_data = [
     "primaryCategory": "crypto-casinos",
     "company": "Roobet",
     "region": "Canada / Global",
-    "contact": "desk@cryptocasinomedia.com",
+    "contact": "cryptocasinomedia@gmail.com",
     "excerpt": "Roobet integrates a native prediction market into its casino wallet, enabling USDT-based bets on politics and pop culture events without leaving the gaming platform."
   },
   {
@@ -144,7 +172,7 @@ articles_data = [
     "primaryCategory": "regulation",
     "company": "UAE Virtual Assets Regulatory Authority (VARA)",
     "region": "UAE / Middle East",
-    "contact": "desk@cryptocasinomedia.com",
+    "contact": "cryptocasinomedia@gmail.com",
     "excerpt": "UAE VARA issues enforcement actions against unlicensed crypto casino operators and mandates real-time Proof of Reserves disclosure for all registered platforms by September 2026."
   },
   {
@@ -168,7 +196,7 @@ articles_data = [
     "primaryCategory": "press-releases",
     "company": "Google Trends B2B Index",
     "region": "Global",
-    "contact": "desk@cryptocasinomedia.com",
+    "contact": "cryptocasinomedia@gmail.com",
     "excerpt": "Google Trends analytics reveal a 180% YoY spike in search interest for crypto casino no deposit bonuses and Telegram casino bots in Q3 2026."
   },
   {
@@ -191,7 +219,7 @@ articles_data = [
     "primaryCategory": "payments",
     "company": "Payment Rail Analytics",
     "region": "Europe / North America",
-    "contact": "desk@cryptocasinomedia.com",
+    "contact": "cryptocasinomedia@gmail.com",
     "excerpt": "On-chain data confirms USDT and USDC now handle over 70% of crypto casino deposits, outstripping BTC and ETH volume."
   },
   {
@@ -214,7 +242,7 @@ articles_data = [
     "primaryCategory": "regulation",
     "company": "GCB Regulatory Oversight",
     "region": "Latin America & Caribbean",
-    "contact": "desk@cryptocasinomedia.com",
+    "contact": "cryptocasinomedia@gmail.com",
     "excerpt": "Curacao GCB enforces mandatory physical presence and direct LOK licensing for all crypto casino operators by Q4 2026."
   },
   {
@@ -237,7 +265,7 @@ articles_data = [
     "primaryCategory": "press-releases",
     "company": "CCM Research",
     "region": "Global",
-    "contact": "desk@cryptocasinomedia.com",
+    "contact": "cryptocasinomedia@gmail.com",
     "excerpt": "An in-depth look at Provably Fair 2.0 cryptographic verification standards, detailing Server/Client seed generation and HMAC-SHA256 math for crypto casinos."
   },
   {
@@ -260,7 +288,7 @@ articles_data = [
     "primaryCategory": "sportsbook",
     "company": "TON Foundation",
     "region": "Global",
-    "contact": "desk@cryptocasinomedia.com",
+    "contact": "cryptocasinomedia@gmail.com",
     "excerpt": "A technical guide detailing TON Connect 2.0 SDK integration, smart contract settlements, and non-custodial wallet setups in Telegram sportsbooks."
   },
   {
@@ -283,7 +311,7 @@ articles_data = [
     "primaryCategory": "regulation",
     "company": "LatAm Gaming Council",
     "region": "Brazil",
-    "contact": "desk@cryptocasinomedia.com",
+    "contact": "cryptocasinomedia@gmail.com",
     "excerpt": "An analysis of Brazil's national iGaming licensing rules, Pix payment gateway compliance, CPF verification, and regulations for foreign operators."
   },
   {
@@ -699,7 +727,7 @@ articles_data = [
     "primaryCategory": "crypto-casinos",
     "company": "TG.Casino & Mega Dice",
     "region": "Middle East",
-    "contact": "desk@cryptocasinomedia.com",
+    "contact": "cryptocasinomedia@gmail.com",
     "excerpt": "Telegram-based crypto casinos and GambleFi bots see capital surge as they prepare live-betting APIs for the 2026 World Cup."
   },
   {
@@ -745,7 +773,7 @@ articles_data = [
     "primaryCategory": "regulation",
     "company": "Consortium of Gaming Regulators",
     "region": "Global",
-    "contact": "desk@cryptocasinomedia.com",
+    "contact": "cryptocasinomedia@gmail.com",
     "excerpt": "Regulators from the EU, UK, and US form a joint task force targeting unlicensed crypto sportsbooks during the 2026 World Cup."
   },
   {
@@ -791,7 +819,7 @@ articles_data = [
     "primaryCategory": "regulation",
     "company": "CryptoCasinoMedia Security Desk",
     "region": "Global",
-    "contact": "desk@cryptocasinomedia.com",
+    "contact": "cryptocasinomedia@gmail.com",
     "excerpt": "Cybersecurity researchers have identified a coordinated network of template scam casinos, including Hiorax and Riowex, falsely claiming affiliation with Elon Musk. The sites lure victims with a fake $2,500 'BOSS' promo code, promising instant withdrawals to trick users into depositing funds."
   },
   {
@@ -1655,7 +1683,7 @@ articles_data = [
     "primaryCategory": "payments",
     "company": "CryptoCasinoMedia Research",
     "region": "Global",
-    "contact": "desk@cryptocasinomedia.com",
+    "contact": "cryptocasinomedia@gmail.com",
     "excerpt": "USDT overtakes Bitcoin at crypto casinos in Q1 2026, commanding 38% of deposit volume and $18.4B in operator transactions as stablecoin wagering reaches mainstream scale."
   },
   {
@@ -1703,7 +1731,7 @@ articles_data = [
     "primaryCategory": "regulation",
     "company": "CryptoCasinoMedia Research",
     "region": "Global",
-    "contact": "desk@cryptocasinomedia.com",
+    "contact": "cryptocasinomedia@gmail.com",
     "excerpt": "Curacao's 2026 National Ordinance on Games of Hazard eliminates the master-license model, requiring all 380+ crypto casino operators to obtain direct licenses with full AML and fund segregation compliance by September 2026."
   },
   {
@@ -1727,7 +1755,7 @@ articles_data = [
     "primaryCategory": "crypto-casinos",
     "company": "CryptoCasinoMedia Research",
     "region": "Global",
-    "contact": "desk@cryptocasinomedia.com",
+    "contact": "cryptocasinomedia@gmail.com",
     "excerpt": "Ethereum NFT casino platforms hit $2.1B monthly wager volume in May 2026, with on-chain asset ownership reshaping player economics and attracting $87M in institutional VC investment."
   },
   {
@@ -1775,7 +1803,7 @@ articles_data = [
     "primaryCategory": "crypto-casinos",
     "company": "CryptoCasinoMedia Research",
     "region": "Global",
-    "contact": "desk@cryptocasinomedia.com",
+    "contact": "cryptocasinomedia@gmail.com",
     "excerpt": "Bitcoin's approach to $120,000 has driven a 28% surge in crypto casino deposit volume, with new player registrations up 34% and operators implementing stablecoin hedging to manage BTC price volatility."
   },
   {
@@ -1799,7 +1827,7 @@ articles_data = [
     "primaryCategory": "regulation",
     "company": "CryptoCasinoMedia Research",
     "region": "Europe",
-    "contact": "desk@cryptocasinomedia.com",
+    "contact": "cryptocasinomedia@gmail.com",
     "excerpt": "The EU AI Act's August 2026 deadline may classify iGaming personalization and bonus AI systems as high-risk, requiring audit trails, human oversight, and \u20ac500K-\u20ac2M compliance investment per operator."
   },
   {
