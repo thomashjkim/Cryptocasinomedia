@@ -1310,7 +1310,7 @@
 
         const imgSrc = item.image || item.image_source_url || item.photo || item.pictureUrl || '/images/default-item-placeholder.png';
         const rawLoc = item.location || item.rawTown || 'Manhattan, NY';
-        const itemLoc = item.timeAgo ? `${item.timeAgo} · ${rawLoc}` : rawLoc;
+        const itemLoc = rawLoc;
 
         html += `
         <a class="item-card" ${clickAttr} style="text-decoration:none; color:inherit;">
@@ -1960,6 +1960,12 @@
           filtered = interleaveMarketplaceProducts(filtered);
         } else {
           filtered.sort((a, b) => {
+            // Strict Moonoh auto-increment ID sorting (highest No = most recently posted)
+            if (activeSource === 'moonoh' || (isStrictMoonoh(a) && isStrictMoonoh(b))) {
+              const noA = parseInt(String(a.no || a.id || '').replace(/\D/g, ''), 10) || 0;
+              const noB = parseInt(String(b.no || b.id || '').replace(/\D/g, ''), 10) || 0;
+              if (noA > 0 && noB > 0 && noA !== noB) return noB - noA;
+            }
             const tA = getItemTimestamp(a);
             const tB = getItemTimestamp(b);
             if (tB !== tA) return tB - tA;

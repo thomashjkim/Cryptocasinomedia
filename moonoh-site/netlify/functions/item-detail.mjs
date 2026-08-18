@@ -31,6 +31,53 @@ function escapeHtml(str) {
     .replace(/'/g, '&#39;');
 }
 
+function formatDisplayTimeAgo(rawStr, sourceType) {
+  if (sourceType === 'localshops' || sourceType === 'local-shop') return 'Local Shop';
+  if (sourceType === 'foodrescue' || sourceType === 'kimc') return 'Food Rescue';
+  if (sourceType === 'marketplaces' || sourceType === 'karrot' || sourceType === 'heykorean' || sourceType === 'external') return 'Community Listing';
+
+  if (!rawStr || rawStr === 'undefined' || rawStr === 'null' || rawStr === 'None') return 'Recently';
+
+  let raw = String(rawStr).trim().replace(/\.+$/, '');
+
+  // Check days ago: e.g. "1110 day ago.", "750 days ago", "1 day ago"
+  const mDay = raw.match(/(\d+)\s*days?\s*ago/i);
+  if (mDay) {
+    const days = parseInt(mDay[1], 10);
+    if (days > 60) return 'Recently listed';
+    if (days === 1) return '1 day ago';
+    return `${days} days ago`;
+  }
+
+  // Check months / years ago
+  if (/year|month/i.test(raw)) {
+    const mMonth = raw.match(/(\d+)\s*months?\s*ago/i);
+    if (mMonth) {
+      const months = parseInt(mMonth[1], 10);
+      if (months > 2) return 'Recently listed';
+      if (months === 1) return '1 month ago';
+      return `${months} months ago`;
+    }
+    return 'Recently listed';
+  }
+
+  // Check hours / minutes
+  const mHour = raw.match(/(\d+)\s*hours?\s*ago/i);
+  if (mHour) {
+    const hrs = parseInt(mHour[1], 10);
+    return hrs === 1 ? '1 hour ago' : `${hrs} hours ago`;
+  }
+
+  const mMin = raw.match(/(\d+)\s*mins?\s*ago|minutes?\s*ago/i);
+  if (mMin) return 'Just now';
+
+  if (/^(today|yesterday)$/i.test(raw)) {
+    return raw.charAt(0).toUpperCase() + raw.slice(1).toLowerCase();
+  }
+
+  return 'Recently';
+}
+
 function getCategorySlug(catStr) {
   if (!catStr) return 'other';
   let c = String(catStr).toLowerCase().trim();
@@ -24472,7 +24519,7 @@ export default async (req, context) => {
         categoryName = localItem.primary_category || localItem.moonoh_category || "Home & Objects";
         externalUrl = (localItem.source_url && localItem.source_url.startsWith('http')) ? localItem.source_url : (shopInfo.website_url || 'https://moon-oh.com');
         externalSource = shopSlug;
-        strDayCount = "Local Shop";
+        strDayCount = formatDisplayTimeAgo(null, "localshops");
       } else {
         return new Response("Product Not Found", {
           status: 404,
@@ -24523,7 +24570,7 @@ export default async (req, context) => {
           extItem.timeAgo = '3 days ago';
         }
       }
-      strDayCount = extItem.source === 'kimc' ? 'Fight Food Waste' : extItem.timeAgo;
+      strDayCount = extItem.source === 'kimc' ? formatDisplayTimeAgo(null, 'foodrescue') : formatDisplayTimeAgo(extItem.timeAgo, 'marketplaces');
       photos = [extItem.image];
       mainPhoto = extItem.image;
       categoryName = extItem.source === 'kimc' ? 'Food & Groceries' : inferCategoryFromText(title, description, extItem.category);
@@ -24574,7 +24621,7 @@ export default async (req, context) => {
       description = d.content || title;
       townName = standardizeLocationName(d.productTownName || d.address || "Manhattan, NY");
       address = d.address || "New York, NY, USA";
-      strDayCount = d.strDayCount || "Recently";
+      strDayCount = formatDisplayTimeAgo(d.strDayCount, "moonoh");
       sellerName = d.sellerUserName || "Moonoh User";
       likeCount = d.likeCount || 0;
       categoryName = inferCategoryFromText(title, description, d.categoryName);

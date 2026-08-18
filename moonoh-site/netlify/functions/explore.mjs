@@ -183,6 +183,11 @@ async function fetchAllCombinedItems() {
     cachedCombinedItems = [...moonohItems, ...externalItems, ...foodRescueItems, ...localItems];
     // Sort all combined items by original posting timestamp (recency order)
     cachedCombinedItems.sort((a, b) => {
+      if (a.source === 'moonoh' && b.source === 'moonoh') {
+        const noA = parseInt(String(a.no || a.id || '').replace(/\D/g, ''), 10) || 0;
+        const noB = parseInt(String(b.no || b.id || '').replace(/\D/g, ''), 10) || 0;
+        if (noA > 0 && noB > 0 && noA !== noB) return noB - noA;
+      }
       const tA = getItemTimestamp(a);
       const tB = getItemTimestamp(b);
       if (tB !== tA) return tB - tA;
