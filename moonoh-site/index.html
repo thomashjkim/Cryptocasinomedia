@@ -517,7 +517,7 @@
       border-radius: 12px !important;
       overflow: hidden !important;
       background-color: #F3F4F6 !important;
-      margin-bottom: 8px !important;
+      margin-bottom: 2px !important;
       display: block !important;
     }
     .item-card-img-wrap img,
@@ -857,6 +857,24 @@
     }
     @media (max-width: 479px) {
       .item-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+      .item-card-img-wrap {
+        margin-bottom: 0px !important;
+      }
+      .item-card-image,
+      .item-card-img {
+        margin-bottom: 0px !important;
+      }
+      .item-card-content,
+      .item-card-info {
+        padding: 0 2px 0 2px !important;
+        margin-top: 0px !important;
+      }
+      .item-card-price {
+        font-size: 18px !important;
+        font-weight: 800 !important;
+        margin-top: 0px !important;
+        margin-bottom: 2px !important;
+      }
     }
   </style>
 <script type="application/ld+json">
