@@ -591,19 +591,24 @@ def renderArticlePage(slug):
     category_name = article['primaryCategory'].replace('-', ' ').title()
     topics_list_str = ", ".join(article['topics'])
     
-    # Determine reporting classification
-    source_name_lower = article.get('sourceName', '').lower()
-    if any(k in source_name_lower for k in ['desk', 'intelligence', 'analytics', 'research', 'editorial']):
-        reporting_type = "EDITORIAL NEWS & ANALYSIS"
-    else:
+    # Determine reporting classification and unified authorship model
+    source_name = article.get('sourceName') or article.get('company') or "CryptoCasinoMedia Desk"
+    source_name_lower = source_name.lower()
+    is_third_party = article.get('company') or not any(k in source_name_lower for k in ['desk', 'intelligence', 'analytics', 'research', 'editorial'])
+    
+    if is_third_party:
         reporting_type = "OFFICIAL PRESS RELEASE"
+    else:
+        reporting_type = "EDITORIAL NEWS & ANALYSIS"
 
-    author_name = "Sophia Chen (Regulatory Editor)" if article['primaryCategory'] == 'regulation' else "Marcus Vance (Senior iGaming Analyst)"
+    editor_name = "Sophia Chen" if article['primaryCategory'] == 'regulation' else "Marcus Vance"
+    editor_role = "Regulatory Editor" if article['primaryCategory'] == 'regulation' else "Senior iGaming Analyst"
+    author_name = f"{editor_name} ({editor_role})"
 
     # Resolve external primary sources for E-E-A-T provenance
     source_links_html = ""
     matched_sources = []
-    text_to_search = f"{article['title']} {article['company']} {' '.join(article['topics'])}"
+    text_to_search = f"{article['title']} {article.get('company', '')} {' '.join(article['topics'])}"
     for ent_name, ent_url in ENTITY_MAPPINGS.items():
         if ent_name in text_to_search and ent_name not in [m[0] for m in matched_sources]:
             matched_sources.append((ent_name, ent_url))
@@ -628,10 +633,10 @@ def renderArticlePage(slug):
                                             <span class="text-xs uppercase tracking-wider font-semibold text-blue-800 bg-blue-50 px-2 py-0.5 rounded-sm">
                                                 {reporting_type}
                                             </span>
-                                            <span class="text-xs text-gray-600 font-medium">Source: {article['sourceName']}</span>
+                                            <span class="text-xs text-gray-600 font-medium">Source: {source_name}</span>
                                         </div>
                                         <p class="text-xs text-gray-600 leading-relaxed mb-1">
-                                            <strong>Fact-Checking & Editorial Policy:</strong> Verified by the CryptoCasinoMedia Editorial Desk ({author_name}). Statements, corporate filings, and regulatory claims in {article['region']} are cross-referenced against public registers and primary documentation.
+                                            <strong>Editorial Review & Attribution:</strong> Submitted announcements are reviewed under <a href="/editorial-standards/" class="text-blue-700 underline">CryptoCasinoMedia Editorial Standards</a> by {author_name} and attributed directly to original source {source_name}.
                                         </p>
                                         {source_links_html}
                                     </div>
@@ -709,11 +714,9 @@ def renderArticlePage(slug):
                                 <div class="flex flex-col sm:flex-row sm:items-center justify-between py-4 border-y border-gray-200 gap-4 font-sans">
                                     <div>
                                         <div class="flex items-center gap-2 mb-1">
-                                            <span class="text-sm text-gray-900" itemprop="author">
-                                                By <a href="/authors/{author_slug}/" class="font-semibold text-gray-900 hover:text-blue-700 underline">{author_name}</a>
+                                            <span class="text-sm text-gray-900">
+                                                {"Source: <strong class=\"text-gray-900\">" + source_name + "</strong> • Reviewed by <a href=\"/authors/" + editor_slug + "/\" class=\"font-semibold text-gray-900 hover:text-blue-700 underline\">" + editor_name + "</a> <span class=\"text-xs text-gray-500\">(" + editor_role + ")</span>" if is_third_party else "By <a href=\"/authors/" + editor_slug + "/\" class=\"font-semibold text-gray-900 hover:text-blue-700 underline\">" + editor_name + "</a> <span class=\"text-xs text-gray-500\">(" + editor_role + ")</span>"}
                                             </span>
-                                            <span class="text-gray-300">•</span>
-                                            <span class="text-xs text-gray-600 font-medium">Source: <strong>{article['sourceName']}</strong></span>
                                             <span class="text-gray-300">•</span>
                                             <span class="text-[11px] uppercase tracking-wider text-blue-700 font-semibold">{article['region']}</span>
                                         </div>
@@ -721,7 +724,7 @@ def renderArticlePage(slug):
                                             <i data-lucide="calendar" class="w-[14px] h-[14px]"></i>
                                             <time datetime="{article['publishedAt']}">{formattedDate}</time>
                                             <span class="text-gray-300">•</span>
-                                            <span>Verified Source</span>
+                                            <span>Attributed Source</span>
                                         </div>
                                     </div>
                                     <div class="flex gap-2">
@@ -1705,9 +1708,34 @@ for article in articles_sorted:
                 })
 
     # Generate static Article + FAQPage + BreadcrumbList schemas
-    author_slug = 'sophia-chen' if article['primaryCategory'] == 'regulation' else 'marcus-vance'
-    author_name = 'Sophia Chen' if article['primaryCategory'] == 'regulation' else 'Marcus Vance'
-    author_role = 'Regulatory Editor' if article['primaryCategory'] == 'regulation' else 'Senior iGaming Analyst'
+    source_name = article.get('sourceName') or article.get('company') or "CryptoCasinoMedia Desk"
+    source_name_lower = source_name.lower()
+    is_third_party = article.get('company') or not any(k in source_name_lower for k in ['desk', 'intelligence', 'analytics', 'research', 'editorial'])
+    
+    editor_slug = 'sophia-chen' if article['primaryCategory'] == 'regulation' else 'marcus-vance'
+    editor_name = 'Sophia Chen' if article['primaryCategory'] == 'regulation' else 'Marcus Vance'
+    editor_role = 'Regulatory Editor' if article['primaryCategory'] == 'regulation' else 'Senior iGaming Analyst'
+
+    if is_third_party:
+        author_schema = {
+            "@type": "Organization",
+            "name": source_name,
+            "url": article.get('originalUrl') or "https://cryptocasinomedia.com"
+        }
+        editor_schema = {
+            "@type": "Person",
+            "name": editor_name,
+            "jobTitle": editor_role,
+            "url": f"https://cryptocasinomedia.com/authors/{editor_slug}/"
+        }
+    else:
+        author_schema = {
+            "@type": "Person",
+            "name": editor_name,
+            "jobTitle": editor_role,
+            "url": f"https://cryptocasinomedia.com/authors/{editor_slug}/"
+        }
+        editor_schema = None
 
     article_schema = {
         "@context": "https://schema.org",
@@ -1722,19 +1750,7 @@ for article in articles_sorted:
         "dateModified": article.get('modifiedAt') or article.get('firstPublishedAt') or article['publishedAt'],
         "inLanguage": "en-US",
         "mainEntityOfPage": f"https://cryptocasinomedia.com/press-releases/{slug}/",
-        "author": [
-            {
-                "@type": "Person",
-                "name": author_name,
-                "jobTitle": author_role,
-                "url": f"https://cryptocasinomedia.com/authors/{author_slug}/"
-            },
-            {
-                "@type": "Organization",
-                "name": article['sourceName'],
-                "url": article.get('originalUrl') or "https://cryptocasinomedia.com/"
-            }
-        ],
+        "author": author_schema,
         "publisher": {
             "@id": "https://cryptocasinomedia.com/#organization"
         },
@@ -1754,6 +1770,8 @@ for article in articles_sorted:
             "cssSelector": ["#article-headline", "#p-0"]
         }
     }
+    if editor_schema:
+        article_schema["editor"] = editor_schema
     if mentions:
         article_schema["about"] = mentions
     primary_topic = article['topics'][0] if article.get('topics') else "crypto casinos"
@@ -1802,7 +1820,7 @@ for article in articles_sorted:
 
 # 2. L2 category hubs
 categories = [
-    ("/press-releases/", "Crypto Casino Press Releases & iGaming News", "Browse the latest crypto casino press releases and iGaming industry announcements covering launches, partnerships, regulation, payments, technology and more.", "press-releases"),
+    ("/press-releases/", "Crypto Casino Press Releases & iGaming News", "Browse the latest crypto casino press releases and iGaming industry announcements. Submitted releases are reviewed under CryptoCasinoMedia's Editorial Standards and clearly attributed to their original source.", "press-releases"),
     ("/crypto-casinos/", "Crypto Casinos", "Latest updates, compliance standards, and game launches in the crypto casino sector.", "crypto-casinos"),
     ("/sportsbook/", "Sportsbook", "Crypto sports betting, partnership deals, and major global sportsbook news.", "sportsbook"),
     ("/regulation/", "Regulation & Compliance", "Regulatory compliance, licensing standards, and legal updates in key jurisdictions.", "regulation"),

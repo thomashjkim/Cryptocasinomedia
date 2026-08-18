@@ -112,4 +112,43 @@ except Exception as e:
     print(f"Error writing news-sitemap.xml: {e}")
     sys.exit(1)
 
+# Generate RSS 2.0 Syndication Feed (rss.xml) for recent 30 published articles
+rss_path = os.path.join(PROJECT_ROOT, "index/rss.xml")
+rss_items = []
+for article in published_sorted[:30]:
+    slug = article["slug"]
+    title_clean = article["title"].replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;')
+    desc_clean = article["excerpt"].replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;')
+    loc = f"https://cryptocasinomedia.com/press-releases/{slug}/"
+    pub_date = article.get("firstPublishedAt") or article["publishedAt"]
+    rss_items.append(f"""    <item>
+      <title>{title_clean}</title>
+      <link>{loc}</link>
+      <guid isPermaLink="true">{loc}</guid>
+      <pubDate>{pub_date}</pubDate>
+      <description>{desc_clean}</description>
+    </item>""")
+
+rss_xml_content = f"""<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>CryptoCasinoMedia — Crypto Casino &amp; iGaming Press Releases</title>
+    <link>https://cryptocasinomedia.com/</link>
+    <description>Official press releases, operator announcements, and B2B news from the crypto casino and iGaming sector.</description>
+    <language>en-us</language>
+    <atom:link href="https://cryptocasinomedia.com/rss.xml" rel="self" type="application/rss+xml" />
+{"\n".join(rss_items)}
+  </channel>
+</rss>
+"""
+
+try:
+    with open(rss_path, "w", encoding="utf-8") as f:
+        f.write(rss_xml_content)
+    print(f"SUCCESS: rss.xml successfully updated at {rss_path} with {len(published_sorted[:30])} articles!")
+except Exception as e:
+    print(f"Error writing rss.xml: {e}")
+    sys.exit(1)
+
+
 

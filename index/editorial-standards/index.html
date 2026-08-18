@@ -2976,6 +2976,13 @@
                                 </section>
             ` : '';
 
+            const isThirdParty = article.company || !['desk', 'intelligence', 'analytics', 'research', 'editorial'].some(k => (article.sourceName || '').toLowerCase().includes(k));
+            const editorName = article.primaryCategory === 'regulation' ? 'Sophia Chen' : 'Marcus Vance';
+            const editorRole = article.primaryCategory === 'regulation' ? 'Regulatory Editor' : 'Senior iGaming Analyst';
+            const authorSchema = isThirdParty 
+                ? { "@type": "Organization", "name": article.sourceName || article.company, "url": "https://cryptocasinomedia.com" }
+                : { "@type": "Person", "name": editorName, "jobTitle": editorRole, "url": "https://cryptocasinomedia.com/authors/" + editorName.toLowerCase().replace(' ', '-') + "/" };
+
             // NewsArticle + FAQPage + BreadcrumbList schema
             const articleSchema = {
                 "@context": "https://schema.org",
@@ -2984,7 +2991,7 @@
                 "description": article.excerpt,
                 "datePublished": article.publishedAt,
                 "dateModified": article.publishedAt,
-                "author": {"@type": "Organization", "name": article.sourceName, "url": "https://cryptocasinomedia.com"},
+                "author": authorSchema,
                 "publisher": {"@type": "Organization", "name": "CryptoCasinoMedia", "url": "https://cryptocasinomedia.com", "logo": {"@type": "ImageObject", "url": "https://cryptocasinomedia.com/favicon.ico"}},
                 "image": article.thumbnailUrl || "https://cryptocasinomedia.com/og-image.jpg",
                 "url": "https://cryptocasinomedia.com/press-releases/" + article.slug,
@@ -2993,6 +3000,9 @@
                 "keywords": article.topics.join(", "),
                 "about": article.topics.map(t => ({"@type": "Thing", "name": t}))
             };
+            if (isThirdParty) {
+                articleSchema.editor = { "@type": "Person", "name": editorName, "jobTitle": editorRole };
+            }
             const faqSchema = {
                 "@context": "https://schema.org",
                 "@type": "FAQPage",
