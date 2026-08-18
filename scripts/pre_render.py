@@ -2079,51 +2079,6 @@ utility_pages = [
             "publisher": {
                 "@id": "https://cryptocasinomedia.com/#organization"
             }
-        },
-        {
-            "@type": "FAQPage",
-            "mainEntity": [
-                {
-                    "@type": "Question",
-                    "name": "Is press release submission free?",
-                    "acceptedAnswer": {
-                        "@type": "Answer",
-                        "text": "Yes. Standard press release submission and editorial review on CryptoCasinoMedia are free for verified iGaming and crypto organizations."
-                    }
-                },
-                {
-                    "@type": "Question",
-                    "name": "How long does editorial review take?",
-                    "acceptedAnswer": {
-                        "@type": "Answer",
-                        "text": "Our editorial team reviews submitted press releases within 1 to 3 business days. Approved announcements are published immediately following review."
-                    }
-                },
-                {
-                    "@type": "Question",
-                    "name": "Will my press release be indexed by Google?",
-                    "acceptedAnswer": {
-                        "@type": "Answer",
-                        "text": "All approved press releases are published on permanent, crawlable HTML pages with valid XML sitemap inclusion and structured JSON-LD schema metadata. Search engines independently evaluate and index published pages according to their algorithms."
-                    }
-                },
-                {
-                    "@type": "Question",
-                    "name": "Can I choose a specific distribution date?",
-                    "acceptedAnswer": {
-                        "@type": "Answer",
-                        "text": "Yes. You may specify a requested distribution date in the form. Releases are published to coincide with your requested date upon editorial approval."
-                    }
-                },
-                {
-                    "@type": "Question",
-                    "name": "Can I include outbound links and media?",
-                    "acceptedAnswer": {
-                        "@type": "Answer",
-                        "text": "Yes. You may provide high-resolution image URLs and relevant outbound links to official company portals or documentation."
-                    }
-                }
-            ]
         }
     ]),
     ('/contact/', 'Contact Us — CryptoCasinoMedia', 'Reach our editorial team for inquiries, partnerships, or general questions.', renderContactPage(), [
