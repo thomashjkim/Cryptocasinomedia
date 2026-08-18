@@ -19,6 +19,6 @@ if 'export default async' not in code:
     code = code.strip() + '\n' + handler
     with open('netlify/functions/external-items.mjs', 'w', encoding='utf-8') as f:
         f.write(code)
-    print("✅ Appended default export handler to netlify/functions/external-items.mjs")
+    print("✅ Appended export default handler to external-items.mjs")
 else:
-    print("Export handler already present")
+    print("Already present")
