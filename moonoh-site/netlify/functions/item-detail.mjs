@@ -24579,7 +24579,7 @@ export default async (req, context) => {
 
       const d = await detailRes.json();
 
-      if (!d || !d.title) {
+      if (!d || !d.title || d.isShow !== 'Y') {
         return new Response("Product Not Found", {
           status: 404,
           headers: {

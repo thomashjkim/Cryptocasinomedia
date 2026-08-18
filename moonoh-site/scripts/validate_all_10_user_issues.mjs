@@ -53,15 +53,17 @@ async function runComprehensiveAudit() {
   console.log(`  • '1mi · ' in food rescue data: ${m3.length} (PASS: ${m3.length === 0})`);
   if (m1.length > 0 || m2.length > 0 || m3.length > 0) allPassed = false;
 
-  // 4. LOCATION STANDARDIZATION TEST
-  console.log("\n[Point 4] Testing Location Standardization:");
+  // 4. LOCATION STANDARDIZATION & MEETUP PREFERENCE TEST
+  console.log("\n[Point 4] Testing Location Standardization & Meetup Preference:");
   const sampleMoonohReq = new Request("https://moon-oh.com/item/khadlaj-island-dreams-the-bronx-ny-855");
   const sampleMoonohResp = await itemDetailHandler(sampleMoonohReq);
   const sampleMoonohBody = await sampleMoonohResp.text();
   console.log(`  • Latest Moonoh Item (No. 855) Detail HTTP Status: ${sampleMoonohResp.status}`);
   const hasGenericNyc = sampleMoonohBody.includes("<span class=\"loc\">NYC</span>");
-  console.log(`  • Shows generic 'NYC' instead of borough/town: ${hasGenericNyc} (PASS: ${!hasGenericNyc})`);
-  if (hasGenericNyc || sampleMoonohResp.status !== 200) allPassed = false;
+  const hasMeetupBronx = sampleMoonohBody.includes("The Bronx, NY");
+  console.log(`  • Shows generic 'NYC': ${hasGenericNyc} (PASS: ${!hasGenericNyc})`);
+  console.log(`  • Shows Meetup Preference 'The Bronx, NY': ${hasMeetupBronx} (PASS: ${hasMeetupBronx})`);
+  if (hasGenericNyc || !hasMeetupBronx || sampleMoonohResp.status !== 200) allPassed = false;
 
   // 5. BREADCRUMBS & TAB / CATEGORY / REGION COMBINATIONS TEST
   console.log("\n[Point 5] Testing Breadcrumbs Navigation across 4 sources:");
@@ -91,12 +93,14 @@ async function runComprehensiveAudit() {
   console.log(`  • Detail view has like-badge: ${hasLikeBadge} (PASS: ${!hasLikeBadge})`);
   if (hasLikeBadge) allPassed = false;
 
-  // 8. MOONOH LIVE DATA SYNC TEST
-  console.log("\n[Point 8] Testing Moonoh Live Data Sync (All items with authentic images & prices):");
-  const rawMoonoh = JSON.parse(moonohData.replace(/^[\s\S]*?=\s*/, '').replace(/;\s*$/, ''));
-  console.log(`  • Total synced Moonoh items: ${rawMoonoh.length} (PASS: ${rawMoonoh.length >= 590})`);
-  console.log(`  • Highest item No: ${rawMoonoh[0].no} (PASS: ${Number(rawMoonoh[0].no) >= 855})`);
-  if (rawMoonoh.length < 590 || Number(rawMoonoh[0].no) < 855) allPassed = false;
+  // 8. MOONOH LIVE DATA SYNC & HIDDEN EXCLUSION TEST
+  console.log("\n[Point 8] Testing Moonoh Live Data Sync & Hidden Item Exclusion:");
+  const rawMoonoh = JSON.parse(fs.readFileSync('data.json', 'utf-8'));
+  console.log(`  • Total synced visible Moonoh items: ${rawMoonoh.length} (PASS: ${rawMoonoh.length === 595})`);
+  console.log(`  • Highest item No: ${rawMoonoh[0].no} (PASS: ${Number(rawMoonoh[0].no) === 855})`);
+  const hasHidden852 = rawMoonoh.some(x => x.no === 852);
+  console.log(`  • Hidden item No.852 excluded: ${!hasHidden852} (PASS: ${!hasHidden852})`);
+  if (rawMoonoh.length !== 595 || Number(rawMoonoh[0].no) !== 855 || hasHidden852) allPassed = false;
 
   // 9. PERFORMANCE & COLD START TEST
   console.log("\n[Point 9] Testing Instant In-Memory Explore SSR Performance:");
