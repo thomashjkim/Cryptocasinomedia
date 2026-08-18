@@ -8,3 +8,4 @@ User-agent: GPTBot
 Allow: /
 
 Sitemap: https://cryptocasinomedia.com/sitemap.xml
+Sitemap: https://cryptocasinomedia.com/news-sitemap.xml

@@ -2711,7 +2711,7 @@
             return `
                 <a href="/press-releases/${article.slug}" onclick="navigate('/press-releases/${article.slug}')" class="group flex flex-col sm:flex-row gap-4 py-5 border-b border-gray-200 hover:bg-gray-50 transition-colors -mx-4 px-4 sm:mx-0 sm:px-0 rounded-sm">
                     <div class="sm:w-1/3 md:w-1/4 flex-shrink-0">
-                        <div class="aspect-[4/3] w-full bg-gray-100 overflow-hidden border border-gray-200">
+                        <div class="aspect-video w-full bg-gray-100 overflow-hidden border border-gray-200">
                             <img src="${article.thumbnailUrl}" alt="${article.title}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                         </div>
                     </div>
@@ -2731,7 +2731,7 @@
         function renderStoryGridCard(article) {
             return `
                 <a href="/press-releases/${article.slug}" onclick="navigate('/press-releases/${article.slug}')" class="group flex flex-col border-b sm:border-b-0 sm:border-r border-gray-200 sm:last:border-r-0 pb-6 sm:pb-0 sm:pr-6 sm:last:pr-0">
-                    <div class="aspect-[4/3] w-full bg-gray-100 overflow-hidden mb-4 border border-gray-200">
+                    <div class="aspect-video w-full bg-gray-100 overflow-hidden mb-4 border border-gray-200">
                         <img src="${article.thumbnailUrl}" alt="${article.title}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                     </div>
                     ${renderArticleMeta(article)}
@@ -2760,7 +2760,7 @@
                     <div class="flex flex-col lg:flex-row gap-8 lg:gap-12">
                         <div class="lg:w-[70%]">
                             <a href="/press-releases/${leadStory.slug}" onclick="navigate('/press-releases/${leadStory.slug}')" class="group block mb-10">
-                                <div class="aspect-[4/3] w-full bg-gray-100 overflow-hidden border border-gray-200 mb-4 relative">
+                                <div class="aspect-video w-full bg-gray-100 overflow-hidden border border-gray-200 mb-4 relative">
                                     <img src="${leadStory.thumbnailUrl}" alt="${leadStory.title}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
                                 </div>
                                 ${renderArticleMeta(leadStory)}
@@ -3198,7 +3198,139 @@
         }
 
         function renderSubmitPage() {
-            return '<div class="max-w-[800px] mx-auto px-4 sm:px-6 lg:px-8 py-16 animate-fade-in"><div class="mb-10 border-b border-gray-200 pb-8"><h1 class="text-4xl font-semibold tracking-tight text-gray-900 mb-3">Submit a Press Release</h1><p class="text-lg text-gray-600">Reach key decision makers, operators, and analysts in the crypto and iGaming sector.</p></div><form name="press-release" method="POST" data-netlify="true" class="space-y-6"><input type="hidden" name="form-name" value="press-release"><div class="grid grid-cols-1 sm:grid-cols-2 gap-6"><div><label class="block text-sm font-semibold text-gray-700 mb-2">Company Name *</label><input type="text" name="company" required placeholder="Your Company" class="w-full border border-gray-300 px-4 py-2.5 text-sm focus:outline-none focus:border-gray-900 bg-white"></div><div><label class="block text-sm font-semibold text-gray-700 mb-2">Contact Name *</label><input type="text" name="contact-name" required placeholder="Jane Doe" class="w-full border border-gray-300 px-4 py-2.5 text-sm focus:outline-none focus:border-gray-900 bg-white"></div></div><div class="grid grid-cols-1 sm:grid-cols-2 gap-6"><div><label class="block text-sm font-semibold text-gray-700 mb-2">Email Address *</label><input type="email" name="email" required placeholder="press@yourcompany.com" class="w-full border border-gray-300 px-4 py-2.5 text-sm focus:outline-none focus:border-gray-900 bg-white"></div><div><label class="block text-sm font-semibold text-gray-700 mb-2">Distribution Date</label><input type="date" name="distribution-date" class="w-full border border-gray-300 px-4 py-2.5 text-sm focus:outline-none focus:border-gray-900 bg-white"></div></div><div><label class="block text-sm font-semibold text-gray-700 mb-2">Press Release Headline *</label><input type="text" name="headline" required placeholder="Your Press Release Title" class="w-full border border-gray-300 px-4 py-2.5 text-sm focus:outline-none focus:border-gray-900 bg-white"></div><div><label class="block text-sm font-semibold text-gray-700 mb-2">Category *</label><select name="category" required class="w-full border border-gray-300 px-4 py-2.5 text-sm focus:outline-none focus:border-gray-900 bg-white"><option value="">Select a category...</option><option value="crypto-casinos">Crypto Casinos</option><option value="sportsbook">Sportsbook</option><option value="regulation">Regulation and Compliance</option><option value="payments">Payments and Technology</option><option value="sweepstakes">Sweepstakes</option><option value="guides">Industry Guides</option></select></div><div><label class="block text-sm font-semibold text-gray-700 mb-2">Press Release Body *</label><textarea name="body" required rows="10" placeholder="Paste the full text of your press release here..." class="w-full border border-gray-300 px-4 py-2.5 text-sm focus:outline-none focus:border-gray-900 bg-white resize-none"></textarea></div><div><label class="block text-sm font-semibold text-gray-700 mb-2">Image URL (optional)</label><input type="url" name="image-url" placeholder="https://yoursite.com/image.jpg" class="w-full border border-gray-300 px-4 py-2.5 text-sm focus:outline-none focus:border-gray-900 bg-white"></div><div class="bg-gray-50 border border-gray-200 p-4 text-sm text-gray-600">Distribution includes editorial review, homepage feature consideration, and SEO-optimized publication. Standard turnaround is 1-3 business days.</div><button type="submit" class="px-8 py-3 bg-gray-900 text-white text-sm font-semibold hover:bg-blue-700 transition-colors">Submit Press Release</button></form><div id="pr-success" class="hidden mt-6 p-4 bg-green-50 border border-green-200 text-green-800 text-sm font-medium">Thank you for your submission! Our editorial team will review your press release and follow up within 1-3 business days.</div></div>';
+            return `<div class="max-w-[900px] mx-auto px-4 sm:px-6 lg:px-8 py-16 animate-fade-in font-sans">
+    <div class="mb-10 border-b border-gray-200 pb-8">
+        <h1 class="text-4xl font-semibold tracking-tight text-gray-900 mb-3">Free Crypto Casino Press Release Submission</h1>
+        <p class="text-lg text-gray-600 leading-relaxed">Submit your crypto casino, iGaming, sportsbook, payments, gaming technology, or sweepstakes press release to CryptoCasinoMedia for editorial review and publication.</p>
+    </div>
+
+    <form name="press-release" method="POST" data-netlify="true" class="space-y-6 bg-white p-6 sm:p-8 border border-gray-200 shadow-sm rounded-sm mb-12">
+        <input type="hidden" name="form-name" value="press-release">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            <div>
+                <label class="block text-sm font-semibold text-gray-700 mb-2">Company Name *</label>
+                <input type="text" name="company" required placeholder="Your Company" class="w-full border border-gray-300 px-4 py-2.5 text-sm focus:outline-none focus:border-gray-900 bg-white">
+            </div>
+            <div>
+                <label class="block text-sm font-semibold text-gray-700 mb-2">Contact Name *</label>
+                <input type="text" name="contact-name" required placeholder="Jane Doe" class="w-full border border-gray-300 px-4 py-2.5 text-sm focus:outline-none focus:border-gray-900 bg-white">
+            </div>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            <div>
+                <label class="block text-sm font-semibold text-gray-700 mb-2">Email Address *</label>
+                <input type="email" name="email" required placeholder="press@yourcompany.com" class="w-full border border-gray-300 px-4 py-2.5 text-sm focus:outline-none focus:border-gray-900 bg-white">
+            </div>
+            <div>
+                <label class="block text-sm font-semibold text-gray-700 mb-2">Requested Distribution Date</label>
+                <input type="date" name="distribution-date" class="w-full border border-gray-300 px-4 py-2.5 text-sm focus:outline-none focus:border-gray-900 bg-white">
+            </div>
+        </div>
+        <div>
+            <label class="block text-sm font-semibold text-gray-700 mb-2">Press Release Headline *</label>
+            <input type="text" name="headline" required placeholder="Your Press Release Title" class="w-full border border-gray-300 px-4 py-2.5 text-sm focus:outline-none focus:border-gray-900 bg-white">
+        </div>
+        <div>
+            <label class="block text-sm font-semibold text-gray-700 mb-2">Category *</label>
+            <select name="category" required class="w-full border border-gray-300 px-4 py-2.5 text-sm focus:outline-none focus:border-gray-900 bg-white">
+                <option value="">Select a category...</option>
+                <option value="crypto-casinos">Crypto Casinos</option>
+                <option value="sportsbook">Sportsbook</option>
+                <option value="regulation">Regulation and Compliance</option>
+                <option value="payments">Payments and Technology</option>
+                <option value="sweepstakes">Sweepstakes</option>
+                <option value="guides">Industry Guides</option>
+            </select>
+        </div>
+        <div>
+            <label class="block text-sm font-semibold text-gray-700 mb-2">Press Release Body *</label>
+            <textarea name="body" required rows="10" placeholder="Paste the full text of your press release here..." class="w-full border border-gray-300 px-4 py-2.5 text-sm focus:outline-none focus:border-gray-900 bg-white resize-none"></textarea>
+        </div>
+        <div>
+            <label class="block text-sm font-semibold text-gray-700 mb-2">Image URL (optional)</label>
+            <input type="url" name="image-url" placeholder="https://yoursite.com/image.jpg" class="w-full border border-gray-300 px-4 py-2.5 text-sm focus:outline-none focus:border-gray-900 bg-white">
+        </div>
+        <div class="bg-gray-50 border border-gray-200 p-4 text-sm text-gray-600 leading-relaxed">
+            Submissions undergo editorial verification, source validation, structured schema markup, and permanent archival on CryptoCasinoMedia. Standard turnaround is 1-3 business days.
+        </div>
+        <button type="submit" class="px-8 py-3 bg-gray-900 text-white text-sm font-semibold hover:bg-blue-700 transition-colors shadow-sm">Submit Press Release</button>
+    </form>
+
+    <div id="pr-success" class="hidden mt-6 p-4 bg-green-50 border border-green-200 text-green-800 text-sm font-medium mb-12">
+        Thank you for your submission! Our editorial team will review your press release and follow up within 1-3 business days.
+    </div>
+
+    <!-- Explanatory Information Sections -->
+    <div class="space-y-10 border-t border-gray-200 pt-12">
+        <section>
+            <h2 class="text-2xl font-semibold text-gray-900 mb-4">Who Can Submit a Press Release?</h2>
+            <p class="text-gray-700 leading-relaxed mb-4">CryptoCasinoMedia accepts press releases and official announcements from verified organizations operating across the global Web3 and interactive gaming ecosystems, including:</p>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm text-gray-700">
+                <div class="flex items-center gap-2"><span class="text-blue-700 font-bold">•</span><span>Crypto Casino & iGaming Operators</span></div>
+                <div class="flex items-center gap-2"><span class="text-blue-700 font-bold">•</span><span>Online Sportsbooks & Betting Platforms</span></div>
+                <div class="flex items-center gap-2"><span class="text-blue-700 font-bold">•</span><span>Casino Game Developers & Studios</span></div>
+                <div class="flex items-center gap-2"><span class="text-blue-700 font-bold">•</span><span>Blockchain Payment Gateway Providers</span></div>
+                <div class="flex items-center gap-2"><span class="text-blue-700 font-bold">•</span><span>Social Sweepstakes Gaming Platforms</span></div>
+                <div class="flex items-center gap-2"><span class="text-blue-700 font-bold">•</span><span>iGaming Compliance & RegTech Firms</span></div>
+            </div>
+        </section>
+
+        <section>
+            <h2 class="text-2xl font-semibold text-gray-900 mb-4">Accepted Announcement Types</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 text-sm">
+                <div class="bg-gray-50 p-4 border border-gray-200">
+                    <h3 class="font-bold text-gray-900 mb-1">Product & Game Launches</h3>
+                    <p class="text-gray-600 m-0">New casino game releases, platform launches, wallet integrations, and feature updates.</p>
+                </div>
+                <div class="bg-gray-50 p-4 border border-gray-200">
+                    <h3 class="font-bold text-gray-900 mb-1">Partnerships & Deals</h3>
+                    <p class="text-gray-600 m-0">B2B partnerships, software distribution agreements, brand sponsorships, and M&A.</p>
+                </div>
+                <div class="bg-gray-50 p-4 border border-gray-200">
+                    <h3 class="font-bold text-gray-900 mb-1">Licensing & Regulatory</h3>
+                    <p class="text-gray-600 m-0">Regulatory approvals, Curacao/MGA/UKGC license updates, and compliance milestones.</p>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2 class="text-2xl font-semibold text-gray-900 mb-4">How Submission Works</h2>
+            <ol class="list-decimal list-inside space-y-2 text-gray-700 leading-relaxed text-sm">
+                <li>Submit your announcement details, company contact, and headline via the secure form above.</li>
+                <li>Our editorial desk conducts factual verification and compliance review against our <a href="/editorial-standards/" class="text-blue-700 underline">Editorial Standards</a>.</li>
+                <li>Upon approval, your release is assigned a permanent canonical URL with structured <code class="bg-gray-100 px-1">NewsArticle</code> schema.</li>
+                <li>Your announcement enters our RSS syndication feed, IndexNow dispatch protocol, and main site archives.</li>
+            </ol>
+        </section>
+
+        <!-- FAQ Section -->
+        <section class="border-t border-gray-200 pt-10">
+            <h2 class="text-2xl font-semibold text-gray-900 mb-6">Frequently Asked Questions</h2>
+            <div class="space-y-6">
+                <div>
+                    <h3 class="text-lg font-semibold text-gray-900 mb-1">Is press release submission free?</h3>
+                    <p class="text-sm text-gray-600 leading-relaxed">Yes. Standard press release submission and editorial review on CryptoCasinoMedia are free for verified iGaming and crypto organizations.</p>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold text-gray-900 mb-1">How long does editorial review take?</h3>
+                    <p class="text-sm text-gray-600 leading-relaxed">Our editorial team reviews submitted press releases within 1 to 3 business days. Approved announcements are published immediately following review.</p>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold text-gray-900 mb-1">Will my press release be indexed by Google?</h3>
+                    <p class="text-sm text-gray-600 leading-relaxed">All approved press releases are published on permanent, crawlable HTML pages with valid XML sitemap inclusion and structured JSON-LD schema metadata. Search engines independently evaluate and index published pages according to their algorithms.</p>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold text-gray-900 mb-1">Can I choose a specific distribution date?</h3>
+                    <p class="text-sm text-gray-600 leading-relaxed">Yes. You may specify a requested distribution date in the form. Releases are published to coincide with your requested date upon editorial approval.</p>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold text-gray-900 mb-1">Can I include outbound links and media?</h3>
+                    <p class="text-sm text-gray-600 leading-relaxed">Yes. You may provide high-resolution image URLs and relevant outbound links to official company portals or documentation.</p>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>`;
         }
 
 
