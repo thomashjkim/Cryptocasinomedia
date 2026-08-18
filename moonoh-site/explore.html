@@ -2506,7 +2506,7 @@
       } catch (err) {}
     });
 
-    // Parse initial URL parameters on page load
+    // Parse initial URL parameters on page load (Tab, Region, Category, Shop)
     try {
       const initialParams = new URLSearchParams(window.location.search);
       if (initialParams.has('tab') || initialParams.has('source')) {
@@ -2530,41 +2530,95 @@
         currentSortOption = currentSearchQuery ? 'relevance' : 'newest';
         userHasExplicitSort = false;
       }
-      if (initialParams.has('area')) {
-        activeTown = initialParams.get('area') || '';
-        const locSelect = document.getElementById('location-select');
-        if (locSelect) locSelect.value = activeTown;
-      }
       
-      // Handle local category parameter (e.g. ?category=vintage-fashion or ?category=Coffee & Pantry)
-      if (initialParams.has('category') || initialParams.has('cat')) {
-        const rawCat = (initialParams.get('category') || initialParams.get('cat') || '').toLowerCase().replace(/[^a-z0-9]/g, '');
-        const localCatMap = {
-          'vintagefashion': 'Vintage & Fashion',
-          'vintage': 'Vintage & Fashion',
-          'fashion': 'Vintage & Fashion',
-          'homeobjects': 'Home & Objects',
-          'home': 'Home & Objects',
-          'objects': 'Home & Objects',
-          'coffeepantry': 'Coffee & Pantry',
-          'coffee': 'Coffee & Pantry',
-          'pantry': 'Coffee & Pantry',
-          'giftsculture': 'Gifts & Culture',
-          'gifts': 'Gifts & Culture',
-          'culture': 'Gifts & Culture',
-          'all': 'All'
-        };
-        if (localCatMap[rawCat]) {
-          activeLocalCategory = localCatMap[rawCat];
-          document.querySelectorAll('#local-filter-container .filter-pill').forEach(btn => {
-            if ((btn.getAttribute('data-local-cat') || '').toLowerCase() === activeLocalCategory.toLowerCase()) {
-              btn.classList.add('active');
-            } else {
-              btn.classList.remove('active');
+      // Region selection
+      if (initialParams.has('area') || initialParams.has('town') || initialParams.has('region')) {
+        const targetArea = (initialParams.get('area') || initialParams.get('town') || initialParams.get('region') || '').trim();
+        const locSelect = document.getElementById('location-select');
+        if (locSelect && targetArea) {
+          for (let opt of locSelect.options) {
+            if (opt.value && (opt.value.toLowerCase() === targetArea.toLowerCase() || 
+                targetArea.toLowerCase().includes(opt.value.toLowerCase()) || 
+                opt.value.toLowerCase().includes(targetArea.toLowerCase()))) {
+              locSelect.value = opt.value;
+              activeTown = opt.value;
+              break;
             }
-          });
+          }
         }
       }
+      
+      // Category selection across ALL tabs
+      if (initialParams.has('category') || initialParams.has('cat')) {
+        const rawCat = (initialParams.get('category') || initialParams.get('cat') || '').toLowerCase().replace(/[^a-z0-9]/g, '');
+        
+        if (activeSource === 'localshops') {
+          const localCatMap = {
+            'vintagefashion': 'Vintage & Fashion',
+            'vintage': 'Vintage & Fashion',
+            'fashion': 'Vintage & Fashion',
+            'homeobjects': 'Home & Objects',
+            'home': 'Home & Objects',
+            'objects': 'Home & Objects',
+            'coffeepantry': 'Coffee & Pantry',
+            'coffee': 'Coffee & Pantry',
+            'pantry': 'Coffee & Pantry',
+            'giftsculture': 'Gifts & Culture',
+            'gifts': 'Gifts & Culture',
+            'culture': 'Gifts & Culture',
+            'all': 'All'
+          };
+          if (localCatMap[rawCat]) {
+            activeLocalCategory = localCatMap[rawCat];
+            document.querySelectorAll('#local-filter-container .filter-pill').forEach(btn => {
+              if ((btn.getAttribute('data-local-cat') || '').toLowerCase() === activeLocalCategory.toLowerCase()) {
+                btn.classList.add('active');
+              } else {
+                btn.classList.remove('active');
+              }
+            });
+          }
+        } else {
+          // General categories for Moonoh, Marketplaces, Food Rescue
+          const generalCatSlugMap = {
+            'foodgroceries': 'food-groceries',
+            'food': 'food-groceries',
+            'groceries': 'food-groceries',
+            'furniture': 'furniture',
+            'electronics': 'electronics',
+            'appliances': 'electronics',
+            'electronicsappliances': 'electronics',
+            'healthbeauty': 'health-beauty',
+            'womensfashion': 'womens-fashion',
+            'mensfashion': 'mens-fashion',
+            'shoes': 'shoes',
+            'babykids': 'baby-kids',
+            'sportsleisure': 'sports-leisure',
+            'toysgames': 'toys-games',
+            'jewelrywatches': 'jewelry-watches',
+            'luggagesbags': 'luggages-bags',
+            'homegarden': 'home-garden',
+            'antiques': 'antiques',
+            'artsbooksmusic': 'arts-books-music',
+            'free': 'free',
+            'petsupplies': 'pet-supplies'
+          };
+          const matchedSlug = generalCatSlugMap[rawCat] || rawCat;
+          const targetLabel = pillSlugToLabel[matchedSlug];
+          
+          if (targetLabel) {
+            document.querySelectorAll('#category-filter-container .filter-pill').forEach(btn => {
+              const bLabel = btn.textContent.trim();
+              if (bLabel.toLowerCase() === targetLabel.toLowerCase() || (pillLabelToSlug[bLabel] || '').toLowerCase() === matchedSlug) {
+                btn.classList.add('active');
+              } else {
+                btn.classList.remove('active');
+              }
+            });
+          }
+        }
+      }
+      
       updateSearchUI();
     } catch (err) {}
 

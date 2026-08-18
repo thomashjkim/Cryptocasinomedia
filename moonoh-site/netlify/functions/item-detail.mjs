@@ -31,77 +31,43 @@ function escapeHtml(str) {
     .replace(/'/g, '&#39;');
 }
 
-function generateRegionSlugUrl(locStr, sourceParam) {
-  if (!locStr) return sourceParam ? `/explore?source=${sourceParam}` : '/explore';
-  let l = locStr.toLowerCase();
-  const qStr = sourceParam ? `?source=${sourceParam}` : '';
-  if (l.includes('manhattan') || l.includes('soho') || l.includes('tribeca') || l.includes('midtown') || l.includes('new york')) return `/explore/manhattan${qStr}`;
-  if (l.includes('queens') || l.includes('bayside') || l.includes('flushing') || l.includes('astoria') || l.includes('lic')) return `/explore/queens${qStr}`;
-  if (l.includes('brooklyn') || l.includes('greenpoint') || l.includes('williamsburg') || l.includes('bushwick') || l.includes('dumbo')) return `/explore/brooklyn${qStr}`;
-  if (l.includes('bronx')) return `/explore/bronx${qStr}`;
-  if (l.includes('staten island')) return `/explore/staten-island${qStr}`;
-  if (l.includes('hudson') || l.includes('jersey city') || l.includes('hoboken')) return `/explore/hudson-county-nj${qStr}`;
-  if (l.includes('bergen') || l.includes('fort lee') || l.includes('palisades')) return `/explore/bergen-county-nj${qStr}`;
-  return `/explore${qStr}`;
+function getCategorySlug(catStr) {
+  if (!catStr) return 'other';
+  let c = String(catStr).toLowerCase().trim();
+  if (c.includes('vintage') || (c.includes('fashion') && (c.includes('vintage') || c.includes('clothing')))) return 'vintage-fashion';
+  if (c.includes('coffee') || c.includes('pantry')) return 'coffee-pantry';
+  if (c.includes('home & objects') || c.includes('objects') || c.includes('tableware')) return 'home-objects';
+  if (c.includes('gifts') || c.includes('culture')) return 'gifts-culture';
+  if (c.includes('food') || c.includes('grocer') || c.includes('drink') || c.includes('snack')) return 'food-groceries';
+  if (c.includes('furniture')) return 'furniture';
+  if (c.includes('electronic') || c.includes('appliance')) return 'electronics';
+  if (c.includes('health') || c.includes('beauty')) return 'health-beauty';
+  if (c.includes('women')) return 'womens-fashion';
+  if (c.includes('men')) return 'mens-fashion';
+  if (c.includes('shoe')) return 'shoes';
+  if (c.includes('baby') || c.includes('kid')) return 'baby-kids';
+  if (c.includes('sports') || c.includes('leisure')) return 'sports-leisure';
+  if (c.includes('toy') || c.includes('game')) return 'toys-games';
+  if (c.includes('jewelry') || c.includes('watch')) return 'jewelry-watches';
+  if (c.includes('luggage') || c.includes('bag')) return 'luggages-bags';
+  if (c.includes('pet')) return 'pet-supplies';
+  if (c.includes('antique')) return 'antiques';
+  if (c.includes('art') || c.includes('book') || c.includes('music')) return 'arts-books-music';
+  if (c.includes('free')) return 'free';
+  return c.replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '') || 'other';
 }
 
 function generateCategorySlugUrl(catStr, regionStr, sourceParam) {
-  if (!catStr) return sourceParam ? `/explore?source=${sourceParam}` : '/explore';
-  let c = catStr.toLowerCase();
-  const qStr = sourceParam ? `?source=${sourceParam}` : '';
+  const s = sourceParam || 'moonoh';
+  const catSlug = getCategorySlug(catStr);
+  const loc = regionStr || 'Manhattan, NY';
+  return `/explore?source=${encodeURIComponent(s)}&area=${encodeURIComponent(loc)}&category=${encodeURIComponent(catSlug)}`;
+}
 
-  // Local Category URLs
-  if (c.includes('vintage') || c.includes('fashion') || c.includes('clothing')) {
-    return sourceParam === 'localshops' ? `/explore?source=localshops&category=vintage-fashion` : `/explore/womens-fashion${qStr}`;
-  }
-  if (c.includes('coffee') || c.includes('pantry')) {
-    return sourceParam === 'localshops' ? `/explore?source=localshops&category=coffee-pantry` : `/explore/food-groceries${qStr}`;
-  }
-  if (c.includes('home & objects') || c.includes('objects') || c.includes('tableware')) {
-    return sourceParam === 'localshops' ? `/explore?source=localshops&category=home-objects` : `/explore/home-garden${qStr}`;
-  }
-  if (c.includes('gifts') || c.includes('culture')) {
-    return sourceParam === 'localshops' ? `/explore?source=localshops&category=gifts-culture` : `/explore/arts-books-music${qStr}`;
-  }
-
-  // General Categories
-  let catSlug = 'other';
-  if (c.includes('food') || c.includes('grocery') || c.includes('drink')) catSlug = 'food-groceries';
-  else if (c.includes('furniture')) catSlug = 'furniture';
-  else if (c.includes('electronic')) catSlug = 'electronics';
-  else if (c.includes('health') || c.includes('beauty')) catSlug = 'health-beauty';
-  else if (c.includes('women')) catSlug = 'womens-fashion';
-  else if (c.includes('men')) catSlug = 'mens-fashion';
-  else if (c.includes('shoe')) catSlug = 'shoes';
-  else if (c.includes('baby') || c.includes('kid')) catSlug = 'baby-kids';
-  else if (c.includes('sport') || c.includes('leisure')) catSlug = 'sports-leisure';
-  else if (c.includes('toy') || c.includes('game')) catSlug = 'toys-games';
-  else if (c.includes('home') || c.includes('garden')) catSlug = 'home-garden';
-  else if (c.includes('jewelry') || c.includes('watch')) catSlug = 'jewelry-watches';
-  else if (c.includes('bag') || c.includes('luggage')) catSlug = 'luggages-bags';
-  else if (c.includes('art') || c.includes('book') || c.includes('music')) catSlug = 'arts-books-music';
-  else if (c.includes('pet')) catSlug = 'pet-supplies';
-  else if (c.includes('antique')) catSlug = 'antiques';
-
-  let regSlug = null;
-  if (regionStr) {
-    let l = regionStr.toLowerCase();
-    if (l.includes('manhattan')) regSlug = 'manhattan';
-    else if (l.includes('queens')) regSlug = 'queens';
-    else if (l.includes('brooklyn')) regSlug = 'brooklyn';
-    else if (l.includes('bronx')) regSlug = 'bronx';
-    else if (l.includes('staten island')) regSlug = 'staten-island';
-    else if (l.includes('fort lee')) regSlug = 'fort-lee-nj';
-    else if (l.includes('bergen')) regSlug = 'bergen-county-nj';
-    else if (l.includes('hudson')) regSlug = 'hudson-county-nj';
-  }
-
-  if (regSlug && catSlug !== 'other') {
-    return `/explore/${regSlug}/${catSlug}${qStr}`;
-  } else if (catSlug !== 'other') {
-    return `/explore/${catSlug}${qStr}`;
-  }
-  return `/explore${qStr}`;
+function generateRegionSlugUrl(locStr, sourceParam) {
+  const s = sourceParam || 'moonoh';
+  const loc = locStr || 'Manhattan, NY';
+  return `/explore?source=${encodeURIComponent(s)}&area=${encodeURIComponent(loc)}`;
 }
 
 function generateSlug(title, locationStr, productNo) {
@@ -24276,6 +24242,19 @@ function inferCategoryFromText(title = '', description = '', rawCategory = '') {
   const text = (title + ' ' + (description || '')).toLowerCase();
   const raw = (rawCategory || '').toLowerCase().trim();
 
+  // If rawCategory is explicitly provided and not generic, prioritize it
+  if (raw && !['used items', 'other', 'general', ''].includes(raw)) {
+    const standardCategories = [
+      'Electronics & appliances', 'Furniture', "Women's & Men's Fashion", 'Shoes', 'Baby & kids',
+      'Sports & leisure', 'Luggages & bags', 'Food & Groceries', 'Pet supplies', 'Health & beauty',
+      'Antiques & collections', 'Arts, books, music, movies & tickets', 'Jewelry & watches',
+      'Coffee & Pantry', 'Vintage & Fashion', 'Home & Objects', 'Gifts & Culture', 'Free'
+    ];
+    const match = standardCategories.find(c => c.toLowerCase() === raw || raw.includes(c.toLowerCase()) || c.toLowerCase().includes(raw));
+    if (match) return match;
+    return rawCategory;
+  }
+
   // 1. Electronics & Appliances
   if (/\b(macbook|imac|laptop|computer|monitor|iphone|galaxy|ipad|nintendo|ps5|ps4|playstation|xbox|gaming|console|tv|television|camera|printer|scanner|radiator|heater|aircon|air.?conditioner|air.?fryer|microwave|vacuum|refrigerator|fridge|coffee.?maker|coffee.?machine|nespresso|keurig|blender|cooker|calculator|keyboard|ram|router|headphone|airpods|speaker|bluetooth|vr|tablet|kindle|drone|hair.?dryer|hair.?iron|crimper|straightener|curler|curling|wired|electric|led|charger|battery|cable|amplifier|projector)\b|노트북|컴퓨터|모니터|아이폰|아이패드|에어컨|선풍기|히터|히타|청소기|스피커|전자레인지|냉장고|변압기|디바이스|와인셀러/i.test(text)) {
     return 'Electronics & appliances';
@@ -24968,10 +24947,8 @@ function isSemanticallyCompatible(incomingPath, expectedPath) {
       const shopInfo = (localShopsDb.shops && localShopsDb.shops[shopSlug]) || {};
       const shopDisplayName = shopInfo.name || sellerName || 'Local Shop';
       const shopProfileUrl = `/local-shops/${shopSlug}`;
-      const regionSlug = townName.toLowerCase().includes('manhattan') ? 'manhattan' : 'brooklyn';
-      const regionLinkUrl = `/explore/${regionSlug}?source=localshops`;
-      const catSlug = (categoryName || 'home-objects').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
-      const categoryLinkUrl = `/explore?source=localshops&category=${catSlug}`;
+      const regionLinkUrl = generateRegionSlugUrl(townName, 'localshops');
+      const categoryLinkUrl = generateCategorySlugUrl(categoryName, townName, 'localshops');
 
       breadcrumbHtml = `
         <a href="/explore?source=localshops">Local Shops</a>
