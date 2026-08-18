@@ -63,7 +63,11 @@ const CATEGORIES = {
   'luggages-bags': { slug: 'luggages-bags', name: 'Luggages & Bags', kw: 'bag', keywords: ['luggages', 'bags', 'pouch', 'backpack', 'tote', 'wallet', 'bag'] },
   'antiques': { slug: 'antiques', name: 'Antiques', kw: 'antique', keywords: ['antiques', 'vintage', 'collectible'] },
   'arts-books-music': { slug: 'arts-books-music', name: 'Arts, Books & Music', kw: 'art', keywords: ['arts', 'books', 'music', 'book', 'print'] },
-  'food-groceries': { slug: 'food-groceries', name: 'Food & Groceries', kw: 'food', keywords: ['food', 'groceries', 'snack', 'sauce', 'oil', 'rice', 'tea', 'noodle', 'kimchi', 'pantry', 'drink', 'beverage', 'korean food', 'cookie', 'juice', 'chip'] },
+    'food-groceries': { slug: 'food-groceries', name: 'Food & Groceries', kw: 'food', keywords: ['food', 'groceries', 'snack', 'sauce', 'oil', 'rice', 'tea', 'noodle', 'kimchi', 'pantry', 'drink', 'beverage', 'korean food', 'cookie', 'juice', 'chip'] },
+  'coffee-pantry': { slug: 'coffee-pantry', name: 'Coffee & Pantry', kw: 'coffee', keywords: ['coffee', 'pantry', 'tea', 'beans', 'roast', 'olive oil', 'syrup', 'snack'] },
+  'vintage-fashion': { slug: 'vintage-fashion', name: 'Vintage & Fashion', kw: 'vintage', keywords: ['vintage', 'fashion', 'clothing', 'jacket', 'denim', 'dress', 'belt', 'leather'] },
+  'home-objects': { slug: 'home-objects', name: 'Home & Objects', kw: 'home', keywords: ['home', 'objects', 'glass', 'dish', 'ceramic', 'candle', 'linen', 'plate', 'towel'] },
+  'gifts-culture': { slug: 'gifts-culture', name: 'Gifts & Culture', kw: 'gifts', keywords: ['gifts', 'culture', 'book', 'stationery', 'print', 'card', 'poster'] },
   'free': { slug: 'free', name: 'Free Items', kw: 'free', isFree: true, keywords: ['free'] },
   'other': { slug: 'other', name: 'Other', kw: 'other', keywords: ['other', 'general'] }
 };
