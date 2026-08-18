@@ -578,7 +578,7 @@ export default async (req, context) => {
 
     if (isFoodRescueFilter) {
       canonicalUrl = `https://moon-oh.com/explore/food-rescue`;
-      pageTitle = "NYC Food Waste Rescue & Grocery Deals | Moonoh";
+      pageTitle = "NYC Food Waste Rescue & Sustainable Groceries | Moonoh";
       metaDesc = "Shop discounted gourmet Korean pantry items near sell-by date in NYC from Kim'C Market on Moonoh. Fight food waste, save money.";
       h1Text = "NYC Food Waste Rescue & Sustainable Groceries";
       dynamicIntroText = "Rescue premium artisanal and specialty groceries near sell-by dates at up to 70% discount in NYC. Partnering with local grocers like Kim'C Market to fight food waste and promote sustainable consumption.";
@@ -592,7 +592,7 @@ export default async (req, context) => {
       sectionName = isShopProfile ? (localShopsData.shops[shopProfileSlug]?.name || "Local Shop") : "Local NYC Shops";
     } else if (isMarketplacesFilter) {
       canonicalUrl = `https://moon-oh.com/explore/marketplaces`;
-      pageTitle = "NYC & NJ Community Marketplace Feed | Moonoh";
+      pageTitle = "NYC & NJ Local Community Marketplace Feed | Moonoh";
       metaDesc = "Browse aggregated local secondhand listings across NYC & NJ from Karrot and HeyKorean on Moonoh.";
       h1Text = "NYC & NJ Community Marketplace Feed";
       dynamicIntroText = "Discover community secondhand items from verified neighborhood marketplaces across New York City and New Jersey.";
