@@ -74,21 +74,19 @@ except Exception as e:
     print(f"Error writing sitemap.xml: {e}")
     sys.exit(1)
 
-# Generate News Sitemap (news-sitemap.xml) for eligible recently published news URLs (2-day window)
+# Generate News Sitemap (news-sitemap.xml) for eligible recently published news URLs strictly within 48-hour window
 news_xml_lines = [
     '<?xml version="1.0" encoding="UTF-8"?>',
     '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">'
 ]
 
-# Eligible articles from the last 48 hours (or top 5 recent published if within test dataset)
+# Eligible articles strictly published within the last 48 hours using stable firstPublishedAt
 two_days_ago_iso = (datetime.datetime.now(datetime.timezone.utc) - datetime.timedelta(days=2)).strftime("%Y-%m-%dT%H:%M:%SZ")
-recent_articles = [a for a in published_sorted if a.get('publishedAt', '') >= two_days_ago_iso]
-if not recent_articles:
-    recent_articles = published_sorted[:5]
+recent_articles = [a for a in published_sorted if (a.get('firstPublishedAt') or a.get('publishedAt', '')) >= two_days_ago_iso]
 
 for article in recent_articles:
     slug = article["slug"]
-    published_at = article["publishedAt"]  # Real stable firstPublishedAt (NEVER build/current time)
+    published_at = article.get("firstPublishedAt") or article["publishedAt"]  # Real stable firstPublishedAt (NEVER build/current time)
     title_clean = article["title"].replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;')
     loc = f"https://cryptocasinomedia.com/press-releases/{slug}/"
     news_xml_lines.append(f'''  <url>

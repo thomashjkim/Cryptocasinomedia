@@ -37,9 +37,16 @@ output_base_dir = os.path.join(PROJECT_ROOT, "index")
 from datetime import timezone
 now_utc_str = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
 
-# Sort published articles (publishedAt <= now_utc_str) newest first; future scheduled releases remain unpublished
-articles_published = [a for a in articles_data if a.get('publishedAt', '') <= now_utc_str]
-articles_sorted = sorted(articles_published, key=lambda x: x['publishedAt'], reverse=True)
+def is_article_published(article):
+    status = article.get('publicationStatus', 'published')
+    if status == 'published':
+        return True
+    first_pub = article.get('firstPublishedAt') or article.get('publishedAt', '')
+    return first_pub != '' and first_pub <= now_utc_str
+
+# Filter published articles; scheduled un-published articles remain hidden until published
+articles_published = [a for a in articles_data if is_article_published(a)]
+articles_sorted = sorted(articles_published, key=lambda x: x.get('firstPublishedAt') or x['publishedAt'], reverse=True)
 
 try:
     with open(os.path.join(PROJECT_ROOT, "data", "expert_analysis.json"), "r", encoding="utf-8") as f:
@@ -406,7 +413,7 @@ def renderSectionPage(title, description, filterCategory, filterTopic=None):
         rows = "".join([renderStoryRow(a) for a in filteredArticles[1:]])
         mainColumnHtml = f"""
                     <a href="/press-releases/{first['slug']}" class="group flex flex-col sm:flex-row gap-6 mb-10">
-                        <div class="sm:w-1/2 aspect-[4/3] bg-gray-100 overflow-hidden border border-gray-200">
+                        <div class="sm:w-1/2 aspect-video bg-gray-100 overflow-hidden border border-gray-200">
                             <img src="{first['thumbnailUrl']}" alt="{first['title']}" fetchpriority="high" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                         </div>
                         <div class="sm:w-1/2 flex flex-col justify-center">
@@ -1089,7 +1096,7 @@ def renderSubmitPage():
                 </div>
                 <div>
                     <h3 class="text-lg font-semibold text-gray-900 mb-1">How long does editorial review take?</h3>
-                    <p class="text-sm text-gray-600 leading-relaxed">Our editorial team reviews submitted press releases within 1 to 3 business days. Approved announcements are published immediately following review.</p>
+                    <p class="text-sm text-gray-600 leading-relaxed">Our editorial team reviews submitted press releases within 1 to 3 business days. Approved announcements are published following review, or on the requested distribution date when a future publication date has been specified.</p>
                 </div>
                 <div>
                     <h3 class="text-lg font-semibold text-gray-900 mb-1">Will my press release be indexed by Google?</h3>
@@ -1711,8 +1718,8 @@ for article in articles_sorted:
         },
         "headline": article['title'],
         "description": article['excerpt'],
-        "datePublished": article['publishedAt'],
-        "dateModified": article.get('modifiedAt') or article['publishedAt'],
+        "datePublished": article.get('firstPublishedAt') or article['publishedAt'],
+        "dateModified": article.get('modifiedAt') or article.get('firstPublishedAt') or article['publishedAt'],
         "inLanguage": "en-US",
         "mainEntityOfPage": f"https://cryptocasinomedia.com/press-releases/{slug}/",
         "author": [
