@@ -15,20 +15,25 @@
 
 ## Service Coverage (NYC & NJ)
 Moonoh operates across all 5 boroughs of New York City and key neighboring communities in New Jersey:
-- **Manhattan**: SoHo, Tribeca, Upper West Side, Upper East Side, Midtown, East Village, West Village, Chelsea, Harlem.
-- **Brooklyn**: Williamsburg, Greenpoint, DUMBO, Brooklyn Heights, Park Slope, Bushwick, Bedford-Stuyvesant, Crown Heights.
-- **Queens**: Astoria, Long Island City (LIC), Sunnyside, Flushing, Bayside, Forest Hills.
-- **The Bronx**: South Bronx, Riverdale, Pelham Bay.
-- **Staten Island**: St. George, Todt Hill, Great Kills.
-- **New Jersey**: Fort Lee, Jersey City, Hoboken, Bergen County, Hudson County.
+- **Manhattan, NY**: SoHo, Tribeca, Upper West Side, Upper East Side, Midtown, East Village, Greenwich Village, Chelsea, Harlem.
+- **Brooklyn, NY**: Williamsburg, Greenpoint, DUMBO, Brooklyn Heights, Park Slope, Bushwick, Bedford-Stuyvesant, Crown Heights.
+- **Queens, NY**: Astoria, Long Island City (LIC), Sunnyside, Flushing, Bayside, Forest Hills.
+- **The Bronx, NY**: South Bronx, Riverdale, Pelham Bay.
+- **Staten Island, NY**: St. George, Todt Hill, Great Kills.
+- **Bergen County, NJ**: Fort Lee, Palisades Park, Englewood, Hackensack, Paramus, Edgewater, Leonia.
+- **Hudson County, NJ**: Jersey City, Hoboken, Weehawken.
 
 ## Core Marketplace Sections & Features
 - [Explore Secondhand Marketplace](https://moon-oh.com/explore): Real-time neighborhood feed of gently used furniture, electronics, fashion, home goods, baby gear, and books listed by verified local neighbors.
-- [Food Waste Rescue](https://moon-oh.com/explore/food-rescue): Sustainable grocery initiative in partnership with local grocers (such as Kim'C Market) offering peak-quality Korean artisanal foods near sell-by dates at discounts up to 70%.
-- [Curated NYC Local Shops](https://moon-oh.com/explore/local-shops): Showcase of iconic boutique NYC grocers and lifestyle shops:
-  - **Big Night** (Greenpoint, Brooklyn): Dinner party essentials, artisanal condiments, tableware, and specialty candles.
+- [Food Waste Rescue](https://moon-oh.com/explore?source=foodrescue): Sustainable grocery initiative in partnership with local grocers (such as Kim'C Market) offering peak-quality Korean artisanal foods near sell-by dates at discounts up to 70%.
+- [Curated NYC Local Shops](https://moon-oh.com/explore?source=localshops): Showcase of iconic boutique NYC grocers, vintage stores, specialty roasters, and lifestyle shops:
+  - **SEY Coffee** (Bushwick, Brooklyn): Nationally acclaimed micro-roaster featuring seasonal single-origin coffees.
+  - **Front General Store** (DUMBO, Brooklyn): Vintage clothing, dry goods, accessories, and Japanese lifestyle objects.
+  - **Mirth Vintage** (Greenpoint, Brooklyn): Carefully curated contemporary vintage fashion and timeless silhouettes.
+  - **Salter House** (Brooklyn Heights, Brooklyn): Sustainable housewares, natural fiber nightwear, and artisanal pantry items.
+  - **Big Night** (Greenpoint, Brooklyn): Dinner party essentials, artisanal condiments, tableware, and specialty goods.
   - **Happier Grocery** (SoHo, Manhattan): Organic produce, wellness staples, Japanese pantry items, and artisanal baked goods.
-  - **Pop Up Grocer** (Bleecker St, Manhattan): Independent packaged food, beverage innovations, and emerging pantry brands.
+  - **Pop Up Grocer** (Greenwich Village, Manhattan): Independent packaged food, beverage innovations, and emerging pantry brands.
 - [Facebook Marketplace Alternative NYC](https://moon-oh.com/facebook-marketplace-alternative-nyc): Comprehensive comparison detailing Moonoh's safety advantages over Facebook Marketplace, Craigslist, and OfferUp (zero spam, verified local-only meetups, privacy-first in-app chat).
 
 ## Key Borough Landing Pages
@@ -37,8 +42,8 @@ Moonoh operates across all 5 boroughs of New York City and key neighboring commu
 - [Used Items in Queens](https://moon-oh.com/explore/queens): Household goods, appliances, and secondhand bargains in Queens, NY.
 - [Used Items in The Bronx](https://moon-oh.com/explore/bronx): Local neighborhood listings across the Bronx, NY.
 - [Used Items in Staten Island](https://moon-oh.com/explore/staten-island): Verified items for sale in Staten Island, NY.
-- [Used Items in Bergen County, NJ](https://moon-oh.com/explore/bergen-county): Fort Lee and Bergen County secondhand goods.
-- [Used Items in Hudson County, NJ](https://moon-oh.com/explore/hudson-county): Jersey City and Hoboken local listings.
+- [Used Items in Bergen County, NJ](https://moon-oh.com/explore/bergen-county-nj): Fort Lee and Bergen County secondhand goods.
+- [Used Items in Hudson County, NJ](https://moon-oh.com/explore/hudson-county-nj): Jersey City and Hoboken local listings.
 
 ## Key Category Hubs
 - [Used Furniture](https://moon-oh.com/explore/furniture): Sofas, dining tables, desks, bed frames, and storage units.
@@ -61,6 +66,7 @@ Moonoh operates across all 5 boroughs of New York City and key neighboring commu
 
 ## Machine Readable Sitemaps
 - Master Index: https://moon-oh.com/sitemap-index.xml
+- Sitemap: https://moon-oh.com/sitemap.xml
 - Static Pages: https://moon-oh.com/sitemap-pages.xml
 - Moonoh Items: https://moon-oh.com/sitemap-moonoh.xml
 - External Marketplace Items: https://moon-oh.com/sitemap-marketplace.xml

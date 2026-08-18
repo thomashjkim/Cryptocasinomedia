@@ -24477,9 +24477,15 @@ export default async (req, context) => {
 
         const shopInfo = (localShopsDb.shops && localShopsDb.shops[shopSlug]) || {};
         const shopTitle = shopInfo.name || localItem.brand || shopSlug;
-        townName = shopInfo.neighborhood ? `${shopInfo.neighborhood}, NY` : (localItem.store_city ? `${localItem.store_city}, ${localItem.store_state}` : 'NYC, NY');
-        address = shopInfo.address_line_1 ? `${shopInfo.address_line_1}, ${shopInfo.city || 'New York'}, ${shopInfo.state || 'NY'} ${shopInfo.postal_code || ''}`.trim() : (localItem.store_address || 'New York, NY');
-        
+        townName = shopInfo.region || (shopInfo.city === 'New York' ? 'Manhattan, NY' : 'Brooklyn, NY');
+        address = shopInfo.address_line_1 || (shopInfo.neighborhood ? `${shopInfo.neighborhood}, ${townName}` : `New York, NY`);
+        if (shopInfo.lat && shopInfo.lng) {
+          lat = shopInfo.lat;
+          lng = shopInfo.lng;
+        } else if (localItem.lat && localItem.lng) {
+          lat = localItem.lat;
+          lng = localItem.lng;
+        }
         sellerName = localItem.brand || shopTitle;
         vendorName = localItem.brand || shopTitle;
         photos = [localItem.image_source_url];
@@ -24962,8 +24968,10 @@ function isSemanticallyCompatible(incomingPath, expectedPath) {
       const shopInfo = (localShopsDb.shops && localShopsDb.shops[shopSlug]) || {};
       const shopDisplayName = shopInfo.name || sellerName || 'Local Shop';
       const shopProfileUrl = `/local-shops/${shopSlug}`;
-      const categoryLinkUrl = generateCategorySlugUrl(categoryName, townName, 'localshops');
-      const regionLinkUrl = generateRegionSlugUrl(townName, 'localshops');
+      const regionSlug = townName.toLowerCase().includes('manhattan') ? 'manhattan' : 'brooklyn';
+      const regionLinkUrl = `/explore/${regionSlug}?source=localshops`;
+      const catSlug = (categoryName || 'home-objects').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+      const categoryLinkUrl = `/explore?source=localshops&category=${catSlug}`;
 
       breadcrumbHtml = `
         <a href="/explore?source=localshops">Local Shops</a>

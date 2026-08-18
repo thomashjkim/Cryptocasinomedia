@@ -1267,7 +1267,7 @@
         const priceStr = formatPrice(rawPrice);
         const targetUrl = item.url || `/item/item-${item.no || item.id}`;
         const isExternal = item.source === 'karrot' || item.source === 'heykorean';
-        const itemLocation = item.location || item.townName || 'NYC';
+        const itemLocation = item.location || item.townName || 'Manhattan, NY';
         
         let badgeHtml = '';
         if (activeSource !== 'moonoh' && item.source && item.source !== 'moonoh') {
@@ -1428,8 +1428,8 @@
               price: p.current_price,
               image: p.image_source_url,
               photo: p.image_source_url,
-              location: p.availability_context || (p.store_city ? `${p.store_city}, ${p.store_state}` : 'NYC'),
-              rawTown: 'NYC',
+              location: p.location || (p.shop_id === 'happier-grocery' || p.shop_id === 'pop-up-grocer' ? 'Manhattan, NY' : 'Brooklyn, NY'),
+              rawTown: p.location || (p.shop_id === 'happier-grocery' || p.shop_id === 'pop-up-grocer' ? 'Manhattan, NY' : 'Brooklyn, NY'),
               category: p.primary_category || p.moonoh_category || 'General',
               categoryName: p.primary_category || p.moonoh_category || 'General',
               source: p.shop_id,

@@ -1304,7 +1304,7 @@
         const clickAttr = `href="${extSlug}" onclick="if(currentSearchQuery && typeof gtag==='function')gtag('event','select_search_result',{item_id:'${item.no || item.id || ''}',item_name:'${itemTitle.replace(/'/g, "\'")}',search_term:currentSearchQuery,tab_name:activeSource,category:'${item.category || item.categoryName || ''}',source:'${item.source || 'moonoh'}'});"`;
 
         const imgSrc = item.image || item.image_source_url || item.photo || item.pictureUrl || '/images/default-item-placeholder.png';
-        const rawLoc = item.location || item.rawTown || 'NYC';
+        const rawLoc = item.location || item.rawTown || 'Manhattan, NY';
         const itemLoc = item.timeAgo ? `${item.timeAgo} · ${rawLoc}` : rawLoc;
 
         html += `
@@ -1874,9 +1874,9 @@
             price: p.current_price,
             photo: p.image_source_url,
             image: p.image_source_url,
-            townName: p.availability_context || (p.store_city ? `${p.store_city}, ${p.store_state}` : 'NYC'),
-            rawTown: 'NYC',
-            location: 'NYC',
+            townName: p.location || (p.shop_id === 'happier-grocery' || p.shop_id === 'pop-up-grocer' ? 'Manhattan, NY' : 'Brooklyn, NY'),
+            rawTown: p.location || (p.shop_id === 'happier-grocery' || p.shop_id === 'pop-up-grocer' ? 'Manhattan, NY' : 'Brooklyn, NY'),
+            location: p.location || (p.shop_id === 'happier-grocery' || p.shop_id === 'pop-up-grocer' ? 'Manhattan, NY' : 'Brooklyn, NY'),
             category: p.primary_category || p.moonoh_category || 'General',
             categoryName: p.primary_category || p.moonoh_category || 'General',
             primary_category: p.primary_category || p.moonoh_category || 'General',
@@ -2169,9 +2169,9 @@
             price: p.current_price,
             photo: p.image_source_url,
             image: p.image_source_url,
-            townName: p.availability_context || (p.store_city ? `${p.store_city}, ${p.store_state}` : 'NYC'),
-            rawTown: 'NYC',
-            location: 'NYC',
+            townName: p.location || (p.shop_id === 'happier-grocery' || p.shop_id === 'pop-up-grocer' ? 'Manhattan, NY' : 'Brooklyn, NY'),
+            rawTown: p.location || (p.shop_id === 'happier-grocery' || p.shop_id === 'pop-up-grocer' ? 'Manhattan, NY' : 'Brooklyn, NY'),
+            location: p.location || (p.shop_id === 'happier-grocery' || p.shop_id === 'pop-up-grocer' ? 'Manhattan, NY' : 'Brooklyn, NY'),
             category: p.primary_category || p.moonoh_category || 'General',
             categoryName: p.primary_category || p.moonoh_category || 'General',
             source: p.shop_id,
@@ -2199,7 +2199,7 @@
               price: raw.price,
               image: raw.image || raw.photo,
               photo: raw.image || raw.photo,
-              location: raw.location || raw.townName || 'NYC',
+              location: raw.location || raw.townName || 'Manhattan, NY',
               rawTown: raw.rawTown || raw.location || '',
               category: raw.category || raw.categoryName || 'General',
               categoryName: raw.category || raw.categoryName || 'General',

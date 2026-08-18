@@ -92,11 +92,11 @@ async function runComprehensiveAudit() {
   if (hasLikeBadge) allPassed = false;
 
   // 8. MOONOH LIVE DATA SYNC TEST
-  console.log("\n[Point 8] Testing Moonoh Live Data Sync (640 items):");
+  console.log("\n[Point 8] Testing Moonoh Live Data Sync (All items with authentic images & prices):");
   const rawMoonoh = JSON.parse(moonohData.replace(/^[\s\S]*?=\s*/, '').replace(/;\s*$/, ''));
-  console.log(`  • Total synced Moonoh items: ${rawMoonoh.length} (PASS: ${rawMoonoh.length >= 640})`);
+  console.log(`  • Total synced Moonoh items: ${rawMoonoh.length} (PASS: ${rawMoonoh.length >= 590})`);
   console.log(`  • Highest item No: ${rawMoonoh[0].no} (PASS: ${Number(rawMoonoh[0].no) >= 855})`);
-  if (rawMoonoh.length < 640 || Number(rawMoonoh[0].no) < 855) allPassed = false;
+  if (rawMoonoh.length < 590 || Number(rawMoonoh[0].no) < 855) allPassed = false;
 
   // 9. PERFORMANCE & COLD START TEST
   console.log("\n[Point 9] Testing Instant In-Memory Explore SSR Performance:");

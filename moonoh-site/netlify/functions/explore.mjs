@@ -115,9 +115,9 @@ async function fetchAllCombinedItems() {
       price: raw.price || 0,
       photo: raw.image || raw.photo || 'https://moon-oh.com/images/common/ico_profile_empty.png',
       image: raw.image || raw.photo || 'https://moon-oh.com/images/common/ico_profile_empty.png',
-      townName: raw.townName || raw.location || 'NYC, NY',
+      townName: raw.townName || raw.location || 'Manhattan, NY',
       rawTown: raw.rawTown || raw.location || '',
-      location: raw.location || 'NYC, NY',
+      location: raw.location || 'Manhattan, NY',
       categoryName: raw.categoryName || raw.category || 'General',
       category: raw.categoryName || raw.category || 'General',
       detailUrl: raw.url ? `https://moon-oh.com${raw.url}` : `https://moon-oh.com/item/item-${raw.no || raw.id}`,
@@ -158,7 +158,7 @@ async function fetchAllCombinedItems() {
     if (localShopsData && Array.isArray(localShopsData.products)) {
       localItems = localShopsData.products.map((p, idx) => {
         const shop = (localShopsData.shops && localShopsData.shops[p.shop_id]) || {};
-        const neighborhood = shop.neighborhood ? `${shop.neighborhood}, NY` : 'NYC, NY';
+        const neighborhood = shop.neighborhood ? `${shop.neighborhood}, NY` : 'Manhattan, NY';
         return {
           id: p.id,
           no: p.id,
@@ -677,7 +677,7 @@ export default async (req, context) => {
           <div class="item-card-content">
             <div class="item-card-price">${priceStr}</div>
             <div class="item-card-title">${safeTitle}</div>
-            <div class="item-card-location">${escapeHtml(item.townName || item.location || 'NYC')}</div>
+            <div class="item-card-location">${escapeHtml(item.townName || item.location || 'Manhattan, NY')}</div>
             ${badgeHtml}
           </div>
         </a>
