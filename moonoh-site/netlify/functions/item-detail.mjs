@@ -312,6 +312,8 @@ export default async (req, context) => {
     let photos = [];
     let mainPhoto = "";
     let extId = "";
+    let postedAt = 0;
+    let postedAtIso = "";
 
     const localProductMatch = url.pathname.match(/\/local-product\/([^\/]+)\/([^\/]+)/i);
     const extMatch = url.pathname.match(/-ext-(karrot-[a-z0-9_-]+|heykorean-[a-z0-9_-]+|kimc-[a-z0-9_-]+)/i);
@@ -465,6 +467,23 @@ export default async (req, context) => {
       categoryName = inferCategoryFromText(title, description, d.categoryName);
       lat = parseFloat(d.productY) || 40.7128;
       lng = parseFloat(d.productX) || -74.0060;
+
+      // Extract postedAt timestamp for schema.org / OG tags
+      if (d.postedAt && typeof d.postedAt === 'number' && d.postedAt > 1000000000000) {
+        postedAt = d.postedAt;
+        postedAtIso = new Date(postedAt).toISOString();
+      } else if (d.strDayCount) {
+        // Approximate from strDayCount string e.g. "3 days ago"
+        const dMatch = String(d.strDayCount).match(/(\d+)\s*days?\s*ago/i);
+        const hMatch = String(d.strDayCount).match(/(\d+)\s*hours?\s*ago/i);
+        if (dMatch) { postedAt = Date.now() - parseInt(dMatch[1]) * 86400000; }
+        else if (hMatch) { postedAt = Date.now() - parseInt(hMatch[1]) * 3600000; }
+        else { postedAt = Date.now(); }
+        postedAtIso = new Date(postedAt).toISOString();
+      } else {
+        postedAt = Date.now();
+        postedAtIso = new Date(postedAt).toISOString();
+      }
 
       // Photos Processing
       const normalizeToWebImg = (path) => {
@@ -913,6 +932,8 @@ function isSemanticallyCompatible(incomingPath, expectedPath) {
   <meta property="og:image:secure_url" content="${absMainPhoto}"/>
   <meta property="og:url" content="${canonicalUrl}"/>
   <meta property="og:type" content="product"/>
+  ${postedAtIso ? `<meta property="article:published_time" content="${postedAtIso}"/>` : ''}
+  ${postedAtIso ? `<meta property="article:section" content="${categoryName}"/>` : ''}
   <meta name="twitter:card" content="summary_large_image"/>
   <meta name="twitter:title" content="${pageTitle}"/>
   <meta name="twitter:description" content="${metaDescription.substring(0, 160)}"/>
@@ -971,6 +992,7 @@ function isSemanticallyCompatible(incomingPath, expectedPath) {
         "sku": ${JSON.stringify(`MOONOH-${productNo}`)},
         "mpn": ${JSON.stringify(`MPN-${productNo}`)},
         "identifier": ${JSON.stringify(`MOONOH-${productNo}`)},
+        ${postedAtIso ? `"datePublished": ${JSON.stringify(postedAtIso)},` : ''}
         "brand": {
           "@type": "Brand",
           "name": ${JSON.stringify(externalSource === 'kimc' ? "Kim'C Market" : (isExternal && strDayCount === 'Local Shop' ? sourceDisplayName : (vendorName || "Secondhand")))}
@@ -981,7 +1003,7 @@ function isSemanticallyCompatible(incomingPath, expectedPath) {
           "priceCurrency": "USD",
           "price": "${price}",
           "priceValidUntil": "2027-12-31T23:59:59Z",
-          "validFrom": "2026-01-01T00:00:00Z",
+          "validFrom": ${JSON.stringify(postedAtIso || "2026-01-01T00:00:00Z")},
           "availability": ${JSON.stringify(externalSource === 'kimc' ? 'https://schema.org/OutOfStock' : 'https://schema.org/InStock')},
           "itemCondition": ${JSON.stringify(externalSource === 'kimc' ? 'https://schema.org/NewCondition' : (isExternal ? 'https://schema.org/NewCondition' : 'https://schema.org/UsedCondition'))}${
             (externalSource === 'kimc' || (isExternal && strDayCount === 'Local Shop'))
