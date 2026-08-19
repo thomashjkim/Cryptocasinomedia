@@ -29,7 +29,11 @@ try {
 
 // Region Mapping
 const REGIONS = {
-  'new-york-area': { slug: 'new-york-area', name: 'New York Area', shortName: '', keywords: [] },
+  'new-york-area': { slug: 'new-york-area', name: 'New York Area', shortName: 'NYC & NJ', keywords: [] },
+  'new-york': { slug: 'new-york', name: 'New York, NY', shortName: 'New York', keywords: ['new york', 'nyc', 'manhattan', 'brooklyn', 'queens', 'bronx', 'staten island'] },
+  'nyc': { slug: 'nyc', name: 'New York City, NY', shortName: 'NYC', keywords: ['new york', 'nyc', 'manhattan', 'brooklyn', 'queens', 'bronx', 'staten island'] },
+  'new-jersey': { slug: 'new-jersey', name: 'New Jersey', shortName: 'NJ', keywords: ['jersey', 'bergen', 'hudson', 'fort lee', 'hoboken', 'jersey city', 'newport', 'edgewater', 'nj'] },
+  'nj': { slug: 'new-jersey', name: 'New Jersey', shortName: 'NJ', keywords: ['jersey', 'bergen', 'hudson', 'fort lee', 'hoboken', 'jersey city', 'newport', 'edgewater', 'nj'] },
   'manhattan': { slug: 'manhattan', name: 'Manhattan, NY', shortName: 'Manhattan', keywords: ['manhattan', 'upper east', 'upper west', 'downtown manhattan', 'midtown', 'harlem', 'tribeca', 'soho', 'lower east', 'east village', 'west village', 'chelsea', 'gramercy', 'inwood', 'washington heights', 'morningside', 'financial district', 'wall street', 'murray hill', 'kips bay', 'flatiron', 'new york'] },
   'queens': { slug: 'queens', name: 'Queens, NY', shortName: 'Queens', keywords: ['queens', 'bayside', 'flushing', 'astoria', 'jamaica', 'forest hills', 'jackson heights', 'woodside', 'ridgewood', 'ozone park', 'fresh meadows', 'corona', 'elmhurst', 'sunnyside', 'long island city', 'rego park', 'maspeth', 'howard beach', 'far rockaway', 'college point', 'whitestone', 'douglaston'] },
   'brooklyn': { slug: 'brooklyn', name: 'Brooklyn, NY', shortName: 'Brooklyn', keywords: ['brooklyn', 'park slope', 'williamsburg', 'bushwick', 'bed stuy', 'flatbush', 'crown heights', 'bay ridge', 'bensonhurst', 'canarsie', 'east new york', 'greenpoint', 'cobble hill', 'carroll gardens', 'boerum', 'sunset park', 'borough park', 'brighton beach', 'coney island', 'sheepshead', 'ditmas'] },
@@ -39,11 +43,11 @@ const REGIONS = {
   'bayside': { slug: 'bayside', name: 'Bayside, Queens, NY', shortName: 'Bayside', keywords: ['bayside'] },
   'astoria': { slug: 'astoria', name: 'Astoria, Queens, NY', shortName: 'Astoria', keywords: ['astoria', 'long island city', 'lic'] },
   'fort-lee-nj': { slug: 'fort-lee-nj', name: 'Fort Lee, NJ', shortName: 'Fort Lee', keywords: ['fort lee', 'fortlee', 'palisades park', 'palisades', 'leonia', 'cliffside park', 'edgewater', 'fort-lee', 'bergen'] },
-  'fort-lee': { slug: 'fort-lee', name: 'Fort Lee, NJ', shortName: 'Fort Lee', keywords: ['fort lee', 'fortlee', 'palisades park', 'palisades', 'leonia', 'cliffside park', 'edgewater', 'fort-lee', 'bergen'] },
+  'fort-lee': { slug: 'fort-lee-nj', name: 'Fort Lee, NJ', shortName: 'Fort Lee', keywords: ['fort lee', 'fortlee', 'palisades park', 'palisades', 'leonia', 'cliffside park', 'edgewater', 'fort-lee', 'bergen'] },
   'bergen-county-nj': { slug: 'bergen-county-nj', name: 'Bergen County, NJ', shortName: 'Bergen', keywords: ['bergen', 'hackensack', 'paramus', 'fort lee', 'englewood', 'teaneck', 'palisades', 'fair lawn', 'garfield', 'ridgewood nj', 'rutherford'] },
-  'bergen-county': { slug: 'bergen-county', name: 'Bergen County, NJ', shortName: 'Bergen', keywords: ['bergen', 'hackensack', 'paramus', 'fort lee', 'englewood', 'teaneck', 'palisades', 'fair lawn', 'garfield', 'ridgewood nj', 'rutherford'] },
+  'bergen-county': { slug: 'bergen-county-nj', name: 'Bergen County, NJ', shortName: 'Bergen', keywords: ['bergen', 'hackensack', 'paramus', 'fort lee', 'englewood', 'teaneck', 'palisades', 'fair lawn', 'garfield', 'ridgewood nj', 'rutherford'] },
   'hudson-county-nj': { slug: 'hudson-county-nj', name: 'Hudson County, NJ', shortName: 'Hudson', keywords: ['hudson', 'jersey city', 'hoboken', 'bayonne', 'weehawken', 'union city', 'north bergen', 'secaucus', 'kearny'] },
-  'hudson-county': { slug: 'hudson-county', name: 'Hudson County, NJ', shortName: 'Hudson', keywords: ['hudson', 'jersey city', 'hoboken', 'bayonne', 'weehawken', 'union city', 'north bergen', 'secaucus', 'kearny'] }
+  'hudson-county': { slug: 'hudson-county-nj', name: 'Hudson County, NJ', shortName: 'Hudson', keywords: ['hudson', 'jersey city', 'hoboken', 'bayonne', 'weehawken', 'union city', 'north bergen', 'secaucus', 'kearny'] }
 };
 
 // Category Mapping
@@ -51,6 +55,7 @@ const CATEGORIES = {
   'electronics': { slug: 'electronics', name: 'Electronics', kw: 'electronics', keywords: ['electronics', 'phone', 'laptop', 'appliances', 'audio', 'gadget', 'ink', 'camera', 'tv', 'monitor', 'headphone', 'airpods', 'ipad', 'charger', 'speaker', 'printer', 'game', 'ps5', 'nintendo', 'xbox'] },
   'furniture': { slug: 'furniture', name: 'Furniture', kw: 'furniture', keywords: ['furniture', 'sofa', 'table', 'chair', 'bed', 'desk', 'couch', 'dresser', 'mattress', 'shelf', 'nightstand', 'cabinet', 'stool', 'bench', 'ottoman', 'headboard', 'drawers', '소파', '침대', '식탁', '의자', '책상', '서랍', '매트리스', '선반', '테이블', '가구'], excludes: ['pillow', 'hanger', 'curtain rod', 'fan', 'keyboard', 'monitor', 'massager', 'phone stand', 'photo printer', 'gymnastic', 'printer'] },
   'womens-fashion': { slug: 'womens-fashion', name: "Women's Fashion", kw: 'women', keywords: ["women's fashion", 'women', 'dress', 'handbag', 'skirt', 'coat'] },
+  'fashion': { slug: 'womens-fashion', name: "Fashion & Clothing", kw: 'fashion', keywords: ['fashion', 'clothing', 'dress', 'shirt', 'pants', 'coat', 'jacket', 'shoes', 'women', 'men'] },
   'mens-fashion': { slug: 'mens-fashion', name: "Men's Fashion", kw: 'men', keywords: ["men's fashion", 'men', 'suit', 'jacket'] },
   'shoes': { slug: 'shoes', name: 'Shoes', kw: 'shoe', keywords: ['shoes', 'sneakers', 'boots', 'sandals', 'shoe', 'nike', 'adidas'] },
   'home-garden': { slug: 'home-garden', name: 'Home & Garden', kw: 'home', keywords: ['home, garden & diy', 'home', 'garden', 'kitchen', 'utensil', 'decor'] },
@@ -63,7 +68,7 @@ const CATEGORIES = {
   'luggages-bags': { slug: 'luggages-bags', name: 'Luggages & Bags', kw: 'bag', keywords: ['luggages', 'bags', 'pouch', 'backpack', 'tote', 'wallet', 'bag'] },
   'antiques': { slug: 'antiques', name: 'Antiques', kw: 'antique', keywords: ['antiques', 'vintage', 'collectible'] },
   'arts-books-music': { slug: 'arts-books-music', name: 'Arts, Books & Music', kw: 'art', keywords: ['arts', 'books', 'music', 'book', 'print'] },
-    'food-groceries': { slug: 'food-groceries', name: 'Food & Groceries', kw: 'food', keywords: ['food', 'groceries', 'snack', 'sauce', 'oil', 'rice', 'tea', 'noodle', 'kimchi', 'pantry', 'drink', 'beverage', 'korean food', 'cookie', 'juice', 'chip'] },
+  'food-groceries': { slug: 'food-groceries', name: 'Food & Groceries', kw: 'food', keywords: ['food', 'groceries', 'snack', 'sauce', 'oil', 'rice', 'tea', 'noodle', 'kimchi', 'pantry', 'drink', 'beverage', 'korean food', 'cookie', 'juice', 'chip'] },
   'coffee-pantry': { slug: 'coffee-pantry', name: 'Coffee & Pantry', kw: 'coffee', keywords: ['coffee', 'pantry', 'tea', 'beans', 'roast', 'olive oil', 'syrup', 'snack'] },
   'vintage-fashion': { slug: 'vintage-fashion', name: 'Vintage & Fashion', kw: 'vintage', keywords: ['vintage', 'fashion', 'clothing', 'jacket', 'denim', 'dress', 'belt', 'leather'] },
   'home-objects': { slug: 'home-objects', name: 'Home & Objects', kw: 'home', keywords: ['home', 'objects', 'glass', 'dish', 'ceramic', 'candle', 'linen', 'plate', 'towel'] },

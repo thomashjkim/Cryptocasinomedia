@@ -418,6 +418,16 @@ export default async (req, context) => {
           strDayCount = "Recently listed";
         }
       } else {
+        // If the shop exists, 301 redirect obsolete/sold-out product URLs to the shop collection page
+        if (localShopsDb.shops && localShopsDb.shops[shopSlug]) {
+          return new Response(null, {
+            status: 301,
+            headers: {
+              "Location": `https://moon-oh.com/local-shops/${shopSlug}`,
+              "Cache-Control": "public, max-age=86400"
+            }
+          });
+        }
         return new Response("Product Not Found", {
           status: 404,
           headers: {
