@@ -1,4 +1,4 @@
-// Live Moonoh Items Dataset (597 visible items, isShow == 'Y', Meetup Preference location)
+// Live Moonoh Items Dataset (597 visible items, isShow == Y, sorted by postedAt DESC)
 export const realMoonohItems = [
   {
     "no": 857,

@@ -135,7 +135,11 @@ async function buildFullItemList() {
           rawTown: rawTown,
           image: img_url,
           category: item.categoryName || "",
-          url: slug
+          url: slug,
+          source: 'moonoh',
+          postedAt: item.postedAt || item.createdAt || null,
+          sellerName: item.sellerName || item.nickname || "",
+          description: item.description || ""
         };
       })
     );

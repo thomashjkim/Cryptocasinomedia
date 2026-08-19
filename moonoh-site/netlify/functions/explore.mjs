@@ -127,7 +127,7 @@ async function fetchAllCombinedItems() {
       detailUrl: raw.url ? `https://moon-oh.com${raw.url}` : `https://moon-oh.com/item/item-${raw.no || raw.id}`,
       url: raw.url ? `https://moon-oh.com${raw.url}` : `https://moon-oh.com/item/item-${raw.no || raw.id}`,
       source: 'moonoh',
-      postedAt: Date.now() - idx * 1800000
+      postedAt: raw.postedAt || (Date.now() - idx * 1800000)
     }));
 
     let foodRescueItems = [];

@@ -1368,7 +1368,8 @@
               category: raw.categoryName || raw.category,
               categoryName: raw.categoryName || raw.category,
               url: raw.detailUrl || raw.url,
-              source: src
+              source: src,
+              postedAt: raw.postedAt || null
             };
           });
         }
@@ -2204,8 +2205,8 @@
           const data = await res.json();
           if (Array.isArray(data) && data.length > 0) {
             const list = data.map(raw => ({
-              no: raw.id || raw.no,
-              id: raw.id || raw.no,
+              no: raw.no || raw.id,
+              id: raw.no || raw.id,
               title: raw.title,
               price: raw.price,
               image: raw.image || raw.photo,
@@ -2216,7 +2217,7 @@
               categoryName: raw.category || raw.categoryName || 'General',
               url: raw.url || `/item/item-${raw.no || raw.id}`,
               source: 'moonoh',
-              postedAt: raw.postedAt || raw.no || raw.id
+              postedAt: (typeof raw.postedAt === 'number' && raw.postedAt > 1000000000000) ? raw.postedAt : null
             })).filter(i => i && i.image && !i.image.includes("ico_profile_empty.png"));
 
             const existingIds = new Set(allItems.map(i => String(i.id || i.no)));
