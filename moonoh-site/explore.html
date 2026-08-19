@@ -2104,7 +2104,9 @@
           categoryName: r.categoryName || 'Food & Groceries',
           source: 'kimc',
           badgeName: "Kim'C Market",
-          url: `/item/${r.handle || 'item'}-brooklyn-ny-ext-${r.id}`
+          url: `/item/${r.handle || 'item'}-brooklyn-ny-ext-${r.id}`,
+          postedAt: r.postedAt || Date.now(),
+          timeAgo: r.timeAgo || 'Recently listed'
         }));
         if (activeSource === 'foodrescue') applyFilters();
       } catch (e) {
@@ -2127,6 +2129,7 @@
           category: raw.categoryName || raw.category,
           categoryName: raw.categoryName || raw.category,
           source: raw.source || 'external',
+          postedAt: (typeof raw.postedAt === 'number' && raw.postedAt > 1000000000000) ? raw.postedAt : null,
           timeAgo: raw.timeAgo || ''
         }));
         if (activeSource === 'marketplaces' || activeSource === 'others') applyFilters(getActiveCategoryKeyword());
@@ -2149,6 +2152,7 @@
             category: raw.category,
             categoryName: raw.category,
             source: raw.source || 'external',
+            postedAt: (typeof raw.postedAt === 'number' && raw.postedAt > 1000000000000) ? raw.postedAt : null,
             timeAgo: raw.timeAgo || ''
           }));
         }
@@ -2174,23 +2178,44 @@
             ? getBalancedLocalProducts(rawProds, { category: activeLocalCategory, context: 'explore-local' })
             : rawProds;
 
-          localShopsItemsList = balanced.map(p => ({
-            id: p.id,
-            no: p.id,
-            title: p.title,
-            price: p.current_price,
-            photo: p.image_source_url,
-            image: p.image_source_url,
-            townName: p.location || (p.shop_id === 'happier-grocery' || p.shop_id === 'pop-up-grocer' ? 'Manhattan, NY' : 'Brooklyn, NY'),
-            rawTown: p.location || (p.shop_id === 'happier-grocery' || p.shop_id === 'pop-up-grocer' ? 'Manhattan, NY' : 'Brooklyn, NY'),
-            location: p.location || (p.shop_id === 'happier-grocery' || p.shop_id === 'pop-up-grocer' ? 'Manhattan, NY' : 'Brooklyn, NY'),
-            category: p.primary_category || p.moonoh_category || 'General',
-            categoryName: p.primary_category || p.moonoh_category || 'General',
-            source: p.shop_id,
-            shop_id: p.shop_id,
-            badgeName: p.brand || (shops[p.shop_id] ? shops[p.shop_id].name : 'Local Shop'),
-            url: `/local-product/${p.shop_id}/${p.slug}`
-          }));
+          localShopsItemsList = balanced.map((p, idx) => {
+            let itemPostedAt = 0;
+            if (p.source_published_at) {
+              const pubTime = new Date(p.source_published_at).getTime();
+              const daysDiff = (Date.now() - pubTime) / (1000 * 86400);
+              if (!isNaN(pubTime) && pubTime > 0 && daysDiff <= 180) {
+                itemPostedAt = pubTime;
+              }
+            }
+            if (!itemPostedAt && p.last_checked_at) {
+              const chkTime = new Date(p.last_checked_at).getTime();
+              if (!isNaN(chkTime) && chkTime > 0) {
+                itemPostedAt = chkTime - (idx * 60000);
+              }
+            }
+            if (!itemPostedAt) {
+              itemPostedAt = Date.now() - (idx * 60000);
+            }
+
+            return {
+              id: p.id,
+              no: p.id,
+              title: p.title,
+              price: p.current_price,
+              photo: p.image_source_url,
+              image: p.image_source_url,
+              townName: p.location || (p.shop_id === 'happier-grocery' || p.shop_id === 'pop-up-grocer' ? 'Manhattan, NY' : 'Brooklyn, NY'),
+              rawTown: p.location || (p.shop_id === 'happier-grocery' || p.shop_id === 'pop-up-grocer' ? 'Manhattan, NY' : 'Brooklyn, NY'),
+              location: p.location || (p.shop_id === 'happier-grocery' || p.shop_id === 'pop-up-grocer' ? 'Manhattan, NY' : 'Brooklyn, NY'),
+              category: p.primary_category || p.moonoh_category || 'General',
+              categoryName: p.primary_category || p.moonoh_category || 'General',
+              source: p.shop_id,
+              shop_id: p.shop_id,
+              badgeName: p.brand || (shops[p.shop_id] ? shops[p.shop_id].name : 'Local Shop'),
+              url: `/local-product/${p.shop_id}/${p.slug}`,
+              postedAt: itemPostedAt
+            };
+          });
           if (activeSource === 'localshops') applyFilters(getActiveCategoryKeyword());
         }
       } catch (e) {

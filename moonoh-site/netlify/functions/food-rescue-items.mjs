@@ -14,7 +14,8 @@ export const realFoodRescueItems = [
     "source": "kimc",
     "sourceName": "Kim'C Market",
     "vendor": "Woorimil",
-    "timeAgo": "Food Rescue"
+    "postedAt": 1787155737746,
+    "timeAgo": "Today"
   },
   {
     "id": "kimc-8902595182845",
@@ -31,7 +32,8 @@ export const realFoodRescueItems = [
     "source": "kimc",
     "sourceName": "Kim'C Market",
     "vendor": "Pyo-Dam",
-    "timeAgo": "Food Rescue"
+    "postedAt": 1787148537746,
+    "timeAgo": "Today"
   },
   {
     "id": "kimc-9176213389565",
@@ -48,7 +50,8 @@ export const realFoodRescueItems = [
     "source": "kimc",
     "sourceName": "Kim'C Market",
     "vendor": "Kangdaein Organic Rice of Life",
-    "timeAgo": "Food Rescue"
+    "postedAt": 1787141337746,
+    "timeAgo": "Today"
   },
   {
     "id": "kimc-8907362631933",
@@ -65,7 +68,8 @@ export const realFoodRescueItems = [
     "source": "kimc",
     "sourceName": "Kim'C Market",
     "vendor": "Ecomom",
-    "timeAgo": "Food Rescue"
+    "postedAt": 1787134137746,
+    "timeAgo": "Today"
   },
   {
     "id": "kimc-9091959259389",
@@ -82,7 +86,8 @@ export const realFoodRescueItems = [
     "source": "kimc",
     "sourceName": "Kim'C Market",
     "vendor": "Tigak Tegak",
-    "timeAgo": "Food Rescue"
+    "postedAt": 1787126937746,
+    "timeAgo": "Today"
   },
   {
     "id": "kimc-8903233372413",
@@ -99,7 +104,8 @@ export const realFoodRescueItems = [
     "source": "kimc",
     "sourceName": "Kim'C Market",
     "vendor": "Tigak Tegak",
-    "timeAgo": "Food Rescue"
+    "postedAt": 1787119737746,
+    "timeAgo": "Today"
   },
   {
     "id": "kimc-9334042001661",
@@ -116,7 +122,8 @@ export const realFoodRescueItems = [
     "source": "kimc",
     "sourceName": "Kim'C Market",
     "vendor": "Tochi",
-    "timeAgo": "Food Rescue"
+    "postedAt": 1787112537746,
+    "timeAgo": "Today"
   },
   {
     "id": "kimc-8906040475901",
@@ -133,7 +140,8 @@ export const realFoodRescueItems = [
     "source": "kimc",
     "sourceName": "Kim'C Market",
     "vendor": "Nenia",
-    "timeAgo": "Food Rescue"
+    "postedAt": 1787105337746,
+    "timeAgo": "Today"
   },
   {
     "id": "kimc-5782545531030",
@@ -150,7 +158,8 @@ export const realFoodRescueItems = [
     "source": "kimc",
     "sourceName": "Kim'C Market",
     "vendor": "Myeon Ga Won",
-    "timeAgo": "Food Rescue"
+    "postedAt": 1787098137746,
+    "timeAgo": "Today"
   },
   {
     "id": "kimc-8723731022077",
@@ -167,7 +176,8 @@ export const realFoodRescueItems = [
     "source": "kimc",
     "sourceName": "Kim'C Market",
     "vendor": "Demisaem",
-    "timeAgo": "Food Rescue"
+    "postedAt": 1787090937746,
+    "timeAgo": "Today"
   },
   {
     "id": "kimc-8906319921405",
@@ -184,7 +194,8 @@ export const realFoodRescueItems = [
     "source": "kimc",
     "sourceName": "Kim'C Market",
     "vendor": "Tory Food",
-    "timeAgo": "Food Rescue"
+    "postedAt": 1787083737746,
+    "timeAgo": "Today"
   },
   {
     "id": "kimc-8141701611773",
@@ -201,7 +212,8 @@ export const realFoodRescueItems = [
     "source": "kimc",
     "sourceName": "Kim'C Market",
     "vendor": "LEESOOBOO",
-    "timeAgo": "Food Rescue"
+    "postedAt": 1787076537746,
+    "timeAgo": "Today"
   },
   {
     "id": "kimc-8907365712125",
@@ -218,7 +230,8 @@ export const realFoodRescueItems = [
     "source": "kimc",
     "sourceName": "Kim'C Market",
     "vendor": "Ecomom",
-    "timeAgo": "Food Rescue"
+    "postedAt": 1787069337746,
+    "timeAgo": "1 day ago"
   },
   {
     "id": "kimc-8907368136957",
@@ -235,7 +248,8 @@ export const realFoodRescueItems = [
     "source": "kimc",
     "sourceName": "Kim'C Market",
     "vendor": "Ecomom",
-    "timeAgo": "Food Rescue"
+    "postedAt": 1787062137746,
+    "timeAgo": "1 day ago"
   },
   {
     "id": "kimc-7706573701373",
@@ -252,7 +266,8 @@ export const realFoodRescueItems = [
     "source": "kimc",
     "sourceName": "Kim'C Market",
     "vendor": "Fromwell",
-    "timeAgo": "Food Rescue"
+    "postedAt": 1787054937746,
+    "timeAgo": "1 day ago"
   }
 ];
 

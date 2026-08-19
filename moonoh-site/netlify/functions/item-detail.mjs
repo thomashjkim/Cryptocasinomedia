@@ -31,12 +31,40 @@ function escapeHtml(str) {
     .replace(/'/g, '&#39;');
 }
 
+// Compute human-readable "X days ago" from a millisecond timestamp
+function computeTimeAgo(ms) {
+  if (!ms || ms <= 0) return 'Recently';
+  const diff = Date.now() - ms;
+  if (diff < 0) return 'Just now';
+  const mins  = Math.floor(diff / 60000);
+  const hours = Math.floor(diff / 3600000);
+  const days  = Math.floor(diff / 86400000);
+  const months = Math.floor(days / 30);
+  const years  = Math.floor(days / 365);
+  if (mins < 2)   return 'Just now';
+  if (hours < 1)  return `${mins} min ago`;
+  if (hours < 24) return hours === 1 ? '1 hour ago' : `${hours} hours ago`;
+  if (days === 1) return '1 day ago';
+  if (days <= 6)  return `${days} days ago`;
+  if (days <= 13) return '1 week ago';
+  if (days <= 29) return `${Math.floor(days/7)} weeks ago`;
+  if (months <= 1) return '1 month ago';
+  if (months <= 11) return `${months} months ago`;
+  if (years === 1) return '1 year ago';
+  return `${years} years ago`;
+}
+
 function formatDisplayTimeAgo(rawStr, sourceType) {
-  if (sourceType === 'localshops' || sourceType === 'local-shop') return 'Local Shop';
-  if (sourceType === 'foodrescue' || sourceType === 'kimc') return 'Food Rescue';
-  if (sourceType === 'marketplaces' || sourceType === 'karrot' || sourceType === 'heykorean' || sourceType === 'external') return 'Community Listing';
+  // NOTE: sourceType is no longer used for hard-coded labels — real timestamps are always preferred.
+  // Callers should pass a ms timestamp as rawStr, or a "X days ago" style string.
 
   if (!rawStr || rawStr === 'undefined' || rawStr === 'null' || rawStr === 'None') return 'Recently';
+
+  // If rawStr is a millisecond timestamp (number or numeric string > 10^12)
+  const asNum = Number(rawStr);
+  if (!isNaN(asNum) && asNum > 1000000000000) {
+    return computeTimeAgo(asNum);
+  }
 
   let raw = String(rawStr).trim().replace(/\.+$/, '');
 
@@ -44,7 +72,8 @@ function formatDisplayTimeAgo(rawStr, sourceType) {
   const mDay = raw.match(/(\d+)\s*days?\s*ago/i);
   if (mDay) {
     const days = parseInt(mDay[1], 10);
-    if (days > 60) return 'Recently listed';
+    if (days > 365) return 'Over a year ago';
+    if (days > 60)  return `${Math.floor(days/30)} months ago`;
     if (days === 1) return '1 day ago';
     return `${days} days ago`;
   }
@@ -54,11 +83,16 @@ function formatDisplayTimeAgo(rawStr, sourceType) {
     const mMonth = raw.match(/(\d+)\s*months?\s*ago/i);
     if (mMonth) {
       const months = parseInt(mMonth[1], 10);
-      if (months > 2) return 'Recently listed';
       if (months === 1) return '1 month ago';
+      if (months > 12) return 'Over a year ago';
       return `${months} months ago`;
     }
-    return 'Recently listed';
+    const mYear = raw.match(/(\d+)\s*years?\s*ago/i);
+    if (mYear) {
+      const yrs = parseInt(mYear[1], 10);
+      return yrs === 1 ? '1 year ago' : `${yrs} years ago`;
+    }
+    return 'Over a year ago';
   }
 
   // Check hours / minutes
@@ -77,6 +111,7 @@ function formatDisplayTimeAgo(rawStr, sourceType) {
 
   return 'Recently';
 }
+
 
 function getCategorySlug(catStr) {
   if (!catStr) return 'other';
@@ -359,7 +394,29 @@ export default async (req, context) => {
         categoryName = localItem.primary_category || localItem.moonoh_category || "Home & Objects";
         externalUrl = (localItem.source_url && localItem.source_url.startsWith('http')) ? localItem.source_url : (shopInfo.website_url || 'https://moon-oh.com');
         externalSource = shopSlug;
-        strDayCount = formatDisplayTimeAgo(null, "localshops");
+
+        // Calculate accurate timestamp and human-readable time ago for Local Products
+        if (localItem.source_published_at) {
+          const pubTime = new Date(localItem.source_published_at).getTime();
+          if (!isNaN(pubTime) && pubTime > 0) {
+            postedAt = pubTime;
+            postedAtIso = new Date(postedAt).toISOString();
+            strDayCount = computeTimeAgo(postedAt);
+          }
+        }
+        if (!postedAt && localItem.last_checked_at) {
+          const chkTime = new Date(localItem.last_checked_at).getTime();
+          if (!isNaN(chkTime) && chkTime > 0) {
+            postedAt = chkTime;
+            postedAtIso = new Date(postedAt).toISOString();
+            strDayCount = computeTimeAgo(postedAt);
+          }
+        }
+        if (!postedAt) {
+          postedAt = Date.now();
+          postedAtIso = new Date(postedAt).toISOString();
+          strDayCount = "Recently listed";
+        }
       } else {
         return new Response("Product Not Found", {
           status: 404,
@@ -394,23 +451,36 @@ export default async (req, context) => {
       address = extItem.rawTown || extItem.location || 'Brooklyn, NY';
       sellerName = extItem.sellerName || (extItem.source === 'karrot' ? 'Karrot Seller' : (extItem.source === 'kimc' ? "Kim'C Market" : 'HeyKorean Seller'));
       vendorName = extItem.source === 'kimc' ? "Kim'C Market" : (extItem.vendor || extItem.sellerName || "Moonoh");
-      if (!extItem.timeAgo) {
+
+      // Calculate postedAt, postedAtIso, and strDayCount for External items (Karrot, HeyKorean, Food Rescue)
+      if (extItem.postedAt && typeof extItem.postedAt === 'number' && extItem.postedAt > 1000000000000) {
+        postedAt = extItem.postedAt;
+        postedAtIso = new Date(postedAt).toISOString();
+        strDayCount = computeTimeAgo(postedAt);
+      } else if (extItem.timeAgo && extItem.timeAgo !== 'Community Listing' && extItem.timeAgo !== 'Food Rescue') {
+        strDayCount = formatDisplayTimeAgo(extItem.timeAgo);
+        const dMatch = String(extItem.timeAgo).match(/(\d+)\s*days?\s*ago/i);
+        const hMatch = String(extItem.timeAgo).match(/(\d+)\s*hours?\s*ago/i);
+        if (dMatch) { postedAt = Date.now() - parseInt(dMatch[1], 10) * 86400000; }
+        else if (hMatch) { postedAt = Date.now() - parseInt(hMatch[1], 10) * 3600000; }
+        else { postedAt = Date.now(); }
+        postedAtIso = new Date(postedAt).toISOString();
+      } else {
+        // Parse from image url if available
         const img = extItem.image || '';
         const hkMatch = img.match(/\/market\/item\/(\d{4})\/(\d{2})\/(\d{2})\//);
         if (hkMatch) {
           const [_, year, month, day] = hkMatch;
-          const diffMs = Math.max(0, Date.now() - new Date(`${year}-${month}-${day}`).getTime());
-          const days = Math.floor(diffMs / (1000 * 60 * 60 * 24));
-          extItem.timeAgo = days > 0 ? `${days} ${days === 1 ? 'day' : 'days'} ago` : 'Today';
-        } else if (img.includes('/article/202608/')) {
-          extItem.timeAgo = '2 days ago';
-        } else if (img.includes('/article/202607/')) {
-          extItem.timeAgo = '10 days ago';
+          postedAt = new Date(`${year}-${month}-${day}T12:00:00Z`).getTime();
+          postedAtIso = new Date(postedAt).toISOString();
+          strDayCount = computeTimeAgo(postedAt);
         } else {
-          extItem.timeAgo = '3 days ago';
+          postedAt = Date.now();
+          postedAtIso = new Date(postedAt).toISOString();
+          strDayCount = "Recently listed";
         }
       }
-      strDayCount = extItem.source === 'kimc' ? formatDisplayTimeAgo(null, 'foodrescue') : formatDisplayTimeAgo(extItem.timeAgo, 'marketplaces');
+
       photos = [extItem.image];
       mainPhoto = extItem.image;
       categoryName = extItem.source === 'kimc' ? 'Food & Groceries' : inferCategoryFromText(title, description, extItem.category);

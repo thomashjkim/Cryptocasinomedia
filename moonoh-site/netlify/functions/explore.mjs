@@ -170,7 +170,25 @@ async function fetchAllCombinedItems() {
           'Williamsburg': 'Brooklyn, NY', 'Astoria': 'Queens, NY'
         };
         const nh = shop.neighborhood || '';
-        const borough = NEIGHBORHOOD_BOROUGH[nh] || p.location || 'Manhattan, NY';
+        // Compute fresh timestamp: if source_published_at is reasonably recent (<= 180 days), use it; otherwise use last_checked_at
+        let itemPostedAt = 0;
+        if (p.source_published_at) {
+          const pubTime = new Date(p.source_published_at).getTime();
+          const daysDiff = (Date.now() - pubTime) / (1000 * 86400);
+          if (!isNaN(pubTime) && pubTime > 0 && daysDiff <= 180) {
+            itemPostedAt = pubTime;
+          }
+        }
+        if (!itemPostedAt && p.last_checked_at) {
+          const chkTime = new Date(p.last_checked_at).getTime();
+          if (!isNaN(chkTime) && chkTime > 0) {
+            itemPostedAt = chkTime - (idx * 60000);
+          }
+        }
+        if (!itemPostedAt) {
+          itemPostedAt = Date.now() - (idx * 60000);
+        }
+
         return {
           id: p.id,
           no: p.id,
@@ -187,7 +205,7 @@ async function fetchAllCombinedItems() {
           url: `https://moon-oh.com/local-product/${p.shop_id}/${p.slug}`,
           source: p.shop_id,
           badgeName: p.brand || shop.name || 'Local Shop',
-          postedAt: p.source_published_at ? new Date(p.source_published_at).getTime() : (p.last_checked_at ? new Date(p.last_checked_at).getTime() - (idx * 1500000) : (Date.now() - idx * 1500000))
+          postedAt: itemPostedAt
         };
       });
     }
