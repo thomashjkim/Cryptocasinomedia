@@ -578,6 +578,17 @@ export default async (req, context) => {
       filteredItems = allItems.filter(item => item.source === 'moonoh' || (!item.source && !String(item.id||'').startsWith('karrot') && !String(item.id||'').startsWith('heykorean') && !String(item.id||'').startsWith('kimc')));
     }
 
+    // Bulletproof SSR deduplication by item key
+    const seenSsrKeys = new Set();
+    filteredItems = filteredItems.filter(item => {
+      if (!item) return false;
+      const normId = String(item.no || item.id || '').replace(/^item-/, '');
+      const key = String(item.source || 'moonoh') + '_' + normId;
+      if (seenSsrKeys.has(key)) return false;
+      seenSsrKeys.add(key);
+      return true;
+    });
+
     // Filter by Region if present
     if (targetRegionObj && targetRegionObj.keywords && targetRegionObj.keywords.length > 0) {
       filteredItems = filteredItems.filter(item => {

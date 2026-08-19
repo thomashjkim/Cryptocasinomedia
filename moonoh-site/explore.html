@@ -1347,6 +1347,7 @@
       try {
         let items = [];
         if (window.__INITIAL_ITEMS__ && Array.isArray(window.__INITIAL_ITEMS__) && window.__INITIAL_ITEMS__.length > 0) {
+          const seenInitial = new Set();
           items = window.__INITIAL_ITEMS__.map(raw => {
             let src = raw.source;
             if (!src) {
@@ -1356,9 +1357,10 @@
               else if (raw.detailUrl && String(raw.detailUrl).includes('-ext-')) src = 'external';
               else src = 'moonoh';
             }
+            const normId = String(raw.no || raw.id || '').replace(/^item-/, '');
             return {
-              no: raw.id,
-              id: raw.id,
+              no: normId,
+              id: normId,
               title: raw.title,
               price: raw.price,
               image: raw.photo || raw.image,
@@ -1371,6 +1373,12 @@
               source: src,
               postedAt: raw.postedAt || null
             };
+          }).filter(item => {
+            if (!item || !item.image || item.image.includes("ico_profile_empty.png")) return false;
+            const key = String(item.source || '') + '_' + String(item.no || item.id || '').replace(/^item-/, '');
+            if (seenInitial.has(key)) return false;
+            seenInitial.add(key);
+            return true;
           });
         }
 
@@ -1381,8 +1389,24 @@
           } catch (e) {}
         }
         
-        items = (Array.isArray(items) ? items : []).filter(item => item && item.image && !item.image.includes("ico_profile_empty.png"));
+        const seenFinal = new Set();
+        items = (Array.isArray(items) ? items : []).map(item => {
+          const normId = String(item.no || item.id || '').replace(/^item-/, '');
+          return {
+            ...item,
+            no: normId,
+            id: normId
+          };
+        }).filter(item => {
+          if (!item || !item.image || item.image.includes("ico_profile_empty.png")) return false;
+          const key = String(item.source || '') + '_' + String(item.no || item.id || '').replace(/^item-/, '');
+          if (seenFinal.has(key)) return false;
+          seenFinal.add(key);
+          return true;
+        });
+
         allItems = items;
+        moonohItemsList = items.filter(isStrictMoonoh);
         currentFiltered = items;
         visibleCount = 40;
         
@@ -1998,6 +2022,17 @@
         });
       }
 
+      // Bulletproof Deduplication: Ensure 0 duplicated items across any category/search/sort state
+      const seenCardKeys = new Set();
+      filtered = filtered.filter(item => {
+        if (!item) return false;
+        const normId = String(item.no || item.id || '').replace(/^item-/, '');
+        const key = String(item.source || '') + '_' + normId;
+        if (seenCardKeys.has(key)) return false;
+        seenCardKeys.add(key);
+        return true;
+      });
+
       currentFiltered = filtered;
       visibleCount = 40;
       renderGrid(currentFiltered);
@@ -2228,29 +2263,39 @@
 
     async function preloadMoonohItems() {
       try {
+        const strictExisting = allItems.filter(isStrictMoonoh);
+        if (strictExisting.length > 0) {
+          moonohItemsList = strictExisting;
+          return;
+        }
         let res = await fetch('/api/items');
         if (res.ok) {
           const data = await res.json();
           if (Array.isArray(data) && data.length > 0) {
-            const list = data.map(raw => ({
-              no: raw.no || raw.id,
-              id: raw.no || raw.id,
-              title: raw.title,
-              price: raw.price,
-              image: raw.image || raw.photo,
-              photo: raw.image || raw.photo,
-              location: raw.location || raw.townName || 'Manhattan, NY',
-              rawTown: raw.rawTown || raw.location || '',
-              category: raw.category || raw.categoryName || 'General',
-              categoryName: raw.category || raw.categoryName || 'General',
-              url: raw.url || `/item/item-${raw.no || raw.id}`,
-              source: 'moonoh',
-              postedAt: (typeof raw.postedAt === 'number' && raw.postedAt > 1000000000000) ? raw.postedAt : null
-            })).filter(i => i && i.image && !i.image.includes("ico_profile_empty.png"));
+            const list = data.map(raw => {
+              const rawId = String(raw.no || raw.id || '').replace(/^item-/, '');
+              return {
+                no: rawId,
+                id: rawId,
+                title: raw.title,
+                price: raw.price,
+                image: raw.image || raw.photo,
+                photo: raw.image || raw.photo,
+                location: raw.location || raw.townName || 'Manhattan, NY',
+                rawTown: raw.rawTown || raw.location || '',
+                category: raw.category || raw.categoryName || 'General',
+                categoryName: raw.category || raw.categoryName || 'General',
+                url: raw.url || `/item/item-${rawId}`,
+                source: 'moonoh',
+                postedAt: (typeof raw.postedAt === 'number' && raw.postedAt > 1000000000000) ? raw.postedAt : null
+              };
+            }).filter(i => i && i.image && !i.image.includes("ico_profile_empty.png"));
 
-            const existingIds = new Set(allItems.map(i => String(i.id || i.no)));
+            const existingNormIds = new Set(allItems.map(i => String(i.no || i.id || '').replace(/^item-/, '')));
             list.forEach(item => {
-              if (!existingIds.has(String(item.id || item.no))) {
+              const normId = String(item.no || item.id || '').replace(/^item-/, '');
+              if (!existingNormIds.has(normId)) {
+                existingNormIds.add(normId);
                 allItems.push(item);
               }
             });
