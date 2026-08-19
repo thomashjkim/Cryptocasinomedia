@@ -49286,3 +49286,15 @@ export const realHeyKoreanItems = [
     "timeAgo": "Over a year ago"
   }
 ];
+
+export default async (req, context) => {
+  const allExternal = [...realKarrotItems, ...realHeyKoreanItems];
+  return new Response(JSON.stringify(allExternal), {
+    status: 200,
+    headers: {
+      "Content-Type": "application/json; charset=utf-8",
+      "Access-Control-Allow-Origin": "*",
+      "Cache-Control": "public, max-age=0, must-revalidate, s-maxage=0"
+    }
+  });
+};
