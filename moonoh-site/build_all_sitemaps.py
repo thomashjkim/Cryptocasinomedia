@@ -290,4 +290,7 @@ xml_index = ['<?xml version="1.0" encoding="UTF-8"?>',
 with open('sitemap-index.xml', 'w', encoding='utf-8') as f:
     f.write('\n'.join(xml_index))
 
+with open('sitemap.xml', 'w', encoding='utf-8') as f:
+    f.write('\n'.join(xml_index))
+
 print("✅ All XML Sitemaps successfully regenerated!")
