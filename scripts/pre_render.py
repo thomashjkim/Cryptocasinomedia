@@ -799,6 +799,18 @@ def renderArticlePage(slug):
                                              <span class=\"font-semibold text-gray-900\">CryptoCasinoMedia</span>
                                          </div>"""}
                                         <div>
+                                            <span class="block text-gray-500 text-[11px] uppercase tracking-wider mb-1">Verification Status</span>
+                                            <div class="inline-flex items-center px-2 py-0.5 text-[12px] font-medium bg-green-50 text-green-800 border border-green-200 rounded-sm">
+                                                <i data-lucide="check-circle" class="w-3.5 h-3.5 mr-1 text-green-600"></i> Primary Source Confirmed
+                                            </div>
+                                        </div>
+                                        {f"""<div>
+                                             <span class=\"block text-gray-500 text-[11px] uppercase tracking-wider mb-1\">Primary Source</span>
+                                             <a href=\"{article['originalUrl']}\" target=\"_blank\" rel=\"sponsored nofollow\" class=\"inline-flex items-center text-blue-700 hover:underline font-medium text-xs\">
+                                                 Official Site <i data-lucide=\"external-link\" class=\"w-3 h-3 ml-1\"></i>
+                                             </a>
+                                         </div>""" if article.get('originalUrl') else ""}
+                                        <div>
                                             <span class="block text-gray-500 text-[11px] uppercase tracking-wider mb-1">Region</span>
                                             <div class="flex items-center text-gray-900">
                                                 <i data-lucide="map-pin" class="w-[14px] h-[14px] mr-1.5 text-gray-400"></i> {article['region']}
@@ -1191,12 +1203,12 @@ def renderAboutPage():
                             <div class="bg-gray-50 border border-gray-200 p-6 rounded-sm">
                                 <h3 class="font-bold text-gray-900 text-lg"><a href="/authors/marcus-vance" class="text-gray-900 hover:text-blue-700 transition-colors underline decoration-dotted">Marcus Vance</a></h3>
                                 <p class="text-xs text-blue-700 font-semibold mb-2">Lead iGaming Analyst</p>
-                                <p class="text-sm text-gray-600 leading-relaxed">Marcus has over a decade of experience analyzing digital asset betting volumes, platform architectures, and offshore operator trends. Formerly a compliance consultant for major European sportsbooks.</p>
+                                <p class="text-sm text-gray-600 leading-relaxed">Marcus has over 8 years of experience analyzing digital asset betting volumes, platform architectures, and offshore operator trends. Formerly a market research analyst and compliance consultant for European sportsbooks.</p>
                             </div>
                             <div class="bg-gray-50 border border-gray-200 p-6 rounded-sm">
                                 <h3 class="font-bold text-gray-900 text-lg"><a href="/authors/sophia-chen" class="text-gray-900 hover:text-blue-700 transition-colors underline decoration-dotted">Sophia Chen</a></h3>
                                 <p class="text-xs text-blue-700 font-semibold mb-2">Regulatory & Compliance Editor</p>
-                                <p class="text-sm text-gray-600 leading-relaxed">Sophia specializes in global online gaming legal frameworks, focusing on the Curacao GCB reforms, Brazilian iGaming regulation, and compliance standards within the US sweepstakes industry.</p>
+                                <p class="text-sm text-gray-600 leading-relaxed">Sophia has over 6 years of experience specializing in international gambling compliance, sweepstakes laws, Curacao GCB reforms, and digital asset regulatory frameworks.</p>
                             </div>
                         </div>
                     </section>

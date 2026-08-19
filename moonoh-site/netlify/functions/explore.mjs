@@ -162,7 +162,15 @@ async function fetchAllCombinedItems() {
     if (localShopsData && Array.isArray(localShopsData.products)) {
       localItems = localShopsData.products.map((p, idx) => {
         const shop = (localShopsData.shops && localShopsData.shops[p.shop_id]) || {};
-        const neighborhood = shop.neighborhood ? `${shop.neighborhood}, NY` : 'Manhattan, NY';
+        // Map neighborhood to correct borough for filtering
+        const NEIGHBORHOOD_BOROUGH = {
+          'Greenpoint': 'Brooklyn, NY', 'Bushwick': 'Brooklyn, NY',
+          'DUMBO': 'Brooklyn, NY', 'Brooklyn Heights': 'Brooklyn, NY',
+          'SoHo': 'Manhattan, NY', 'Greenwich Village': 'Manhattan, NY',
+          'Williamsburg': 'Brooklyn, NY', 'Astoria': 'Queens, NY'
+        };
+        const nh = shop.neighborhood || '';
+        const borough = NEIGHBORHOOD_BOROUGH[nh] || p.location || 'Manhattan, NY';
         return {
           id: p.id,
           no: p.id,
@@ -170,9 +178,9 @@ async function fetchAllCombinedItems() {
           price: p.current_price,
           photo: p.image_source_url,
           image: p.image_source_url,
-          townName: neighborhood,
-          rawTown: neighborhood,
-          location: neighborhood,
+          townName: borough,
+          rawTown: borough,
+          location: borough,
           categoryName: p.primary_category || p.moonoh_category || 'General',
           category: p.primary_category || p.moonoh_category || 'General',
           detailUrl: `https://moon-oh.com/local-product/${p.shop_id}/${p.slug}`,
