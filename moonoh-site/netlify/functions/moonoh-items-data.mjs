@@ -1,4 +1,5 @@
-// Live Moonoh Items Dataset (597 visible items, isShow == Y, sorted by postedAt DESC)
+// Live Moonoh Items Dataset (597 visible items, sorted by postedAt DESC)
+// Last synced: 2026-08-19
 export const realMoonohItems = [
   {
     "no": 857,

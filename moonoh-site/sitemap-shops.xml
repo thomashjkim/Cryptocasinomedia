@@ -1,73 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
-  <url>
-    <loc>https://moon-oh.com/local-shops/big-night</loc>
-    <lastmod>2026-08-19</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-    <image:image>
-      <image:loc>https://bignightbk.com/cdn/shop/files/bignight_store.jpg</image:loc>
-      <image:title>Big Night</image:title>
-    </image:image>
-  </url>
-  <url>
-    <loc>https://moon-oh.com/local-shops/happier-grocery</loc>
-    <lastmod>2026-08-19</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-    <image:image>
-      <image:loc>https://shop.happiergrocery.com/store_banner.jpg</image:loc>
-      <image:title>Happier Grocery</image:title>
-    </image:image>
-  </url>
-  <url>
-    <loc>https://moon-oh.com/local-shops/pop-up-grocer</loc>
-    <lastmod>2026-08-19</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-    <image:image>
-      <image:loc>https://popupgrocer.com/cdn/shop/files/pug_flagship_store.jpg</image:loc>
-      <image:title>Pop Up Grocer</image:title>
-    </image:image>
-  </url>
-  <url>
-    <loc>https://moon-oh.com/local-shops/front-general-store</loc>
-    <lastmod>2026-08-19</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-    <image:image>
-      <image:loc>https://frontgeneralstore.com/cdn/shop/files/fgs_store.jpg</image:loc>
-      <image:title>Front General Store</image:title>
-    </image:image>
-  </url>
-  <url>
-    <loc>https://moon-oh.com/local-shops/mirth-vintage</loc>
-    <lastmod>2026-08-19</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-    <image:image>
-      <image:loc>https://mirth.co/cdn/shop/files/mirth_store.jpg</image:loc>
-      <image:title>Mirth Vintage</image:title>
-    </image:image>
-  </url>
-  <url>
-    <loc>https://moon-oh.com/local-shops/sey-coffee</loc>
-    <lastmod>2026-08-19</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-    <image:image>
-      <image:loc>https://www.seycoffee.com/cdn/shop/files/sey_store.jpg</image:loc>
-      <image:title>SEY Coffee</image:title>
-    </image:image>
-  </url>
-  <url>
-    <loc>https://moon-oh.com/local-shops/salter-house</loc>
-    <lastmod>2026-08-19</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-    <image:image>
-      <image:loc>https://salter.house/cdn/shop/files/salter_store.jpg</image:loc>
-      <image:title>Salter House</image:title>
-    </image:image>
-  </url>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://moon-oh.com/shop/front-general-store</loc><lastmod>2026-08-19</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://moon-oh.com/shop/sey-coffee</loc><lastmod>2026-08-19</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://moon-oh.com/shop/salter-house</loc><lastmod>2026-08-19</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://moon-oh.com/shop/mirth-vintage</loc><lastmod>2026-08-19</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://moon-oh.com/shop/big-night</loc><lastmod>2026-08-19</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://moon-oh.com/shop/pop-up-grocer</loc><lastmod>2026-08-19</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://moon-oh.com/shop/happier-grocery</loc><lastmod>2026-08-19</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
 </urlset>

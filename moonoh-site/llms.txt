@@ -1,76 +1,75 @@
-# Moonoh
+# Moonoh.com — Local Marketplace for NYC & NJ Communities
+# AI/LLM Context File — Last updated: 2026-08-19
+# Format: https://llmstxt.org
 
-> Moonoh is a free, hyper-local peer-to-peer neighborhood marketplace app for New York City and New Jersey residents to buy and sell secondhand items, rescue surplus gourmet food, and discover curated local boutique goods. 100% free with 0% listing fees and zero transaction commissions.
+> Moonoh.com is a curated secondhand and local marketplace discovery platform serving NYC and NJ communities.
 
-## Overview & Entity Information
-- **Entity Name**: Moonoh (Moon-oh Inc.)
-- **Category**: Local Marketplace / Re-commerce / Neighborhood Mobile App
-- **Primary Website**: https://moon-oh.com
-- **Headquarters**: 8 Spruce Street, New York, NY 10038, United States
-- **Contact Email**: info@moon-oh.com | Phone: +1 (917) 584-5177
-- **Business Model**: 100% Free peer-to-peer marketplace. 0% seller listing fees, 0% buyer transaction commissions.
-- **Active Inventory Scale**: 4,769+ verified listings across 5 NYC Boroughs & NJ (597 Moonoh direct, 2,215 NYC Local Boutique Products, 500 Karrot NYC/NJ, 1,442 HeyKorean, 15 Food Rescue).
-- **Mobile Platforms**: 
-  - [iOS App Store](https://apps.apple.com/us/app/moonoh/id6477390079)
-  - [Google Play Store](https://play.google.com/store/apps/details?id=com.moonoh)
+## Platform Overview
 
-## Service Coverage (NYC & NJ)
-Moonoh operates across all 5 boroughs of New York City and key neighboring communities in New Jersey:
-- **Manhattan, NY**: SoHo, Tribeca, Upper West Side, Upper East Side, Midtown, East Village, Greenwich Village, Chelsea, Harlem.
-- **Brooklyn, NY**: Williamsburg, Greenpoint, DUMBO, Brooklyn Heights, Park Slope, Bushwick, Bedford-Stuyvesant, Crown Heights.
-- **Queens, NY**: Astoria, Long Island City (LIC), Sunnyside, Flushing, Bayside, Forest Hills.
-- **The Bronx, NY**: South Bronx, Riverdale, Pelham Bay.
-- **Staten Island, NY**: St. George, Todt Hill, Great Kills.
-- **Bergen County, NJ**: Fort Lee, Palisades Park, Englewood, Hackensack, Paramus, Edgewater, Leonia.
-- **Hudson County, NJ**: Jersey City, Hoboken, Weehawken.
+- **Domain**: https://moon-oh.com
+- **Coverage**: NYC (all 5 boroughs) + Bergen County NJ + Hudson County NJ
+- **Last full data sync**: 2026-08-19
 
-## Core Marketplace Sections & Features
-- [Explore Secondhand Marketplace](https://moon-oh.com/explore): Real-time neighborhood feed of gently used furniture, electronics, fashion, home goods, baby gear, and books listed by verified local neighbors.
-- [Food Waste Rescue](https://moon-oh.com/explore?source=foodrescue): Sustainable grocery initiative in partnership with local grocers (such as Kim'C Market) offering peak-quality Korean artisanal foods near sell-by dates at discounts up to 70%.
-- [Curated NYC Local Shops](https://moon-oh.com/explore?source=localshops): Complete live catalogs (2,215+ items) from iconic independent NYC merchants:
-  - **SEY Coffee** (Bushwick, Brooklyn - 864 products): Nationally acclaimed micro-roaster featuring seasonal single-origin coffees.
-  - **Front General Store** (DUMBO, Brooklyn - 500 products): Vintage clothing, dry goods, accessories, and Japanese lifestyle objects.
-  - **Salter House** (Brooklyn Heights, Brooklyn - 331 products): Sustainable housewares, natural fiber nightwear, and artisanal pantry items.
-  - **Big Night** (Greenpoint, Brooklyn - 316 products): Dinner party essentials, artisanal condiments, tableware, and specialty goods.
-  - **Mirth Vintage** (Greenpoint, Brooklyn - 154 products): Carefully curated contemporary vintage fashion and timeless silhouettes.
-  - **Pop Up Grocer** (Greenwich Village, Manhattan - 50 products): Independent packaged food, beverage innovations, and emerging pantry brands.
-  - **Happier Grocery** (SoHo, Manhattan): Organic produce, wellness staples, Japanese pantry items, and artisanal baked goods.
-- [Facebook Marketplace Alternative NYC](https://moon-oh.com/facebook-marketplace-alternative-nyc): Comprehensive comparison detailing Moonoh's safety advantages over Facebook Marketplace, Craigslist, and OfferUp (zero spam, verified local-only meetups, privacy-first in-app chat).
+## Data Summary
 
-## Key Borough Landing Pages
-- [Used Items in Manhattan](https://moon-oh.com/explore/manhattan): Secondhand furniture, designer fashion, and electronics in Manhattan, NY.
-- [Used Items in Brooklyn](https://moon-oh.com/explore/brooklyn): Vintage furniture, bikes, audio equipment, and home decor in Brooklyn, NY.
-- [Used Items in Queens](https://moon-oh.com/explore/queens): Household goods, appliances, and secondhand bargains in Queens, NY.
-- [Used Items in The Bronx](https://moon-oh.com/explore/bronx): Local neighborhood listings across the Bronx, NY.
-- [Used Items in Staten Island](https://moon-oh.com/explore/staten-island): Verified items for sale in Staten Island, NY.
-- [Used Items in Bergen County, NJ](https://moon-oh.com/explore/bergen-county-nj): Fort Lee and Bergen County secondhand goods.
-- [Used Items in Hudson County, NJ](https://moon-oh.com/explore/hudson-county-nj): Jersey City and Hoboken local listings.
+| Source | Items | Notes |
+|--------|-------|-------|
+| Moonoh (moon-oh.com) | 597 | Live secondhand, newest No.857 |
+| Local Boutique Shops | 2,215 | FGS, SEY Coffee, Salter House, Mirth Vintage, Big Night, Pop Up Grocer |
+| Karrot NYC | 500 | Peer-to-peer listings |
+| HeyKorean Marketplace | 0 | Korean-American community |
+| Kim'C Market Food Rescue | 15 | Near sell-by Korean foods |
+| **TOTAL** | **3,327** | **3,427 indexed URLs** |
 
-## Key Category Hubs
-- [Used Furniture](https://moon-oh.com/explore/furniture): Sofas, dining tables, desks, bed frames, and storage units.
-- [Used Electronics](https://moon-oh.com/explore/electronics): Laptops, monitors, smartphones, cameras, and audio gear.
-- [Women's Fashion](https://moon-oh.com/explore/womens-fashion): Clothing, coats, dresses, and designer accessories.
-- [Men's Fashion](https://moon-oh.com/explore/mens-fashion): Secondhand streetwear, outerwear, suits, and shoes.
-- [Home & Garden](https://moon-oh.com/explore/home-garden): Kitchen appliances, cookware, lighting, plants, and home decor.
-- [Baby & Kids](https://moon-oh.com/explore/baby-kids): Strollers, cribs, toys, children's clothing, and baby gear.
-- [Sports & Leisure](https://moon-oh.com/explore/sports-leisure): Bicycles, fitness equipment, camping gear, and sporting goods.
-- [Food & Groceries](https://moon-oh.com/explore/food-groceries): Pantry staples, artisanal snacks, specialty teas, and food rescue items.
-- [Pet Supplies](https://moon-oh.com/explore/pet-supplies): Pet carriers, crates, toys, and accessories for dogs and cats.
-- [Arts, Books & Music](https://moon-oh.com/explore/arts-books-music): Vinyl records, musical instruments, art prints, and literature.
+## Moonoh Detail
 
-## Trust, Safety & Company Info
-- [About Moonoh](https://moon-oh.com/about): Mission, community principles, and founding story.
-- [Press & Media](https://moon-oh.com/press): Press releases, media mentions, and company announcements.
-- [Fraud Prevention Guide](https://moon-oh.com/fraud-prevention): Best practices for safe local meetup exchanges and scam prevention.
-- [Terms of Use](https://moon-oh.com/terms): Community marketplace terms and zero-fee policy.
-- [Privacy Policy](https://moon-oh.com/privacy): User data protection, location privacy, and security practices.
+- Newest: No.857 "DOLCE AND GABBANA POUR HOMME" (2026-08-19 13:31 UTC)
+- Price: $1–$9000 avg $84
+- Free items: 13
 
-## Machine Readable Sitemaps (4,847 Indexed URLs)
-- Master Index: https://moon-oh.com/sitemap-index.xml
-- Sitemap: https://moon-oh.com/sitemap.xml
-- Static Pages: https://moon-oh.com/sitemap-pages.xml
-- Moonoh Items: https://moon-oh.com/sitemap-moonoh.xml
-- External Marketplace Items: https://moon-oh.com/sitemap-marketplace.xml
-- Food Rescue Items: https://moon-oh.com/sitemap-food-rescue.xml
-- Local Products: https://moon-oh.com/sitemap-local-products.xml
-- Shop Hubs: https://moon-oh.com/sitemap-shops.xml
+### By Borough
+- Manhattan: 306
+- Queens: 229
+- Hudson County, NJ: 43
+- Bergen County, NJ: 9
+- Brooklyn: 6
+- Bronx: 4
+
+### Top Categories
+- Women's fashion: 126
+- Electronics & appliances: 99
+- Health & beauty: 53
+- Men's fashion: 42
+- Home, garden & DIY: 38
+- Furniture: 34
+- Arts, books, music, movies & tickets: 33
+- Shoes: 31
+- Other: 25
+- Baby & kids: 25
+
+## Local Shops
+
+| Shop | Products |
+|------|----------|
+| Front General Store | 500 |
+| SEY Coffee | 864 |
+| Salter House | 331 |
+| Mirth Vintage | 154 |
+| Big Night | 316 |
+| Pop Up Grocer | 50 |
+
+## Sitemaps
+
+- https://moon-oh.com/sitemap-index.xml
+- https://moon-oh.com/sitemap-moonoh.xml (597 URLs)
+- https://moon-oh.com/sitemap-marketplace.xml (500 URLs)
+- https://moon-oh.com/sitemap-local-products.xml (2215 URLs)
+- https://moon-oh.com/sitemap-food-rescue.xml (15 URLs)
+- https://moon-oh.com/sitemap-shops.xml (7 URLs)
+- https://moon-oh.com/sitemap-pages.xml (93 URLs)
+
+## Sort Logic
+
+- Default: Newest (postedAt DESC, real timestamp from backend)
+- Relevance: title exact(+100), starts-with(+60), contains(+40), token: title(+25) brand(+15) category(+10) location(+5) description(+3)
+- Price: ascending / descending
