@@ -27,7 +27,7 @@ export default async (req, context) => {
         headers: {
           'Content-Type': contentType,
           'Cache-Control': cacheControl,
-          'X-Robots-Tag': splat.startsWith('temp/') ? 'noindex' : 'all'
+          'X-Robots-Tag': 'noindex, nofollow'
         }
       });
     } else {

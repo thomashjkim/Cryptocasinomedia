@@ -1762,10 +1762,12 @@
     function syncUrlAndSeo() {
       try {
         const urlObj = new URL(window.location.href);
+        const pathname = urlObj.pathname.replace(/\/$/, '') || '/';
+        const isCleanSeoPath = pathname.startsWith('/local-shops/') || (pathname.startsWith('/explore/') && pathname !== '/explore');
         
-        // 1. Tab parameter
+        // 1. Tab parameter (do not append on clean SEO paths)
         const tabParam = activeSource === 'localshops' ? 'local' : activeSource;
-        if (tabParam && tabParam !== 'moonoh') urlObj.searchParams.set('tab', tabParam);
+        if (tabParam && tabParam !== 'moonoh' && !isCleanSeoPath) urlObj.searchParams.set('tab', tabParam);
         else urlObj.searchParams.delete('tab');
 
         // 2. Query parameter
@@ -1774,7 +1776,7 @@
 
         // 3. Category parameter
         const currentCat = (activeSource === 'localshops') ? activeLocalCategory : getActiveCategoryKeyword();
-        if (currentCat && currentCat.toLowerCase() !== 'all') urlObj.searchParams.set('category', currentCat.toLowerCase().replace(/\s+/g, '-'));
+        if (currentCat && currentCat.toLowerCase() !== 'all' && !isCleanSeoPath) urlObj.searchParams.set('category', currentCat.toLowerCase().replace(/\s+/g, '-'));
         else urlObj.searchParams.delete('category');
 
         // 4. Sort parameter
@@ -1786,7 +1788,7 @@
         }
 
         // 5. Area / Location parameter
-        if (activeTown) urlObj.searchParams.set('area', activeTown);
+        if (activeTown && !isCleanSeoPath) urlObj.searchParams.set('area', activeTown);
         else urlObj.searchParams.delete('area');
 
         const newUrlStr = urlObj.pathname + (urlObj.search ? urlObj.search : '');
@@ -1798,11 +1800,12 @@
           area: activeTown
         }, '', newUrlStr);
 
-        // Update robots meta (noindex for search/filter parameters)
-        const hasParams = urlObj.searchParams.toString().length > 0;
+        // Update robots meta: ONLY set noindex when an internal keyword search query (?q=...) is active!
+        // All clean category pages, location pages, and shop profiles must ALWAYS remain fully indexed!
+        const isSearchQueryActive = Boolean(currentSearchQuery && currentSearchQuery.trim().length > 0);
         let robotsMeta = document.querySelector('meta[name="robots"]');
         if (robotsMeta) {
-          robotsMeta.setAttribute('content', hasParams ? 'noindex, follow' : 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1');
+          robotsMeta.setAttribute('content', isSearchQueryActive ? 'noindex, follow' : 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1');
         }
       } catch (e) {}
     }

@@ -60,6 +60,107 @@
   to = "/contact.html"
   status = 200
 
+# Legacy route 301 redirects (resolves old 404s permanently)
+[[redirects]]
+  from = "/press-releases/*"
+  to = "/press"
+  status = 301
+
+[[redirects]]
+  from = "/press-releases"
+  to = "/press"
+  status = 301
+
+[[redirects]]
+  from = "/press-release-seo/*"
+  to = "/press"
+  status = 301
+
+[[redirects]]
+  from = "/guides/*"
+  to = "/explore"
+  status = 301
+
+[[redirects]]
+  from = "/guides"
+  to = "/explore"
+  status = 301
+
+[[redirects]]
+  from = "/industry/*"
+  to = "/explore"
+  status = 301
+
+[[redirects]]
+  from = "/authors/*"
+  to = "/about"
+  status = 301
+
+[[redirects]]
+  from = "/crypto-casinos*"
+  to = "/explore"
+  status = 301
+
+[[redirects]]
+  from = "/sportsbook*"
+  to = "/explore"
+  status = 301
+
+[[redirects]]
+  from = "/regulation*"
+  to = "/terms"
+  status = 301
+
+[[redirects]]
+  from = "/sweepstakes*"
+  to = "/explore"
+  status = 301
+
+[[redirects]]
+  from = "/payments*"
+  to = "/explore"
+  status = 301
+
+[[redirects]]
+  from = "/advertise*"
+  to = "/contact"
+  status = 301
+
+[[redirects]]
+  from = "/submit*"
+  to = "/contact"
+  status = 301
+
+[[redirects]]
+  from = "/how-crypto-casino-news-works*"
+  to = "/about"
+  status = 301
+
+[[redirects]]
+  from = "/editorial-standards*"
+  to = "/about"
+  status = 301
+
+[[redirects]]
+  from = "/aeo-best-practices*"
+  to = "/explore"
+  status = 301
+
+[[redirects]]
+  from = "/amplifier*"
+  to = "/explore"
+  status = 301
+
+[[redirects]]
+  from = "/local-product"
+  to = "/explore/local-shops"
+  status = 301
+
+[[redirects]]
+  from = "/local-product/"
+  to = "/explore/local-shops"
+  status = 301
+
 [[redirects]]
   from = "/terms"
   to = "/terms.html"

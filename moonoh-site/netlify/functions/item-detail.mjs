@@ -442,11 +442,12 @@ export default async (req, context) => {
       productNo = extId;
       const extItem = getExternalItemById(extId);
       if (!extItem) {
-        return new Response("Product Not Found", {
-          status: 404,
+        // Expired/removed external marketplace items 301 redirect to the marketplace explore feed
+        return new Response(null, {
+          status: 301,
           headers: {
-            "X-Robots-Tag": "noindex",
-            "Content-Type": "text/plain; charset=utf-8"
+            "Location": "https://moon-oh.com/explore/marketplaces",
+            "Cache-Control": "public, max-age=86400"
           }
         });
       }
@@ -499,15 +500,33 @@ export default async (req, context) => {
       if (extItem.lat && extItem.lng) { lat = extItem.lat; lng = extItem.lng; }
     } else {
       const pathParts = url.pathname.split('-');
-      const productNoStr = pathParts.pop() || pathParts.pop(); // last part of slug is productNo
+      let productNoStr = pathParts.pop();
+      if (!productNoStr && pathParts.length > 0) {
+        productNoStr = pathParts.pop();
+      }
       productNo = productNoStr;
 
       if (!productNo || isNaN(parseInt(productNo, 10))) {
-        return new Response("Product Not Found", {
-          status: 404,
+        // Recover malformed URLs lacking trailing productNo (e.g. /item/nike-sandals-new-york-ny-)
+        const slugKeywords = url.pathname.replace(/^\/item\//, '').replace(/-\d*$/, '').replace(/-/g, ' ').toLowerCase();
+        if (slugKeywords.length > 3 && Array.isArray(realMoonohItems)) {
+          const matchedItem = realMoonohItems.find(item => {
+            const t = (item.title || '').toLowerCase();
+            return t.length > 3 && (slugKeywords.includes(t) || t.includes(slugKeywords.split(' ')[0]));
+          });
+          if (matchedItem && (matchedItem.url || matchedItem.no || matchedItem.id)) {
+            const target = matchedItem.url ? `https://moon-oh.com${matchedItem.url}` : `https://moon-oh.com/item/item-${matchedItem.no || matchedItem.id}`;
+            return new Response(null, {
+              status: 301,
+              headers: { "Location": target, "Cache-Control": "public, max-age=86400" }
+            });
+          }
+        }
+        return new Response(null, {
+          status: 301,
           headers: {
-            "X-Robots-Tag": "noindex",
-            "Content-Type": "text/plain; charset=utf-8"
+            "Location": "https://moon-oh.com/explore",
+            "Cache-Control": "public, max-age=86400"
           }
         });
       }
@@ -517,20 +536,23 @@ export default async (req, context) => {
       detailParams.append('kind', 'getProductDetail');
       detailParams.append('productNo', productNo);
 
-      const detailRes = await fetch("http://52.44.113.58:8080/app.do", {
-        method: "POST",
-        headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body: detailParams
-      });
-
-      const d = await detailRes.json();
+      let d = null;
+      try {
+        const detailRes = await fetch("http://52.44.113.58:8080/app.do", {
+          method: "POST",
+          headers: { "Content-Type": "application/x-www-form-urlencoded" },
+          body: detailParams
+        });
+        d = await detailRes.json();
+      } catch (err) {}
 
       if (!d || !d.title || d.isShow !== 'Y') {
-        return new Response("Product Not Found", {
-          status: 404,
+        // Fallback for removed/sold-out Moonoh items -> redirect 301 to explore feed
+        return new Response(null, {
+          status: 301,
           headers: {
-            "X-Robots-Tag": "noindex",
-            "Content-Type": "text/plain; charset=utf-8"
+            "Location": "https://moon-oh.com/explore",
+            "Cache-Control": "public, max-age=86400"
           }
         });
       }
@@ -1021,7 +1043,7 @@ function isSemanticallyCompatible(incomingPath, expectedPath) {
   <link rel="image_src" href="${absMainPhoto}"/>
 
   <link href="https://cdn.prod.website-files.com/65e3de602f703e1765199b30/65e51609210be273428d7ad8_Moonoh%2032.png" rel="shortcut icon" type="image/x-icon"/>
-  <link href="${canonicalUrl}" rel="canonical"/>
+  <link rel="canonical" href="${canonicalUrl}"/>
 
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">

@@ -1,15 +1,12 @@
 User-agent: *
 Allow: /
+Disallow: /image-proxy/
+Disallow: /api/
+Disallow: /.netlify/
+Disallow: /*.json$
 
 # AI Agent & LLM Information File
 # Standard: https://llmstxt.org
 # File: https://moon-oh.com/llms.txt
 
-Sitemap: https://moon-oh.com/sitemap.xml
 Sitemap: https://moon-oh.com/sitemap-index.xml
-Sitemap: https://moon-oh.com/sitemap-pages.xml
-Sitemap: https://moon-oh.com/sitemap-moonoh.xml
-Sitemap: https://moon-oh.com/sitemap-marketplace.xml
-Sitemap: https://moon-oh.com/sitemap-food-rescue.xml
-Sitemap: https://moon-oh.com/sitemap-local-products.xml
-Sitemap: https://moon-oh.com/sitemap-shops.xml

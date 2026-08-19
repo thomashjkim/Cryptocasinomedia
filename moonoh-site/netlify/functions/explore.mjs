@@ -522,6 +522,31 @@ export default async (req, context) => {
     const isLocalShopsFilter = isLocalShopsPage || qSource === 'local-shops' || qSource === 'local';
     const isMarketplacesFilter = isMarketplacesPage || qSource === 'marketplaces' || qSource === 'others';
 
+    // 301 Canonical Redirect for alias region slugs and query-parameterized category/town URLs
+    if (!isFoodRescueFilter && !isLocalShopsFilter && !isMarketplacesFilter && !isShopProfile) {
+      let expectedPath = '/explore';
+      if (targetRegionObj && targetCategoryObj) {
+        expectedPath = `/explore/${targetRegionObj.slug}/${targetCategoryObj.slug}`;
+      } else if (targetRegionObj) {
+        expectedPath = `/explore/${targetRegionObj.slug}`;
+      } else if (targetCategoryObj) {
+        expectedPath = `/explore/${targetCategoryObj.slug}`;
+      }
+
+      const isParamNavOnly = fullPath === '/explore' && (qCategory || qTownName) && !url.searchParams.has('q') && !url.searchParams.has('shop');
+      const hasAliasMismatch = pathSegments.some(s => s === 'bergen-county' || s === 'hudson-county' || s === 'fort-lee' || s === 'fashion');
+
+      if ((isParamNavOnly && expectedPath !== '/explore') || (hasAliasMismatch && expectedPath !== fullPath)) {
+        return new Response(null, {
+          status: 301,
+          headers: {
+            "Location": `https://moon-oh.com${expectedPath}`,
+            "Cache-Control": "public, max-age=86400"
+          }
+        });
+      }
+    }
+
     const allItems = await fetchAllCombinedItems();
     let filteredItems = [];
 
@@ -623,13 +648,22 @@ export default async (req, context) => {
       h1Text = "NYC Food Waste Rescue & Sustainable Groceries";
       dynamicIntroText = "Rescue premium artisanal and specialty groceries near sell-by dates at up to 70% discount in NYC. Partnering with local grocers like Kim'C Market to fight food waste and promote sustainable consumption.";
       sectionName = "Food Rescue";
-    } else if (isLocalShopsFilter || isShopProfile) {
+    } else if (isShopProfile) {
+      canonicalUrl = `https://moon-oh.com/local-shops/${shopProfileSlug}`;
+      const shopObj = (localShopsData.shops && localShopsData.shops[shopProfileSlug]) || {};
+      const shopTitle = shopObj.name || "Local Shop";
+      pageTitle = `${shopTitle} - Curated Local NYC Shop | Moonoh`;
+      metaDesc = `Discover curated products and neighborhood specialty items from ${shopTitle} in NYC on Moonoh.`;
+      h1Text = `${shopTitle} - Curated Local NYC Shop`;
+      dynamicIntroText = `Browse curated goods from ${shopTitle}. Support independent New York City local merchants on Moonoh.`;
+      sectionName = shopTitle;
+    } else if (isLocalShopsFilter) {
       canonicalUrl = `https://moon-oh.com/explore/local-shops`;
       pageTitle = "NYC Local Shops - Curated Neighborhood Goods | Moonoh";
       metaDesc = "Discover iconic local New York City specialty shops and neighborhood staples on Moonoh. Curated pantry goods, tableware, and specialty items.";
       h1Text = "NYC Local Shops - Curated Neighborhood Goods in NYC";
       dynamicIntroText = "Explore curated collections from iconic independent New York City shops including Big Night (Greenpoint), Happier Grocery (SoHo), and Pop Up Grocer (Bleecker St). Support local NYC merchants.";
-      sectionName = isShopProfile ? (localShopsData.shops[shopProfileSlug]?.name || "Local Shop") : "Local NYC Shops";
+      sectionName = "Local NYC Shops";
     } else if (isMarketplacesFilter) {
       canonicalUrl = `https://moon-oh.com/explore/marketplaces`;
       pageTitle = "NYC & NJ Local Community Marketplace Feed | Moonoh";
