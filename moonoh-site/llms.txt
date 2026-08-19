@@ -9,6 +9,7 @@
 - **Headquarters**: 8 Spruce Street, New York, NY 10038, United States
 - **Contact Email**: info@moon-oh.com | Phone: +1 (917) 584-5177
 - **Business Model**: 100% Free peer-to-peer marketplace. 0% seller listing fees, 0% buyer transaction commissions.
+- **Active Inventory Scale**: 4,769+ verified listings across 5 NYC Boroughs & NJ (597 Moonoh direct, 2,215 NYC Local Boutique Products, 500 Karrot NYC/NJ, 1,442 HeyKorean, 15 Food Rescue).
 - **Mobile Platforms**: 
   - [iOS App Store](https://apps.apple.com/us/app/moonoh/id6477390079)
   - [Google Play Store](https://play.google.com/store/apps/details?id=com.moonoh)
@@ -26,14 +27,14 @@ Moonoh operates across all 5 boroughs of New York City and key neighboring commu
 ## Core Marketplace Sections & Features
 - [Explore Secondhand Marketplace](https://moon-oh.com/explore): Real-time neighborhood feed of gently used furniture, electronics, fashion, home goods, baby gear, and books listed by verified local neighbors.
 - [Food Waste Rescue](https://moon-oh.com/explore?source=foodrescue): Sustainable grocery initiative in partnership with local grocers (such as Kim'C Market) offering peak-quality Korean artisanal foods near sell-by dates at discounts up to 70%.
-- [Curated NYC Local Shops](https://moon-oh.com/explore?source=localshops): Showcase of iconic boutique NYC grocers, vintage stores, specialty roasters, and lifestyle shops:
-  - **SEY Coffee** (Bushwick, Brooklyn): Nationally acclaimed micro-roaster featuring seasonal single-origin coffees.
-  - **Front General Store** (DUMBO, Brooklyn): Vintage clothing, dry goods, accessories, and Japanese lifestyle objects.
-  - **Mirth Vintage** (Greenpoint, Brooklyn): Carefully curated contemporary vintage fashion and timeless silhouettes.
-  - **Salter House** (Brooklyn Heights, Brooklyn): Sustainable housewares, natural fiber nightwear, and artisanal pantry items.
-  - **Big Night** (Greenpoint, Brooklyn): Dinner party essentials, artisanal condiments, tableware, and specialty goods.
+- [Curated NYC Local Shops](https://moon-oh.com/explore?source=localshops): Complete live catalogs (2,215+ items) from iconic independent NYC merchants:
+  - **SEY Coffee** (Bushwick, Brooklyn - 864 products): Nationally acclaimed micro-roaster featuring seasonal single-origin coffees.
+  - **Front General Store** (DUMBO, Brooklyn - 500 products): Vintage clothing, dry goods, accessories, and Japanese lifestyle objects.
+  - **Salter House** (Brooklyn Heights, Brooklyn - 331 products): Sustainable housewares, natural fiber nightwear, and artisanal pantry items.
+  - **Big Night** (Greenpoint, Brooklyn - 316 products): Dinner party essentials, artisanal condiments, tableware, and specialty goods.
+  - **Mirth Vintage** (Greenpoint, Brooklyn - 154 products): Carefully curated contemporary vintage fashion and timeless silhouettes.
+  - **Pop Up Grocer** (Greenwich Village, Manhattan - 50 products): Independent packaged food, beverage innovations, and emerging pantry brands.
   - **Happier Grocery** (SoHo, Manhattan): Organic produce, wellness staples, Japanese pantry items, and artisanal baked goods.
-  - **Pop Up Grocer** (Greenwich Village, Manhattan): Independent packaged food, beverage innovations, and emerging pantry brands.
 - [Facebook Marketplace Alternative NYC](https://moon-oh.com/facebook-marketplace-alternative-nyc): Comprehensive comparison detailing Moonoh's safety advantages over Facebook Marketplace, Craigslist, and OfferUp (zero spam, verified local-only meetups, privacy-first in-app chat).
 
 ## Key Borough Landing Pages
@@ -64,7 +65,7 @@ Moonoh operates across all 5 boroughs of New York City and key neighboring commu
 - [Terms of Use](https://moon-oh.com/terms): Community marketplace terms and zero-fee policy.
 - [Privacy Policy](https://moon-oh.com/privacy): User data protection, location privacy, and security practices.
 
-## Machine Readable Sitemaps
+## Machine Readable Sitemaps (4,847 Indexed URLs)
 - Master Index: https://moon-oh.com/sitemap-index.xml
 - Sitemap: https://moon-oh.com/sitemap.xml
 - Static Pages: https://moon-oh.com/sitemap-pages.xml
