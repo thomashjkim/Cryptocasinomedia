@@ -435,15 +435,17 @@ def renderSectionPage(title, description, filterCategory, filterTopic=None):
                 """
 
     mostReadHtml = "".join([f"""
-                <a href="/press-releases/{article['slug']}" class="group flex gap-3 border-b border-gray-100 pb-4 last:border-0">
-                    <span class="text-2xl font-bold text-gray-200 group-hover:text-blue-200 transition-colors">{str(idx + 1).zfill(2)}</span>
+                <div class="flex gap-3 border-b border-gray-100 pb-4 last:border-0">
+                    <span class="text-2xl font-bold text-gray-200">{str(idx + 1).zfill(2)}</span>
                     <div>
                         {renderArticleMeta(article)}
-                        <h3 class="text-[14px] font-medium text-gray-900 group-hover:text-blue-700 transition-colors leading-snug">
-                            {article['title']}
+                        <h3 class="text-[14px] font-medium text-gray-900 leading-snug">
+                            <a href="/press-releases/{article['slug']}" class="hover:text-blue-700 transition-colors">
+                                {article['title']}
+                            </a>
                         </h3>
                     </div>
-                </a>
+                </div>
             """ for idx, article in enumerate(articles_sorted[:5])])
 
     desc_html = f'<p class="text-gray-600 mt-2 text-lg max-w-2xl leading-relaxed">{description}</p>' if description else ''
