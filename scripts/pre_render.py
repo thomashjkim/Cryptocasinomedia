@@ -315,6 +315,8 @@ def renderHomePage():
     gridHtml = "".join([renderStoryGridCard(a) for a in gridStories])
     guidesHtml = "".join([renderStoryGridCard(a) for a in guidesStories])
 
+    clean_lead_lede = re.sub(r'<[^>]+>', '', leadStory['lede'])
+
     return f"""
                 <div class="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8 py-8 animate-fade-in">
                     <h1 class="sr-only">Crypto Casino & iGaming Industry News, Regulations, and Analysis</h1>
@@ -329,7 +331,7 @@ def renderHomePage():
                                     {leadStory['title']}
                                 </h2>
                                 <p class="text-base text-gray-600 line-clamp-2 sm:line-clamp-3 leading-relaxed">
-                                    {leadStory['lede']}
+                                    {clean_lead_lede}
                                 </p>
                             </a>
 

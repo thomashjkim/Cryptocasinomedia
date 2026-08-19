@@ -2936,6 +2936,7 @@
             const guidesStories = ARTICLES.slice(15, 18);
 
             const trendingTopics = ['Regulation', 'Sweepstakes', 'Bitcoin', 'USA', 'Esports', 'Compliance'];
+            const cleanLeadLede = (leadStory.lede || '').replace(/<[^>]+>/g, '');
 
             return `
                 <div class="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8 py-8 animate-fade-in">
@@ -2950,7 +2951,7 @@
                                     ${leadStory.title}
                                 </h1>
                                 <p class="text-base text-gray-600 line-clamp-2 sm:line-clamp-3 leading-relaxed">
-                                    ${leadStory.lede}
+                                    ${cleanLeadLede}
                                 </p>
                             </a>
 
