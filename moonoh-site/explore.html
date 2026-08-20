@@ -1092,10 +1092,9 @@
           <svg class="location-select-caret" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
         </div>
 
-        <span class="location-count" id="location-count" style="display: none;"></span>
-
-        <!-- Primary 4-Tab Segment Switcher -->
+        <!-- Primary Segment Switcher (All tab is dynamic for regional/category hubs) -->
         <div class="source-segment-wrap" id="source-segment-wrap" style="flex-shrink: 0; margin-left: auto;">
+          <button class="source-tab-btn" id="tab-source-all" data-source="all" style="display: none;">All</button>
           <button class="source-tab-btn active" id="tab-source-moonoh" data-source="moonoh">Moonoh</button>
           <button class="source-tab-btn tab-foodrescue" id="tab-source-foodrescue" data-source="foodrescue">Food Rescue</button>
           <button class="source-tab-btn" id="tab-source-localshops" data-source="localshops">Local</button>
@@ -1889,7 +1888,9 @@
       let filtered = [];
 
       // 1. Scoped Active Tab Pool
-      if (activeSource === 'foodrescue') {
+      if (activeSource === 'all') {
+        filtered = [...allItems, ...externalItemsList, ...localShopsItemsList, ...foodRescueItemsList];
+      } else if (activeSource === 'foodrescue') {
         filtered = [...foodRescueItemsList];
       } else if (activeSource === 'localshops') {
         if (localShopsRawData) {
@@ -1930,10 +1931,8 @@
       } else if (activeSource === 'marketplaces' || activeSource === 'others') {
         filtered = externalItemsList.length > 0 ? [...externalItemsList] : allItems.filter(i => i.source === 'karrot' || i.source === 'heykorean' || i.source === 'external' || String(i.url || '').includes('-ext-'));
       } else {
-        // Moonoh tab / Regional Marketplace:
-        // When a specific neighborhood/town is selected, pool all verified community items
-        const moonohInAll = allItems.filter(isStrictMoonoh);
-        filtered = (activeTown && activeTown !== 'all') ? [...allItems] : (moonohInAll.length > 0 ? [...moonohInAll] : [...allItems]);
+        // Moonoh tab: ONLY strict Moonoh items
+        filtered = allItems.filter(isStrictMoonoh);
       }
 
       // 2. Area / Location filter (Preserved on filter clear)
@@ -2076,11 +2075,13 @@
 
     async function switchSource(source) {
       activeSource = source;
+      const btnAll = document.getElementById('tab-source-all');
       const btnMoonoh = document.getElementById('tab-source-moonoh');
       const btnFoodRescue = document.getElementById('tab-source-foodrescue');
       const btnLocalShops = document.getElementById('tab-source-localshops');
       const btnMarketplaces = document.getElementById('tab-source-marketplaces');
 
+      if (btnAll) btnAll.classList.toggle('active', source === 'all');
       if (btnMoonoh) btnMoonoh.classList.toggle('active', source === 'moonoh');
       if (btnFoodRescue) btnFoodRescue.classList.toggle('active', source === 'foodrescue');
       if (btnLocalShops) btnLocalShops.classList.toggle('active', source === 'localshops');
@@ -2088,7 +2089,8 @@
 
       const subtitleLabel = document.getElementById('section-subtitle-label');
       if (subtitleLabel) {
-        if (source === 'foodrescue') subtitleLabel.textContent = "Food Rescue";
+        if (source === 'all') subtitleLabel.textContent = "All Community Listings";
+        else if (source === 'foodrescue') subtitleLabel.textContent = "Food Rescue";
         else if (source === 'localshops') subtitleLabel.textContent = "Local";
         else if (source === 'marketplaces' || source === 'others') subtitleLabel.textContent = "Other Marketplaces";
         else subtitleLabel.textContent = "Moonoh Marketplace";
@@ -2108,18 +2110,57 @@
         localFilterContainer.style.display = source === 'localshops' ? 'flex' : 'none';
       }
 
-      // Lazy load data for respective tabs
-      if (source === 'localshops') {
+      // Preload data for all tabs if 'all' is active
+      if (source === 'all') {
+        await Promise.all([preloadLocalShopsItems(), preloadFoodRescueItems(), preloadExternalItems(), preloadMoonohItems()]);
+      } else if (source === 'localshops') {
         await preloadLocalShopsItems();
       } else if (source === 'foodrescue') {
         await preloadFoodRescueItems();
       } else if (source === 'marketplaces' || source === 'others') {
         await preloadExternalItems();
+      } else if (source === 'moonoh') {
+        await preloadMoonohItems();
       }
 
       // Update Search placeholder for new tab
       updateSearchUI();
       applyFilters();
+    }
+
+    function syncAllTabVisibility() {
+      const btnAll = document.getElementById('tab-source-all');
+      if (!btnAll) return;
+
+      const pathname = window.location.pathname.toLowerCase().replace(/\/$/, '');
+      const pathParts = pathname.replace(/^\/explore\/?/, '').split('/').filter(Boolean);
+      
+      const regionSlugToVal = {
+        'manhattan': 'Manhattan', 'brooklyn': 'Brooklyn', 'queens': 'Queens',
+        'bronx': 'Bronx', 'staten-island': 'Staten Island', 'flushing': 'Flushing',
+        'bayside': 'Bayside', 'astoria': 'Astoria', 'fort-lee-nj': 'Fort Lee',
+        'fort-lee': 'Fort Lee', 'bergen-county-nj': 'Bergen', 'bergen-county': 'Bergen',
+        'hudson-county-nj': 'Hudson', 'hudson-county': 'Hudson'
+      };
+
+      const isRegionalPath = pathParts.some(p => regionSlugToVal[p]);
+      const isCategoryPath = pathParts.some(p => pillSlugToLabel[p]);
+      const hasSpecificArea = activeTown && activeTown !== '' && activeTown !== 'all';
+      const isSpecificSourcePage = pathParts.some(p => ['food-rescue', 'foodrescue', 'local-shops', 'localshops', 'local', 'marketplaces', 'others'].includes(p));
+
+      // ONLY show 'All' tab on regional and category combination screens!
+      // NEVER show 'All' tab on standard home /explore!
+      if (!isSpecificSourcePage && (isRegionalPath || isCategoryPath || hasSpecificArea)) {
+        btnAll.style.display = 'inline-flex';
+      } else {
+        btnAll.style.display = 'none';
+        if (activeSource === 'all') {
+          activeSource = 'moonoh';
+          const btnMoonoh = document.getElementById('tab-source-moonoh');
+          if (btnMoonoh) btnMoonoh.classList.add('active');
+          btnAll.classList.remove('active');
+        }
+      }
     }
 
     
@@ -2390,12 +2431,13 @@
           const src = tab.getAttribute('data-source') || tab.id.replace('tab-source-', '');
           switchSource(src);
           const urlMap = {
+            'all': window.location.pathname,
             'moonoh': '/explore',
             'foodrescue': '/explore/food-rescue',
             'localshops': '/explore/local-shops',
             'marketplaces': '/explore/marketplaces'
           };
-          if (urlMap[src]) history.pushState(null, '', urlMap[src]);
+          if (urlMap[src] && src !== 'all') history.pushState(null, '', urlMap[src]);
           return;
         }
       });
@@ -2407,11 +2449,16 @@
           activeTown = this.value;
           const activePill = document.querySelector('.filter-pill.active');
           const activeCatLabel = activePill ? activePill.textContent.trim() : 'All';
-          
+          syncAllTabVisibility();
           applyFilters(getActiveCategoryKeyword());
           updateAddressBar(this.value, activeCatLabel);
         });
       }
+
+      const pathname = window.location.pathname.toLowerCase().replace(/\/$/, '');
+      const pathParts = pathname.replace(/^\/explore\/?/, '').split('/').filter(Boolean);
+      const isRegionalPath = pathParts.some(p => regionSlugToVal[p]);
+      const isCategoryPath = pathParts.some(p => pillSlugToLabel[p]);
 
       let activePath = window.location.pathname.toLowerCase();
       if (activePath.includes('food-rescue') || activePath.includes('foodrescue')) {
@@ -2420,16 +2467,13 @@
         activeSource = 'localshops';
       } else if (activePath.includes('marketplaces') || activePath.includes('others')) {
         activeSource = 'marketplaces';
+      } else if (isRegionalPath || isCategoryPath || activeTown) {
+        activeSource = 'all';
       } else {
         activeSource = 'moonoh';
       }
 
-      // ALWAYS keep source tabs visible!
-      const sourceSegmentWrap = document.getElementById('source-segment-wrap');
-      if (sourceSegmentWrap) {
-        sourceSegmentWrap.style.display = 'flex';
-      }
-
+      syncAllTabVisibility();
       switchSource(activeSource);
     }
 

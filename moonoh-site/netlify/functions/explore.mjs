@@ -871,14 +871,19 @@ export default async (req, context) => {
     }
 
     // Highlight active source tab in SSR HTML
-    if (isMarketplacesFilter) {
+    if (targetRegionObj || targetCategoryObj) {
+      // On regional & category hub pages, display the 'All' tab as active and un-highlight Moonoh
+      template = template
+        .replace('<button class="source-tab-btn" id="tab-source-all" data-source="all" style="display: none;">All</button>', '<button class="source-tab-btn active" id="tab-source-all" data-source="all">All</button>')
+        .replace('class="source-tab-btn active" id="tab-source-moonoh"', 'class="source-tab-btn" id="tab-source-moonoh"');
+    } else if (isMarketplacesFilter) {
       template = template
         .replace('class="source-tab-btn active" id="tab-source-moonoh"', 'class="source-tab-btn" id="tab-source-moonoh"')
         .replace('class="source-tab-btn" id="tab-source-marketplaces"', 'class="source-tab-btn active" id="tab-source-marketplaces"');
     } else if (isFoodRescueFilter) {
       template = template
         .replace('class="source-tab-btn active" id="tab-source-moonoh"', 'class="source-tab-btn" id="tab-source-moonoh"')
-        .replace('class="source-tab-btn" id="tab-source-foodrescue"', 'class="source-tab-btn active" id="tab-source-foodrescue"');
+        .replace('class="source-tab-btn tab-foodrescue" id="tab-source-foodrescue"', 'class="source-tab-btn tab-foodrescue active" id="tab-source-foodrescue"');
     } else if (isLocalShopsFilter || isShopProfile) {
       template = template
         .replace('class="source-tab-btn active" id="tab-source-moonoh"', 'class="source-tab-btn" id="tab-source-moonoh"')
