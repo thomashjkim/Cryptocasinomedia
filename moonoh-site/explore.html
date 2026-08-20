@@ -1419,9 +1419,9 @@
     const boroughKeywords = {
       'Manhattan': ['manhattan', 'all manhattan', 'new york', 'nyc', 'ny, ny', 'upper east', 'upper west', 'downtown manhattan', 'midtown', 'harlem', 'tribeca', 'soho', 'lower east', 'east village', 'west village', 'chelsea', 'gramercy', 'inwood', 'washington heights', 'morningside', 'financial district', 'wall street', 'murray hill', 'kips bay', 'hell', 'flatiron'],
       'Queens': ['queens', 'bayside', 'flushing', 'astoria', 'jamaica', 'forest hills', 'jackson heights', 'woodside', 'ridgewood', 'ozone park', 'fresh meadows', 'corona', 'elmhurst', 'sunnyside', 'long island city', 'rego park', 'maspeth', 'howard beach', 'far rockaway', 'college point', 'whitestone', 'douglaston'],
-      'Flushing': ['flushing'],
-      'Bayside': ['bayside'],
-      'Astoria': ['astoria', 'long island city', 'lic'],
+      'Flushing': ['flushing', '플러싱', 'college point', 'whitestone', 'corona', 'elmhurst', 'queens'],
+      'Bayside': ['bayside', '베이사이드', 'douglaston', 'little neck', 'flushing', 'queens'],
+      'Astoria': ['astoria', 'long island city', 'lic', 'queens'],
       'Brooklyn': ['brooklyn', 'park slope', 'williamsburg', 'bushwick', 'bed stuy', 'flatbush', 'crown heights', 'bay ridge', 'bensonhurst', 'canarsie', 'east new york', 'greenpoint', 'cobble hill', 'carroll gardens', 'boerum', 'sunset park', 'borough park', 'brighton beach', 'coney island', 'sheepshead', 'ditmas'],
       'Bronx': ['bronx'],
       'Staten Island': ['staten island'],
@@ -2194,56 +2194,75 @@
       }
     }
 
-    async function preloadExternalItems() {
-      if (externalItemsList.length > 0) return;
-      if (window.__INITIAL_EXTERNAL_ITEMS__ && Array.isArray(window.__INITIAL_EXTERNAL_ITEMS__) && window.__INITIAL_EXTERNAL_ITEMS__.length > 0) {
-        externalItemsList = window.__INITIAL_EXTERNAL_ITEMS__.map(raw => ({
-          no: raw.id || raw.no,
-          id: raw.id || raw.no,
-          title: raw.title,
-          price: raw.price,
-          image: raw.photo || raw.image,
-          photo: raw.photo || raw.image,
-          location: raw.townName || raw.location,
-          rawTown: raw.rawTown || raw.townName || raw.location || '',
-          category: raw.categoryName || raw.category,
-          categoryName: raw.categoryName || raw.category,
-          source: raw.source || 'external',
-          postedAt: (typeof raw.postedAt === 'number' && raw.postedAt > 1000000000000) ? raw.postedAt : null,
-          timeAgo: raw.timeAgo || ''
-        }));
-        if (activeSource === 'marketplaces' || activeSource === 'others') applyFilters(getActiveCategoryKeyword());
-        return;
-      }
+    let foodRescueFullLoaded = false;
+    let externalFullLoaded = false;
+    let localShopsRawData = null;
+    let localShopsFullLoaded = false;
+    let moonohFullLoaded = false;
+    let activeLocalCategory = 'All';
+
+    async function preloadFoodRescueItems() {
+      if (foodRescueFullLoaded) return;
       try {
-        let res = await fetch('/api/external-items');
-        if (!res.ok) res = await fetch('/.netlify/functions/external-items');
-        const data = await res.json();
-        if (Array.isArray(data)) {
-          externalItemsList = data.map(raw => ({
-            no: raw.id,
-            id: raw.id,
-            title: raw.title,
-            price: raw.price,
-            image: raw.image,
-            photo: raw.image,
-            location: raw.location,
-            rawTown: raw.rawTown || raw.location || '',
-            category: raw.category,
-            categoryName: raw.category,
-            source: raw.source || 'external',
-            postedAt: (typeof raw.postedAt === 'number' && raw.postedAt > 1000000000000) ? raw.postedAt : null,
-            timeAgo: raw.timeAgo || ''
-          }));
+        let res = await fetch('/api/food-rescue-items');
+        if (!res.ok) res = await fetch('/.netlify/functions/food-rescue-items');
+        if (res.ok) {
+          const data = await res.json();
+          if (Array.isArray(data) && data.length > 0) {
+            foodRescueItemsList = data.map(item => ({
+              no: item.id,
+              id: item.id,
+              title: item.title,
+              price: item.price,
+              image: item.image,
+              photo: item.image,
+              location: item.location || 'Brooklyn, NY',
+              rawTown: item.location || 'Brooklyn, NY',
+              category: 'Food & Groceries',
+              categoryName: 'Food & Groceries',
+              source: 'kimc',
+              postedAt: item.postedAt,
+              expiry_date: item.expiry_date,
+              discount_percent: item.discount_percent
+            }));
+            foodRescueFullLoaded = true;
+          }
         }
-        if (activeSource === 'marketplaces' || activeSource === 'others') applyFilters(getActiveCategoryKeyword());
       } catch (e) {}
     }
 
-    let localShopsRawData = null;
-    let activeLocalCategory = 'All';
+    async function preloadExternalItems() {
+      if (externalFullLoaded) return;
+      try {
+        let res = await fetch('/api/external-items');
+        if (!res.ok) res = await fetch('/real_external_items.json');
+        if (res.ok) {
+          const data = await res.json();
+          const itemsArr = Array.isArray(data) ? data : ((data.karrot || []).concat(data.heykorean || []));
+          if (Array.isArray(itemsArr) && itemsArr.length > 0) {
+            externalItemsList = itemsArr.map(raw => ({
+              no: raw.id,
+              id: raw.id,
+              title: raw.title,
+              price: raw.price,
+              image: raw.image || raw.photo,
+              photo: raw.image || raw.photo,
+              location: raw.location || raw.rawTown || 'Manhattan, NY',
+              rawTown: raw.rawTown || raw.location || 'Manhattan, NY',
+              category: raw.category || raw.categoryName || 'General',
+              categoryName: raw.category || raw.categoryName || 'General',
+              source: raw.source || (String(raw.id).startsWith('karrot') ? 'karrot' : 'heykorean'),
+              postedAt: (typeof raw.postedAt === 'number' && raw.postedAt > 1000000000000) ? raw.postedAt : null,
+              timeAgo: raw.timeAgo || ''
+            })).filter(i => i && i.image && !i.image.includes("ico_profile_empty.png"));
+            externalFullLoaded = true;
+          }
+        }
+      } catch (e) {}
+    }
 
     async function preloadLocalShopsItems() {
+      if (localShopsFullLoaded && localShopsRawData) return;
       try {
         if (!localShopsRawData) {
           const res = await fetch('/local_shops_data.json');
@@ -2296,7 +2315,7 @@
               postedAt: itemPostedAt
             };
           });
-          if (activeSource === 'localshops') applyFilters(getActiveCategoryKeyword());
+          localShopsFullLoaded = true;
         }
       } catch (e) {
         console.error("Error loading local shops:", e);
@@ -2304,13 +2323,10 @@
     }
 
     async function preloadMoonohItems() {
+      if (moonohFullLoaded) return;
       try {
-        const strictExisting = allItems.filter(isStrictMoonoh);
-        if (strictExisting.length > 0) {
-          moonohItemsList = strictExisting;
-          return;
-        }
         let res = await fetch('/api/items');
+        if (!res.ok) res = await fetch('/data.json');
         if (res.ok) {
           const data = await res.json();
           if (Array.isArray(data) && data.length > 0) {
@@ -2333,6 +2349,7 @@
               };
             }).filter(i => i && i.image && !i.image.includes("ico_profile_empty.png"));
 
+            moonohItemsList = list;
             const existingNormIds = new Set(allItems.map(i => String(i.no || i.id || '').replace(/^item-/, '')));
             list.forEach(item => {
               const normId = String(item.no || item.id || '').replace(/^item-/, '');
@@ -2341,8 +2358,7 @@
                 allItems.push(item);
               }
             });
-            moonohItemsList = allItems.filter(isStrictMoonoh);
-            applyFilters(getActiveCategoryKeyword());
+            moonohFullLoaded = true;
           }
         }
       } catch (e) {}
@@ -2526,7 +2542,14 @@
 
     function initAll() {
       renderItems();
-      preloadMoonohItems();
+      Promise.all([
+        preloadMoonohItems(),
+        preloadExternalItems(),
+        preloadLocalShopsItems(),
+        preloadFoodRescueItems()
+      ]).then(() => {
+        applyFilters(getActiveCategoryKeyword());
+      });
     
     
     // =========================================================================
