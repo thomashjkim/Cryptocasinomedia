@@ -39,8 +39,8 @@ const REGIONS = {
   'brooklyn': { slug: 'brooklyn', name: 'Brooklyn, NY', shortName: 'Brooklyn', keywords: ['brooklyn', 'park slope', 'williamsburg', 'bushwick', 'bed stuy', 'flatbush', 'crown heights', 'bay ridge', 'bensonhurst', 'canarsie', 'east new york', 'greenpoint', 'cobble hill', 'carroll gardens', 'boerum', 'sunset park', 'borough park', 'brighton beach', 'coney island', 'sheepshead', 'ditmas'] },
   'bronx': { slug: 'bronx', name: 'The Bronx, NY', shortName: 'Bronx', keywords: ['bronx'] },
   'staten-island': { slug: 'staten-island', name: 'Staten Island, NY', shortName: 'Staten Island', keywords: ['staten island'] },
-  'flushing': { slug: 'flushing', name: 'Flushing, Queens, NY', shortName: 'Flushing', keywords: ['flushing'] },
-  'bayside': { slug: 'bayside', name: 'Bayside, Queens, NY', shortName: 'Bayside', keywords: ['bayside'] },
+  'flushing': { slug: 'flushing', name: 'Flushing, Queens, NY', shortName: 'Flushing', keywords: ['flushing', '플러싱', 'college point', 'whitestone', 'corona', 'elmhurst', 'queens'] },
+  'bayside': { slug: 'bayside', name: 'Bayside, Queens, NY', shortName: 'Bayside', keywords: ['bayside', '베이사이드', 'douglaston', 'little neck', 'flushing', 'queens'] },
   'astoria': { slug: 'astoria', name: 'Astoria, Queens, NY', shortName: 'Astoria', keywords: ['astoria', 'long island city', 'lic'] },
   'fort-lee-nj': { slug: 'fort-lee-nj', name: 'Fort Lee, NJ', shortName: 'Fort Lee', keywords: ['fort lee', 'fortlee', 'palisades park', 'palisades', 'leonia', 'cliffside park', 'edgewater', 'fort-lee', 'bergen'] },
   'fort-lee': { slug: 'fort-lee-nj', name: 'Fort Lee, NJ', shortName: 'Fort Lee', keywords: ['fort lee', 'fortlee', 'palisades park', 'palisades', 'leonia', 'cliffside park', 'edgewater', 'fort-lee', 'bergen'] },
@@ -175,6 +175,7 @@ async function fetchAllCombinedItems() {
           'Williamsburg': 'Brooklyn, NY', 'Astoria': 'Queens, NY'
         };
         const nh = shop.neighborhood || '';
+        const borough = NEIGHBORHOOD_BOROUGH[nh] || p.location || shop.location || (p.shop_id === 'happier-grocery' || p.shop_id === 'pop-up-grocer' ? 'Manhattan, NY' : 'Brooklyn, NY');
         // Compute fresh timestamp: if source_published_at is reasonably recent (<= 180 days), use it; otherwise use last_checked_at
         let itemPostedAt = 0;
         if (p.source_published_at) {
@@ -558,7 +559,7 @@ export default async (req, context) => {
     } else if (isLocalShopsFilter || isShopProfile) {
       const prods = (isShopProfile ? localShopsData.products.filter(p => p.shop_id === shopProfileSlug) : localShopsData.products) || [];
       const baseLocal = isShopProfile ? prods : interleaveLocalProducts(prods);
-      filteredItems = (isShopProfile ? prods : interleaveLocalProducts(prods)).map(p => ({
+      filteredItems = baseLocal.map(p => ({
         id: p.id,
         no: p.id,
         title: p.title,
@@ -573,6 +574,9 @@ export default async (req, context) => {
         source: p.shop_id,
         badgeName: p.brand || (localShopsData.shops[p.shop_id] ? localShopsData.shops[p.shop_id].name : 'Local Shop')
       }));
+    } else if (targetRegionObj || targetCategoryObj) {
+      // REGIONAL & CATEGORY LANDING PAGES: Combined marketplace across ALL verified community sources!
+      filteredItems = allItems.filter(item => Boolean(item && (item.photo || item.image)));
     } else {
       // Default Moonoh tab: ONLY Moonoh items
       filteredItems = allItems.filter(item => item.source === 'moonoh' || (!item.source && !String(item.id||'').startsWith('karrot') && !String(item.id||'').startsWith('heykorean') && !String(item.id||'').startsWith('kimc')));
@@ -592,6 +596,7 @@ export default async (req, context) => {
     // Filter by Region if present
     if (targetRegionObj && targetRegionObj.keywords && targetRegionObj.keywords.length > 0) {
       filteredItems = filteredItems.filter(item => {
+        if (item.source === 'kimc') return true;
         const locStr = ((item.rawTown || '') + ' ' + (item.location || '') + ' ' + (item.townName || '')).toLowerCase();
         return targetRegionObj.keywords.some(kw => locStr.includes(kw));
       });
@@ -604,36 +609,71 @@ export default async (req, context) => {
           if (!item) return false;
           const p = item.price !== undefined ? item.price : (item.current_price !== undefined ? item.current_price : null);
           if (p === 0 || p === '0' || p === 'Free' || p === 'free') return true;
-          const num = parseFloat(p);
+          const num = typeof p === 'number' ? p : parseFloat(p);
           return !isNaN(num) && num === 0;
         });
       } else {
+        const targetSlug = targetCategoryObj.slug;
+        const targetKw = (targetCategoryObj.kw || '').toLowerCase();
+        const targetName = (targetCategoryObj.name || '').toLowerCase();
+
         filteredItems = filteredItems.filter(item => {
-          const mainCat = (item.categoryName || item.category || '').toLowerCase();
-          const targetName = targetCategoryObj.name.toLowerCase();
-          const targetKw = (targetCategoryObj.kw || '').toLowerCase();
+          if (!item) return false;
+          const mainCat = (item.categoryName || item.category || item.primary_category || '').toLowerCase();
+          const titleStr = (item.title || '').toLowerCase();
+          const fullText = (mainCat + ' ' + titleStr).toLowerCase();
 
-          // Exact or keyword match on item's assigned category
-          if (mainCat === targetName || (targetKw && mainCat.includes(targetKw))) {
-            return true;
+          if (targetSlug === 'furniture') {
+            return fullText.includes('furniture') || fullText.includes('sofa') || fullText.includes('chair') || fullText.includes('table') || fullText.includes('bed') || fullText.includes('desk') || fullText.includes('couch') || fullText.includes('dresser') || fullText.includes('cabinet') || fullText.includes('shelf') || fullText.includes('nightstand') || fullText.includes('stool') || fullText.includes('bench') || fullText.includes('ottoman') || fullText.includes('가구') || fullText.includes('의자') || fullText.includes('책상') || fullText.includes('침대') || fullText.includes('식탁') || fullText.includes('소파');
+          }
+          if (targetSlug === 'electronics') {
+            return fullText.includes('electronics') || fullText.includes('appliance') || fullText.includes('phone') || fullText.includes('laptop') || fullText.includes('camera') || fullText.includes('tv') || fullText.includes('monitor') || fullText.includes('audio') || fullText.includes('headphone') || fullText.includes('airpod') || fullText.includes('speaker') || fullText.includes('charger') || fullText.includes('game') || fullText.includes('nintendo') || fullText.includes('ps5') || fullText.includes('xbox') || fullText.includes('전자') || fullText.includes('모니터') || fullText.includes('아이폰') || fullText.includes('청소기');
+          }
+          if (targetSlug === 'womens-fashion' || targetSlug === 'fashion') {
+            return fullText.includes('women') || fullText.includes('dress') || fullText.includes('skirt') || fullText.includes('handbag') || fullText.includes('coat') || fullText.includes('jacket') || fullText.includes('fashion') || fullText.includes('clothing') || fullText.includes('원피스') || fullText.includes('여성') || fullText.includes('옷');
+          }
+          if (targetSlug === 'mens-fashion') {
+            return (fullText.includes('men') && !fullText.includes('women')) || fullText.includes('suit') || fullText.includes('남성');
+          }
+          if (targetSlug === 'shoes') {
+            return fullText.includes('shoe') || fullText.includes('sneaker') || fullText.includes('boot') || fullText.includes('sandal') || fullText.includes('heel') || fullText.includes('loafer') || fullText.includes('nike') || fullText.includes('adidas') || fullText.includes('신발') || fullText.includes('운동화') || fullText.includes('구두');
+          }
+          if (targetSlug === 'baby-kids') {
+            return fullText.includes('baby') || fullText.includes('kid') || fullText.includes('stroller') || fullText.includes('crib') || fullText.includes('toy') || fullText.includes('lego') || fullText.includes('유아') || fullText.includes('아동') || fullText.includes('유모차') || fullText.includes('장난감');
+          }
+          if (targetSlug === 'food-groceries') {
+            return fullText.includes('food') || fullText.includes('groc') || fullText.includes('snack') || fullText.includes('noodle') || fullText.includes('tea') || fullText.includes('coffee') || fullText.includes('sauce') || fullText.includes('식품') || fullText.includes('과자') || fullText.includes('라면') || fullText.includes('음료');
+          }
+          if (targetSlug === 'home-garden') {
+            return fullText.includes('home') || fullText.includes('garden') || fullText.includes('kitchen') || fullText.includes('dish') || fullText.includes('plate') || fullText.includes('pot') || fullText.includes('pan') || fullText.includes('cookware') || fullText.includes('vase') || fullText.includes('lamp') || fullText.includes('light') || fullText.includes('rug') || fullText.includes('towel') || fullText.includes('decor') || fullText.includes('주방') || fullText.includes('그릇') || fullText.includes('조명');
+          }
+          if (targetSlug === 'jewelry-watches') {
+            return fullText.includes('jewel') || fullText.includes('watch') || fullText.includes('ring') || fullText.includes('earring') || fullText.includes('necklace') || fullText.includes('bracelet') || fullText.includes('시계') || fullText.includes('반지') || fullText.includes('목걸이') || fullText.includes('귀걸이');
+          }
+          if (targetSlug === 'luggages-bags') {
+            return fullText.includes('luggage') || fullText.includes('bag') || fullText.includes('pouch') || fullText.includes('backpack') || fullText.includes('wallet') || fullText.includes('purse') || fullText.includes('가방') || fullText.includes('지갑') || fullText.includes('백팩');
+          }
+          if (targetSlug === 'health-beauty') {
+            return fullText.includes('health') || fullText.includes('beauty') || fullText.includes('skin') || fullText.includes('cream') || fullText.includes('lotion') || fullText.includes('serum') || fullText.includes('cosmetic') || fullText.includes('화장품') || fullText.includes('크림') || fullText.includes('마스크');
+          }
+          if (targetSlug === 'antiques') {
+            return fullText.includes('antique') || fullText.includes('collectible') || fullText.includes('vintage') || fullText.includes('골동품') || fullText.includes('빈티지');
+          }
+          if (targetSlug === 'arts-books-music') {
+            return fullText.includes('art') || fullText.includes('book') || fullText.includes('music') || fullText.includes('guitar') || fullText.includes('piano') || fullText.includes('vinyl') || fullText.includes('dvd') || fullText.includes('책') || fullText.includes('음악') || fullText.includes('악기') || fullText.includes('미술');
+          }
+          if (targetSlug === 'pet-supplies') {
+            return fullText.includes('pet') || fullText.includes('dog') || fullText.includes('cat') || fullText.includes('puppy') || fullText.includes('반려') || fullText.includes('강아지') || fullText.includes('고양이');
+          }
+          if (targetSlug === 'toys-games') {
+            return fullText.includes('toy') || fullText.includes('game') || fullText.includes('figure') || fullText.includes('nintendo') || fullText.includes('playstation') || fullText.includes('장난감') || fullText.includes('게임') || fullText.includes('피규어');
+          }
+          if (targetSlug === 'sports-leisure') {
+            return fullText.includes('sport') || fullText.includes('leisure') || fullText.includes('bike') || fullText.includes('golf') || fullText.includes('gym') || fullText.includes('ski') || fullText.includes('골프') || fullText.includes('자전거') || fullText.includes('운동');
           }
 
-          // Only fallback to title keywords if item's category is generic ('other', 'general', 'used items')
-          if (['general', 'other', 'used items', ''].includes(mainCat)) {
-            const titleStr = (item.title || '').toLowerCase();
-            if (targetCategoryObj.excludes && targetCategoryObj.excludes.some(ex => titleStr.includes(ex))) {
-              return false;
-            }
-            return targetCategoryObj.keywords.some(kw => {
-              if (kw.length <= 4) {
-                const regex = new RegExp(`\\b${kw}\\b`, 'i');
-                return regex.test(titleStr);
-              }
-              return titleStr.includes(kw);
-            });
-          }
-
-          return false;
+          if (mainCat === targetName || (targetKw && mainCat.includes(targetKw))) return true;
+          return fullText.includes(targetSlug);
         });
       }
     }
@@ -708,9 +748,16 @@ export default async (req, context) => {
     let aeoSummaryHtml = '';
     if (targetRegionObj || targetCategoryObj) {
       const itemCount = filteredItems.length;
-      const prices = filteredItems.map(i => i.price).filter(p => p > 0);
+      const prices = filteredItems.map(i => {
+        const rawP = i.price !== undefined ? i.price : i.current_price;
+        const num = typeof rawP === 'number' ? rawP : parseFloat(rawP);
+        return (!isNaN(num) && num > 0) ? num : null;
+      }).filter(p => p !== null);
       const avgPrice = prices.length > 0 ? (prices.reduce((a,b)=>a+b, 0) / prices.length) : 0;
-      const freeCount = filteredItems.filter(i => i.price === 0).length;
+      const freeCount = filteredItems.filter(i => {
+        const rawP = i.price !== undefined ? i.price : i.current_price;
+        return rawP === 0 || rawP === '0' || rawP === 'Free' || rawP === 'free';
+      }).length;
       const locLabel = targetRegionObj ? targetRegionObj.name : "NYC & NJ";
       const catLabel = targetCategoryObj ? targetCategoryObj.name : "local items";
 

@@ -1930,9 +1930,10 @@
       } else if (activeSource === 'marketplaces' || activeSource === 'others') {
         filtered = externalItemsList.length > 0 ? [...externalItemsList] : allItems.filter(i => i.source === 'karrot' || i.source === 'heykorean' || i.source === 'external' || String(i.url || '').includes('-ext-'));
       } else {
-        // Moonoh tab
+        // Moonoh tab / Regional Marketplace:
+        // When a specific neighborhood/town is selected, pool all verified community items
         const moonohInAll = allItems.filter(isStrictMoonoh);
-        filtered = moonohInAll.length > 0 ? [...moonohInAll] : (moonohItemsList.length > 0 ? [...moonohItemsList] : [...allItems]);
+        filtered = (activeTown && activeTown !== 'all') ? [...allItems] : (moonohInAll.length > 0 ? [...moonohInAll] : [...allItems]);
       }
 
       // 2. Area / Location filter (Preserved on filter clear)
@@ -2611,7 +2612,42 @@
         userHasExplicitSort = false;
       }
       
-      // Region selection
+      // Region & Category pathname parsing
+      const pathname = window.location.pathname.toLowerCase().replace(/\/$/, '');
+      const pathParts = pathname.replace(/^\/explore\/?/, '').split('/').filter(Boolean);
+      const regionSlugToVal = {
+        'manhattan': 'Manhattan',
+        'brooklyn': 'Brooklyn',
+        'queens': 'Queens',
+        'bronx': 'Bronx',
+        'staten-island': 'Staten Island',
+        'flushing': 'Flushing',
+        'bayside': 'Bayside',
+        'astoria': 'Astoria',
+        'fort-lee-nj': 'Fort Lee',
+        'fort-lee': 'Fort Lee',
+        'bergen-county-nj': 'Bergen',
+        'bergen-county': 'Bergen',
+        'hudson-county-nj': 'Hudson',
+        'hudson-county': 'Hudson'
+      };
+
+      let pathRegionSlug = null;
+      let pathCatSlug = null;
+      pathParts.forEach(seg => {
+        if (regionSlugToVal[seg]) pathRegionSlug = seg;
+        if (pillSlugToLabel[seg]) pathCatSlug = seg;
+      });
+
+      if (pathRegionSlug && regionSlugToVal[pathRegionSlug]) {
+        const locSelect = document.getElementById('location-select');
+        if (locSelect) {
+          locSelect.value = regionSlugToVal[pathRegionSlug];
+          activeTown = regionSlugToVal[pathRegionSlug];
+        }
+      }
+
+      // Region selection via query params
       if (initialParams.has('area') || initialParams.has('town') || initialParams.has('region')) {
         const targetArea = (initialParams.get('area') || initialParams.get('town') || initialParams.get('region') || '').trim();
         const locSelect = document.getElementById('location-select');
