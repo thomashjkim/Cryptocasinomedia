@@ -250,6 +250,18 @@
   status = 200
 
 [[redirects]]
+  from = "/reports"
+  to = "/.netlify/functions/reports"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/reports/*"
+  to = "/.netlify/functions/reports"
+  status = 200
+  force = true
+
+[[redirects]]
   from = "/explore"
   to = "/.netlify/functions/explore"
   status = 200
@@ -260,3 +272,4 @@
   to = "/.netlify/functions/explore"
   status = 200
   force = true
+

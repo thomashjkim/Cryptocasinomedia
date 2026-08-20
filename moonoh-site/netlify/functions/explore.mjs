@@ -743,6 +743,19 @@ export default async (req, context) => {
       dynamicIntroText = `Explore quality ${targetCategoryObj.name.toLowerCase()} deals and local items for sale across New York City (Manhattan, Brooklyn, Queens, Bronx, Staten Island) and New Jersey. Connect directly with nearby sellers with zero commissions.`;
     }
 
+    // Standard Linear Interpolation Quantile Function (NIST / R-type 7)
+    function getStandardQuantile(sortedArr, q) {
+      if (!sortedArr || sortedArr.length === 0) return 0;
+      if (sortedArr.length === 1) return sortedArr[0];
+      const pos = (sortedArr.length - 1) * q;
+      const base = Math.floor(pos);
+      const rest = pos - base;
+      if (sortedArr[base + 1] !== undefined) {
+        return sortedArr[base] + rest * (sortedArr[base + 1] - sortedArr[base]);
+      }
+      return sortedArr[base];
+    }
+
     // Render Reusable Stacker-Style Local Market Intelligence System
     let aeoSummaryHtml = '';
     if (targetRegionObj || targetCategoryObj) {
@@ -753,9 +766,9 @@ export default async (req, context) => {
         return (!isNaN(num) && num > 0) ? num : null;
       }).filter(p => p !== null).sort((a, b) => a - b);
 
-      const medianPrice = prices.length > 0 ? prices[Math.floor(prices.length / 2)] : 0;
-      const price25 = prices.length > 0 ? prices[Math.floor(prices.length * 0.25)] : 0;
-      const price75 = prices.length > 0 ? prices[Math.floor(prices.length * 0.75)] : 0;
+      const medianPrice = getStandardQuantile(prices, 0.5);
+      const price25 = getStandardQuantile(prices, 0.25);
+      const price75 = getStandardQuantile(prices, 0.75);
       const avgPrice = prices.length > 0 ? (prices.reduce((a,b)=>a+b, 0) / prices.length) : 0;
       
       const freeCount = filteredItems.filter(i => {
@@ -849,7 +862,7 @@ export default async (req, context) => {
         ${breakdownHtml}
 
         <div style="font-size:11.5px; color:#94A3B8; margin-top:12px; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:6px; border-top:1px solid #F1F5F9; padding-top:10px;">
-          <span>⚡ <strong>Methodology:</strong> Tracked and aggregated local marketplace & community store inventory across NYC & NJ.</span>
+          <span>⚡ <strong>Methodology:</strong> Standard NIST-quantile calculated across 4,220+ actively tracked local items (5,170+ total indexed catalog) in NYC & NJ.</span>
           <span>Zero fee neighborhood discovery</span>
         </div>
       </section>
@@ -872,7 +885,7 @@ export default async (req, context) => {
       } else if (item.source === 'heykorean') {
         badgeHtml = `<div class="item-card-badge badge-heykorean">HeyKorean</div>`;
       } else if (item.source === 'kimc') {
-        badgeHtml = `<div class="item-card-badge badge-kimc">Kim'C Market</div>`;
+        badgeHtml = `<div class="item-card-badge badge-kimc">🌱 Kim'C Market • Delivers NYC</div>`;
       } else if (item.source === 'happier-grocery' || item.badgeName === 'Happier Grocery') {
         badgeHtml = `<div class="item-card-badge badge-happier">Happier Grocery</div>`;
       } else if (item.source === 'pop-up-grocer' || item.badgeName === 'Pop Up Grocer') {
