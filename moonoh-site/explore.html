@@ -1685,7 +1685,55 @@
         if (hIdx < heykorean.length) result.push(heykorean[hIdx++]);
         if (hIdx < heykorean.length) result.push(heykorean[hIdx++]); // 1 Karrot : 2 HeyKorean ratio to match proportions
       }
-      return result.concat(others);
+         function interleaveMoonohFirstFeed(items) {
+      if (!Array.isArray(items) || items.length === 0) return [];
+      const moonohItems = [];
+      const localItems = [];
+      const externalItems = [];
+      const foodItems = [];
+
+      for (const item of items) {
+        if (!item) continue;
+        if (isStrictMoonoh(item)) {
+          moonohItems.push(item);
+        } else if (item.source === 'kimc') {
+          foodItems.push(item);
+        } else if (item.source === 'karrot' || item.source === 'heykorean' || item.source === 'external' || String(item.url || '').includes('-ext-')) {
+          externalItems.push(item);
+        } else {
+          localItems.push(item);
+        }
+      }
+
+      // Sort Moonoh strictly by ID / postedAt descending
+      moonohItems.sort((a, b) => {
+        const noA = parseInt(String(a.no || a.id || '').replace(/\D/g, ''), 10) || 0;
+        const noB = parseInt(String(b.no || b.id || '').replace(/\D/g, ''), 10) || 0;
+        return noB - noA;
+      });
+
+      // Interleave local shop products across shops
+      const balancedLocal = interleaveLocalProducts(localItems);
+      // Interleave external community products
+      const balancedExternal = interleaveMarketplaceProducts(externalItems);
+
+      const result = [];
+      let mIdx = 0, lIdx = 0, eIdx = 0, fIdx = 0;
+      const totalLen = items.length;
+
+      while (result.length < totalLen && (mIdx < moonohItems.length || lIdx < balancedLocal.length || eIdx < balancedExternal.length || fIdx < foodItems.length)) {
+        // 2 Moonoh items
+        if (mIdx < moonohItems.length) result.push(moonohItems[mIdx++]);
+        if (mIdx < moonohItems.length) result.push(moonohItems[mIdx++]);
+        // 1 Local Shop item
+        if (lIdx < balancedLocal.length) result.push(balancedLocal[lIdx++]);
+        // 2 Community Marketplace items
+        if (eIdx < balancedExternal.length) result.push(balancedExternal[eIdx++]);
+        if (eIdx < balancedExternal.length) result.push(balancedExternal[eIdx++]);
+        // 1 Food Rescue item if available
+        if (fIdx < foodItems.length) result.push(foodItems[fIdx++]);
+      }
+      return result;
     }
 
     function getItemTimestamp(item) {
@@ -1715,7 +1763,7 @@
       const numStr = String(item.no || item.id || '').replace(/\D/g, '');
       const num = parseInt(numStr, 10) || 0;
       if (num > 0) {
-        return 1700000000000 + num * 100000;
+        return 1787000000000 + num * 1000;
       }
       return 0;
     }
@@ -1952,7 +2000,7 @@
             if (!item) return false;
             const p = item.price !== undefined ? item.price : (item.current_price !== undefined ? item.current_price : null);
             if (p === 0 || p === '0' || p === 'Free' || p === 'free') return true;
-            const num = parseFloat(p);
+            const num = typeof p === 'number' ? p : parseFloat(p);
             return !isNaN(num) && num === 0;
           });
         } else if (targetSlug && targetSlug !== 'all') {
@@ -1960,20 +2008,19 @@
         }
       }
 
-      // 4. Search query filter & relevance calculation
-      if (currentSearchQuery) {
-        const normQuery = normalizeSearchText(currentSearchQuery);
-        const queryTokens = normQuery.split(' ').filter(Boolean);
-        if (queryTokens.length > 0) {
-          filtered = filtered.filter(item => {
-            const target = getItemSearchText(item);
-            return queryTokens.every(token => target.includes(token));
-          });
-          // Attach score for relevance sort
-          filtered.forEach(item => {
-            item._relevanceScore = calculateRelevanceScore(item, queryTokens, normQuery);
-          });
-        }
+      // 4. Keyword Search Filter
+      if (currentSearchQuery && currentSearchQuery.trim().length > 0) {
+        const normQ = normalizeSearchText(currentSearchQuery);
+        const tokens = normQ.split(' ').filter(t => t.length > 0);
+        
+        filtered = filtered.map(item => {
+          const itemText = getItemSearchText(item);
+          const score = calculateRelevanceScore(item, tokens, normQ);
+          return { ...item, _relevanceScore: score, _itemSearchText: itemText };
+        }).filter(item => {
+          if (item._relevanceScore > 0) return true;
+          return tokens.every(tok => item._itemSearchText.includes(tok));
+        });
       }
 
       // 5. Sorting
@@ -1981,26 +2028,22 @@
 
       if (effectiveSort === 'relevance' && currentSearchQuery) {
         filtered.sort((a, b) => (b._relevanceScore || 0) - (a._relevanceScore || 0));
-            } else if (effectiveSort === 'newest') {
-        if (activeSource === 'localshops' && !currentSearchQuery) {
+      } else if (effectiveSort === 'newest') {
+        if (activeSource === 'moonoh') {
+          filtered.sort((a, b) => {
+            const noA = parseInt(String(a.no || a.id || '').replace(/\D/g, ''), 10) || 0;
+            const noB = parseInt(String(b.no || b.id || '').replace(/\D/g, ''), 10) || 0;
+            return noB - noA;
+          });
+        } else if (activeSource === 'localshops' && !currentSearchQuery) {
           filtered = interleaveLocalProducts(filtered);
         } else if ((activeSource === 'marketplaces' || activeSource === 'others') && !currentSearchQuery) {
           filtered = interleaveMarketplaceProducts(filtered);
+        } else if (activeSource === 'foodrescue') {
+          // Food rescue items in original order
         } else {
-          filtered.sort((a, b) => {
-            // Strict Moonoh auto-increment ID sorting (highest No = most recently posted)
-            if (activeSource === 'moonoh' || (isStrictMoonoh(a) && isStrictMoonoh(b))) {
-              const noA = parseInt(String(a.no || a.id || '').replace(/\D/g, ''), 10) || 0;
-              const noB = parseInt(String(b.no || b.id || '').replace(/\D/g, ''), 10) || 0;
-              if (noA > 0 && noB > 0 && noA !== noB) return noB - noA;
-            }
-            const tA = getItemTimestamp(a);
-            const tB = getItemTimestamp(b);
-            if (tB !== tA) return tB - tA;
-            const numA = parseInt(String(a.no || a.id || '').replace(/\D/g, ''), 10) || 0;
-            const numB = parseInt(String(b.no || b.id || '').replace(/\D/g, ''), 10) || 0;
-            return numB - numA;
-          });
+          // 'All' tab and regional views: Moonoh-First Balanced Interleaving
+          filtered = interleaveMoonohFirstFeed(filtered);
         }
       } else if (effectiveSort === 'price-asc') {
         filtered.sort((a, b) => {

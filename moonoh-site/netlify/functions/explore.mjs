@@ -283,6 +283,56 @@ function interleaveMarketplaceProducts(products) {
   return result.concat(others);
 }
 
+function interleaveMoonohFirstFeed(items) {
+  if (!Array.isArray(items) || items.length === 0) return [];
+  const moonohItems = [];
+  const localItems = [];
+  const externalItems = [];
+  const foodItems = [];
+
+  for (const item of items) {
+    if (!item) continue;
+    const src = (item.source || '').toLowerCase();
+    if (src === 'moonoh' || (!src.includes('karrot') && !src.includes('heykorean') && !src.includes('kimc') && !src.includes('shop') && !item.badgeName && item.url && item.url.includes('/item/item-'))) {
+      moonohItems.push(item);
+    } else if (src === 'kimc') {
+      foodItems.push(item);
+    } else if (src.includes('karrot') || src.includes('heykorean') || src === 'external' || String(item.url || '').includes('-ext-')) {
+      externalItems.push(item);
+    } else {
+      localItems.push(item);
+    }
+  }
+
+  // Sort Moonoh strictly by ID / postedAt descending
+  moonohItems.sort((a, b) => {
+    const noA = parseInt(String(a.no || a.id || '').replace(/\D/g, ''), 10) || 0;
+    const noB = parseInt(String(b.no || b.id || '').replace(/\D/g, ''), 10) || 0;
+    return noB - noA;
+  });
+
+  const balancedLocal = interleaveLocalProducts(localItems);
+  const balancedExternal = interleaveMarketplaceProducts(externalItems);
+
+  const result = [];
+  let mIdx = 0, lIdx = 0, eIdx = 0, fIdx = 0;
+  const totalLen = items.length;
+
+  while (result.length < totalLen && (mIdx < moonohItems.length || lIdx < balancedLocal.length || eIdx < balancedExternal.length || fIdx < foodItems.length)) {
+    // 2 Moonoh items
+    if (mIdx < moonohItems.length) result.push(moonohItems[mIdx++]);
+    if (mIdx < moonohItems.length) result.push(moonohItems[mIdx++]);
+    // 1 Local Shop item
+    if (lIdx < balancedLocal.length) result.push(balancedLocal[lIdx++]);
+    // 2 Community Marketplace items
+    if (eIdx < balancedExternal.length) result.push(balancedExternal[eIdx++]);
+    if (eIdx < balancedExternal.length) result.push(balancedExternal[eIdx++]);
+    // 1 Food Rescue item if available
+    if (fIdx < foodItems.length) result.push(foodItems[fIdx++]);
+  }
+  return result;
+}
+
 function getItemTimestamp(item) {
   if (!item) return 0;
   if (item.postedAt) {
@@ -675,6 +725,15 @@ export default async (req, context) => {
           return fullText.includes(targetSlug);
         });
       }
+    }
+
+    // Apply Moonoh-First Balanced Interleaving for SSR
+    if (isLocalShopsFilter || isShopProfile) {
+      filteredItems = interleaveLocalProducts(filteredItems);
+    } else if (isMarketplacesFilter) {
+      filteredItems = interleaveMarketplaceProducts(filteredItems);
+    } else if (!isFoodRescueFilter) {
+      filteredItems = interleaveMoonohFirstFeed(filteredItems);
     }
 
     let template = getExploreTemplate();
