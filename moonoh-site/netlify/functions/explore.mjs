@@ -596,7 +596,6 @@ export default async (req, context) => {
     // Filter by Region if present
     if (targetRegionObj && targetRegionObj.keywords && targetRegionObj.keywords.length > 0) {
       filteredItems = filteredItems.filter(item => {
-        if (item.source === 'kimc') return true;
         const locStr = ((item.rawTown || '') + ' ' + (item.location || '') + ' ' + (item.townName || '')).toLowerCase();
         return targetRegionObj.keywords.some(kw => locStr.includes(kw));
       });
@@ -825,7 +824,7 @@ export default async (req, context) => {
           ${medianPrice > 0 ? `The median listed price is <strong>$${Math.round(medianPrice)}</strong> (typical range $${Math.round(price25)} – $${Math.round(price75)}).` : ''}
           ${topCatSentence}
           ${freeCount > 0 ? ` Includes <strong>${freeCount} free items</strong> shared by local neighbors.` : ''}
-          All listings feature 0% transaction fees and direct neighborhood chat on Moonoh.
+          Featuring direct peer-to-peer neighborhood listings alongside curated local NYC shop products.
         </p>
 
         <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(130px, 1fr)); gap:10px; margin-bottom:6px;">
@@ -850,7 +849,7 @@ export default async (req, context) => {
         ${breakdownHtml}
 
         <div style="font-size:11.5px; color:#94A3B8; margin-top:12px; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:6px; border-top:1px solid #F1F5F9; padding-top:10px;">
-          <span>⚡ <strong>Methodology:</strong> Verified local marketplace & community store inventory in NYC & NJ.</span>
+          <span>⚡ <strong>Methodology:</strong> Tracked and aggregated local marketplace & community store inventory across NYC & NJ.</span>
           <span>Zero fee neighborhood discovery</span>
         </div>
       </section>
