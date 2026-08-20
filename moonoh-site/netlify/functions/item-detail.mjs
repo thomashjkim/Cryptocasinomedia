@@ -926,18 +926,18 @@ function isSemanticallyCompatible(incomingPath, expectedPath) {
     }
 
     // Custom meta values for local shops, food rescue vs secondhand marketplace items
-    let pageTitle = `Used ${title} for Sale in ${townName} | Moonoh`;
+    let pageTitle = `${title} (${priceStr}) - ${townName} Direct Deal | Moonoh`;
     if (price === 0 || price === '0' || priceStr === 'Free') {
-      pageTitle = `Free ${title} in ${townName} | Moonoh`;
+      pageTitle = `FREE ${title} in ${townName} | Moonoh Direct Pickup`;
     }
-    let metaDescription = `Buy gently used ${title} (${priceStr}) in ${townName} on Moonoh — the 100% free neighborhood marketplace app for NYC & NJ. Zero fees, secure in-app chat, and safe local meetups.`;
+    let metaDescription = `Local deal in ${townName}: ${title} listed for ${priceStr}. 100% free neighborhood direct meetups with 0% transaction fees. Chat directly with verified neighbor on Moonoh.`;
 
     if (externalSource === 'kimc') {
-      pageTitle = `${title} | Food Rescue at Kim'C Market in ${townName} - Moonoh`;
-      metaDescription = `Discover ${title} for ${priceStr} from Kim'C Market in ${townName}. Part of the Fight Food Waste collection on Moonoh. Shipping, returns, and checkout are handled directly by Kim'C Market.`;
+      pageTitle = `${title} (${priceStr}) - Sustainable Food Rescue at Kim'C Market | Moonoh`;
+      metaDescription = `Rescue ${title} for ${priceStr} from Kim'C Market in ${townName}. Up to 70% off near sell-by date premium groceries on Moonoh.`;
     } else if (['happier-grocery', 'big-night', 'pop-up-grocer', 'front-general-store', 'mirth-vintage', 'sey-coffee', 'salter-house'].includes(externalSource) || localProductMatch) {
-      pageTitle = `${title} | ${sourceDisplayName} in ${townName} - Moonoh`;
-      metaDescription = `Discover ${title} (${priceStr}) curated from ${sourceDisplayName} in ${townName}. Browse neighborhood specialty goods, vintage, and artisanal items on Moonoh.`;
+      pageTitle = `${title} (${priceStr}) - ${sourceDisplayName} in ${townName} | Moonoh`;
+      metaDescription = `Discover ${title} (${priceStr}) curated from ${sourceDisplayName} in ${townName}. Support independent NYC local boutiques on Moonoh with curated neighborhood goods.`;
     }
 
     

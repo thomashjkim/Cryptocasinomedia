@@ -782,22 +782,22 @@ export default async (req, context) => {
       sectionName = "Community Marketplaces";
     } else if (targetRegionObj && targetCategoryObj) {
       canonicalUrl = `https://moon-oh.com/explore/${targetRegionObj.slug}/${targetCategoryObj.slug}`;
-      pageTitle = `${targetCategoryObj.name} for Sale in ${targetRegionObj.name} | Moonoh`;
-      metaDesc = `Find great deals on ${targetCategoryObj.name.toLowerCase()} in ${targetRegionObj.name} on Moonoh. 0% fees, direct seller chat, and local meetup.`;
+      pageTitle = `${targetCategoryObj.name} in ${targetRegionObj.name} | Local Secondhand Deals - Moonoh`;
+      metaDesc = `Browse verified ${targetCategoryObj.name.toLowerCase()} deals in ${targetRegionObj.name} on Moonoh. 100% free direct neighborhood meetups with 0% transaction fees. Chat directly with local sellers.`;
       h1Text = `${targetCategoryObj.name} for Sale in ${targetRegionObj.name}`;
       dynamicIntroText = `Discover ${targetCategoryObj.name.toLowerCase()} deals and quality items listed by local neighbors in ${targetRegionObj.name}. Buy and sell locally with 0% listing fees, direct in-app chat, and safe neighborhood pickup on Moonoh.`;
       sectionName = `${targetCategoryObj.name} in ${targetRegionObj.shortName}`;
     } else if (targetRegionObj) {
       canonicalUrl = `https://moon-oh.com/explore/${targetRegionObj.slug}`;
-      pageTitle = `Local Items & Marketplace Deals in ${targetRegionObj.name} | Moonoh`;
-      metaDesc = `Discover local marketplace deals and neighborhood items listed by neighbors in ${targetRegionObj.name}. 0% fees on Moonoh.`;
+      pageTitle = `Local Secondhand Deals & Items in ${targetRegionObj.name} | Moonoh`;
+      metaDesc = `Discover verified secondhand furniture, electronics, fashion, and neighborhood deals in ${targetRegionObj.name} on Moonoh. 100% free local meetups with 0% fees.`;
       h1Text = `Local Items & Marketplace Deals in ${targetRegionObj.name}`;
       dynamicIntroText = `Browse furniture, electronics, fashion, household goods, and local deals listed by verified neighbors in ${targetRegionObj.name}. 100% free local exchanges with zero transaction fees.`;
       sectionName = targetRegionObj.name;
     } else if (targetCategoryObj) {
       canonicalUrl = `https://moon-oh.com/explore/${targetCategoryObj.slug}`;
-      pageTitle = `${targetCategoryObj.name} for Sale in NYC & NJ | Moonoh`;
-      metaDesc = `Explore ${targetCategoryObj.name.toLowerCase()} deals and quality goods for sale in NYC and NJ on Moonoh. Connect directly with local sellers.`;
+      pageTitle = `${targetCategoryObj.name} for Sale in NYC & NJ | Local Marketplace - Moonoh`;
+      metaDesc = `Find quality ${targetCategoryObj.name.toLowerCase()} for sale in NYC & NJ on Moonoh. Browse local deals across Manhattan, Brooklyn, Queens, and NJ with zero transaction fees.`;
       h1Text = `${targetCategoryObj.name} for Sale in NYC & NJ`;
       dynamicIntroText = `Explore quality ${targetCategoryObj.name.toLowerCase()} deals and local items for sale across New York City (Manhattan, Brooklyn, Queens, Bronx, Staten Island) and New Jersey. Connect directly with nearby sellers with zero commissions.`;
     }
