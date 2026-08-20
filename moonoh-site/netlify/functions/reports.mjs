@@ -56,10 +56,19 @@ function escapeHtml(str) {
 export default async (req, context) => {
   try {
     const url = new URL(req.url);
-    const pathParts = url.pathname.replace(/^\/reports\/?/, '').split('/').filter(Boolean);
+    const headerPath = req.headers?.get ? (req.headers.get('x-nf-original-pathname') || req.headers.get('x-original-url')) : null;
+    const rawPath = headerPath || url.pathname;
+    const cleanPath = rawPath.replace('/.netlify/functions/reports', '/reports');
+    const pathParts = cleanPath.replace(/^\/reports\/?/, '').split('/').filter(Boolean);
 
-    const regionSlug = pathParts[0] || 'manhattan';
-    const reportDate = pathParts[1] || null;
+    let regionSlug = pathParts[0] ? pathParts[0].toLowerCase() : 'manhattan';
+    let reportDate = pathParts[1] || null;
+
+    // If first part is a date (e.g. /reports/2026-08-20), handle gracefully
+    if (regionSlug.match(/^\d{4}-\d{2}-\d{2}$/)) {
+      reportDate = regionSlug;
+      regionSlug = 'manhattan';
+    }
 
     const regionObj = REPORT_REGIONS[regionSlug] || REPORT_REGIONS['manhattan'];
 
@@ -67,18 +76,20 @@ export default async (req, context) => {
     try {
       const snapshotPath = path.join(__dirname, '../../data/historical_market_snapshots.json');
       if (fs.existsSync(snapshotPath)) {
-        const loaded = JSON.parse(fs.readFileSync(snapshotPath, 'utf8'));
+        const fileContent = fs.readFileSync(snapshotPath, 'utf8');
+        const loaded = JSON.parse(fileContent);
         if (loaded && typeof loaded === 'object') {
           allSnapshots = Object.assign({}, BASELINE_SNAPSHOTS, loaded);
         }
       }
     } catch (e) {
-      // Use BASELINE_SNAPSHOTS
+      allSnapshots = BASELINE_SNAPSHOTS;
     }
 
     const availableDates = Object.keys(allSnapshots).sort().reverse();
     const targetDate = reportDate || availableDates[0] || '2026-08-20';
-    const snapshotData = (allSnapshots[targetDate] && allSnapshots[targetDate][regionObj.slug]) || BASELINE_SNAPSHOTS["2026-08-20"][regionObj.slug] || {
+    const dateObj = allSnapshots[targetDate] || BASELINE_SNAPSHOTS["2026-08-20"];
+    const stats = (dateObj && dateObj[regionObj.slug]) || BASELINE_SNAPSHOTS["2026-08-20"][regionObj.slug] || {
       active_listings: 759,
       priced_listings: 743,
       median_price: 50,
@@ -94,7 +105,7 @@ export default async (req, context) => {
 
     const metaDesc = isHubPage
       ? `Browse historical market intelligence reports, price trends, and inventory changes for ${regionObj.name} on Moonoh.`
-      : `Historical market report for ${regionObj.name} as of ${targetDate}. Active listings, median asking price ($${snapshotData.median_price}), and category composition.`;
+      : `Historical market report for ${regionObj.name} as of ${targetDate}. Active listings, median asking price ($${stats.median_price}), and category composition.`;
 
     const canonicalUrl = isHubPage
       ? `https://moon-oh.com/reports/${regionObj.slug}`
@@ -186,26 +197,26 @@ export default async (req, context) => {
 
       <div class="report-card">
         <p class="answer-lead">
-          As of <strong>${escapeHtml(targetDate)}</strong>, Moonoh tracked <strong>${snapshotData.active_listings.toLocaleString()} active marketplace and local-store listings</strong> physically located in <strong>${escapeHtml(regionObj.name)}</strong>. The median asking price among priced items was <strong>$${Math.round(snapshotData.median_price)}</strong>, with the interquartile range (middle 50%) spanning from <strong>$${Math.round(snapshotData.p25_price)}</strong> to <strong>$${Math.round(snapshotData.p75_price)}</strong>.
+          As of <strong>${escapeHtml(targetDate)}</strong>, Moonoh tracked <strong>${stats.active_listings.toLocaleString()} active marketplace and local-store listings</strong> physically located in <strong>${escapeHtml(regionObj.name)}</strong>. The median asking price among priced items was <strong>$${Math.round(stats.median_price)}</strong>, with the interquartile range (middle 50%) spanning from <strong>$${Math.round(stats.p25_price)}</strong> to <strong>$${Math.round(stats.p75_price)}</strong>.
         </p>
 
         <h2>${escapeHtml(regionObj.shortName)} by the Numbers</h2>
         <div class="stats-grid">
           <div class="stat-box">
             <div class="stat-label">Active Listings</div>
-            <div class="stat-value">${snapshotData.active_listings.toLocaleString()}</div>
+            <div class="stat-value">${stats.active_listings.toLocaleString()}</div>
           </div>
           <div class="stat-box">
             <div class="stat-label">Median Asking Price</div>
-            <div class="stat-value green">$${Math.round(snapshotData.median_price)}</div>
+            <div class="stat-value green">$${Math.round(stats.median_price)}</div>
           </div>
           <div class="stat-box">
             <div class="stat-label">Price Range (IQR)</div>
-            <div class="stat-value" style="font-size:20px; margin-top:8px;">$${Math.round(snapshotData.p25_price)} – $${Math.round(snapshotData.p75_price)}</div>
+            <div class="stat-value" style="font-size:20px; margin-top:8px;">$${Math.round(stats.p25_price)} – $${Math.round(stats.p75_price)}</div>
           </div>
           <div class="stat-box">
             <div class="stat-label">Free Listings</div>
-            <div class="stat-value indigo">${snapshotData.free_items || 0}</div>
+            <div class="stat-value indigo">${stats.free_items || 0}</div>
           </div>
         </div>
 
