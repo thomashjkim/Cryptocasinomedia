@@ -2425,6 +2425,23 @@
 
       // Universal Document Click Delegation for Filter Pills & Source Tabs (Guaranteed 100% responsiveness)
       document.addEventListener('click', function(e) {
+        // 1. More ∨ toggle button (Guaranteed instant click response across all devices)
+        const moreBtn = e.target.closest('#filter-pill-more');
+        if (moreBtn) {
+          e.preventDefault();
+          const filterContainer = document.getElementById("filter-container");
+          if (filterContainer) {
+            const isExpanded = filterContainer.classList.toggle("is-expanded");
+            moreBtn.setAttribute("aria-expanded", isExpanded ? "true" : "false");
+            const btnMoreText = document.getElementById("filter-pill-more-text");
+            if (btnMoreText) btnMoreText.textContent = isExpanded ? "Less" : "More";
+            const icon = moreBtn.querySelector(".filter-more-icon");
+            if (icon) icon.style.transform = isExpanded ? "rotate(180deg)" : "rotate(0deg)";
+          }
+          return;
+        }
+
+        // 2. Regular Category Filter Pills
         const pill = e.target.closest('.filter-pill:not(.filter-pill-more)');
         if (pill) {
           e.preventDefault();
@@ -2441,6 +2458,7 @@
           return;
         }
 
+        // 3. Source Tabs
         const tab = e.target.closest('.source-tab-btn');
         if (tab) {
           e.preventDefault();
@@ -2468,6 +2486,18 @@
           syncAllTabVisibility();
           applyFilters(getActiveCategoryKeyword());
           updateAddressBar(this.value, activeCatLabel);
+
+          // Dynamically synchronize H1 heading with selected location
+          const h1El = document.querySelector('.item-feed-title');
+          if (h1El) {
+            const regDisplay = (activeTown && activeTown !== 'all') ? `${activeTown}, NY` : 'NYC & NJ';
+            h1El.textContent = `Local Items & Marketplace Deals in ${regDisplay}`;
+          }
+          // Hide SSR market intelligence card if location is switched on client to prevent misleading stats
+          const aeoCard = document.querySelector('.aeo-summary-card');
+          if (aeoCard) {
+            aeoCard.style.display = 'none';
+          }
         });
       }
 
