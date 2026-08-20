@@ -644,10 +644,10 @@ export default async (req, context) => {
     }
 
     // Dynamic AEO & SEO Title/Description/H1 Generation
-    let pageTitle = "Buy and Sell Secondhand Items in NYC & NJ | Moonoh";
-    let metaDesc = "Browse verified local secondhand items in NYC & NJ. 0% fees, secure chat, and safe neighborhood exchanges on Moonoh.";
-    let h1Text = "Explore Secondhand Marketplace Listings in NYC & NJ";
-    let dynamicIntroText = "Explore thousands of verified local secondhand goods, gently used furniture, electronics, and food rescue items across New York City and New Jersey. 100% free neighborhood marketplace with zero fees.";
+    let pageTitle = "NYC & NJ Local Marketplace & Neighborhood Deals | Moonoh";
+    let metaDesc = "Discover local marketplace deals, brand-new items, food rescue groceries, and curated NYC neighborhood shops on Moonoh. 0% fees, safe community exchanges.";
+    let h1Text = "Explore Local Marketplace & Neighborhood Deals in NYC & NJ";
+    let dynamicIntroText = "Discover verified local goods, neighborhood deals, brand-new items, sustainable food rescue, and curated NYC local shop collections across New York City and New Jersey. 100% free neighborhood marketplace with zero fees.";
     let canonicalUrl = `https://moon-oh.com/explore`;
     let themeColor = "#4F46E5";
     let sectionName = "Moonoh Marketplace";
@@ -678,30 +678,30 @@ export default async (req, context) => {
     } else if (isMarketplacesFilter) {
       canonicalUrl = `https://moon-oh.com/explore/marketplaces`;
       pageTitle = "NYC & NJ Local Community Marketplace Feed | Moonoh";
-      metaDesc = "Browse aggregated local secondhand listings across NYC & NJ from Karrot and HeyKorean on Moonoh.";
+      metaDesc = "Browse aggregated local community marketplace listings across NYC & NJ from Karrot and HeyKorean on Moonoh.";
       h1Text = "NYC & NJ Community Marketplace Feed";
-      dynamicIntroText = "Discover community secondhand items from verified neighborhood marketplaces across New York City and New Jersey.";
+      dynamicIntroText = "Discover community listings, moving sales, and neighborhood deals from verified local marketplaces across New York City and New Jersey.";
       sectionName = "Community Marketplaces";
     } else if (targetRegionObj && targetCategoryObj) {
       canonicalUrl = `https://moon-oh.com/explore/${targetRegionObj.slug}/${targetCategoryObj.slug}`;
-      pageTitle = `Used ${targetCategoryObj.name} for Sale in ${targetRegionObj.name} | Moonoh`;
-      metaDesc = `Find great deals on verified used ${targetCategoryObj.name.toLowerCase()} in ${targetRegionObj.name} on Moonoh. 0% fees, direct seller chat, and local meetup.`;
-      h1Text = `Used ${targetCategoryObj.name} for Sale in ${targetRegionObj.name}`;
-      dynamicIntroText = `Discover verified secondhand ${targetCategoryObj.name.toLowerCase()} listed for sale by local neighbors in ${targetRegionObj.name}. Buy and sell locally with 0% listing fees, direct in-app chat, and safe neighborhood pickup on Moonoh.`;
+      pageTitle = `${targetCategoryObj.name} for Sale in ${targetRegionObj.name} | Moonoh`;
+      metaDesc = `Find great deals on ${targetCategoryObj.name.toLowerCase()} in ${targetRegionObj.name} on Moonoh. 0% fees, direct seller chat, and local meetup.`;
+      h1Text = `${targetCategoryObj.name} for Sale in ${targetRegionObj.name}`;
+      dynamicIntroText = `Discover ${targetCategoryObj.name.toLowerCase()} deals and quality items listed by local neighbors in ${targetRegionObj.name}. Buy and sell locally with 0% listing fees, direct in-app chat, and safe neighborhood pickup on Moonoh.`;
       sectionName = `${targetCategoryObj.name} in ${targetRegionObj.shortName}`;
     } else if (targetRegionObj) {
       canonicalUrl = `https://moon-oh.com/explore/${targetRegionObj.slug}`;
-      pageTitle = `Used Items for Sale in ${targetRegionObj.name} | Moonoh`;
-      metaDesc = `Discover secondhand items listed by neighbors in ${targetRegionObj.name}. Buy and sell locally with zero fees on Moonoh.`;
-      h1Text = `Used Items for Sale in ${targetRegionObj.name}`;
-      dynamicIntroText = `Browse gently used furniture, electronics, household goods, and secondhand deals listed by verified neighbors in ${targetRegionObj.name}. 100% free local exchanges with zero transaction fees.`;
+      pageTitle = `Local Items & Marketplace Deals in ${targetRegionObj.name} | Moonoh`;
+      metaDesc = `Discover local marketplace deals and neighborhood items listed by neighbors in ${targetRegionObj.name}. 0% fees on Moonoh.`;
+      h1Text = `Local Items & Marketplace Deals in ${targetRegionObj.name}`;
+      dynamicIntroText = `Browse furniture, electronics, fashion, household goods, and local deals listed by verified neighbors in ${targetRegionObj.name}. 100% free local exchanges with zero transaction fees.`;
       sectionName = targetRegionObj.name;
     } else if (targetCategoryObj) {
       canonicalUrl = `https://moon-oh.com/explore/${targetCategoryObj.slug}`;
-      pageTitle = `Used ${targetCategoryObj.name} for Sale in NYC & NJ | Moonoh`;
-      metaDesc = `Explore secondhand ${targetCategoryObj.name.toLowerCase()} for sale in NYC and NJ on Moonoh. Connect directly with local sellers.`;
-      h1Text = `Used ${targetCategoryObj.name} for Sale in NYC & NJ`;
-      dynamicIntroText = `Explore quality used ${targetCategoryObj.name.toLowerCase()} for sale across New York City (Manhattan, Brooklyn, Queens, Bronx, Staten Island) and New Jersey. Connect directly with nearby sellers with zero commissions.`;
+      pageTitle = `${targetCategoryObj.name} for Sale in NYC & NJ | Moonoh`;
+      metaDesc = `Explore ${targetCategoryObj.name.toLowerCase()} deals and quality goods for sale in NYC and NJ on Moonoh. Connect directly with local sellers.`;
+      h1Text = `${targetCategoryObj.name} for Sale in NYC & NJ`;
+      dynamicIntroText = `Explore quality ${targetCategoryObj.name.toLowerCase()} deals and local items for sale across New York City (Manhattan, Brooklyn, Queens, Bronx, Staten Island) and New Jersey. Connect directly with nearby sellers with zero commissions.`;
     }
 
     // Render AEO Summary Statistics Section (for Answer Engines & Google AI Overviews)
@@ -712,7 +712,7 @@ export default async (req, context) => {
       const avgPrice = prices.length > 0 ? (prices.reduce((a,b)=>a+b, 0) / prices.length) : 0;
       const freeCount = filteredItems.filter(i => i.price === 0).length;
       const locLabel = targetRegionObj ? targetRegionObj.name : "NYC & NJ";
-      const catLabel = targetCategoryObj ? targetCategoryObj.name : "secondhand items";
+      const catLabel = targetCategoryObj ? targetCategoryObj.name : "local items";
 
       aeoSummaryHtml = `
       <section class="aeo-summary-card" style="background:#F9FAFB; border:1px solid #E5E7EB; border-radius:16px; padding:20px 24px; margin-bottom:28px;">
