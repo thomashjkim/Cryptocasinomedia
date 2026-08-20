@@ -744,7 +744,7 @@ export default async (req, context) => {
       dynamicIntroText = `Explore quality ${targetCategoryObj.name.toLowerCase()} deals and local items for sale across New York City (Manhattan, Brooklyn, Queens, Bronx, Staten Island) and New Jersey. Connect directly with nearby sellers with zero commissions.`;
     }
 
-    // Render AEO Summary Statistics Section (for Answer Engines & Google AI Overviews)
+    // Render Reusable Stacker-Style Local Market Intelligence System
     let aeoSummaryHtml = '';
     if (targetRegionObj || targetCategoryObj) {
       const itemCount = filteredItems.length;
@@ -752,24 +752,107 @@ export default async (req, context) => {
         const rawP = i.price !== undefined ? i.price : i.current_price;
         const num = typeof rawP === 'number' ? rawP : parseFloat(rawP);
         return (!isNaN(num) && num > 0) ? num : null;
-      }).filter(p => p !== null);
+      }).filter(p => p !== null).sort((a, b) => a - b);
+
+      const medianPrice = prices.length > 0 ? prices[Math.floor(prices.length / 2)] : 0;
+      const price25 = prices.length > 0 ? prices[Math.floor(prices.length * 0.25)] : 0;
+      const price75 = prices.length > 0 ? prices[Math.floor(prices.length * 0.75)] : 0;
       const avgPrice = prices.length > 0 ? (prices.reduce((a,b)=>a+b, 0) / prices.length) : 0;
+      
       const freeCount = filteredItems.filter(i => {
         const rawP = i.price !== undefined ? i.price : i.current_price;
         return rawP === 0 || rawP === '0' || rawP === 'Free' || rawP === 'free';
       }).length;
+
       const locLabel = targetRegionObj ? targetRegionObj.name : "NYC & NJ";
       const catLabel = targetCategoryObj ? targetCategoryObj.name : "local items";
 
+      // Inventory Source Distribution
+      let moonohCount = 0, localCount = 0, foodCount = 0, marketCount = 0;
+      filteredItems.forEach(i => {
+        if (i.source === 'kimc') foodCount++;
+        else if (i.source === 'karrot' || i.source === 'heykorean') marketCount++;
+        else if (['happier-grocery', 'pop-up-grocer', 'big-night', 'front-general-store'].includes(i.source) || i.badgeName?.includes('Shop')) localCount++;
+        else moonohCount++;
+      });
+
+      // Category Breakdown
+      const catCounts = {};
+      filteredItems.forEach(i => {
+        const c = i.category || i.categoryName || 'General';
+        catCounts[c] = (catCounts[c] || 0) + 1;
+      });
+      const topCats = Object.entries(catCounts)
+        .sort((a, b) => b[1] - a[1])
+        .slice(0, 3)
+        .map(([name, count]) => `${name} (${Math.round((count / itemCount) * 100)}%)`);
+      const topCatSentence = topCats.length > 0 ? `Leading categories include <strong>${topCats.join(', ')}</strong>.` : '';
+
+      // Tier-based rendering: Rich Intelligence if N >= 20, Clean Summary if N < 20
+      let breakdownHtml = '';
+      if (itemCount >= 20) {
+        breakdownHtml = `
+        <div style="display:flex; flex-wrap:wrap; gap:16px; margin-top:14px; padding-top:14px; border-top:1px dashed #E2E8F0; font-size:13px; color:#475569;">
+          <div style="flex:1; min-width:200px;">
+            <div style="font-weight:700; color:#1E293B; margin-bottom:4px;">📊 Inventory Composition:</div>
+            <div style="display:flex; gap:10px; flex-wrap:wrap;">
+              ${moonohCount > 0 ? `<span>• Direct P2P: <strong>${moonohCount}</strong></span>` : ''}
+              ${localCount > 0 ? `<span>• NYC Local Shops: <strong>${localCount}</strong></span>` : ''}
+              ${marketCount > 0 ? `<span>• Community Marketplaces: <strong>${marketCount}</strong></span>` : ''}
+              ${foodCount > 0 ? `<span>• Food Rescue: <strong>${foodCount}</strong></span>` : ''}
+            </div>
+          </div>
+        </div>
+        `;
+      }
+
       aeoSummaryHtml = `
-      <section class="aeo-summary-card" style="background:#F9FAFB; border:1px solid #E5E7EB; border-radius:16px; padding:20px 24px; margin-bottom:28px;">
-        <h2 style="font-size:18px; font-weight:800; color:#111827; margin-top:0; margin-bottom:8px;">Market Summary: ${escapeHtml(catLabel)} in ${escapeHtml(locLabel)}</h2>
-        <p style="font-size:14.5px; color:#4B5563; line-height:1.6; margin:0;">
-          Currently featuring <strong>${itemCount} active listings</strong> for ${escapeHtml(catLabel.toLowerCase())} in ${escapeHtml(locLabel)}.
-          ${avgPrice > 0 ? `Average price is approximately <strong>$${Math.round(avgPrice)}</strong>.` : ''}
+      <section class="aeo-summary-card" style="background:#F8FAFC; border:1px solid #E2E8F0; border-radius:16px; padding:22px 24px 18px; margin-bottom:28px; box-shadow:0 1px 2px rgba(0,0,0,0.03);">
+        <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:12px; flex-wrap:wrap; gap:8px;">
+          <div style="display:flex; align-items:center; gap:8px;">
+            <span style="display:inline-flex; align-items:center; justify-content:center; width:22px; height:22px; background:#EEF2FF; border-radius:6px; font-size:13px;">📊</span>
+            <h2 style="font-size:17px; font-weight:800; color:#0F172A; margin:0; letter-spacing:-0.01em;">
+              ${escapeHtml(locLabel)} Market Intelligence: ${escapeHtml(catLabel)}
+            </h2>
+          </div>
+          <span style="font-size:12px; color:#64748B; font-weight:600; background:#FFFFFF; padding:3px 10px; border-radius:9999px; border:1px solid #E2E8F0;">
+            Updated August 2026
+          </span>
+        </div>
+
+        <p style="font-size:14.5px; color:#334155; line-height:1.6; margin:0 0 16px 0;">
+          As of August 2026, Moonoh tracks <strong>${itemCount} active marketplace listings</strong> in ${escapeHtml(locLabel)}${targetCategoryObj ? ` for ${escapeHtml(catLabel.toLowerCase())}` : ''}.
+          ${medianPrice > 0 ? `The median listed price is <strong>$${Math.round(medianPrice)}</strong> (typical range $${Math.round(price25)} – $${Math.round(price75)}).` : ''}
+          ${topCatSentence}
           ${freeCount > 0 ? ` Includes <strong>${freeCount} free items</strong> shared by local neighbors.` : ''}
           All listings feature 0% transaction fees and direct neighborhood chat on Moonoh.
         </p>
+
+        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(130px, 1fr)); gap:10px; margin-bottom:6px;">
+          <div style="background:#FFFFFF; border:1px solid #E2E8F0; border-radius:10px; padding:10px 14px;">
+            <div style="font-size:11px; color:#64748B; font-weight:700; text-transform:uppercase; letter-spacing:0.04em;">Active Listings</div>
+            <div style="font-size:20px; font-weight:800; color:#0F172A; margin-top:2px;">${itemCount.toLocaleString()}</div>
+          </div>
+          <div style="background:#FFFFFF; border:1px solid #E2E8F0; border-radius:10px; padding:10px 14px;">
+            <div style="font-size:11px; color:#64748B; font-weight:700; text-transform:uppercase; letter-spacing:0.04em;">Median Price</div>
+            <div style="font-size:20px; font-weight:800; color:#059669; margin-top:2px;">$${Math.round(medianPrice)}</div>
+          </div>
+          <div style="background:#FFFFFF; border:1px solid #E2E8F0; border-radius:10px; padding:10px 14px;">
+            <div style="font-size:11px; color:#64748B; font-weight:700; text-transform:uppercase; letter-spacing:0.04em;">Price Range (IQR)</div>
+            <div style="font-size:15px; font-weight:800; color:#0F172A; margin-top:5px;">$${Math.round(price25)} – $${Math.round(price75)}</div>
+          </div>
+          <div style="background:#FFFFFF; border:1px solid #E2E8F0; border-radius:10px; padding:10px 14px;">
+            <div style="font-size:11px; color:#64748B; font-weight:700; text-transform:uppercase; letter-spacing:0.04em;">Free Items</div>
+            <div style="font-size:20px; font-weight:800; color:#6366F1; margin-top:2px;">${freeCount}</div>
+          </div>
+        </div>
+
+        ${breakdownHtml}
+
+        <div style="font-size:11.5px; color:#94A3B8; margin-top:12px; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:6px; border-top:1px solid #F1F5F9; padding-top:10px;">
+          <span>⚡ <strong>Methodology:</strong> Verified local marketplace & community store inventory in NYC & NJ.</span>
+          <span>Zero fee neighborhood discovery</span>
+        </div>
       </section>
       `;
     }
