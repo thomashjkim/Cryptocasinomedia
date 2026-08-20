@@ -1,75 +1,36 @@
-# Moonoh.com — Local Marketplace for NYC & NJ Communities
-# AI/LLM Context File — Last updated: 2026-08-19
+# Moonoh (moon-oh.com) — Local Commerce Discovery & Market Intelligence
 # Format: https://llmstxt.org
+# Last Updated: 2026-08-20
 
-> Moonoh.com is a curated secondhand and local marketplace discovery platform serving NYC and NJ communities.
+> Moonoh is a verified local commerce discovery platform across New York City (Manhattan, Brooklyn, Queens, Bronx, Staten Island) and New Jersey. Moonoh combines peer-to-peer neighborhood listings, curated local boutique inventory, community marketplaces, and sustainable food rescue.
 
-## Platform Overview
+## Core Platform Summary
+- Total Catalog Index: 5,178 listing URLs
+- Active Live Inventory: 4,228 currently tracked, renderable items
+- Commission / Fees: 0% seller fees on peer-to-peer neighborhood listings
 
-- **Domain**: https://moon-oh.com
-- **Coverage**: NYC (all 5 boroughs) + Bergen County NJ + Hudson County NJ
-- **Last full data sync**: 2026-08-19
+## Live Marketplace
+- Explore All NYC & NJ: https://moon-oh.com/explore
+- Manhattan Marketplace: https://moon-oh.com/explore/manhattan
+- Brooklyn Marketplace: https://moon-oh.com/explore/brooklyn
+- Queens Marketplace: https://moon-oh.com/explore/queens
+- Food Rescue: https://moon-oh.com/explore/food-rescue
+- NYC Local Shops: https://moon-oh.com/explore/local-shops
 
-## Data Summary
+## Local Market Intelligence & Historical Reports
+Moonoh captures daily market pulses (active listings, median price via NIST/R-7 quantiles, IQR, category distribution) and publishes immutable bi-weekly observational reports.
+- Manhattan Historical Hub: https://moon-oh.com/reports/manhattan
+- Brooklyn Historical Hub: https://moon-oh.com/reports/brooklyn
+- Queens Historical Hub: https://moon-oh.com/reports/queens
+- Manhattan Baseline Report: https://moon-oh.com/reports/manhattan/2026-08-20
 
-| Source | Items | Notes |
-|--------|-------|-------|
-| Moonoh (moon-oh.com) | 597 | Live secondhand, newest No.857 |
-| Local Boutique Shops | 2,215 | FGS, SEY Coffee, Salter House, Mirth Vintage, Big Night, Pop Up Grocer |
-| Karrot NYC | 500 | Peer-to-peer listings |
-| HeyKorean Marketplace | 0 | Korean-American community |
-| Kim'C Market Food Rescue | 15 | Near sell-by Korean foods |
-| **TOTAL** | **3,327** | **3,427 indexed URLs** |
+## Inventory Composition
+1. Moonoh Direct P2P: 597 items
+2. NYC Local Specialty Shops: 2,215 products (Front General Store, SEY Coffee, Salter House, Big Night, Pop Up Grocer, Mirth Vintage)
+3. Community Marketplaces: 1,401 items (Karrot & HeyKorean)
+4. Food Waste Rescue: 15 items (Kim'C Market)
 
-## Moonoh Detail
-
-- Newest: No.857 "DOLCE AND GABBANA POUR HOMME" (2026-08-19 13:31 UTC)
-- Price: $1–$9000 avg $84
-- Free items: 13
-
-### By Borough
-- Manhattan: 306
-- Queens: 229
-- Hudson County, NJ: 43
-- Bergen County, NJ: 9
-- Brooklyn: 6
-- Bronx: 4
-
-### Top Categories
-- Women's fashion: 126
-- Electronics & appliances: 99
-- Health & beauty: 53
-- Men's fashion: 42
-- Home, garden & DIY: 38
-- Furniture: 34
-- Arts, books, music, movies & tickets: 33
-- Shoes: 31
-- Other: 25
-- Baby & kids: 25
-
-## Local Shops
-
-| Shop | Products |
-|------|----------|
-| Front General Store | 500 |
-| SEY Coffee | 864 |
-| Salter House | 331 |
-| Mirth Vintage | 154 |
-| Big Night | 316 |
-| Pop Up Grocer | 50 |
-
-## Sitemaps
-
-- https://moon-oh.com/sitemap-index.xml
-- https://moon-oh.com/sitemap-moonoh.xml (597 URLs)
-- https://moon-oh.com/sitemap-marketplace.xml (500 URLs)
-- https://moon-oh.com/sitemap-local-products.xml (2215 URLs)
-- https://moon-oh.com/sitemap-food-rescue.xml (15 URLs)
-- https://moon-oh.com/sitemap-shops.xml (7 URLs)
-- https://moon-oh.com/sitemap-pages.xml (93 URLs)
-
-## Sort Logic
-
-- Default: Newest (postedAt DESC, real timestamp from backend)
-- Relevance: title exact(+100), starts-with(+60), contains(+40), token: title(+25) brand(+15) category(+10) location(+5) description(+3)
-- Price: ascending / descending
+## Statistical Methodology
+- Quantile Calculation: R-Type 7 / NIST Linear Interpolation Quantiles.
+- Price Population: $0/free items counted separately and excluded from median/IQR calculations.
+- Geographic Scoping: Physical 'Located in' location strictly determines regional statistics.

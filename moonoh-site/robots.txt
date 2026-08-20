@@ -1,3 +1,9 @@
+User-agent: Googlebot
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
 User-agent: *
 Allow: /
 Disallow: /image-proxy/
@@ -5,8 +11,5 @@ Disallow: /api/
 Disallow: /.netlify/
 Disallow: /*.json$
 
-# AI Agent & LLM Information File
-# Standard: https://llmstxt.org
-# File: https://moon-oh.com/llms.txt
-
+Sitemap: https://moon-oh.com/sitemap.xml
 Sitemap: https://moon-oh.com/sitemap-index.xml

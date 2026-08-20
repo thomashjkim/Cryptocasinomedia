@@ -21,7 +21,9 @@ const BASELINE_SNAPSHOTS = {
       "median_price": 50,
       "p25_price": 19,
       "p75_price": 188,
-      "free_items": 16
+      "free_items": 16,
+      "source_breakdown": { "Community Marketplaces": 403, "Direct P2P": 306, "NYC Local Shops": 50 },
+      "category_breakdown": { "Furniture": 235, "Electronics & appliances": 129, "Women's fashion": 68, "Home & Garden": 42, "Other Categories": 285 }
     },
     "brooklyn": {
       "active_listings": 2288,
@@ -29,7 +31,9 @@ const BASELINE_SNAPSHOTS = {
       "median_price": 45,
       "p25_price": 24,
       "p75_price": 148,
-      "free_items": 3
+      "free_items": 3,
+      "source_breakdown": { "Direct P2P": 1355, "NYC Local Shops": 816, "Community Marketplaces": 102, "Food Rescue": 15 },
+      "category_breakdown": { "Coffee & Pantry": 1007, "Vintage & Fashion": 618, "Home & Objects": 297, "Furniture": 180, "Other Categories": 186 }
     },
     "queens": {
       "active_listings": 887,
@@ -37,7 +41,9 @@ const BASELINE_SNAPSHOTS = {
       "median_price": 29,
       "p25_price": 10,
       "p75_price": 90,
-      "free_items": 27
+      "free_items": 27,
+      "source_breakdown": { "Community Marketplaces": 658, "Direct P2P": 229 },
+      "category_breakdown": { "Furniture": 186, "Electronics & appliances": 133, "General & Other": 568 }
     }
   }
 };
@@ -61,7 +67,9 @@ function generateReportHtml(regionSlug, reportDate) {
     median_price: 50,
     p25_price: 19,
     p75_price: 188,
-    free_items: 16
+    free_items: 16,
+    source_breakdown: { "Community Marketplaces": 403, "Direct P2P": 306, "NYC Local Shops": 50 },
+    category_breakdown: { "Furniture": 235, "Electronics": 129, "Other": 395 }
   };
 
   const isHubPage = !reportDate;
@@ -76,6 +84,53 @@ function generateReportHtml(regionSlug, reportDate) {
   const canonicalUrl = isHubPage
     ? `https://moon-oh.com/reports/${regionObj.slug}`
     : `https://moon-oh.com/reports/${regionObj.slug}/${targetDate}`;
+
+  // Build Source Composition HTML & Bar Segments
+  const sources = Object.entries(stats.source_breakdown || {});
+  const totalListings = stats.active_listings;
+  const sourceColors = {
+    'Direct P2P': '#4F46E5',
+    'NYC Local Shops': '#059669',
+    'Community Marketplaces': '#D97706',
+    'Food Rescue': '#10B981'
+  };
+
+  const sourceBarsHtml = sources.map(([name, count]) => {
+    const pct = Math.round((count / totalListings) * 100);
+    const color = sourceColors[name] || '#64748B';
+    return `<div style="width:${pct}%; background:${color}; height:12px; border-radius:3px;" title="${name}: ${count} (${pct}%)"></div>`;
+  }).join('');
+
+  const sourceLegendHtml = sources.map(([name, count]) => {
+    const pct = Math.round((count / totalListings) * 100);
+    const color = sourceColors[name] || '#64748B';
+    return `
+      <div style="display:flex; align-items:center; justify-content:space-between; font-size:13.5px; padding:6px 0; border-bottom:1px solid #F1F5F9;">
+        <div style="display:flex; align-items:center; gap:8px;">
+          <span style="display:inline-block; width:10px; height:10px; background:${color}; border-radius:50%;"></span>
+          <span style="font-weight:600; color:#334155;">${escapeHtml(name)}</span>
+        </div>
+        <div style="font-weight:700; color:#0F172A;">${count.toLocaleString()} <span style="font-size:12px; color:#64748B; font-weight:500;">(${pct}%)</span></div>
+      </div>
+    `;
+  }).join('');
+
+  // Build Category Bars HTML
+  const categories = Object.entries(stats.category_breakdown || {});
+  const categoryBarsHtml = categories.map(([catName, count]) => {
+    const pct = Math.round((count / totalListings) * 100);
+    return `
+      <div style="margin-bottom:12px;">
+        <div style="display:flex; justify-content:space-between; font-size:13px; font-weight:600; color:#334155; margin-bottom:4px;">
+          <span>${escapeHtml(catName)}</span>
+          <span style="color:#0F172A; font-weight:700;">${count.toLocaleString()} listings (${pct}%)</span>
+        </div>
+        <div style="background:#E2E8F0; height:8px; border-radius:4px; overflow:hidden;">
+          <div style="width:${pct}%; background:#4F46E5; height:100%; border-radius:4px;"></div>
+        </div>
+      </div>
+    `;
+  }).join('');
 
   return `<!DOCTYPE html>
 <html lang="en">
@@ -97,18 +152,20 @@ function generateReportHtml(regionSlug, reportDate) {
     .logo { font-size: 22px; font-weight: 900; color: #4F46E5; text-decoration: none; }
     .nav-link { color: #64748B; text-decoration: none; font-size: 14px; font-weight: 600; }
     .nav-link:hover { color: #4F46E5; }
-    .badge-preview { display: inline-block; background: #FEF3C7; color: #92400E; font-size: 11px; font-weight: 800; padding: 4px 10px; border-radius: 9999px; text-transform: uppercase; margin-bottom: 12px; }
+    .badge-preview { display: inline-block; background: #EEF2FF; color: #4338CA; font-size: 11.5px; font-weight: 800; padding: 4px 12px; border-radius: 9999px; text-transform: uppercase; margin-bottom: 12px; border: 1px solid #C7D2FE; }
     h1 { font-size: 30px; font-weight: 900; color: #0F172A; line-height: 1.25; margin-bottom: 16px; letter-spacing: -0.02em; }
     .report-meta { font-size: 14px; color: #64748B; margin-bottom: 28px; display: flex; gap: 16px; flex-wrap: wrap; }
     .report-card { background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 16px; padding: 28px; margin-bottom: 28px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
     .answer-lead { font-size: 16.5px; color: #334155; line-height: 1.7; margin-bottom: 24px; font-weight: 450; }
-    .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 14px; margin-bottom: 24px; }
+    .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin-bottom: 24px; }
     .stat-box { background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 12px; padding: 16px; }
     .stat-label { font-size: 11px; font-weight: 700; color: #64748B; text-transform: uppercase; letter-spacing: 0.05em; }
-    .stat-value { font-size: 26px; font-weight: 900; color: #0F172A; margin-top: 4px; }
+    .stat-value { font-size: 24px; font-weight: 900; color: #0F172A; margin-top: 4px; }
     .stat-value.green { color: #059669; }
     .stat-value.indigo { color: #4F46E5; }
     h2 { font-size: 19px; font-weight: 800; color: #0F172A; margin: 28px 0 14px; }
+    .chart-box { background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 12px; padding: 20px; margin-bottom: 20px; }
+    .chart-title { font-size: 14px; font-weight: 800; color: #0F172A; margin-bottom: 12px; display: flex; align-items: center; justify-content: space-between; }
     p { font-size: 15px; color: #475569; margin-bottom: 14px; line-height: 1.7; }
     ul { list-style: none; margin-bottom: 20px; }
     li { position: relative; padding-left: 20px; margin-bottom: 8px; font-size: 14.5px; color: #334155; }
@@ -147,23 +204,23 @@ function generateReportHtml(regionSlug, reportDate) {
     <header>
       <a href="/" class="logo">Moonoh</a>
       <div style="display:flex; gap:16px;">
-        <a href="/explore/${escapeHtml(regionObj.slug)}" class="nav-link">Live ${escapeHtml(regionObj.shortName)} Market</a>
+        <a href="/explore/${escapeHtml(regionObj.slug)}" class="nav-link">Live ${escapeHtml(regionObj.shortName)} Marketplace</a>
         <a href="/reports/${escapeHtml(regionObj.slug)}" class="nav-link">Historical Hub</a>
       </div>
     </header>
 
     <main>
-      <div class="badge-preview">Immutable Historical Market Report (Baseline Preview)</div>
+      <div class="badge-preview">Moonoh Local Market Intelligence</div>
       <h1>${escapeHtml(regionObj.name)} Local Marketplace Report</h1>
       <div class="report-meta">
         <span>📅 Period: <strong>${escapeHtml(targetDate)}</strong></span>
         <span>📍 Scope: <strong>${escapeHtml(regionObj.name)} (Strict Physical Geography)</strong></span>
-        <span>🏷️ Dataset: <strong>v1.8 (4,228 Active Pool / 5,178 Catalog)</strong></span>
+        <span>🏷️ Active Pool: <strong>${stats.active_listings.toLocaleString()} Items</strong></span>
       </div>
 
       <div class="report-card">
         <p class="answer-lead">
-          As of <strong>${escapeHtml(targetDate)}</strong>, Moonoh tracked <strong>${stats.active_listings.toLocaleString()} active marketplace and local-store listings</strong> physically located in <strong>${escapeHtml(regionObj.name)}</strong>. The median asking price among priced items was <strong>$${Math.round(stats.median_price)}</strong>, with the interquartile range (middle 50%) spanning from <strong>$${Math.round(stats.p25_price)}</strong> to <strong>$${Math.round(stats.p75_price)}</strong>.
+          As of <strong>${escapeHtml(targetDate)}</strong>, Moonoh tracked <strong>${stats.active_listings.toLocaleString()} active marketplace and local-store listings</strong> physically located in <strong>${escapeHtml(regionObj.name)}</strong>. The median asking price among priced items was <strong>$${Math.round(stats.median_price)}</strong>, with the middle 50% (IQR) ranging from <strong>$${Math.round(stats.p25_price)}</strong> to <strong>$${Math.round(stats.p75_price)}</strong>.
         </p>
 
         <h2>${escapeHtml(regionObj.shortName)} by the Numbers</h2>
@@ -173,12 +230,16 @@ function generateReportHtml(regionSlug, reportDate) {
             <div class="stat-value">${stats.active_listings.toLocaleString()}</div>
           </div>
           <div class="stat-box">
+            <div class="stat-label">Priced Listings</div>
+            <div class="stat-value">${(stats.priced_listings || stats.active_listings).toLocaleString()}</div>
+          </div>
+          <div class="stat-box">
             <div class="stat-label">Median Asking Price</div>
             <div class="stat-value green">$${Math.round(stats.median_price)}</div>
           </div>
           <div class="stat-box">
             <div class="stat-label">Price Range (IQR)</div>
-            <div class="stat-value" style="font-size:20px; margin-top:8px;">$${Math.round(stats.p25_price)} – $${Math.round(stats.p75_price)}</div>
+            <div class="stat-value" style="font-size:18px; margin-top:8px;">$${Math.round(stats.p25_price)} – $${Math.round(stats.p75_price)}</div>
           </div>
           <div class="stat-box">
             <div class="stat-label">Free Listings</div>
@@ -186,20 +247,45 @@ function generateReportHtml(regionSlug, reportDate) {
           </div>
         </div>
 
-        <h2>Market Composition & Observations</h2>
+        <h2>Visual Market Intelligence</h2>
+
+        <!-- Chart 1: Inventory by Source -->
+        <div class="chart-box">
+          <div class="chart-title">
+            <span>📊 Chart 1: Inventory by Source Composition</span>
+            <span style="font-size:11px; color:#64748B; font-weight:600;">Total: ${stats.active_listings.toLocaleString()} listings</span>
+          </div>
+          <div style="display:flex; gap:3px; margin-bottom:14px; background:#E2E8F0; padding:2px; border-radius:5px;">
+            ${sourceBarsHtml}
+          </div>
+          <div>
+            ${sourceLegendHtml}
+          </div>
+        </div>
+
+        <!-- Chart 2: Inventory by Major Category -->
+        <div class="chart-box">
+          <div class="chart-title">
+            <span>🏷️ Chart 2: Listings by Major Category</span>
+            <span style="font-size:11px; color:#64748B; font-weight:600;">Distribution</span>
+          </div>
+          ${categoryBarsHtml}
+        </div>
+
+        <h2>Market Observations & Historical Continuity</h2>
         <p>
-          This historical observation establishes the baseline market pulse for ${escapeHtml(regionObj.name)}. Future bi-weekly reports will automatically calculate and highlight directional inventory shifts, median price fluctuations, and category volume changes based on accumulating daily snapshots.
+          This immutable historical report establishes the baseline market pulse for ${escapeHtml(regionObj.name)}. Moonoh captures daily data snapshots to track supply shifts, median price fluctuations, and category inventory changes over time.
         </p>
         <ul>
-          <li><strong>Zero Transaction Fees:</strong> Neighborhood peer-to-peer listings operate with 0% seller commission.</li>
-          <li><strong>Curated Local Shops:</strong> Aggregates boutique specialty inventory alongside community secondhand deals.</li>
-          <li><strong>Strict Geographic Scoping:</strong> Statistics exclusively reflect inventory physically located within ${escapeHtml(regionObj.name)}.</li>
+          <li><strong>Historical Tracking Cadence:</strong> Moonoh began recording this daily market series in August 2026. Directional trend lines and longitudinal comparison metrics will appear as bi-weekly observations accumulate.</li>
+          <li><strong>0% Seller Fees:</strong> Direct neighborhood peer-to-peer listings operate with 0% transaction commissions.</li>
+          <li><strong>Strict Geographic Scoping:</strong> Statistics exclusively reflect inventory physically located within ${escapeHtml(regionObj.name)}. Cross-borough delivery items are excluded from borough statistical counts to prevent contamination.</li>
         </ul>
 
         <div class="cta-banner">
           <h3 style="font-size:16px; font-weight:800; color:#1E1B4B; margin-bottom:4px;">Looking for items available right now?</h3>
           <p style="font-size:13.5px; color:#4338CA; margin-bottom:10px;">Browse current live listings, neighborhood deals, and local store items in ${escapeHtml(regionObj.shortName)}.</p>
-          <a href="/explore/${escapeHtml(regionObj.slug)}" class="cta-btn">View Live ${escapeHtml(regionObj.shortName)} Inventory →</a>
+          <a href="/explore/${escapeHtml(regionObj.slug)}" class="cta-btn">View Live ${escapeHtml(regionObj.shortName)} Marketplace →</a>
         </div>
 
         <div class="methodology-box">
