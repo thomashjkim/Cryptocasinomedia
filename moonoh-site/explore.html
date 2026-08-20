@@ -2119,7 +2119,7 @@
       }
     }
 
-    async function switchSource(source) {
+    function switchSource(source) {
       activeSource = source;
       const btnAll = document.getElementById('tab-source-all');
       const btnMoonoh = document.getElementById('tab-source-moonoh');
@@ -2156,22 +2156,22 @@
         localFilterContainer.style.display = source === 'localshops' ? 'flex' : 'none';
       }
 
-      // Preload data for all tabs if 'all' is active
-      if (source === 'all') {
-        await Promise.all([preloadLocalShopsItems(), preloadFoodRescueItems(), preloadExternalItems(), preloadMoonohItems()]);
-      } else if (source === 'localshops') {
-        await preloadLocalShopsItems();
-      } else if (source === 'foodrescue') {
-        await preloadFoodRescueItems();
-      } else if (source === 'marketplaces' || source === 'others') {
-        await preloadExternalItems();
-      } else if (source === 'moonoh') {
-        await preloadMoonohItems();
-      }
-
-      // Update Search placeholder for new tab
+      // 1. Instant 0ms Optimistic UI Render
       updateSearchUI();
       applyFilters();
+
+      // 2. Non-blocking background sync if pool not yet loaded in memory
+      if (source === 'all') {
+        Promise.all([preloadLocalShopsItems(), preloadFoodRescueItems(), preloadExternalItems(), preloadMoonohItems()]).then(() => applyFilters());
+      } else if (source === 'localshops') {
+        if (!localShopsFullLoaded) preloadLocalShopsItems().then(() => applyFilters());
+      } else if (source === 'foodrescue') {
+        if (!foodRescueFullLoaded) preloadFoodRescueItems().then(() => applyFilters());
+      } else if (source === 'marketplaces' || source === 'others') {
+        if (!externalFullLoaded) preloadExternalItems().then(() => applyFilters());
+      } else if (source === 'moonoh') {
+        if (!moonohFullLoaded) preloadMoonohItems().then(() => applyFilters());
+      }
     }
 
     function syncAllTabVisibility() {
@@ -2209,37 +2209,6 @@
       }
     }
 
-    
-    async function preloadFoodRescueItems() {
-      if (foodRescueItemsList.length > 0) return;
-      try {
-        let res = await fetch('/api/food-rescue');
-        if (!res.ok) res = await fetch('/.netlify/functions/food-rescue-items');
-        const data = await res.json();
-        foodRescueItemsList = (Array.isArray(data) ? data : []).map(r => ({
-          no: r.id,
-          id: r.id,
-          title: r.title,
-          price: r.price,
-          image: r.image,
-          photo: r.image,
-          location: r.location || 'Brooklyn, NY',
-          rawTown: r.rawTown || 'Brooklyn, NY',
-          townName: 'Brooklyn, NY',
-          category: r.categoryName || 'Food & Groceries',
-          categoryName: r.categoryName || 'Food & Groceries',
-          source: 'kimc',
-          badgeName: "Kim'C Market",
-          url: `/item/${r.handle || 'item'}-brooklyn-ny-ext-${r.id}`,
-          postedAt: r.postedAt || Date.now(),
-          timeAgo: r.timeAgo || 'Recently listed'
-        }));
-        if (activeSource === 'foodrescue') applyFilters();
-      } catch (e) {
-        console.error("Error loading food rescue items:", e);
-      }
-    }
-
     let foodRescueFullLoaded = false;
     let externalFullLoaded = false;
     let localShopsRawData = null;
@@ -2267,6 +2236,8 @@
               category: 'Food & Groceries',
               categoryName: 'Food & Groceries',
               source: 'kimc',
+              badgeName: "Kim'C Market",
+              url: `/item/${item.handle || 'item'}-brooklyn-ny-ext-${item.id}`,
               postedAt: item.postedAt,
               expiry_date: item.expiry_date,
               discount_percent: item.discount_percent
@@ -2280,8 +2251,8 @@
     async function preloadExternalItems() {
       if (externalFullLoaded) return;
       try {
-        let res = await fetch('/api/external-items');
-        if (!res.ok) res = await fetch('/real_external_items.json');
+        let res = await fetch('/real_external_items.json');
+        if (!res.ok) res = await fetch('/api/external-items');
         if (res.ok) {
           const data = await res.json();
           const itemsArr = Array.isArray(data) ? data : ((data.karrot || []).concat(data.heykorean || []));
@@ -2371,8 +2342,8 @@
     async function preloadMoonohItems() {
       if (moonohFullLoaded) return;
       try {
-        let res = await fetch('/api/items');
-        if (!res.ok) res = await fetch('/data.json');
+        let res = await fetch('/data.json');
+        if (!res.ok) res = await fetch('/api/items');
         if (res.ok) {
           const data = await res.json();
           if (Array.isArray(data) && data.length > 0) {
