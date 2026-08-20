@@ -267,6 +267,18 @@
   force = true
 
 [[redirects]]
+  from = "/market-reports"
+  to = "/.netlify/functions/reports"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/market-reports/*"
+  to = "/.netlify/functions/reports"
+  status = 200
+  force = true
+
+[[redirects]]
   from = "/explore"
   to = "/.netlify/functions/explore"
   status = 200
