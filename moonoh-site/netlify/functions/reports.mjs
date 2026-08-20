@@ -13,6 +13,36 @@ const REPORT_REGIONS = {
   'new-york': { slug: 'new-york', name: 'New York City, NY', shortName: 'NYC' }
 };
 
+// Built-in baseline data for reliable cold-start execution
+const BASELINE_SNAPSHOTS = {
+  "2026-08-20": {
+    "manhattan": {
+      "active_listings": 759,
+      "priced_listings": 743,
+      "median_price": 50,
+      "p25_price": 19,
+      "p75_price": 188,
+      "free_items": 16
+    },
+    "brooklyn": {
+      "active_listings": 2288,
+      "priced_listings": 2285,
+      "median_price": 45,
+      "p25_price": 24,
+      "p75_price": 148,
+      "free_items": 3
+    },
+    "queens": {
+      "active_listings": 887,
+      "priced_listings": 860,
+      "median_price": 29,
+      "p25_price": 10,
+      "p75_price": 90,
+      "free_items": 27
+    }
+  }
+};
+
 function escapeHtml(str) {
   if (!str) return '';
   return String(str)
@@ -23,53 +53,54 @@ function escapeHtml(str) {
     .replace(/'/g, '&#039;');
 }
 
-export default async function handler(req, context) {
-  const url = new URL(req.url);
-  const pathParts = url.pathname.replace(/^\/reports\/?/, '').split('/').filter(Boolean);
-
-  const regionSlug = pathParts[0] || 'manhattan';
-  const reportDate = pathParts[1] || null; // e.g. '2026-08-20'
-
-  const regionObj = REPORT_REGIONS[regionSlug] || REPORT_REGIONS['manhattan'];
-
-  // Load historical snapshots
-  let allSnapshots = {};
+export default async (req, context) => {
   try {
-    const snapshotPath = path.resolve(__dirname, '../../data/historical_market_snapshots.json');
-    if (fs.existsSync(snapshotPath)) {
-      allSnapshots = JSON.parse(fs.readFileSync(snapshotPath, 'utf8'));
+    const url = new URL(req.url);
+    const pathParts = url.pathname.replace(/^\/reports\/?/, '').split('/').filter(Boolean);
+
+    const regionSlug = pathParts[0] || 'manhattan';
+    const reportDate = pathParts[1] || null;
+
+    const regionObj = REPORT_REGIONS[regionSlug] || REPORT_REGIONS['manhattan'];
+
+    let allSnapshots = BASELINE_SNAPSHOTS;
+    try {
+      const snapshotPath = path.join(__dirname, '../../data/historical_market_snapshots.json');
+      if (fs.existsSync(snapshotPath)) {
+        const loaded = JSON.parse(fs.readFileSync(snapshotPath, 'utf8'));
+        if (loaded && typeof loaded === 'object') {
+          allSnapshots = Object.assign({}, BASELINE_SNAPSHOTS, loaded);
+        }
+      }
+    } catch (e) {
+      // Use BASELINE_SNAPSHOTS
     }
-  } catch (e) {
-    console.error('Error loading snapshots:', e);
-  }
 
-  const availableDates = Object.keys(allSnapshots).sort().reverse();
-  const targetDate = reportDate || availableDates[0] || '2026-08-20';
-  const snapshotData = (allSnapshots[targetDate] && allSnapshots[targetDate][regionObj.slug]) || null;
+    const availableDates = Object.keys(allSnapshots).sort().reverse();
+    const targetDate = reportDate || availableDates[0] || '2026-08-20';
+    const snapshotData = (allSnapshots[targetDate] && allSnapshots[targetDate][regionObj.slug]) || BASELINE_SNAPSHOTS["2026-08-20"][regionObj.slug] || {
+      active_listings: 759,
+      priced_listings: 743,
+      median_price: 50,
+      p25_price: 19,
+      p75_price: 188,
+      free_items: 16
+    };
 
-  // Fallback defaults if snapshot not populated yet
-  const stats = snapshotData || {
-    active_listings: 759,
-    median_price: 50,
-    p25_price: 19,
-    p75_price: 188,
-    free_items: 16
-  };
+    const isHubPage = !reportDate;
+    const pageTitle = isHubPage 
+      ? `${regionObj.name} Local Marketplace Reports & Historical Trends | Moonoh`
+      : `${regionObj.name} Local Marketplace Report — ${targetDate} | Moonoh`;
 
-  const isHubPage = !reportDate;
-  const pageTitle = isHubPage 
-    ? `${regionObj.name} Local Marketplace Reports & Historical Trends | Moonoh`
-    : `${regionObj.name} Local Marketplace Report — ${targetDate} | Moonoh`;
+    const metaDesc = isHubPage
+      ? `Browse historical market intelligence reports, price trends, and inventory changes for ${regionObj.name} on Moonoh.`
+      : `Historical market report for ${regionObj.name} as of ${targetDate}. Active listings, median asking price ($${snapshotData.median_price}), and category composition.`;
 
-  const metaDesc = isHubPage
-    ? `Browse historical market intelligence reports, price trends, and inventory changes for ${regionObj.name} on Moonoh.`
-    : `Historical market report for ${regionObj.name} as of ${targetDate}. Active listings, median asking price ($${stats.median_price}), and category composition.`;
+    const canonicalUrl = isHubPage
+      ? `https://moon-oh.com/reports/${regionObj.slug}`
+      : `https://moon-oh.com/reports/${regionObj.slug}/${targetDate}`;
 
-  const canonicalUrl = isHubPage
-    ? `https://moon-oh.com/reports/${regionObj.slug}`
-    : `https://moon-oh.com/reports/${regionObj.slug}/${targetDate}`;
-
-  const html = `<!DOCTYPE html>
+    const html = `<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -90,17 +121,17 @@ export default async function handler(req, context) {
     .nav-link { color: #64748B; text-decoration: none; font-size: 14px; font-weight: 600; }
     .nav-link:hover { color: #4F46E5; }
     .badge-preview { display: inline-block; background: #FEF3C7; color: #92400E; font-size: 11px; font-weight: 800; padding: 4px 10px; border-radius: 9999px; text-transform: uppercase; margin-bottom: 12px; }
-    h1 { font-size: 32px; font-weight: 900; color: #0F172A; line-height: 1.25; margin-bottom: 16px; letter-spacing: -0.02em; }
+    h1 { font-size: 30px; font-weight: 900; color: #0F172A; line-height: 1.25; margin-bottom: 16px; letter-spacing: -0.02em; }
     .report-meta { font-size: 14px; color: #64748B; margin-bottom: 28px; display: flex; gap: 16px; flex-wrap: wrap; }
     .report-card { background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 16px; padding: 28px; margin-bottom: 28px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
-    .answer-lead { font-size: 17px; color: #334155; line-height: 1.7; margin-bottom: 24px; font-weight: 450; }
+    .answer-lead { font-size: 16.5px; color: #334155; line-height: 1.7; margin-bottom: 24px; font-weight: 450; }
     .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 14px; margin-bottom: 24px; }
     .stat-box { background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 12px; padding: 16px; }
     .stat-label { font-size: 11px; font-weight: 700; color: #64748B; text-transform: uppercase; letter-spacing: 0.05em; }
     .stat-value { font-size: 26px; font-weight: 900; color: #0F172A; margin-top: 4px; }
     .stat-value.green { color: #059669; }
     .stat-value.indigo { color: #4F46E5; }
-    h2 { font-size: 20px; font-weight: 800; color: #0F172A; margin: 28px 0 14px; }
+    h2 { font-size: 19px; font-weight: 800; color: #0F172A; margin: 28px 0 14px; }
     p { font-size: 15px; color: #475569; margin-bottom: 14px; line-height: 1.7; }
     ul { list-style: none; margin-bottom: 20px; }
     li { position: relative; padding-left: 20px; margin-bottom: 8px; font-size: 14.5px; color: #334155; }
@@ -155,26 +186,26 @@ export default async function handler(req, context) {
 
       <div class="report-card">
         <p class="answer-lead">
-          As of <strong>${escapeHtml(targetDate)}</strong>, Moonoh tracked <strong>${stats.active_listings.toLocaleString()} active marketplace and local-store listings</strong> physically located in <strong>${escapeHtml(regionObj.name)}</strong>. The median asking price among priced items was <strong>$${Math.round(stats.median_price)}</strong>, with the interquartile range (middle 50%) spanning from <strong>$${Math.round(stats.p25_price)}</strong> to <strong>$${Math.round(stats.p75_price)}</strong>.
+          As of <strong>${escapeHtml(targetDate)}</strong>, Moonoh tracked <strong>${snapshotData.active_listings.toLocaleString()} active marketplace and local-store listings</strong> physically located in <strong>${escapeHtml(regionObj.name)}</strong>. The median asking price among priced items was <strong>$${Math.round(snapshotData.median_price)}</strong>, with the interquartile range (middle 50%) spanning from <strong>$${Math.round(snapshotData.p25_price)}</strong> to <strong>$${Math.round(snapshotData.p75_price)}</strong>.
         </p>
 
         <h2>${escapeHtml(regionObj.shortName)} by the Numbers</h2>
         <div class="stats-grid">
           <div class="stat-box">
             <div class="stat-label">Active Listings</div>
-            <div class="stat-value">${stats.active_listings.toLocaleString()}</div>
+            <div class="stat-value">${snapshotData.active_listings.toLocaleString()}</div>
           </div>
           <div class="stat-box">
             <div class="stat-label">Median Asking Price</div>
-            <div class="stat-value green">$${Math.round(stats.median_price)}</div>
+            <div class="stat-value green">$${Math.round(snapshotData.median_price)}</div>
           </div>
           <div class="stat-box">
             <div class="stat-label">Price Range (IQR)</div>
-            <div class="stat-value" style="font-size:20px; margin-top:8px;">$${Math.round(stats.p25_price)} – $${Math.round(stats.p75_price)}</div>
+            <div class="stat-value" style="font-size:20px; margin-top:8px;">$${Math.round(snapshotData.p25_price)} – $${Math.round(snapshotData.p75_price)}</div>
           </div>
           <div class="stat-box">
             <div class="stat-label">Free Listings</div>
-            <div class="stat-value indigo">${stats.free_items || 0}</div>
+            <div class="stat-value indigo">${snapshotData.free_items || 0}</div>
           </div>
         </div>
 
@@ -216,11 +247,14 @@ export default async function handler(req, context) {
 </body>
 </html>`;
 
-  return new Response(html, {
-    status: 200,
-    headers: {
-      'Content-Type': 'text/html; charset=utf-8',
-      'Cache-Control': 'public, max-age=3600, s-maxage=86400'
-    }
-  });
-}
+    return new Response(html, {
+      status: 200,
+      headers: {
+        'Content-Type': 'text/html; charset=utf-8',
+        'Cache-Control': 'public, max-age=3600, s-maxage=86400'
+      }
+    });
+  } catch (err) {
+    return new Response("Internal Report Error: " + err.message, { status: 500 });
+  }
+};
