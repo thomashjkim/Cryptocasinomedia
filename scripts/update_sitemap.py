@@ -20,7 +20,15 @@ now_utc_str = datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%dT%H
 published_articles = [a for a in articles_data if a.get('publishedAt', '') <= now_utc_str]
 published_sorted = sorted(published_articles, key=lambda x: x['publishedAt'], reverse=True)
 
-# Standard core pages with stable modification dates (no build-time lastmod dynamic inflation)
+# 1. Generate main articles child sitemap (sitemaps/articles.xml)
+articles_sitemap_path = os.path.join(PROJECT_ROOT, "index/sitemaps/articles.xml")
+os.makedirs(os.path.dirname(articles_sitemap_path), exist_ok=True)
+articles_xml_lines = [
+    '<?xml version="1.0" encoding="UTF-8"?>',
+    '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'
+]
+
+# Standard core pages with stable modification dates
 core_pages = [
     ("https://cryptocasinomedia.com/", "2026-08-18", "daily", "1.0"),
     ("https://cryptocasinomedia.com/press-releases/", "2026-08-18", "daily", "0.9"),
@@ -46,33 +54,65 @@ core_pages = [
     ("https://cryptocasinomedia.com/guides/gamblefi-telegram/", "2026-08-18", "monthly", "0.9")
 ]
 
-xml_lines = [
-    '<?xml version="1.0" encoding="UTF-8"?>',
-    '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'
-]
-
 for url, lastmod, changefreq, priority in core_pages:
-    xml_lines.append(f'  <url><loc>{url}</loc><lastmod>{lastmod}</lastmod><changefreq>{changefreq}</changefreq><priority>{priority}</priority></url>')
+    articles_xml_lines.append(f'  <url><loc>{url}</loc><lastmod>{lastmod}</lastmod><changefreq>{changefreq}</changefreq><priority>{priority}</priority></url>')
 
-# Dynamic articles for main sitemap
 for article in published_sorted:
     slug = article["slug"]
     published_at = article["publishedAt"]
     modified_at = article.get("modifiedAt", published_at)
     date_part = modified_at.split("T")[0]
     loc = f"https://cryptocasinomedia.com/press-releases/{slug}/"
-    xml_lines.append(f'  <url><loc>{loc}</loc><lastmod>{date_part}</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>')
+    articles_xml_lines.append(f'  <url><loc>{loc}</loc><lastmod>{date_part}</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>')
 
-xml_lines.append('</urlset>')
-xml_content = "\n".join(xml_lines) + "\n"
+articles_xml_lines.append('</urlset>\n')
+with open(articles_sitemap_path, "w", encoding="utf-8") as f:
+    f.write("\n".join(articles_xml_lines))
+print(f"SUCCESS: sitemaps/articles.xml successfully updated with {len(core_pages) + len(published_sorted)} URLs!")
 
-try:
-    with open(sitemap_path, "w", encoding="utf-8") as f:
-        f.write(xml_content)
-    print(f"SUCCESS: sitemap.xml successfully updated at {sitemap_path} with {len(published_sorted)} articles!")
-except Exception as e:
-    print(f"Error writing sitemap.xml: {e}")
-    sys.exit(1)
+# 2. Generate dedicated authors sitemap (sitemaps/authors.xml)
+authors_sitemap_path = os.path.join(PROJECT_ROOT, "index/sitemaps/authors.xml")
+authors_urls = [
+    "https://cryptocasinomedia.com/authors/",
+    "https://cryptocasinomedia.com/authors/marcus-vance/",
+    "https://cryptocasinomedia.com/authors/sophia-chen/",
+    "https://cryptocasinomedia.com/authors/cryptocasinomedia-legal-desk/",
+    "https://cryptocasinomedia.com/authors/cryptocasinomedia-research/",
+    "https://cryptocasinomedia.com/authors/global-gaming-regulatory-desk/",
+    "https://cryptocasinomedia.com/authors/igaming-market-intelligence/"
+]
+authors_xml_lines = [
+    '<?xml version="1.0" encoding="UTF-8"?>',
+    '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'
+]
+for a_url in authors_urls:
+    prio = "0.8" if a_url.endswith("/authors/") else "0.7"
+    authors_xml_lines.append(f'  <url><loc>{a_url}</loc><lastmod>2026-08-18</lastmod><changefreq>weekly</changefreq><priority>{prio}</priority></url>')
+authors_xml_lines.append('</urlset>\n')
+with open(authors_sitemap_path, "w", encoding="utf-8") as f:
+    f.write("\n".join(authors_xml_lines))
+print(f"SUCCESS: sitemaps/authors.xml successfully updated with {len(authors_urls)} author URLs!")
+
+# 3. Generate root sitemap index (sitemap.xml)
+sitemap_index_lines = [
+    '<?xml version="1.0" encoding="UTF-8"?>',
+    '<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
+    '  <sitemap><loc>https://cryptocasinomedia.com/sitemaps/articles.xml</loc><lastmod>2026-08-18</lastmod></sitemap>',
+    '  <sitemap><loc>https://cryptocasinomedia.com/sitemaps/authors.xml</loc><lastmod>2026-08-18</lastmod></sitemap>',
+    '  <sitemap><loc>https://cryptocasinomedia.com/sitemaps/guides.xml</loc><lastmod>2026-08-18</lastmod></sitemap>',
+    '  <sitemap><loc>https://cryptocasinomedia.com/sitemaps/legal.xml</loc><lastmod>2026-08-18</lastmod></sitemap>',
+    '  <sitemap><loc>https://cryptocasinomedia.com/sitemaps/news.xml</loc><lastmod>2026-08-18</lastmod></sitemap>',
+    '  <sitemap><loc>https://cryptocasinomedia.com/sitemaps/press-releases.xml</loc><lastmod>2026-08-18</lastmod></sitemap>',
+    '  <sitemap><loc>https://cryptocasinomedia.com/sitemaps/regions.xml</loc><lastmod>2026-08-18</lastmod></sitemap>',
+    '  <sitemap><loc>https://cryptocasinomedia.com/sitemaps/regulation.xml</loc><lastmod>2026-08-18</lastmod></sitemap>',
+    '  <sitemap><loc>https://cryptocasinomedia.com/sitemaps/static.xml</loc><lastmod>2026-08-18</lastmod></sitemap>',
+    '  <sitemap><loc>https://cryptocasinomedia.com/sitemaps/topics.xml</loc><lastmod>2026-08-18</lastmod></sitemap>',
+    '  <sitemap><loc>https://cryptocasinomedia.com/local-sitemap.xml</loc><lastmod>2026-08-18</lastmod></sitemap>',
+    '</sitemapindex>\n'
+]
+with open(sitemap_path, "w", encoding="utf-8") as f:
+    f.write("\n".join(sitemap_index_lines))
+print(f"SUCCESS: sitemap.xml successfully updated as sitemapindex referencing 11 child sitemaps!")
 
 # Generate News Sitemap (news-sitemap.xml) for eligible recently published news URLs strictly within 48-hour window
 news_xml_lines = [

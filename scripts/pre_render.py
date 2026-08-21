@@ -34,6 +34,152 @@ PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 template_path = os.path.join(PROJECT_ROOT, "index/index.html.template")
 output_base_dir = os.path.join(PROJECT_ROOT, "index")
 
+# Authors & Editorial Desks Registry
+AUTHORS_REGISTRY = [
+    {
+        'slug': 'marcus-vance',
+        'name': 'Marcus Vance',
+        'short_name': 'M. Vance',
+        'role': 'Senior iGaming Analyst',
+        'type': 'EDITORIAL_BYLINE',
+        'type_label': 'Editorial Persona',
+        'description': "Marcus Vance is an editorial persona maintained by CryptoCasinoMedia to provide consistent analytical coverage of crypto-native casino operators, sportsbook integrations, platform liquidity models, and B2B iGaming partnerships.",
+        'bio_short': 'Senior analyst focusing on crypto casino operators, platform architecture, high-stakes liquidity, and B2B partnerships.',
+        'bio_long': [
+            "Marcus Vance is an editorial persona maintained by CryptoCasinoMedia to provide consistent analytical coverage of crypto-native casino operators, sportsbook integrations, platform liquidity models, and B2B iGaming partnerships.",
+            "Articles reviewed or prepared under this byline evaluate platform mechanics, promotional terms, provably fair implementations, and cross-chain settlement integrations across global interactive gaming markets.",
+            "The Marcus Vance byline adheres strictly to CryptoCasinoMedia's source verification protocols and clear attribution standards. It does not represent an external independent legal or financial advisor."
+        ],
+        'expertise': ["Crypto Casinos", "Sportsbook Platforms", "B2B Supplier Distribution", "High-Roller Liquidity", "Provably Fair Mechanics"],
+        'coverage': 'Crypto Casinos, Sportsbook, Payments, iGaming Technology, Platform Integrations',
+        'editorial_disclosure': "Marcus Vance is a dedicated CryptoCasinoMedia editorial byline utilized for consistent beat reporting across crypto casino operators, sportsbooks, and gaming platforms. All content is thoroughly fact-checked and verified against primary sources prior to publication.",
+        'avatar': '/images/authors/marcus-vance.jpg',
+        'active_since': '2026',
+        'featured_topics': ['Stake', 'Roobet', 'Rollbit', 'BC.GAME', 'Telegram Mini Apps']
+    },
+    {
+        'slug': 'sophia-chen',
+        'name': 'Sophia Chen',
+        'short_name': 'S. Chen',
+        'role': 'Senior Payments & Compliance Analyst',
+        'type': 'EDITORIAL_BYLINE',
+        'type_label': 'Editorial Persona',
+        'description': "Sophia Chen is an editorial persona utilized by CryptoCasinoMedia to synthesize complex regulatory transitions, licensing frameworks, AML/KYC developments, and fintech settlement infrastructure in the global gaming space.",
+        'bio_short': 'Compliance and fintech specialist tracking global gaming regulation, stablecoin transaction rails, and licensing overhauls.',
+        'bio_long': [
+            "Sophia Chen is an editorial persona utilized by CryptoCasinoMedia to synthesize complex regulatory transitions, licensing frameworks, AML/KYC developments, and fintech settlement infrastructure in the global gaming space.",
+            "Coverage under this byline focuses on the transition from traditional master-licensing models to direct regulatory regimes, state-level sweepstakes legalities, and the integration of compliant stablecoin payment gateways.",
+            "Content published under the Sophia Chen byline undergoes multi-point legal source verification and regulatory registry cross-referencing."
+        ],
+        'expertise': ["Gaming Regulation", "Stablecoin Rails", "AML/KYC Compliance", "Curacao GCB Licensing", "Sweepstakes Legalities"],
+        'coverage': 'Gaming Regulation, Compliance, Sweepstakes Law, Curacao Licensing, Digital Asset Frameworks',
+        'editorial_disclosure': "Sophia Chen is a specialized CryptoCasinoMedia editorial persona designed for consistent coverage of interactive gaming compliance, statutory updates, and digital payment rails. This persona does not constitute formal legal counsel.",
+        'avatar': '/images/authors/sophia-chen.jpg',
+        'active_since': '2026',
+        'featured_topics': ['Curacao Gaming Control Board', 'Stablecoins', 'Compliance', 'USDC', 'US Market']
+    },
+    {
+        'slug': 'cryptocasinomedia-legal-desk',
+        'name': 'CryptoCasinoMedia Legal Desk',
+        'short_name': 'Legal Desk',
+        'role': 'Editorial Legal Analysis Desk',
+        'type': 'REGULATORY_DESK',
+        'type_label': 'Editorial Research Desk',
+        'description': "The CryptoCasinoMedia Legal Desk is an institutional editorial desk responsible for tracking litigation, statutory interpretations, state attorney general enforcement actions, and federal interactive gaming law across all 50 US states and international territories.",
+        'bio_short': 'Dedicated research desk monitoring state statutes, enforcement actions, injunctions, and federal gaming jurisprudence.',
+        'bio_long': [
+            "The CryptoCasinoMedia Legal Desk is an institutional editorial desk responsible for tracking litigation, statutory interpretations, state attorney general enforcement actions, and federal interactive gaming law across all 50 US states and international territories.",
+            "The desk analyzes court filings, legislative dockets, and administrative rulings to provide industry stakeholders with timely summaries of judicial actions affecting real-money, prediction-market, and sweepstakes operators."
+        ],
+        'expertise': ["State Gaming Law", "Injunction Analysis", "CFTC / State Injunctions", "Sweepstakes Statutes", "Tribal Compacts"],
+        'coverage': 'Enforcement Actions, State Statutes, US Sweepstakes Legality, CFTC/State Injunctions, Compliance',
+        'editorial_disclosure': "The CryptoCasinoMedia Legal Desk is a newsroom research desk synthesizing publicly available legal dockets, statutes, and regulatory orders for informative journalistic purposes. It does not provide legal representation or formal legal advice.",
+        'avatar': '/images/authors/cryptocasinomedia-legal-desk.jpg',
+        'active_since': '2026',
+        'featured_topics': ['Kalshi', 'Polymarket', 'State Regulations', 'Licensing', 'Enforcement']
+    },
+    {
+        'slug': 'cryptocasinomedia-research',
+        'name': 'CryptoCasinoMedia Research',
+        'short_name': 'Research Desk',
+        'role': 'Transaction & Market Intelligence Desk',
+        'type': 'RESEARCH_DESK',
+        'type_label': 'Research & Analytics Desk',
+        'description': "CryptoCasinoMedia Research is the proprietary quantitative analytics arm of CryptoCasinoMedia. The desk monitors blockchain settlement rails, wallet growth trajectories, smart contract volume, and tokenized liquidity pools.",
+        'bio_short': 'Quantitative data desk analyzing on-chain volume, stablecoin settlement metrics, and operator liquidity trends.',
+        'bio_long': [
+            "CryptoCasinoMedia Research is the proprietary quantitative analytics arm of CryptoCasinoMedia. The desk monitors blockchain settlement rails, wallet growth trajectories, smart contract volume, and tokenized liquidity pools.",
+            "Reports generated by the research desk leverage on-chain indexing tools, public block explorers, and exchange API feeds to benchmark macro industry growth patterns and user acquisition dynamics."
+        ],
+        'expertise': ["On-Chain Metrics", "Stablecoin Volume", "Wallet Dynamics", "DEX / CEX Liquidity", "Operator Benchmarking"],
+        'coverage': 'On-Chain Metrics, Stablecoin Settlements, Liquidity Benchmarks, Operator Revenue Analysis',
+        'editorial_disclosure': "CryptoCasinoMedia Research provides data-driven editorial summaries based on publicly accessible on-chain data and market feeds. Research findings are intended for informational purposes and do not represent investment advice.",
+        'avatar': '/images/authors/cryptocasinomedia-research.jpg',
+        'active_since': '2026',
+        'featured_topics': ['USDT', 'Blockchain Tech', 'Bitcoin', 'Ethereum', 'Market Updates']
+    },
+    {
+        'slug': 'global-gaming-regulatory-desk',
+        'name': 'Global Gaming Regulatory Desk',
+        'short_name': 'Regulatory Desk',
+        'role': 'International Compliance Coverage Desk',
+        'type': 'REGULATORY_DESK',
+        'type_label': 'Regulatory Research Desk',
+        'description': "The Global Gaming Regulatory Desk monitors policy transitions, licensing overhauls, and international interactive gaming enforcement across Europe, Latin America, the Middle East, and Asia-Pacific.",
+        'bio_short': 'International monitoring desk covering jurisdictional policy overhauls, European standards, and emerging LatAm/Asian frameworks.',
+        'bio_long': [
+            "The Global Gaming Regulatory Desk monitors policy transitions, licensing overhauls, and international interactive gaming enforcement across Europe, Latin America, the Middle East, and the Asia-Pacific region.",
+            "The desk provides comparative cross-border regulatory analysis, examining how evolving national laws interact with offshore licensing centers and cross-border digital asset settlement."
+        ],
+        'expertise': ["Cross-Border Licensing", "EU MiCA Directives", "Brazil SPA Regulations", "Curacao Direct Licensing", "UAE VARA Rules"],
+        'coverage': 'Curacao GCB Reforms, Brazil iGaming Framework, UAE VARA Rules, International Compliance',
+        'editorial_disclosure': "The Global Gaming Regulatory Desk synthesizes international regulatory announcements, gazette publications, and licensing requirements for cross-border industry analysis.",
+        'avatar': '/images/authors/global-gaming-regulatory-desk.jpg',
+        'active_since': '2026',
+        'featured_topics': ['Regulation', 'Compliance', 'Licensing', 'Europe', 'Asia']
+    },
+    {
+        'slug': 'igaming-market-intelligence',
+        'name': 'iGaming Market Intelligence',
+        'short_name': 'Market Intelligence',
+        'role': 'Industry Trends & Valuation Desk',
+        'type': 'EDITORIAL_DESK',
+        'type_label': 'Market Intelligence Desk',
+        'description': "The iGaming Market Intelligence team tracks commercial partnerships, studio software integrations, B2B supplier distribution, and operator valuation trends across real-money and social gaming markets.",
+        'bio_short': 'Commercial strategy and studio integration desk evaluating B2B aggregator feeds, supplier partnerships, and valuation benchmarks.',
+        'bio_long': [
+            "The iGaming Market Intelligence desk tracks commercial supplier partnerships, game studio software integrations, B2B PAM distribution, and platform M&A activity across the real-money and sweepstakes gaming sectors.",
+            "Through industry data collation and supplier tracking, the desk highlights structural shifts in gaming content distribution and technological infrastructure."
+        ],
+        'expertise': ["B2B Distribution", "Game Studio Software", "Platform PAM Integrations", "M&A & Valuations", "Social Gaming Economics"],
+        'coverage': 'B2B Distribution, Studio Partnerships, Social Gaming PAM Infrastructure, Operator Growth',
+        'editorial_disclosure': "The iGaming Market Intelligence desk is an editorial entity focused on commercial and technological trends in the interactive entertainment and B2B gaming supply sector.",
+        'avatar': '/images/authors/igaming-market-intelligence.jpg',
+        'active_since': '2026',
+        'featured_topics': ['New Launches', 'Expansion', 'Partnerships', 'Technology', 'Social Casino']
+    }
+]
+
+AUTHORS_MAP = {p['slug']: p for p in AUTHORS_REGISTRY}
+
+def get_author_for_article(article):
+    source = article.get('sourceName', '').strip()
+    source_lower = source.lower()
+    cat = article.get('primaryCategory', '')
+    
+    if 'legal desk' in source_lower:
+        return 'cryptocasinomedia-legal-desk', 'CryptoCasinoMedia Legal Desk', 'Regulatory & Legal Research Desk'
+    elif 'research' in source_lower or 'security desk' in source_lower or 'tech desk' in source_lower:
+        return 'cryptocasinomedia-research', 'CryptoCasinoMedia Research', 'Transaction & Market Intelligence Desk'
+    elif 'global gaming' in source_lower or 'council' in source_lower or 'compliance watch' in source_lower:
+        return 'global-gaming-regulatory-desk', 'Global Gaming Regulatory Desk', 'International Compliance Desk'
+    elif 'market intelligence' in source_lower or 'product intelligence' in source_lower or 'developer group' in source_lower:
+        return 'igaming-market-intelligence', 'iGaming Market Intelligence', 'Industry Trends & Valuation Desk'
+    elif cat in ['regulation', 'sweepstakes']:
+        return 'sophia-chen', 'Sophia Chen', 'Regulatory Editor'
+    else:
+        return 'marcus-vance', 'Marcus Vance', 'Senior iGaming Analyst'
+
 from datetime import timezone
 now_utc_str = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
 
@@ -398,10 +544,20 @@ def renderSectionPage(title, description, filterCategory, filterTopic=None):
     filteredArticles = []
     for article in articles_sorted:
         match = True
-        if filterCategory and filterCategory != 'press-releases':
-            match = article['primaryCategory'] == filterCategory
+        if filterCategory:
+            if filterCategory == 'press-releases':
+                # Strictly content_type == 'press_release'
+                match = article.get('content_type') == 'press_release'
+            elif filterCategory == 'guides':
+                # Strictly content_type == 'guide'
+                match = article.get('content_type') == 'guide'
+            else:
+                # Section membership (many-to-many: sections array)
+                sections = article.get('sections', [article.get('primaryCategory')])
+                match = filterCategory in sections
+
         if filterTopic:
-            match = match and any(t.lower().replace(' ', '-') == filterTopic for t in article['topics'])
+            match = match and any(t.lower().replace(' ', '-') == filterTopic for t in article.get('topics', []))
         if match:
             filteredArticles.append(article)
 
@@ -434,6 +590,16 @@ def renderSectionPage(title, description, filterCategory, filterTopic=None):
                     </div>
                 """
 
+    # Section-scoped Most Read articles
+    if filterCategory == 'press-releases':
+        most_read_pool = [a for a in articles_sorted if a.get('content_type') == 'press_release']
+    elif filterCategory == 'guides':
+        most_read_pool = [a for a in articles_sorted if a.get('content_type') == 'guide']
+    elif filterCategory:
+        most_read_pool = [a for a in articles_sorted if filterCategory in a.get('sections', [a.get('primaryCategory')])]
+    else:
+        most_read_pool = articles_sorted
+
     mostReadHtml = "".join([f"""
                 <div class="flex gap-3 border-b border-gray-100 pb-4 last:border-0">
                     <span class="text-2xl font-bold text-gray-200">{str(idx + 1).zfill(2)}</span>
@@ -446,7 +612,7 @@ def renderSectionPage(title, description, filterCategory, filterTopic=None):
                         </h3>
                     </div>
                 </div>
-            """ for idx, article in enumerate(articles_sorted[:5])])
+            """ for idx, article in enumerate(most_read_pool[:5])])
 
     desc_html = f'<p class="text-gray-600 mt-2 text-lg max-w-2xl leading-relaxed">{description}</p>' if description else ''
 
@@ -605,8 +771,7 @@ def renderArticlePage(slug):
     else:
         reporting_type = "EDITORIAL NEWS & ANALYSIS"
 
-    editor_name = "Sophia Chen" if article['primaryCategory'] == 'regulation' else "Marcus Vance"
-    editor_role = "Regulatory Editor" if article['primaryCategory'] == 'regulation' else "Senior iGaming Analyst"
+    editor_slug, editor_name, editor_role = get_author_for_article(article)
     author_name = f"{editor_name} ({editor_role})"
 
     # Resolve external primary sources for E-E-A-T provenance
@@ -640,7 +805,7 @@ def renderArticlePage(slug):
                                             <span class="text-xs text-gray-600 font-medium">Source: {source_name}</span>
                                         </div>
                                         <p class="text-xs text-gray-600 leading-relaxed mb-1">
-                                            <strong>Editorial Review & Attribution:</strong> Submitted announcements are reviewed under <a href="/editorial-standards/" class="text-blue-700 underline">CryptoCasinoMedia Editorial Standards</a> by {author_name} and attributed directly to original source {source_name}.
+                                            <strong>Editorial Review & Attribution:</strong> Submitted announcements are reviewed under <a href="/editorial-standards/" class="text-blue-700 underline">CryptoCasinoMedia Editorial Standards</a> by <a href="/authors/{editor_slug}/" class="text-blue-700 underline font-medium">{editor_name}</a> ({editor_role}) and attributed directly to original source {source_name}.
                                         </p>
                                         {source_links_html}
                                     </div>
@@ -1397,42 +1562,174 @@ def renderTermsPage():
             """
 
 def renderAuthorPage(author):
-    author_articles = [a for a in articles_sorted if (
-        (author['slug'] == 'marcus-vance' and a['primaryCategory'] in ['sportsbook', 'payments']) or
-        (author['slug'] == 'sophia-chen' and a['primaryCategory'] in ['regulation', 'sweepstakes', 'guides'])
-    )]
+    author_articles = [a for a in articles_sorted if get_author_for_article(a)[0] == author['slug']]
     
+    # Calculate coverage sections
+    covered_sections = set()
+    covered_topics = set()
+    for a in author_articles:
+        for s in a.get('sections', [a.get('primaryCategory')]):
+            covered_sections.add(s.replace('-', ' ').title())
+        for t in a.get('topics', []):
+            covered_topics.add(t)
+            
+    expertise_badges = "".join([f'<span class="px-2.5 py-1 bg-blue-50 border border-blue-200 text-blue-800 text-xs font-semibold rounded-sm">{exp}</span>' for exp in author.get('expertise', sorted(list(covered_sections)))])
+    topics_badges = "".join([f'<a href="/topic/{t.lower().replace(" ", "-")}/" class="px-2.5 py-1 bg-gray-100 hover:bg-gray-200 text-gray-700 text-xs font-medium rounded-sm transition-colors">{t}</a>' for t in author.get('featured_topics', sorted(list(covered_topics))[:12])])
+
     articles_html = "".join([f"""
                 <div class="border-b border-gray-200 py-6 last:border-0">
                     <div class="flex items-center gap-2 mb-2 text-xs text-gray-500 font-sans">
-                        <span>{a['sourceName']}</span>
+                        <span class="font-semibold text-blue-700 uppercase tracking-wider">{a.get('primaryCategory', '').replace('-', ' ')}</span>
                         <span>•</span>
-                        <span>{formatDateMeta(a['publishedAt'])}</span>
+                        <span>Source: {a['sourceName']}</span>
+                        <span>•</span>
+                        <time datetime="{a['publishedAt']}">{formatDateMeta(a['publishedAt'])}</time>
                     </div>
-                    <a href="/press-releases/{a['slug']}" class="text-xl font-semibold text-gray-900 hover:text-blue-700 transition-colors block mb-2 leading-snug">
-                        {a['title']}
-                    </a>
-                    <p class="text-sm text-gray-600 font-sans m-0">{a['excerpt']}</p>
+                    <h3 class="text-xl font-semibold text-gray-900 hover:text-blue-700 transition-colors mb-2 leading-snug">
+                        <a href="/press-releases/{a['slug']}/">{a['title']}</a>
+                    </h3>
+                    <p class="text-sm text-gray-600 font-sans m-0 leading-relaxed">{a['excerpt']}</p>
                 </div>
             """ for a in author_articles])
             
+    avatar_html = f'<img src="{author["avatar"]}" alt="{author["name"]}" class="w-28 h-28 sm:w-32 sm:h-32 rounded-full object-cover shadow-md border-2 border-gray-200 shrink-0" />' if author.get('avatar') else f'<div class="w-24 h-24 rounded-full bg-blue-900 text-white font-bold text-2xl flex items-center justify-center shadow-md border-2 border-blue-800 shrink-0 font-mono">{author.get("initials", author["name"][:2].upper())}</div>'
+
+    bio_paragraphs = "".join([f'<p class="m-0">{p}</p>' for p in author.get('bio_long', [author['description']])])
+
     return f"""
-                <div class="max-w-[800px] mx-auto px-4 sm:px-6 lg:px-8 py-16 animate-fade-in font-sans">
-                    <div class="flex flex-col sm:flex-row items-center gap-8 border-b border-gray-200 pb-10 mb-10">
-                        <img src="{author['avatar']}" alt="{author['name']}" class="w-24 h-24 rounded-full object-cover shadow-md" />
-                        <div class="text-center sm:text-left flex-1">
-                            <h1 class="text-3xl font-semibold text-gray-900 mb-1">{author['name']}</h1>
-                            <p class="text-sm font-semibold uppercase tracking-wider text-blue-700 mb-4">{author['role']}</p>
-                            <p class="text-gray-600 leading-relaxed text-[15px] m-0">{author['bio']}</p>
+        <div class="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8 py-10 animate-fade-in font-sans">
+            <nav aria-label="Breadcrumb" class="flex text-[11px] uppercase tracking-wider text-gray-500 mb-6 font-sans">
+                <a href="/" class="hover:text-gray-900">Home</a>
+                <span class="mx-2">/</span>
+                <a href="/authors/" class="hover:text-gray-900">Authors & Editorial Team</a>
+                <span class="mx-2">/</span>
+                <span class="text-gray-900 font-medium truncate max-w-[200px] sm:max-w-none">{author['name']}</span>
+            </nav>
+
+            <div class="flex flex-col lg:flex-row gap-12">
+                <div class="lg:w-[70%]">
+                    <!-- Hero Profile Header -->
+                    <div class="flex flex-col sm:flex-row items-start sm:items-center gap-6 border-b border-gray-200 pb-8 mb-8">
+                        {avatar_html}
+                        <div class="flex-1">
+                            <div class="flex flex-wrap items-center gap-2 mb-1">
+                                <h1 class="text-3xl font-bold text-gray-900">{author['name']}</h1>
+                                <span class="px-2 py-0.5 text-[11px] font-semibold uppercase tracking-wider bg-blue-100 text-blue-800 border border-blue-200 rounded-sm">{author['type_label']}</span>
+                            </div>
+                            <p class="text-sm font-semibold uppercase tracking-wider text-blue-700 mb-3">{author['role']}</p>
+                            <p class="text-gray-600 leading-relaxed text-sm m-0">{author.get('bio_short', author['description'])}</p>
+                        </div>
+                    </div>
+
+                    <!-- Bio Section -->
+                    <div class="mb-8 prose prose-gray max-w-none font-sans text-sm text-gray-700 leading-relaxed space-y-3">
+                        <h2 class="text-base font-bold text-gray-900 uppercase tracking-wider border-b border-gray-200 pb-2">About & Coverage Focus</h2>
+                        {bio_paragraphs}
+                    </div>
+
+                    <!-- Areas of Expertise & Editorial Standards -->
+                    <div class="bg-gray-50 border border-gray-200 p-6 rounded-sm mb-8">
+                        <h3 class="text-xs uppercase tracking-widest font-semibold text-gray-900 mb-3">Areas of Expertise & Beat</h3>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            {expertise_badges}
+                        </div>
+                        <div class="pt-3 border-t border-gray-200 text-xs text-gray-500">
+                            <strong>Editorial Standards:</strong> {author.get('editorial_disclosure', 'Articles reviewed under this byline adhere to CryptoCasinoMedia Editorial Standards.')}
                         </div>
                     </div>
                     
-                    <h2 class="text-xl font-semibold text-gray-900 mb-6">Articles & Publications by {author['name']}</h2>
+                    <!-- Articles Published -->
+                    <h2 class="text-xl font-bold text-gray-900 mb-6 border-b border-gray-900 pb-2">Articles & Coverage ({len(author_articles)})</h2>
                     <div class="space-y-2">
-                        {articles_html}
+                        {articles_html or '<p class="text-sm text-gray-500 italic py-4">No recent published articles found for this author identity.</p>'}
                     </div>
                 </div>
-            """
+
+                <!-- Sidebar -->
+                <div class="lg:w-[30%]">
+                    <div class="sticky top-24 space-y-8">
+                        <div class="bg-gray-50 border border-gray-200 p-6 rounded-sm">
+                            <h3 class="text-xs uppercase tracking-widest font-semibold text-gray-900 mb-3">Featured Topics</h3>
+                            <div class="flex flex-wrap gap-1.5">
+                                {topics_badges}
+                            </div>
+                        </div>
+
+                        <div class="bg-blue-900 text-white p-6 rounded-sm">
+                            <h3 class="text-xs uppercase tracking-widest font-semibold text-blue-200 mb-2">Submit to Editorial Desk</h3>
+                            <p class="text-xs text-blue-100 leading-relaxed mb-4">Have an official corporate announcement, regulatory update, or partnership to submit for editorial review?</p>
+                            <a href="/submit/" class="inline-block w-full text-center bg-white text-blue-900 hover:bg-blue-50 text-xs font-bold py-2.5 rounded-sm transition-colors">
+                                Submit Press Release
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    """
+
+def renderAuthorsDirectoryPage(profiles):
+    cards_html = "".join([f"""
+                <div class="bg-white border border-gray-200 p-6 rounded-sm hover:shadow-md transition-shadow flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider bg-gray-100 text-gray-700 border border-gray-200 rounded-sm">{p['type_label']}</span>
+                            <span class="text-xs text-blue-700 font-semibold">{len([a for a in articles_sorted if get_author_for_article(a)[0] == p['slug']])} Articles</span>
+                        </div>
+                        <div class="flex items-center gap-4 mb-4">
+                            <img src="{p['avatar']}" alt="{p['name']}" class="w-14 h-14 rounded-full object-cover shadow-sm border border-gray-200 shrink-0" />
+                            <div>
+                                <h2 class="text-lg font-bold text-gray-900 leading-snug">
+                                    <a href="/authors/{p['slug']}/" class="hover:text-blue-700 transition-colors">{p['name']}</a>
+                                </h2>
+                                <p class="text-xs font-semibold text-blue-700 mt-0.5">{p['role']}</p>
+                            </div>
+                        </div>
+                        <p class="text-sm text-gray-600 leading-relaxed mb-4">{p.get('bio_short', p['description'][:140])}</p>
+                        <div class="flex flex-wrap gap-1 mb-4">
+                            {"".join([f'<span class="px-2 py-0.5 bg-gray-50 border border-gray-200 text-gray-600 text-[11px] rounded-sm">{exp}</span>' for exp in p.get('expertise', [])[:3]])}
+                        </div>
+                    </div>
+                    <div class="pt-4 border-t border-gray-100 flex items-center justify-between">
+                        <span class="text-[11px] text-gray-400 font-mono">Active Since {p.get('active_since', '2026')}</span>
+                        <a href="/authors/{p['slug']}/" class="text-xs font-semibold text-blue-700 hover:underline inline-flex items-center">
+                            View Profile <i data-lucide="arrow-right" class="w-3 h-3 ml-1"></i>
+                        </a>
+                    </div>
+                </div>
+            """ for p in profiles])
+
+    return f"""
+        <div class="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8 py-12 animate-fade-in font-sans">
+            <nav aria-label="Breadcrumb" class="flex text-[11px] uppercase tracking-wider text-gray-500 mb-6 font-sans">
+                <a href="/" class="hover:text-gray-900">Home</a>
+                <span class="mx-2">/</span>
+                <span class="text-gray-900 font-medium">Authors & Editorial Team</span>
+            </nav>
+
+            <div class="mb-10 border-b border-gray-200 pb-8 text-center max-w-3xl mx-auto">
+                <span class="text-xs uppercase tracking-widest font-semibold text-blue-700 mb-2 block">CryptoCasinoMedia Editorial</span>
+                <h1 class="text-3xl sm:text-4xl font-bold tracking-tight text-gray-900 mb-4">Authors & Editorial Desks</h1>
+                <p class="text-base text-gray-600 leading-relaxed">
+                    Meet the industry analysts, regulatory editors, and specialized research desks responsible for reporting, verifying, and publishing coverage across the crypto casino, sportsbook, payments, and sweepstakes sectors.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+                {cards_html}
+            </div>
+
+            <div class="bg-gray-50 border border-gray-200 p-8 rounded-sm text-center max-w-2xl mx-auto">
+                <h2 class="text-lg font-semibold text-gray-900 mb-2">Editorial Integrity & Independence</h2>
+                <p class="text-sm text-gray-600 leading-relaxed mb-4">
+                    Every article and submitted press release is evaluated according to our strict verification, conflict disclosure, and source attribution protocols.
+                </p>
+                <a href="/editorial-standards/" class="inline-flex items-center text-sm font-semibold text-blue-700 hover:underline">
+                    Read Our Editorial Standards <i data-lucide="arrow-right" class="w-4 h-4 ml-1"></i>
+                </a>
+            </div>
+        </div>
+    """
 
 def renderAdminPage():
     return """
@@ -1735,9 +2032,9 @@ for article in articles_sorted:
     source_name_lower = source_name.lower()
     is_third_party = article.get('company') or not any(k in source_name_lower for k in ['desk', 'intelligence', 'analytics', 'research', 'editorial'])
     
-    editor_slug = 'sophia-chen' if article['primaryCategory'] == 'regulation' else 'marcus-vance'
-    editor_name = 'Sophia Chen' if article['primaryCategory'] == 'regulation' else 'Marcus Vance'
-    editor_role = 'Regulatory Editor' if article['primaryCategory'] == 'regulation' else 'Senior iGaming Analyst'
+    editor_slug, editor_name, editor_role = get_author_for_article(article)
+    editor_info = AUTHORS_MAP.get(editor_slug, {})
+    is_desk = editor_info.get('type') in ['REGULATORY_DESK', 'RESEARCH_DESK', 'EDITORIAL_DESK']
 
     if is_third_party:
         author_schema = {
@@ -1746,18 +2043,20 @@ for article in articles_sorted:
             "url": article.get('originalUrl') or "https://cryptocasinomedia.com"
         }
         editor_schema = {
-            "@type": "Person",
+            "@type": "Organization" if is_desk else "Person",
             "name": editor_name,
-            "jobTitle": editor_role,
             "url": f"https://cryptocasinomedia.com/authors/{editor_slug}/"
         }
+        if not is_desk:
+            editor_schema["jobTitle"] = editor_role
     else:
         author_schema = {
-            "@type": "Person",
+            "@type": "Organization" if is_desk else "Person",
             "name": editor_name,
-            "jobTitle": editor_role,
             "url": f"https://cryptocasinomedia.com/authors/{editor_slug}/"
         }
+        if not is_desk:
+            author_schema["jobTitle"] = editor_role
         editor_schema = None
 
     article_schema = {
@@ -1856,13 +2155,20 @@ for path, title, description, filter_cat in categories:
     body = renderSectionPage(title, description, filter_cat)
     
     # Get articles for this category
-    cat_articles = [a for a in articles_sorted if a['primaryCategory'] == filter_cat] if filter_cat else articles_sorted
+    if filter_cat == 'press-releases':
+        cat_articles = [a for a in articles_sorted if a.get('content_type') == 'press_release']
+    elif filter_cat == 'guides':
+        cat_articles = [a for a in articles_sorted if a.get('content_type') == 'guide']
+    elif filter_cat:
+        cat_articles = [a for a in articles_sorted if filter_cat in a.get('sections', [a.get('primaryCategory')])]
+    else:
+        cat_articles = articles_sorted
     
     item_list = {
         "@type": "ItemList",
         "itemListElement": []
     }
-    for i, a in enumerate(cat_articles):
+    for i, a in enumerate(cat_articles[:10]):
         item_list["itemListElement"].append({
             "@type": "ListItem",
             "position": i + 1,
@@ -1909,7 +2215,7 @@ for path, title, description, filter_cat in categories:
                 "@type": "ListItem",
                 "position": i + 1,
                 "url": f"https://cryptocasinomedia.com/press-releases/{a['slug']}/"
-            } for i, a in enumerate([x for x in articles_sorted if filter_cat == 'press-releases' or x['primaryCategory'] == filter_cat][:10])
+            } for i, a in enumerate(cat_articles[:10])
         ]
     }
     
@@ -2182,31 +2488,62 @@ for path, title, description, body_content, custom_schemas in utility_pages:
         f.write(html)
     pages_generated += 1
 
-# 6.5 Render Author Profile Pages
-authors_list = [
-    {
-        "slug": "marcus-vance",
-        "name": "Marcus Vance",
-        "role": "Lead iGaming Analyst",
-        "bio": "Marcus Vance is a leading B2B iGaming analyst with over 8 years of experience covering sportsbooks, crypto casinos, and digital asset integration. Previously, he served as a market research analyst and has been cited in major interactive gaming publications globally. At CryptoCasinoMedia, he focuses on transaction analytics, platform liquidity, and predictive market volumes.",
-        "avatar": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=300",
-        "email": "cryptocasinomedia@gmail.com"
-    },
-    {
-        "slug": "sophia-chen",
-        "name": "Sophia Chen",
-        "role": "Regulatory Editor",
-        "bio": "Sophia Chen is a regulatory editor specializing in international gambling compliance, sweepstakes laws, and digital asset frameworks. Formerly a compliance advisor for European gaming operators, she leads CryptoCasinoMedia's regulatory desk, auditing licensing transitions, AML policies, and the impact of the EU AI Act.",
-        "avatar": "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&q=80&w=300",
-        "email": "cryptocasinomedia@gmail.com"
-    }
-]
+# 6.5 Render Authors Directory & Author Profile Pages
+authors_dir_html = build_static_page(
+    template_content,
+    "/authors/",
+    "Authors & Editorial Desks — CryptoCasinoMedia",
+    "Meet the industry analysts, regulatory editors, and specialized research desks reporting on the crypto casino and iGaming sector at CryptoCasinoMedia.",
+    renderAuthorsDirectoryPage(AUTHORS_REGISTRY),
+    [
+        {
+            "@context": "https://schema.org",
+            "@type": "CollectionPage",
+            "@id": "https://cryptocasinomedia.com/authors/#collection",
+            "name": "Authors & Editorial Desks — CryptoCasinoMedia",
+            "url": "https://cryptocasinomedia.com/authors/",
+            "description": "Meet the industry analysts, regulatory editors, and specialized research desks reporting on the crypto casino and iGaming sector at CryptoCasinoMedia.",
+            "isPartOf": {
+                "@id": "https://cryptocasinomedia.com/#website"
+            }
+        }
+    ]
+)
 
-for author in authors_list:
+out_authors_dir = os.path.join(output_base_dir, "authors")
+os.makedirs(out_authors_dir, exist_ok=True)
+with open(os.path.join(out_authors_dir, "index.html"), "w", encoding="utf-8") as f:
+    f.write(authors_dir_html)
+pages_generated += 1
+
+for author in AUTHORS_REGISTRY:
     author_body = renderAuthorPage(author)
-    author_title = f"{author['name']} Profile & Articles — CryptoCasinoMedia"
-    author_desc = f"Read articles and iGaming industry analysis written by {author['name']} at CryptoCasinoMedia."
+    author_title = f"{author['name']} — {author['role']} | CryptoCasinoMedia"
+    author_desc = f"{author['description'][:150]}..."
     
+    is_desk = author['type'] in ['REGULATORY_DESK', 'RESEARCH_DESK', 'EDITORIAL_DESK']
+    
+    if is_desk:
+        main_entity_schema = {
+            "@type": "Organization",
+            "name": author['name'],
+            "description": author['description'],
+            "url": f"https://cryptocasinomedia.com/authors/{author['slug']}/",
+            "parentOrganization": {
+                "@id": "https://cryptocasinomedia.com/#organization"
+            }
+        }
+    else:
+        main_entity_schema = {
+            "@type": "Person",
+            "name": author['name'],
+            "jobTitle": author['role'],
+            "description": author['description'],
+            "url": f"https://cryptocasinomedia.com/authors/{author['slug']}/"
+        }
+        if author.get('avatar'):
+            main_entity_schema["image"] = author['avatar']
+            
     author_schema = {
         "@context": "https://schema.org",
         "@type": "ProfilePage",
@@ -2214,13 +2551,7 @@ for author in authors_list:
         "url": f"https://cryptocasinomedia.com/authors/{author['slug']}/",
         "name": author_title,
         "description": author_desc,
-        "mainEntity": {
-            "@type": "Person",
-            "name": author['name'],
-            "jobTitle": author['role'],
-            "description": author['bio'],
-            "image": author['avatar']
-        }
+        "mainEntity": main_entity_schema
     }
     
     html = build_static_page(template_content, f"/authors/{author['slug']}/", author_title, author_desc, author_body, [author_schema])
