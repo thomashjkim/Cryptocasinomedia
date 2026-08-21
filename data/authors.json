@@ -1,0 +1,235 @@
+[
+  {
+    "slug": "marcus-vance",
+    "display_name": "Marcus Vance",
+    "short_name": "M. Vance",
+    "role_title": "Senior iGaming Analyst",
+    "team_label": "Editorial Persona",
+    "type": "EDITORIAL_BYLINE",
+    "bio_short": "Senior analyst focusing on crypto casino operators, platform architecture, high-stakes liquidity, and B2B partnerships.",
+    "bio_long": [
+      "Marcus Vance is an editorial persona maintained by CryptoCasinoMedia to provide consistent analytical coverage of crypto-native casino operators, sportsbook integrations, platform liquidity models, and B2B iGaming partnerships.",
+      "Articles reviewed or prepared under this byline evaluate platform mechanics, promotional terms, provably fair implementations, and cross-chain settlement integrations across global interactive gaming markets.",
+      "The Marcus Vance byline adheres strictly to CryptoCasinoMedia's source verification protocols and clear attribution standards. It does not represent an external independent legal or financial advisor."
+    ],
+    "expertise": [
+      "Crypto Casinos",
+      "Sportsbook Platforms",
+      "B2B Supplier Distribution",
+      "High-Roller Liquidity",
+      "Provably Fair Mechanics"
+    ],
+    "coverage_areas": [
+      "Crypto Casinos",
+      "Sportsbook",
+      "Payments",
+      "iGaming Technology",
+      "Platform Integrations"
+    ],
+    "editorial_disclosure": "Marcus Vance is a dedicated CryptoCasinoMedia editorial byline utilized for consistent beat reporting across crypto casino operators, sportsbooks, and gaming platforms. All content is thoroughly fact-checked and verified against primary sources prior to publication.",
+    "avatar_image_path": "/images/authors/marcus-vance.jpg",
+    "initials": "MV",
+    "active_since": "2026",
+    "featured_topics": [
+      "Stake",
+      "Roobet",
+      "Rollbit",
+      "BC.GAME",
+      "Telegram Mini Apps"
+    ],
+    "canonical_url": "https://cryptocasinomedia.com/authors/marcus-vance/"
+  },
+  {
+    "slug": "sophia-chen",
+    "display_name": "Sophia Chen",
+    "short_name": "S. Chen",
+    "role_title": "Senior Payments & Compliance Analyst",
+    "team_label": "Editorial Persona",
+    "type": "EDITORIAL_BYLINE",
+    "bio_short": "Compliance and fintech specialist tracking global gaming regulation, stablecoin transaction rails, and licensing overhauls.",
+    "bio_long": [
+      "Sophia Chen is an editorial persona utilized by CryptoCasinoMedia to synthesize complex regulatory transitions, licensing frameworks, AML/KYC developments, and fintech settlement infrastructure in the global gaming space.",
+      "Coverage under this byline focuses on the transition from traditional master-licensing models to direct regulatory regimes, state-level sweepstakes legalities, and the integration of compliant stablecoin payment gateways.",
+      "Content published under the Sophia Chen byline undergoes multi-point legal source verification and regulatory registry cross-referencing."
+    ],
+    "expertise": [
+      "Gaming Regulation",
+      "Stablecoin Rails",
+      "AML/KYC Compliance",
+      "Curacao GCB Licensing",
+      "Sweepstakes Legalities"
+    ],
+    "coverage_areas": [
+      "Gaming Regulation",
+      "Compliance",
+      "Sweepstakes Law",
+      "Curacao Licensing",
+      "Digital Asset Frameworks"
+    ],
+    "editorial_disclosure": "Sophia Chen is a specialized CryptoCasinoMedia editorial persona designed for consistent coverage of interactive gaming compliance, statutory updates, and digital payment rails. This persona does not constitute formal legal counsel.",
+    "avatar_image_path": "/images/authors/sophia-chen.jpg",
+    "initials": "SC",
+    "active_since": "2026",
+    "featured_topics": [
+      "Curacao Gaming Control Board",
+      "Stablecoins",
+      "Compliance",
+      "USDC",
+      "US Market"
+    ],
+    "canonical_url": "https://cryptocasinomedia.com/authors/sophia-chen/"
+  },
+  {
+    "slug": "cryptocasinomedia-legal-desk",
+    "display_name": "CryptoCasinoMedia Legal Desk",
+    "short_name": "Legal Desk",
+    "role_title": "Editorial Legal Analysis Desk",
+    "team_label": "Editorial Research Desk",
+    "type": "REGULATORY_DESK",
+    "bio_short": "Dedicated research desk monitoring state statutes, enforcement actions, injunctions, and federal gaming jurisprudence.",
+    "bio_long": [
+      "The CryptoCasinoMedia Legal Desk is an institutional editorial desk responsible for tracking litigation, statutory interpretations, state attorney general enforcement actions, and federal interactive gaming law across all 50 US states and international territories.",
+      "The desk analyzes court filings, legislative dockets, and administrative rulings to provide industry stakeholders with timely summaries of judicial actions affecting real-money, prediction-market, and sweepstakes operators."
+    ],
+    "expertise": [
+      "State Gaming Law",
+      "Injunction Analysis",
+      "CFTC / State Injunctions",
+      "Sweepstakes Statutes",
+      "Tribal Compacts"
+    ],
+    "coverage_areas": [
+      "Enforcement Actions",
+      "State Statutes",
+      "US Sweepstakes Legality",
+      "CFTC/State Injunctions",
+      "Compliance"
+    ],
+    "editorial_disclosure": "The CryptoCasinoMedia Legal Desk is a newsroom research desk synthesizing publicly available legal dockets, statutes, and regulatory orders for informative journalistic purposes. It does not provide legal representation or formal legal advice.",
+    "avatar_image_path": "/images/authors/cryptocasinomedia-legal-desk.jpg",
+    "initials": "LD",
+    "active_since": "2026",
+    "featured_topics": [
+      "Kalshi",
+      "Polymarket",
+      "State Regulations",
+      "Licensing",
+      "Enforcement"
+    ],
+    "canonical_url": "https://cryptocasinomedia.com/authors/cryptocasinomedia-legal-desk/"
+  },
+  {
+    "slug": "cryptocasinomedia-research",
+    "display_name": "CryptoCasinoMedia Research",
+    "short_name": "Research Desk",
+    "role_title": "Transaction & Market Intelligence Desk",
+    "team_label": "Research & Analytics Desk",
+    "type": "RESEARCH_DESK",
+    "bio_short": "Quantitative data desk analyzing on-chain volume, stablecoin settlement metrics, and operator liquidity trends.",
+    "bio_long": [
+      "CryptoCasinoMedia Research is the proprietary quantitative analytics arm of CryptoCasinoMedia. The desk monitors blockchain settlement rails, wallet growth trajectories, smart contract volume, and tokenized liquidity pools.",
+      "Reports generated by the research desk leverage on-chain indexing tools, public block explorers, and exchange API feeds to benchmark macro industry growth patterns and user acquisition dynamics."
+    ],
+    "expertise": [
+      "On-Chain Metrics",
+      "Stablecoin Volume",
+      "Wallet Dynamics",
+      "DEX / CEX Liquidity",
+      "Operator Benchmarking"
+    ],
+    "coverage_areas": [
+      "On-Chain Metrics",
+      "Stablecoin Settlements",
+      "Liquidity Benchmarks",
+      "Operator Revenue Analysis"
+    ],
+    "editorial_disclosure": "CryptoCasinoMedia Research provides data-driven editorial summaries based on publicly accessible on-chain data and market feeds. Research findings are intended for informational purposes and do not represent investment advice.",
+    "avatar_image_path": "/images/authors/cryptocasinomedia-research.jpg",
+    "initials": "RD",
+    "active_since": "2026",
+    "featured_topics": [
+      "USDT",
+      "Blockchain Tech",
+      "Bitcoin",
+      "Ethereum",
+      "Market Updates"
+    ],
+    "canonical_url": "https://cryptocasinomedia.com/authors/cryptocasinomedia-research/"
+  },
+  {
+    "slug": "global-gaming-regulatory-desk",
+    "display_name": "Global Gaming Regulatory Desk",
+    "short_name": "Regulatory Desk",
+    "role_title": "International Compliance Coverage Desk",
+    "team_label": "Regulatory Research Desk",
+    "type": "REGULATORY_DESK",
+    "bio_short": "International monitoring desk covering jurisdictional policy overhauls, European standards, and emerging LatAm/Asian frameworks.",
+    "bio_long": [
+      "The Global Gaming Regulatory Desk monitors policy transitions, licensing overhauls, and international interactive gaming enforcement across Europe, Latin America, the Middle East, and the Asia-Pacific region.",
+      "The desk provides comparative cross-border regulatory analysis, examining how evolving national laws interact with offshore licensing centers and cross-border digital asset settlement."
+    ],
+    "expertise": [
+      "Cross-Border Licensing",
+      "EU MiCA Directives",
+      "Brazil SPA Regulations",
+      "Curacao Direct Licensing",
+      "UAE VARA Rules"
+    ],
+    "coverage_areas": [
+      "Curacao GCB Reforms",
+      "Brazil iGaming Framework",
+      "UAE VARA Rules",
+      "International Compliance"
+    ],
+    "editorial_disclosure": "The Global Gaming Regulatory Desk synthesizes international regulatory announcements, gazette publications, and licensing requirements for cross-border industry analysis.",
+    "avatar_image_path": "/images/authors/global-gaming-regulatory-desk.jpg",
+    "initials": "GD",
+    "active_since": "2026",
+    "featured_topics": [
+      "Regulation",
+      "Compliance",
+      "Licensing",
+      "Europe",
+      "Asia"
+    ],
+    "canonical_url": "https://cryptocasinomedia.com/authors/global-gaming-regulatory-desk/"
+  },
+  {
+    "slug": "igaming-market-intelligence",
+    "display_name": "iGaming Market Intelligence",
+    "short_name": "Market Intelligence",
+    "role_title": "Industry Trends & Valuation Desk",
+    "team_label": "Market Intelligence Desk",
+    "type": "EDITORIAL_DESK",
+    "bio_short": "Commercial strategy and studio integration desk evaluating B2B aggregator feeds, supplier partnerships, and valuation benchmarks.",
+    "bio_long": [
+      "The iGaming Market Intelligence desk tracks commercial supplier partnerships, game studio software integrations, B2B PAM distribution, and platform M&A activity across the real-money and sweepstakes gaming sectors.",
+      "Through industry data collation and supplier tracking, the desk highlights structural shifts in gaming content distribution and technological infrastructure."
+    ],
+    "expertise": [
+      "B2B Distribution",
+      "Game Studio Software",
+      "Platform PAM Integrations",
+      "M&A & Valuations",
+      "Social Gaming Economics"
+    ],
+    "coverage_areas": [
+      "B2B Distribution",
+      "Studio Partnerships",
+      "Social Gaming PAM Infrastructure",
+      "Operator Growth"
+    ],
+    "editorial_disclosure": "The iGaming Market Intelligence desk is an editorial entity focused on commercial and technological trends in the interactive entertainment and B2B gaming supply sector.",
+    "avatar_image_path": "/images/authors/igaming-market-intelligence.jpg",
+    "initials": "MI",
+    "active_since": "2026",
+    "featured_topics": [
+      "New Launches",
+      "Expansion",
+      "Partnerships",
+      "Technology",
+      "Social Casino"
+    ],
+    "canonical_url": "https://cryptocasinomedia.com/authors/igaming-market-intelligence/"
+  }
+]
