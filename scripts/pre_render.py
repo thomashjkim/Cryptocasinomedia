@@ -215,6 +215,7 @@ navItems = [
     { 'label': 'Regulation', 'path': '/regulation/' },
     { 'label': 'Payments', 'path': '/payments/' },
     { 'label': 'Sweepstakes', 'path': '/sweepstakes/' },
+    { 'label': 'Local', 'path': '/local/' },
     { 'label': 'Guides', 'path': '/guides/' },
 ]
 
@@ -339,7 +340,7 @@ def renderFooter():
                         <div class="col-span-1 md:col-span-2">
                             {getLogoHTML(dark=True)}
                             <p class="text-gray-400 mt-4 text-sm max-w-sm leading-relaxed">
-                                CryptoCasinoMedia is an independent editorial organization dedicated to providing professional, verified news, press releases, and analysis covering the intersection of digital assets and iGaming.
+                                CryptoCasinoMedia is an independent B2B crypto gambling and iGaming market intelligence publisher.
                             </p>
                         </div>
                         <div>
@@ -369,7 +370,7 @@ def renderFooter():
                         </div>
                     </div>
                     <div class="border-t border-gray-800 pt-8 text-xs text-gray-500 space-y-4 leading-relaxed">
-                        <p><strong>Disclaimer:</strong> CryptoCasinoMedia is a B2B news and editorial publisher. We are not a casino operator. The content published on this site is intended for informational and industry analysis purposes only.</p>
+                        <p><strong>Disclaimer:</strong> CryptoCasinoMedia is an independent B2B crypto gambling and iGaming market intelligence publisher. We are not a casino operator. The content published on this site is intended for informational and industry analysis purposes only.</p>
                         <p><strong>Responsible Gambling:</strong> If you or someone you know has a gambling problem, crisis counseling and referral services can be accessed by calling 1-800-GAMBLER.</p>
                         <p><strong>Corporate Info:</strong> CryptoCasinoMedia Group LLC, 1209 North Orange Street, Wilmington, DE 19801, USA. Tel: +1 (302) 200-3498. Email: cryptocasinomedia@gmail.com For direct support, please use our <a href="/contact" class="text-gray-400 hover:text-white transition-colors underline font-medium">Contact Form</a>.</p>
                         <p>&copy; {current_year} CryptoCasinoMedia. All rights reserved.</p>
@@ -762,9 +763,20 @@ def renderArticlePage(slug):
     topics_list_str = ", ".join(article['topics'])
     
     # Determine reporting classification and unified authorship model
-    source_name = article.get('sourceName') or article.get('company') or "CryptoCasinoMedia Desk"
-    source_name_lower = source_name.lower()
-    is_third_party = article.get('company') or not any(k in source_name_lower for k in ['desk', 'intelligence', 'analytics', 'research', 'editorial'])
+    comp_name = (article.get('company') or '').strip()
+    source_name = (article.get('sourceName') or comp_name or "CryptoCasinoMedia Desk").strip()
+    source_url = article.get('sourceUrl') or article.get('originalUrl')
+    if source_url and ('cryptocasinomedia.com/press-releases/' in source_url or source_url == 'https://cryptocasinomedia.com'):
+        source_url = None
+
+    source_lower = f"{source_name} {comp_name}".lower()
+    is_internal_editorial = any(k in source_lower for k in [
+        'cryptocasinomedia', 'ccm', 'editorial staff', 'data desk', 'legal desk', 
+        'research desk', 'regulatory desk', 'security desk', 'trend analytics', 
+        'product intelligence', 'technology desk', 'sports desk', 'market intelligence',
+        'compliance desk'
+    ])
+    is_third_party = not is_internal_editorial
     
     if is_third_party:
         reporting_type = "OFFICIAL PRESS RELEASE"
@@ -784,8 +796,11 @@ def renderArticlePage(slug):
             if len(matched_sources) >= 4:
                 break
     
+    if source_url and is_third_party and not any(m[1] == source_url for m in matched_sources):
+        matched_sources.insert(0, (source_name, source_url))
+
     if matched_sources:
-        links_list = "".join([f'<li class="text-xs text-blue-700 hover:underline"><a href="{url}" target="_blank" rel="noopener noreferrer">{name} Official Reference / Registry</a></li>' for name, url in matched_sources])
+        links_list = "".join([f'<li class="text-xs text-blue-700 hover:underline"><a href="{url}" target="_blank" rel="noopener nofollow">{name} Official Reference / Portal</a></li>' for name, url in matched_sources])
         source_links_html = f"""
                                     <div class="mt-4 pt-3 border-t border-gray-200">
                                         <h4 class="text-xs font-semibold uppercase tracking-wider text-gray-700 mb-2">Primary Reference & Verification Sources:</h4>
@@ -795,18 +810,42 @@ def renderArticlePage(slug):
                                     </div>
         """
 
-    industry_analysis_block = f"""
-                                <section id="article-provenance" class="my-10 border-t border-gray-200 pt-6 font-sans">
-                                    <div class="bg-gray-50 border border-gray-200 p-5 rounded-sm">
+    if is_third_party:
+        if source_url:
+            source_link_html = f'<a href="{source_url}" target="_blank" rel="noopener nofollow" class="text-blue-700 underline font-semibold">{source_name}</a>'
+            source_badge_html = f'<a href="{source_url}" target="_blank" rel="noopener nofollow" class="text-blue-700 underline font-medium">{source_name}</a>'
+        else:
+            source_link_html = f'<strong class="text-gray-900">{source_name}</strong>'
+            source_badge_html = f'<span class="font-medium text-gray-800">{source_name}</span>'
+            
+        provenance_header_html = f"""
                                         <div class="flex items-center justify-between mb-3 border-b border-gray-200 pb-2">
                                             <span class="text-xs uppercase tracking-wider font-semibold text-blue-800 bg-blue-50 px-2 py-0.5 rounded-sm">
                                                 {reporting_type}
                                             </span>
-                                            <span class="text-xs text-gray-600 font-medium">Source: {source_name}</span>
+                                            <span class="text-xs text-gray-600 font-medium">Source: {source_badge_html}</span>
                                         </div>
                                         <p class="text-xs text-gray-600 leading-relaxed mb-1">
-                                            <strong>Editorial Review & Attribution:</strong> Submitted announcements are reviewed under <a href="/editorial-standards/" class="text-blue-700 underline">CryptoCasinoMedia Editorial Standards</a> by <a href="/authors/{editor_slug}/" class="text-blue-700 underline font-medium">{editor_name}</a> ({editor_role}) and attributed directly to original source {source_name}.
+                                            <strong>Editorial Review & Attribution:</strong> Submitted announcements are reviewed under <a href="/editorial-standards/" class="text-blue-700 underline">CryptoCasinoMedia Editorial Standards</a> by <a href="/authors/{editor_slug}/" class="text-blue-700 underline font-medium">{editor_name}</a> ({editor_role}) and attributed directly to original source {source_link_html}.
                                         </p>
+        """
+    else:
+        provenance_header_html = f"""
+                                        <div class="flex items-center justify-between mb-3 border-b border-gray-200 pb-2">
+                                            <span class="text-xs uppercase tracking-wider font-semibold text-indigo-800 bg-indigo-50 px-2 py-0.5 rounded-sm">
+                                                {reporting_type}
+                                            </span>
+                                            <span class="text-xs text-gray-600 font-medium">Reporting Desk: {source_name}</span>
+                                        </div>
+                                        <p class="text-xs text-gray-600 leading-relaxed mb-1">
+                                            <strong>Editorial Attribution:</strong> Researched, written, and verified under <a href="/editorial-standards/" class="text-blue-700 underline">CryptoCasinoMedia Editorial Standards</a> by <a href="/authors/{editor_slug}/" class="text-blue-700 underline font-medium">{editor_name}</a> ({editor_role}) for {source_name}.
+                                        </p>
+        """
+
+    industry_analysis_block = f"""
+                                <section id="article-provenance" class="my-10 border-t border-gray-200 pt-6 font-sans">
+                                    <div class="bg-gray-50 border border-gray-200 p-5 rounded-sm">
+                                        {provenance_header_html}
                                         {source_links_html}
                                     </div>
                                 </section>
@@ -829,13 +868,21 @@ def renderArticlePage(slug):
                 </a>
             """ for topic in article['topics']])
 
+    if is_third_party:
+        if source_url:
+            source_header_str = f'Source: <a href="{source_url}" target="_blank" rel="noopener nofollow" class="font-bold text-gray-900 hover:text-blue-700 underline">{source_name}</a> • Reviewed by <a href="/authors/{editor_slug}/" class="font-semibold text-gray-900 hover:text-blue-700 underline">{editor_name}</a> <span class="text-xs text-gray-500">({editor_role})</span>'
+        else:
+            source_header_str = f'Source: <strong class="text-gray-900">{source_name}</strong> • Reviewed by <a href="/authors/{editor_slug}/" class="font-semibold text-gray-900 hover:text-blue-700 underline">{editor_name}</a> <span class="text-xs text-gray-500">({editor_role})</span>'
+    else:
+        source_header_str = f'By <a href="/authors/{editor_slug}/" class="font-semibold text-gray-900 hover:text-blue-700 underline">{editor_name}</a> <span class="text-xs text-gray-500">({editor_role})</span> • <span class="text-gray-700 font-medium">{source_name}</span>'
+
     excerpt_block = f'<p class="text-lg text-gray-600 font-serif italic mb-6 leading-relaxed">{article["excerpt"]}</p>' if article.get("excerpt") else ''
     thumbnail_figure = f"""
                             <figure class="mb-8 border border-gray-200 bg-gray-50 p-1">
                                 <img src="{article['thumbnailUrl']}" alt="{article['title']}" fetchpriority="high" class="w-full h-auto object-cover max-h-[450px]" />
                                 <figcaption class="text-[12px] text-gray-500 mt-2 px-2 pb-1 text-left font-sans flex flex-col sm:flex-row sm:justify-between items-start sm:items-center gap-1 border-t border-gray-100 pt-2">
                                     <span><strong>Caption:</strong> {article['title']}</span>
-                                    <span class="text-gray-400 shrink-0">Source: {article['sourceName']}</span>
+                                    <span class="text-gray-400 shrink-0">Source: {source_name}</span>
                                 </figcaption>
                             </figure>
                             """ if article.get('thumbnailUrl') else ''
@@ -884,7 +931,7 @@ def renderArticlePage(slug):
                                     <div>
                                         <div class="flex items-center gap-2 mb-1">
                                             <span class="text-sm text-gray-900">
-                                                {"Source: <strong class=\"text-gray-900\">" + source_name + "</strong> • Reviewed by <a href=\"/authors/" + editor_slug + "/\" class=\"font-semibold text-gray-900 hover:text-blue-700 underline\">" + editor_name + "</a> <span class=\"text-xs text-gray-500\">(" + editor_role + ")</span>" if is_third_party else "By <a href=\"/authors/" + editor_slug + "/\" class=\"font-semibold text-gray-900 hover:text-blue-700 underline\">" + editor_name + "</a> <span class=\"text-xs text-gray-500\">(" + editor_role + ")</span>"}
+                                                {source_header_str}
                                             </span>
                                             <span class="text-gray-300">•</span>
                                             <span class="text-[11px] uppercase tracking-wider text-blue-700 font-semibold">{article['region']}</span>
@@ -952,14 +999,18 @@ def renderArticlePage(slug):
                                     <div class="p-5 space-y-4 text-sm">
                                         {f"""<div>
                                              <span class=\"block text-gray-500 text-[11px] uppercase tracking-wider mb-1\">Original Source</span>
-                                             <span class=\"font-semibold text-gray-900\">{source_name}</span>
+                                             {f'<a href=\"{source_url}\" target=\"_blank\" rel=\"noopener nofollow\" class=\"font-semibold text-blue-700 hover:underline inline-flex items-center\">{source_name} <i data-lucide=\"external-link\" class=\"w-3 h-3 ml-1\"></i></a>' if source_url else f'<span class=\"font-semibold text-gray-900\">{source_name}</span>'}
                                          </div>
                                          <div>
                                              <span class=\"block text-gray-500 text-[11px] uppercase tracking-wider mb-1\">Editorial Review</span>
-                                             <span class=\"font-semibold text-gray-900\">{editor_name} ({editor_role})</span>
+                                             <span class=\"font-semibold text-gray-900\"><a href=\"/authors/{editor_slug}/\" class=\"hover:text-blue-700 underline text-gray-900\">{editor_name}</a> ({editor_role})</span>
                                          </div>""" if is_third_party else f"""<div>
                                              <span class=\"block text-gray-500 text-[11px] uppercase tracking-wider mb-1\">Author</span>
-                                             <span class=\"font-semibold text-gray-900\">{editor_name} ({editor_role})</span>
+                                             <span class=\"font-semibold text-gray-900\"><a href=\"/authors/{editor_slug}/\" class=\"hover:text-blue-700 underline text-gray-900\">{editor_name}</a> ({editor_role})</span>
+                                         </div>
+                                         <div>
+                                             <span class=\"block text-gray-500 text-[11px] uppercase tracking-wider mb-1\">Editorial Desk</span>
+                                             <span class=\"font-semibold text-gray-900\">{source_name}</span>
                                          </div>
                                          <div>
                                              <span class=\"block text-gray-500 text-[11px] uppercase tracking-wider mb-1\">Publisher</span>
@@ -972,11 +1023,11 @@ def renderArticlePage(slug):
                                             </div>
                                         </div>
                                         {f"""<div>
-                                             <span class=\"block text-gray-500 text-[11px] uppercase tracking-wider mb-1\">Primary Source</span>
-                                             <a href=\"{article['originalUrl']}\" target=\"_blank\" rel=\"sponsored nofollow\" class=\"inline-flex items-center text-blue-700 hover:underline font-medium text-xs\">
-                                                 Official Site <i data-lucide=\"external-link\" class=\"w-3 h-3 ml-1\"></i>
+                                             <span class=\"block text-gray-500 text-[11px] uppercase tracking-wider mb-1\">Official Website</span>
+                                             <a href=\"{source_url}\" target=\"_blank\" rel=\"noopener nofollow\" class=\"inline-flex items-center text-blue-700 hover:underline font-medium text-xs\">
+                                                 Visit Site <i data-lucide=\"external-link\" class=\"w-3 h-3 ml-1\"></i>
                                              </a>
-                                         </div>""" if article.get('originalUrl') else ""}
+                                         </div>""" if (is_third_party and source_url) else ""}
                                         <div>
                                             <span class="block text-gray-500 text-[11px] uppercase tracking-wider mb-1">Region</span>
                                             <div class="flex items-center text-gray-900">
@@ -1311,13 +1362,13 @@ def renderAboutPage():
                 <div class="max-w-[900px] mx-auto px-4 sm:px-6 lg:px-8 py-16 animate-fade-in">
                     <div class="mb-12 border-b border-gray-200 pb-10">
                         <h1 class="text-4xl font-semibold tracking-tight text-gray-900 mb-4">About CryptoCasinoMedia</h1>
-                        <p class="text-xl text-gray-600 leading-relaxed">CryptoCasinoMedia is an independent B2B editorial news publisher covering the intersection of digital assets, online gaming, regulation, and payments.</p>
+                        <p class="text-xl text-gray-600 leading-relaxed">CryptoCasinoMedia is an independent B2B crypto gambling and iGaming market intelligence publisher.</p>
                     </div>
 
                     <section class="mb-12">
                         <h2 class="text-2xl font-semibold text-gray-900 mb-4">What We Do</h2>
-                        <p class="text-gray-700 leading-relaxed mb-4">We publish verified press releases, operator announcements, regulatory updates, and industry analysis for professionals in the crypto and iGaming sector. Our content reaches operators, investors, regulators, and technology partners across North America, Europe, and Asia.</p>
-                        <p class="text-gray-700 leading-relaxed">CryptoCasinoMedia is not a casino operator. We do not accept money to publish favorable editorial coverage. All press releases are clearly labeled as such and sourced from verified operators.</p>
+                        <p class="text-gray-700 leading-relaxed mb-4">We publish authoritative market intelligence, regulatory updates, industry analysis, and verified press releases for professionals in the crypto casino and iGaming sectors. Our coverage reaches operators, institutional investors, regulatory bodies, and infrastructure partners across North America, Europe, Latin America, and Asia.</p>
+                        <p class="text-gray-700 leading-relaxed">CryptoCasinoMedia is strictly an independent market intelligence publisher and not a casino operator. We do not accept payment for favorable editorial coverage. Press release distribution is provided as a dedicated dissemination service with transparent sourcing from verified operators.</p>
                     </section>
 
                     <section class="mb-12">
@@ -1370,12 +1421,12 @@ def renderAboutPage():
                             <div class="bg-gray-50 border border-gray-200 p-6 rounded-sm">
                                 <h3 class="font-bold text-gray-900 text-lg"><a href="/authors/marcus-vance" class="text-gray-900 hover:text-blue-700 transition-colors underline decoration-dotted">Marcus Vance</a></h3>
                                 <p class="text-xs text-blue-700 font-semibold mb-2">Lead iGaming Analyst</p>
-                                <p class="text-sm text-gray-600 leading-relaxed">Marcus has over 8 years of experience analyzing digital asset betting volumes, platform architectures, and offshore operator trends. Formerly a market research analyst and compliance consultant for European sportsbooks.</p>
+                                <p class="text-sm text-gray-600 leading-relaxed">Editorial desk byline leading research on digital asset betting volumes, platform architectures, provably fair mechanics, and offshore operator trends.</p>
                             </div>
                             <div class="bg-gray-50 border border-gray-200 p-6 rounded-sm">
                                 <h3 class="font-bold text-gray-900 text-lg"><a href="/authors/sophia-chen" class="text-gray-900 hover:text-blue-700 transition-colors underline decoration-dotted">Sophia Chen</a></h3>
                                 <p class="text-xs text-blue-700 font-semibold mb-2">Regulatory & Compliance Editor</p>
-                                <p class="text-sm text-gray-600 leading-relaxed">Sophia has over 6 years of experience specializing in international gambling compliance, sweepstakes laws, Curacao GCB reforms, and digital asset regulatory frameworks.</p>
+                                <p class="text-sm text-gray-600 leading-relaxed">Editorial desk byline focusing on international gambling compliance, state sweepstakes laws, Curaçao licensing reforms, and digital asset regulatory frameworks.</p>
                             </div>
                         </div>
                     </section>
@@ -1948,8 +1999,19 @@ with open(template_path, "r", encoding="utf-8") as f:
     template_content = f.read()
 
 ENTITY_MAPPINGS = {
+    "Dominator Play": "https://dominatorplay.com/",
     "Stake.com": "https://en.wikipedia.org/wiki/Stake.com",
     "Stake": "https://en.wikipedia.org/wiki/Stake.com",
+    "BC.GAME": "https://bc.game/",
+    "BitStarz": "https://www.bitstarz.com/",
+    "Thunderpick": "https://thunderpick.io/",
+    "Roobet": "https://en.wikipedia.org/wiki/Roobet",
+    "Rollbit": "https://rollbit.com/",
+    "DraftKings": "https://en.wikipedia.org/wiki/DraftKings",
+    "BetMGM": "https://en.wikipedia.org/wiki/BetMGM",
+    "FanDuel": "https://www.fanduel.com/",
+    "Flutter Entertainment": "https://www.flutter.com/",
+    "Sportsbet.io": "https://sportsbet.io/",
     "Coinbase": "https://en.wikipedia.org/wiki/Coinbase",
     "New York Supreme Court": "https://ww2.nycourts.gov/",
     "Polymarket": "https://en.wikipedia.org/wiki/Polymarket",
@@ -1964,15 +2026,24 @@ ENTITY_MAPPINGS = {
     "ETH": "https://en.wikipedia.org/wiki/Ethereum",
     "Curacao Gaming Control Board": "https://www.wikidata.org/wiki/Q114881518",
     "Curacao": "https://en.wikipedia.org/wiki/Cura%C3%A7ao",
+    "Florida Gaming Control Commission": "https://flgaming.gov/",
     "UAE VARA": "https://www.vara.ae/en/",
     "VARA": "https://www.vara.ae/en/",
     "Google Trends": "https://trends.google.com/",
     "FIFA World Cup": "https://en.wikipedia.org/wiki/FIFA_World_Cup",
     "Telegram": "https://en.wikipedia.org/wiki/Telegram_(software)",
     "GambleFi": "https://www.wikidata.org/wiki/Q122971271",
-    "Roobet": "https://en.wikipedia.org/wiki/Roobet",
-    "DraftKings": "https://en.wikipedia.org/wiki/DraftKings",
-    "BetMGM": "https://en.wikipedia.org/wiki/BetMGM",
+    "TG.Casino": "https://tg.casino/",
+    "Mega Dice": "https://www.megadice.com/",
+    "Lucky Block": "https://www.luckyblock.com/",
+    "Wall Street Memes": "https://wsmcasino.com/",
+    "Instant Casino": "https://instantcasino.com/",
+    "Cafe Casino": "https://www.cafecasino.lv/",
+    "Chumba Casino": "https://www.chumbacasino.com/",
+    "Crown Coins Casino": "https://crowncoinscasino.com/",
+    "Funrize": "https://funrize.com/",
+    "RealBet": "https://realbet.io/",
+    "Bluff": "https://bluff.bet/",
     "LBLOCK": "https://www.wikidata.org/wiki/Q110823377"
 }
 
@@ -2028,9 +2099,20 @@ for article in articles_sorted:
                 })
 
     # Generate static Article + FAQPage + BreadcrumbList schemas
-    source_name = article.get('sourceName') or article.get('company') or "CryptoCasinoMedia Desk"
-    source_name_lower = source_name.lower()
-    is_third_party = article.get('company') or not any(k in source_name_lower for k in ['desk', 'intelligence', 'analytics', 'research', 'editorial'])
+    comp_name = (article.get('company') or '').strip()
+    source_name = (article.get('sourceName') or comp_name or "CryptoCasinoMedia Desk").strip()
+    source_url = article.get('sourceUrl') or article.get('originalUrl')
+    if source_url and ('cryptocasinomedia.com/press-releases/' in source_url or source_url == 'https://cryptocasinomedia.com'):
+        source_url = None
+
+    source_lower = f"{source_name} {comp_name}".lower()
+    is_internal_editorial = any(k in source_lower for k in [
+        'cryptocasinomedia', 'ccm', 'editorial staff', 'data desk', 'legal desk', 
+        'research desk', 'regulatory desk', 'security desk', 'trend analytics', 
+        'product intelligence', 'technology desk', 'sports desk', 'market intelligence',
+        'compliance desk'
+    ])
+    is_third_party = not is_internal_editorial
     
     editor_slug, editor_name, editor_role = get_author_for_article(article)
     editor_info = AUTHORS_MAP.get(editor_slug, {})
@@ -2040,7 +2122,7 @@ for article in articles_sorted:
         author_schema = {
             "@type": "Organization",
             "name": source_name,
-            "url": article.get('originalUrl') or "https://cryptocasinomedia.com"
+            "url": source_url or "https://cryptocasinomedia.com"
         }
         editor_schema = {
             "@type": "Organization" if is_desk else "Person",
