@@ -547,15 +547,12 @@ def renderSectionPage(title, description, filterCategory, filterTopic=None):
         match = True
         if filterCategory:
             if filterCategory == 'press-releases':
-                # Strictly content_type == 'press_release'
-                match = article.get('content_type') == 'press_release'
+                match = True
             elif filterCategory == 'guides':
-                # Strictly content_type == 'guide'
-                match = article.get('content_type') == 'guide'
+                match = article.get('content_type') == 'guide' or article.get('primaryCategory') == 'guides'
             else:
-                # Section membership (many-to-many: sections array)
                 sections = article.get('sections', [article.get('primaryCategory')])
-                match = filterCategory in sections
+                match = filterCategory in sections or article.get('primaryCategory') == filterCategory
 
         if filterTopic:
             match = match and any(t.lower().replace(' ', '-') == filterTopic for t in article.get('topics', []))
@@ -2000,6 +1997,7 @@ with open(template_path, "r", encoding="utf-8") as f:
 
 ENTITY_MAPPINGS = {
     "Dominator Play": "https://dominatorplay.com/",
+    "SlotCatalog": "https://slotcatalog.com/",
     "Stake.com": "https://en.wikipedia.org/wiki/Stake.com",
     "Stake": "https://en.wikipedia.org/wiki/Stake.com",
     "BC.GAME": "https://bc.game/",
@@ -2238,11 +2236,11 @@ for path, title, description, filter_cat in categories:
     
     # Get articles for this category
     if filter_cat == 'press-releases':
-        cat_articles = [a for a in articles_sorted if a.get('content_type') == 'press_release']
+        cat_articles = articles_sorted
     elif filter_cat == 'guides':
-        cat_articles = [a for a in articles_sorted if a.get('content_type') == 'guide']
+        cat_articles = [a for a in articles_sorted if a.get('content_type') == 'guide' or a.get('primaryCategory') == 'guides']
     elif filter_cat:
-        cat_articles = [a for a in articles_sorted if filter_cat in a.get('sections', [a.get('primaryCategory')])]
+        cat_articles = [a for a in articles_sorted if filter_cat in a.get('sections', [a.get('primaryCategory')]) or a.get('primaryCategory') == filter_cat]
     else:
         cat_articles = articles_sorted
     

@@ -70,6 +70,24 @@ with open(articles_sitemap_path, "w", encoding="utf-8") as f:
     f.write("\n".join(articles_xml_lines))
 print(f"SUCCESS: sitemaps/articles.xml successfully updated with {len(core_pages) + len(published_sorted)} URLs!")
 
+# 1b. Generate dedicated press releases sitemap (sitemaps/press-releases.xml)
+pr_sitemap_path = os.path.join(PROJECT_ROOT, "index/sitemaps/press-releases.xml")
+pr_xml_lines = [
+    '<?xml version="1.0" encoding="UTF-8"?>',
+    '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'
+]
+pr_xml_lines.append('  <url><loc>https://cryptocasinomedia.com/press-releases/</loc><lastmod>2026-09-09</lastmod><changefreq>daily</changefreq><priority>0.9</priority></url>')
+for article in published_sorted:
+    slug = article["slug"]
+    published_at = article.get("firstPublishedAt") or article["publishedAt"]
+    date_part = published_at.split("T")[0]
+    loc = f"https://cryptocasinomedia.com/press-releases/{slug}/"
+    pr_xml_lines.append(f'  <url><loc>{loc}</loc><lastmod>{date_part}</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>')
+pr_xml_lines.append('</urlset>\n')
+with open(pr_sitemap_path, "w", encoding="utf-8") as f:
+    f.write("\n".join(pr_xml_lines))
+print(f"SUCCESS: sitemaps/press-releases.xml successfully updated with {len(published_sorted) + 1} URLs!")
+
 # 2. Generate dedicated authors sitemap (sitemaps/authors.xml)
 authors_sitemap_path = os.path.join(PROJECT_ROOT, "index/sitemaps/authors.xml")
 authors_urls = [
@@ -147,7 +165,9 @@ news_xml_content = "\n".join(news_xml_lines) + "\n"
 try:
     with open(news_sitemap_path, "w", encoding="utf-8") as f:
         f.write(news_xml_content)
-    print(f"SUCCESS: news-sitemap.xml successfully updated at {news_sitemap_path} with {len(recent_articles)} recent news articles!")
+    with open(os.path.join(PROJECT_ROOT, "index/sitemaps/news.xml"), "w", encoding="utf-8") as f:
+        f.write(news_xml_content)
+    print(f"SUCCESS: news-sitemap.xml & sitemaps/news.xml successfully updated with {len(recent_articles)} recent news articles!")
 except Exception as e:
     print(f"Error writing news-sitemap.xml: {e}")
     sys.exit(1)
