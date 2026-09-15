@@ -1,3 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
+  <url>
+    <loc>https://cryptocasinomedia.com/press-releases/ukgc-european-regulators-telegram-mini-app-casinos-gamstop-mica-enforcement-2026/</loc>
+    <news:news>
+      <news:publication>
+        <news:name>CryptoCasinoMedia</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2026-09-15T11:30:00Z</news:publication_date>
+      <news:title>UKGC and European Regulators Target Telegram Mini-App Casinos in Coordinated Enforcement Over GamStop and MiCA Non-Compliance</news:title>
+    </news:news>
+  </url>
+  <url>
+    <loc>https://cryptocasinomedia.com/press-releases/scam-alert-ai-deepfake-kick-streamers-fake-no-deposit-bonus-crypto-drainer-2026/</loc>
+    <news:news>
+      <news:publication>
+        <news:name>CryptoCasinoMedia</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2026-09-15T11:00:00Z</news:publication_date>
+      <news:title>Scam Alert: AI Deepfake Livestreams Impersonate Kick Streamers with Fraudulent $5,000 No-Deposit Crypto Casino Drainers</news:title>
+    </news:news>
+  </url>
+  <url>
+    <loc>https://cryptocasinomedia.com/press-releases/solana-actions-blinks-social-betting-boom-crypto-casinos-400m-2026/</loc>
+    <news:news>
+      <news:publication>
+        <news:name>CryptoCasinoMedia</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2026-09-15T10:00:00Z</news:publication_date>
+      <news:title>Solana Actions &amp; Blinks Trigger $400M Social Wagering Boom as In-Feed Micro-Bets Reshape Crypto Casino Distribution</news:title>
+    </news:news>
+  </url>
 </urlset>
