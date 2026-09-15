@@ -1,0 +1,14 @@
+{
+  "resource": "https://cryptocasinomedia.com",
+  "authorization_servers": [
+    "https://cryptocasinomedia.com"
+  ],
+  "scopes_supported": [
+    "read:public",
+    "read:intelligence"
+  ],
+  "bearer_methods_supported": [
+    "header"
+  ],
+  "resource_documentation": "https://cryptocasinomedia.com/llms.txt"
+}

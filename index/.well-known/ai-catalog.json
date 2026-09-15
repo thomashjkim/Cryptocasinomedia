@@ -1,0 +1,44 @@
+{
+  "specVersion": "1.0",
+  "host": {
+    "name": "CryptoCasinoMedia",
+    "url": "https://cryptocasinomedia.com",
+    "description": "Professional iGaming, Digital Asset & Search-Trend Intelligence Publisher"
+  },
+  "entries": [
+    {
+      "identifier": "urn:air:cryptocasinomedia.com:knowledge:llmstxt",
+      "type": "text/plain",
+      "displayName": "LLMs Knowledge Index",
+      "url": "https://cryptocasinomedia.com/llms.txt",
+      "description": "Structured plain text markdown directory of all intelligence articles and regulatory guides for LLMs and AI Agents",
+      "representativeQueries": [
+        "latest crypto casino regulation updates",
+        "crypto casino sweepstakes legal status by state",
+        "telegram gamblefi and prediction markets report 2026"
+      ]
+    },
+    {
+      "identifier": "urn:air:cryptocasinomedia.com:sitemap:xml",
+      "type": "application/xml",
+      "displayName": "Full Content XML Sitemap",
+      "url": "https://cryptocasinomedia.com/sitemap.xml",
+      "description": "Complete XML sitemap index covering 2,500+ regulatory guides, market reports, and press releases",
+      "representativeQueries": [
+        "crypto casino sitemap index",
+        "all crypto casino state guides"
+      ]
+    },
+    {
+      "identifier": "urn:air:cryptocasinomedia.com:feed:rss",
+      "type": "application/rss+xml",
+      "displayName": "RSS News Feed",
+      "url": "https://cryptocasinomedia.com/rss.xml",
+      "description": "Real-time RSS 2.0 syndicated feed of verified crypto casino and iGaming industry news",
+      "representativeQueries": [
+        "breaking crypto casino news feed",
+        "igaming industry press releases"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "linkset": [
+    {
+      "anchor": "https://cryptocasinomedia.com",
+      "service-desc": [
+        {
+          "href": "https://cryptocasinomedia.com/llms.txt",
+          "type": "text/plain"
+        }
+      ],
+      "service-doc": [
+        {
+          "href": "https://cryptocasinomedia.com/about/",
+          "type": "text/html"
+        }
+      ],
+      "describedby": [
+        {
+          "href": "https://cryptocasinomedia.com/.well-known/ai-catalog.json",
+          "type": "application/json"
+        }
+      ]
+    }
+  ]
+}

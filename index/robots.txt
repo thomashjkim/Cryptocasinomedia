@@ -1,11 +1,25 @@
 User-agent: *
 Allow: /
 
-User-agent: OAI-SearchBot
-Allow: /
-
 User-agent: GPTBot
 Allow: /
 
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+# AI Content Signals (IETF/Cloudflare AI Standard)
+Content-Signal: ai-train=yes, search=yes, ai-input=yes
+
 Sitemap: https://cryptocasinomedia.com/sitemap.xml
-Sitemap: https://cryptocasinomedia.com/news-sitemap.xml

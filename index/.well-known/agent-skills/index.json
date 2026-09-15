@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json.schemastore.org/agent-skills-discovery-0.2.0.json",
+  "skills": [
+    {
+      "name": "crypto_casino_intelligence_search",
+      "type": "knowledge_retrieval",
+      "description": "Retrieve verified B2B intelligence, legal frameworks, and regulatory guides for crypto casinos and prediction markets.",
+      "url": "https://cryptocasinomedia.com/llms.txt",
+      "sha256": "02fcbc80b9177fd99c4c1e160d8a4ff0bc6b8442d9a60ef274af0f89880c6834"
+    },
+    {
+      "name": "us_state_sweepstakes_regulation_lookup",
+      "type": "regulatory_data",
+      "description": "Query 51-state regulatory and availability tracker for sweepstakes casinos and social gaming.",
+      "url": "https://cryptocasinomedia.com/sweepstakes/sweepstakes-casino-availability-by-state/",
+      "sha256": "01c3dbbd860184f70a592ffe3dce53cfdc79894c85a3a7885b3571121b734229"
+    }
+  ]
+}

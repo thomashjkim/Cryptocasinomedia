@@ -1,0 +1,25 @@
+{
+  "serverInfo": {
+    "name": "cryptocasinomedia-intelligence",
+    "version": "1.0.0",
+    "title": "CryptoCasinoMedia Intelligence MCP Server",
+    "description": "Model Context Protocol endpoint providing real-time iGaming regulation, search trend rankings, and sweepstakes compliance data.",
+    "homepage": "https://cryptocasinomedia.com"
+  },
+  "capabilities": {
+    "resources": {
+      "subscribe": false,
+      "listChanged": false
+    },
+    "tools": {
+      "listChanged": false
+    },
+    "prompts": {
+      "listChanged": false
+    }
+  },
+  "transport": {
+    "type": "sse",
+    "endpoint": "https://cryptocasinomedia.com/llms.txt"
+  }
+}

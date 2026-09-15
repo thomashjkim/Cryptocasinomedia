@@ -125,7 +125,7 @@ sitemap_index_lines = [
     '  <sitemap><loc>https://cryptocasinomedia.com/sitemaps/regulation.xml</loc><lastmod>2026-08-18</lastmod></sitemap>',
     '  <sitemap><loc>https://cryptocasinomedia.com/sitemaps/static.xml</loc><lastmod>2026-08-18</lastmod></sitemap>',
     '  <sitemap><loc>https://cryptocasinomedia.com/sitemaps/topics.xml</loc><lastmod>2026-08-18</lastmod></sitemap>',
-    '  <sitemap><loc>https://cryptocasinomedia.com/local-sitemap.xml</loc><lastmod>2026-08-18</lastmod></sitemap>',
+    '  <sitemap><loc>https://cryptocasinomedia.com/local-sitemap.xml</loc><lastmod>2026-09-15</lastmod></sitemap>',
     '</sitemapindex>\n'
 ]
 with open(sitemap_path, "w", encoding="utf-8") as f:

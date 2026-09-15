@@ -1,0 +1,17 @@
+# CryptoCasinoMedia
+
+> Professional iGaming, Digital Asset & Search-Trend Intelligence Publisher
+
+## Sections
+- [CryptoCasinoMedia Home](https://cryptocasinomedia.com/)
+- [Local Data Hub](https://cryptocasinomedia.com/local/)
+- [Press Releases](https://cryptocasinomedia.com/press-releases/)
+- [Crypto Casinos](https://cryptocasinomedia.com/crypto-casinos/)
+- [Sportsbook](https://cryptocasinomedia.com/sportsbook/)
+- [Regulation & Compliance](https://cryptocasinomedia.com/regulation/)
+- [Payments & Tech](https://cryptocasinomedia.com/payments/)
+- [Sweepstakes](https://cryptocasinomedia.com/sweepstakes/)
+- [Guides](https://cryptocasinomedia.com/guides/)
+
+## Methodology & Provenance
+CryptoCasinoMedia Local metrics are compiled weekly from the Google Trends public dataset on BigQuery across 50 U.S. states and ~210 Nielsen Designated Market Areas (DMAs). All index scores measure relative local attention on a 0-100 scale.

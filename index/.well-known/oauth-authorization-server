@@ -1,0 +1,30 @@
+{
+  "issuer": "https://cryptocasinomedia.com",
+  "authorization_endpoint": "https://cryptocasinomedia.com/about/",
+  "token_endpoint": "https://cryptocasinomedia.com/about/",
+  "jwks_uri": "https://cryptocasinomedia.com/.well-known/jwks.json",
+  "response_types_supported": [
+    "code"
+  ],
+  "grant_types_supported": [
+    "authorization_code",
+    "client_credentials"
+  ],
+  "scopes_supported": [
+    "read:public",
+    "read:intelligence"
+  ],
+  "agent_auth": {
+    "register_uri": "https://cryptocasinomedia.com/about/",
+    "supported_identity_types": [
+      "public",
+      "bearer"
+    ],
+    "supported_credential_types": [
+      "token",
+      "none"
+    ],
+    "claim_url": "https://cryptocasinomedia.com/about/",
+    "revocation_url": "https://cryptocasinomedia.com/about/"
+  }
+}

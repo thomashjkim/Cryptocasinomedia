@@ -216,7 +216,6 @@ navItems = [
     { 'label': 'Payments', 'path': '/payments/' },
     { 'label': 'Sweepstakes', 'path': '/sweepstakes/' },
     { 'label': 'Local', 'path': '/local/' },
-    { 'label': 'Guides', 'path': '/guides/' },
 ]
 
 # Global Wikidata Entity mappings for high-value B2B concepts
@@ -261,7 +260,7 @@ def renderHeader(currentPath):
         is_active = currentPath.startswith(item['path'])
         active_class = 'text-blue-700 border-b-2 border-blue-700' if is_active else 'text-gray-900'
         desktopNav += f"""
-                <a href="{item['path']}"  class="text-[13px] font-medium transition-colors hover:text-blue-700 py-5 {active_class}">
+                <a href="{item['path']}" class="text-[13px] font-medium transition-colors hover:text-blue-700 py-5 whitespace-nowrap {active_class}">
                     {item['label']}
                 </a>
             """
@@ -277,20 +276,22 @@ def renderHeader(currentPath):
                         <a href="/" class="flex-shrink-0 flex items-center">
                             {getLogoHTML()}
                         </a>
-                        <nav class="hidden lg:flex space-x-4 xl:space-x-6">
+                        <nav class="hidden lg:flex items-center gap-6 xl:gap-8">
                             {desktopNav}
                         </nav>
                         <div class="hidden lg:flex items-center relative">
                             <div class="flex items-center border border-gray-200 rounded-sm px-2.5 py-1 bg-gray-50 focus-within:bg-white focus-within:border-gray-400 transition-colors">
-                                <i data-lucide="search" class="w-[14px] h-[14px] text-gray-400 mr-2"></i>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-[14px] h-[14px] text-gray-400 mr-2 flex-shrink-0"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.3-4.3"></path></svg>
                                 <input id="search-input" type="text" placeholder="Search news..." oninput="handleSearchInput(event)" class="bg-transparent text-xs outline-none w-40 xl:w-48 text-gray-800 placeholder-gray-400 font-medium">
                             </div>
                             <!-- Live Search Results -->
                             <div id="search-results-overlay" class="absolute top-10 right-0 w-80 bg-white border border-gray-200 rounded-sm shadow-lg hidden z-50 max-h-96 overflow-y-auto"></div>
                         </div>
                         <div class="lg:hidden flex items-center">
-                            <button onclick="toggleMobileMenu()" class="text-gray-500 hover:text-gray-900 p-2">
-                                <i id="mobile-menu-icon" data-lucide="menu" class="w-6 h-6"></i>
+                            <button onclick="toggleMobileMenu()" aria-label="Toggle navigation menu" class="text-gray-700 hover:text-gray-900 p-2 focus:outline-none">
+                                <span id="mobile-menu-icon-container">
+                                    <svg id="mobile-menu-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6"><line x1="4" x2="20" y1="12" y2="12"></line><line x1="4" x2="20" y1="6" y2="6"></line><line x1="4" x2="20" y1="18" y2="18"></line></svg>
+                                </span>
                             </button>
                         </div>
                     </div>
@@ -1779,6 +1780,218 @@ def renderAuthorsDirectoryPage(profiles):
         </div>
     """
 
+
+def renderGuidesHubPage():
+    return """
+        <div class="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8 py-8 animate-fade-in">
+            <div class="mb-8 border-b border-gray-200 pb-8">
+                <div class="flex items-center gap-2 text-xs uppercase tracking-widest text-blue-700 font-bold mb-2">
+                    <span>B2B Knowledge Base & Industry Intelligence</span>
+                </div>
+                <h1 class="text-3xl sm:text-4xl font-semibold tracking-tight text-gray-900">iGaming & Crypto Casino Industry Guides</h1>
+                <p class="text-gray-600 mt-2 text-lg max-w-3xl leading-relaxed">
+                    Comprehensive, data-driven intelligence hubs covering global licensing overhauls, state-by-state sweepstakes jurisprudence, Web3 GambleFi protocols, and algorithmic news optimization.
+                </p>
+                <div class="mt-6 p-6 bg-blue-50/70 border-l-4 border-blue-600 rounded-r-lg">
+                    <h2 class="text-xs uppercase tracking-widest font-semibold text-blue-900 mb-1.5">Research Methodology & Institutional Governance</h2>
+                    <p class="text-sm text-blue-950 leading-relaxed m-0">
+                        CryptoCasinoMedia guides are maintained by our dedicated <a href="/authors/cryptocasinomedia-legal-desk/" class="text-blue-700 font-semibold underline">Legal Desk</a> and <a href="/authors/marcus-vance/" class="text-blue-700 font-semibold underline">Lead iGaming Analysts</a>. Sourced from primary statutes, regulatory filings (GCB, MiCA, FinCEN), and on-chain blockchain audit data under our strict <a href="/editorial-standards/" class="text-blue-700 font-semibold underline">Editorial Standards</a>.
+                    </p>
+                </div>
+            </div>
+
+            <!-- SECTION 1: Cornerstone Strategic Regulatory & Market Guides -->
+            <div class="mb-12">
+                <div class="flex items-center justify-between border-b border-gray-900 pb-3 mb-6">
+                    <h2 class="text-xl font-bold tracking-tight text-gray-900">Featured Regulatory & Market Overhauls (2026)</h2>
+                    <span class="text-xs font-semibold text-gray-500 uppercase tracking-wider">Cornerstone Research</span>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <!-- Guide 1 -->
+                    <div class="border border-gray-200 rounded-sm p-6 bg-white hover:shadow-md transition-shadow flex flex-col justify-between">
+                        <div>
+                            <div class="flex items-center gap-2 mb-3">
+                                <span class="px-2 py-0.5 text-[10px] uppercase font-bold tracking-wider bg-blue-100 text-blue-800 rounded">Statutory Overhaul</span>
+                                <span class="text-xs text-gray-400">May 2026</span>
+                            </div>
+                            <h3 class="text-lg font-bold text-gray-900 mb-3 leading-snug hover:text-blue-700 transition-colors">
+                                <a href="/guides/regulation-2026/">The 2026 Crypto Casino Regulatory Guide</a>
+                            </h3>
+                            <p class="text-sm text-gray-600 mb-4 leading-relaxed">
+                                Curacao LOK restructuring, EU MiCA stablecoin mandates, UKGC fiat-crypto integration standards, and emerging LatAm regulatory frameworks.
+                            </p>
+                        </div>
+                        <div class="pt-4 border-t border-gray-100 flex items-center justify-between">
+                            <span class="text-xs text-gray-500 font-medium">Sophia Chen, Regulatory Editor</span>
+                            <a href="/guides/regulation-2026/" class="text-xs font-bold text-blue-700 hover:underline inline-flex items-center">Read Guide &rarr;</a>
+                        </div>
+                    </div>
+
+                    <!-- Guide 2 -->
+                    <div class="border border-gray-200 rounded-sm p-6 bg-white hover:shadow-md transition-shadow flex flex-col justify-between">
+                        <div>
+                            <div class="flex items-center gap-2 mb-3">
+                                <span class="px-2 py-0.5 text-[10px] uppercase font-bold tracking-wider bg-emerald-100 text-emerald-800 rounded">Market Analysis</span>
+                                <span class="text-xs text-gray-400">May 2026</span>
+                            </div>
+                            <h3 class="text-lg font-bold text-gray-900 mb-3 leading-snug hover:text-blue-700 transition-colors">
+                                <a href="/guides/sweepstakes-market/">Sweepstakes Casinos: Market Size & Legal Framework</a>
+                            </h3>
+                            <p class="text-sm text-gray-600 mb-4 leading-relaxed">
+                                Institutional breakdown of the B+ US dual-currency model (Gold Coins vs. Sweeps Coins), state AMOE rules, and cryptocurrency payout rails.
+                            </p>
+                        </div>
+                        <div class="pt-4 border-t border-gray-100 flex items-center justify-between">
+                            <span class="text-xs text-gray-500 font-medium">Legal Desk & Market Intelligence</span>
+                            <a href="/guides/sweepstakes-market/" class="text-xs font-bold text-blue-700 hover:underline inline-flex items-center">Read Guide &rarr;</a>
+                        </div>
+                    </div>
+
+                    <!-- Guide 3 -->
+                    <div class="border border-gray-200 rounded-sm p-6 bg-white hover:shadow-md transition-shadow flex flex-col justify-between">
+                        <div>
+                            <div class="flex items-center gap-2 mb-3">
+                                <span class="px-2 py-0.5 text-[10px] uppercase font-bold tracking-wider bg-purple-100 text-purple-800 rounded">Web3 Protocol</span>
+                                <span class="text-xs text-gray-400">May 2026</span>
+                            </div>
+                            <h3 class="text-lg font-bold text-gray-900 mb-3 leading-snug hover:text-blue-700 transition-colors">
+                                <a href="/guides/gamblefi-telegram/">GambleFi & Telegram Casinos: Web3 Betting</a>
+                            </h3>
+                            <p class="text-sm text-gray-600 mb-4 leading-relaxed">
+                                The rise of no-KYC Telegram bots, decentralized on-chain bankrolls, zero-knowledge compliance, and tokenized profit-sharing mechanics.
+                            </p>
+                        </div>
+                        <div class="pt-4 border-t border-gray-100 flex items-center justify-between">
+                            <span class="text-xs text-gray-500 font-medium">Marcus Vance, Lead Analyst</span>
+                            <a href="/guides/gamblefi-telegram/" class="text-xs font-bold text-blue-700 hover:underline inline-flex items-center">Read Guide &rarr;</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SECTION 2: Prominent Callout: Local 50-State Hub & Legal Trackers -->
+            <div class="mb-12 bg-gradient-to-r from-gray-900 to-blue-950 text-white p-8 rounded-sm shadow-md">
+                <div class="flex flex-col lg:flex-row items-center justify-between gap-6">
+                    <div class="lg:w-2/3">
+                        <div class="flex items-center gap-2 mb-2">
+                            <span class="bg-blue-600 text-white text-[10px] uppercase tracking-wider font-bold px-2 py-0.5 rounded">Special Report & Directory</span>
+                            <span class="text-blue-300 text-xs font-mono">50 U.S. Jurisdictions</span>
+                        </div>
+                        <h2 class="text-2xl sm:text-3xl font-bold tracking-tight text-white mb-3">50-State Crypto Gaming & Local Market Directory</h2>
+                        <p class="text-gray-300 text-sm sm:text-base leading-relaxed mb-4">
+                            Deep-dive state-by-state intelligence analyzing interactive gaming statutes, sweepstakes legality, local search market demand, DMA trend velocity, and crypto payment adoption across all 50 US states.
+                        </p>
+                        <div class="flex flex-wrap gap-2 text-xs text-gray-300">
+                            <span class="bg-gray-800/80 px-2.5 py-1 rounded border border-gray-700">California DMA</span>
+                            <span class="bg-gray-800/80 px-2.5 py-1 rounded border border-gray-700">Texas Market</span>
+                            <span class="bg-gray-800/80 px-2.5 py-1 rounded border border-gray-700">Florida Gaming</span>
+                            <span class="bg-gray-800/80 px-2.5 py-1 rounded border border-gray-700">New York Framework</span>
+                            <span class="bg-gray-800/80 px-2.5 py-1 rounded border border-gray-700">AMOE State Tracker</span>
+                        </div>
+                    </div>
+                    <div class="lg:w-1/3 flex flex-col gap-3 w-full sm:w-auto">
+                        <a href="/local/" class="inline-block text-center py-3.5 px-6 bg-blue-600 hover:bg-blue-500 text-white font-bold text-sm rounded transition-colors shadow">
+                            Explore 50-State Local Directory &rarr;
+                        </a>
+                        <a href="/press-releases/us-sweepstakes-social-casino-compliance-legality-guide/" class="inline-block text-center py-2.5 px-6 bg-gray-800 hover:bg-gray-700 text-gray-200 font-semibold text-xs rounded transition-colors border border-gray-700">
+                            View U.S. Compliance & Legality Guide
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SECTION 3: Technical, AEO & News Distribution Guides -->
+            <div class="mb-12">
+                <div class="flex items-center justify-between border-b border-gray-900 pb-3 mb-6">
+                    <h2 class="text-xl font-bold tracking-tight text-gray-900">Syndication, AEO & Technical Optimization</h2>
+                    <span class="text-xs font-semibold text-gray-500 uppercase tracking-wider">Publisher Architecture</span>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <!-- Guide 4 -->
+                    <div class="border border-gray-200 rounded-sm p-6 bg-white hover:border-gray-400 transition-colors">
+                        <span class="text-xs font-bold uppercase tracking-wider text-blue-700 block mb-2">Editorial Infrastructure</span>
+                        <h3 class="text-base font-bold text-gray-900 mb-2 leading-snug hover:text-blue-700 transition-colors">
+                            <a href="/how-crypto-casino-news-works/">How Crypto Casino News Distribution Works</a>
+                        </h3>
+                        <p class="text-xs text-gray-600 mb-4 leading-relaxed">
+                            How corporate press releases propagate to Bloomberg, Google News, and Web3 algorithmic discovery nodes via structured JSON-LD feeds.
+                        </p>
+                        <a href="/how-crypto-casino-news-works/" class="text-xs font-semibold text-blue-700 hover:underline">Read Architecture &rarr;</a>
+                    </div>
+
+                    <!-- Guide 5 -->
+                    <div class="border border-gray-200 rounded-sm p-6 bg-white hover:border-gray-400 transition-colors">
+                        <span class="text-xs font-bold uppercase tracking-wider text-indigo-700 block mb-2">AI Search Engine Optimization</span>
+                        <h3 class="text-base font-bold text-gray-900 mb-2 leading-snug hover:text-blue-700 transition-colors">
+                            <a href="/aeo-best-practices/">AEO Best Practices for iGaming Publishers</a>
+                        </h3>
+                        <p class="text-xs text-gray-600 mb-4 leading-relaxed">
+                            Optimizing content for ChatGPT Search, Perplexity Pro, Claude, and Google AI Overviews with direct entity verification.
+                        </p>
+                        <a href="/aeo-best-practices/" class="text-xs font-semibold text-blue-700 hover:underline">Read Framework &rarr;</a>
+                    </div>
+
+                    <!-- Guide 6 -->
+                    <div class="border border-gray-200 rounded-sm p-6 bg-white hover:border-gray-400 transition-colors">
+                        <span class="text-xs font-bold uppercase tracking-wider text-amber-700 block mb-2">Technical SEO</span>
+                        <h3 class="text-base font-bold text-gray-900 mb-2 leading-snug hover:text-blue-700 transition-colors">
+                            <a href="/press-release-seo/">Press Release SEO for Crypto Operators</a>
+                        </h3>
+                        <p class="text-xs text-gray-600 mb-4 leading-relaxed">
+                            Schema.org NewsArticle markup, canonical URL structures, Wikidata semantic hooks, and entity authority accumulation.
+                        </p>
+                        <a href="/press-release-seo/" class="text-xs font-semibold text-blue-700 hover:underline">Read Strategy &rarr;</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SECTION 4: Regional Market Rankings & Operational Guides -->
+            <div>
+                <div class="flex items-center justify-between border-b border-gray-900 pb-3 mb-6">
+                    <h2 class="text-xl font-bold tracking-tight text-gray-900">Regional Operator Rankings & Regulatory Guides</h2>
+                    <span class="text-xs font-semibold text-gray-500 uppercase tracking-wider">Global Jurisdictions</span>
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <a href="/press-releases/top-10-crypto-casinos-dubai-uae-2026-luxury-rankings-gcgra-guide/" class="group block border border-gray-200 p-5 rounded-sm hover:border-blue-600 transition-colors bg-white">
+                        <span class="text-[10px] uppercase font-bold text-blue-700 tracking-wider block mb-1">Middle East / UAE</span>
+                        <h3 class="text-sm font-bold text-gray-900 group-hover:text-blue-700 transition-colors mb-2 leading-snug">Dubai & UAE 2026: GCGRA Regulatory & Luxury Crypto Casino Guide</h3>
+                        <p class="text-xs text-gray-500 line-clamp-2 leading-relaxed">GCGRA commercial gaming authority licensing analysis, VIP high-roller liquidity rails, and luxury Web3 casino operations.</p>
+                    </a>
+
+                    <a href="/press-releases/top-10-crypto-casinos-latin-america-2026-rankings-brazil-argentina-guide/" class="group block border border-gray-200 p-5 rounded-sm hover:border-blue-600 transition-colors bg-white">
+                        <span class="text-[10px] uppercase font-bold text-blue-700 tracking-wider block mb-1">Latin America</span>
+                        <h3 class="text-sm font-bold text-gray-900 group-hover:text-blue-700 transition-colors mb-2 leading-snug">Latin America 2026: Brazil PIX & Argentina Crypto Casino Guide</h3>
+                        <p class="text-xs text-gray-500 line-clamp-2 leading-relaxed">Brazil's SPA/MF regulatory enforcement, PIX stablecoin integration, and Argentine inflation-hedging betting trends.</p>
+                    </a>
+
+                    <a href="/press-releases/top-10-crypto-casinos-africa-2026-mobile-rankings-mpesa-usdt-guide/" class="group block border border-gray-200 p-5 rounded-sm hover:border-blue-600 transition-colors bg-white">
+                        <span class="text-[10px] uppercase font-bold text-blue-700 tracking-wider block mb-1">Africa</span>
+                        <h3 class="text-sm font-bold text-gray-900 group-hover:text-blue-700 transition-colors mb-2 leading-snug">Africa 2026: Mobile M-Pesa & USDT Crypto Casino Guide</h3>
+                        <p class="text-xs text-gray-500 line-clamp-2 leading-relaxed">Mobile money infrastructure, TRON/USDT micro-wagering volumes, and Nigerian/Kenyan regulatory licensing updates.</p>
+                    </a>
+
+                    <a href="/press-releases/top-10-crypto-casinos-hong-kong-2026-web3-rankings-sfc-analysis/" class="group block border border-gray-200 p-5 rounded-sm hover:border-blue-600 transition-colors bg-white">
+                        <span class="text-[10px] uppercase font-bold text-blue-700 tracking-wider block mb-1">East Asia / Hong Kong</span>
+                        <h3 class="text-sm font-bold text-gray-900 group-hover:text-blue-700 transition-colors mb-2 leading-snug">Hong Kong 2026: SFC Digital Asset Licensing & Web3 Gaming</h3>
+                        <p class="text-xs text-gray-500 line-clamp-2 leading-relaxed">SFC compliant custody frameworks, high-net-worth cross-border flows, and offshore gaming compliance under HK law.</p>
+                    </a>
+
+                    <a href="/press-releases/top-10-crypto-casinos-india-2026-market-ranking-tax-guide/" class="group block border border-gray-200 p-5 rounded-sm hover:border-blue-600 transition-colors bg-white">
+                        <span class="text-[10px] uppercase font-bold text-blue-700 tracking-wider block mb-1">South Asia / India</span>
+                        <h3 class="text-sm font-bold text-gray-900 group-hover:text-blue-700 transition-colors mb-2 leading-snug">India 2026: 28% GST, 1% TDS & Crypto Casino Market Guide</h3>
+                        <p class="text-xs text-gray-500 line-clamp-2 leading-relaxed">Section 194S TDS tax withholding compliance, FIU-IND offshore operator notices, and rupee-crypto payment rails.</p>
+                    </a>
+
+                    <a href="/press-releases/curacao-gcb-igaming-license-reforms-guide/" class="group block border border-gray-200 p-5 rounded-sm hover:border-blue-600 transition-colors bg-white">
+                        <span class="text-[10px] uppercase font-bold text-blue-700 tracking-wider block mb-1">Licensing Hub</span>
+                        <h3 class="text-sm font-bold text-gray-900 group-hover:text-blue-700 transition-colors mb-2 leading-snug">Curaçao GCB iGaming License Reforms & Transition Guide</h3>
+                        <p class="text-xs text-gray-500 line-clamp-2 leading-relaxed">Step-by-step master license phase-out, National Ordinance on Games of Chance (LOK) compliance, and digital asset audits.</p>
+                    </a>
+                </div>
+            </div>
+        </div>
+    """
+
 def renderAdminPage():
     return """
         <div class="max-w-[800px] mx-auto px-4 sm:px-6 lg:px-8 py-16 text-center animate-fade-in">
@@ -2232,7 +2445,10 @@ categories = [
 ]
 
 for path, title, description, filter_cat in categories:
-    body = renderSectionPage(title, description, filter_cat)
+    if filter_cat == 'guides':
+        body = renderGuidesHubPage()
+    else:
+        body = renderSectionPage(title, description, filter_cat)
     
     # Get articles for this category
     if filter_cat == 'press-releases':
