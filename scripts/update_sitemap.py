@@ -107,24 +107,66 @@ for a_url in authors_urls:
     prio = "0.8" if a_url.endswith("/authors/") else "0.7"
     authors_xml_lines.append(f'  <url><loc>{a_url}</loc><lastmod>2026-08-18</lastmod><changefreq>weekly</changefreq><priority>{prio}</priority></url>')
 authors_xml_lines.append('</urlset>\n')
-with open(authors_sitemap_path, "w", encoding="utf-8") as f:
-    f.write("\n".join(authors_xml_lines))
-print(f"SUCCESS: sitemaps/authors.xml successfully updated with {len(authors_urls)} author URLs!")
+# 2b. Generate dedicated guides sitemap (sitemaps/guides.xml)
+guides_sitemap_path = os.path.join(PROJECT_ROOT, "index/sitemaps/guides.xml")
+guides_pages = [
+    ("https://cryptocasinomedia.com/guides/", "2026-09-15", "weekly", "0.9"),
+    ("https://cryptocasinomedia.com/guides/regulation-2026/", "2026-09-15", "monthly", "0.9"),
+    ("https://cryptocasinomedia.com/guides/sweepstakes-market/", "2026-09-15", "monthly", "0.9"),
+    ("https://cryptocasinomedia.com/guides/gamblefi-telegram/", "2026-09-15", "monthly", "0.9"),
+]
+guides_xml_lines = [
+    '<?xml version="1.0" encoding="UTF-8"?>',
+    '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'
+]
+for url, lastmod, freq, prio in guides_pages:
+    guides_xml_lines.append(f'  <url><loc>{url}</loc><lastmod>{lastmod}</lastmod><changefreq>{freq}</changefreq><priority>{prio}</priority></url>')
+guides_xml_lines.append('</urlset>\n')
+with open(guides_sitemap_path, "w", encoding="utf-8") as f:
+    f.write("\n".join(guides_xml_lines))
+print(f"SUCCESS: sitemaps/guides.xml successfully updated with {len(guides_pages)} guide URLs!")
+
+# 2c. Generate dedicated static pages sitemap (sitemaps/static.xml)
+static_sitemap_path = os.path.join(PROJECT_ROOT, "index/sitemaps/static.xml")
+static_pages = [
+    ("https://cryptocasinomedia.com/", "2026-09-15", "daily", "1.0"),
+    ("https://cryptocasinomedia.com/aeo-best-practices/", "2026-09-15", "monthly", "0.7"),
+    ("https://cryptocasinomedia.com/contact/", "2026-09-15", "monthly", "0.7"),
+    ("https://cryptocasinomedia.com/submit/", "2026-09-15", "monthly", "0.7"),
+    ("https://cryptocasinomedia.com/how-crypto-casino-news-works/", "2026-09-15", "monthly", "0.7"),
+    ("https://cryptocasinomedia.com/editorial-standards/", "2026-09-15", "monthly", "0.6"),
+    ("https://cryptocasinomedia.com/press-release-seo/", "2026-09-15", "monthly", "0.7"),
+    ("https://cryptocasinomedia.com/agent/", "2026-09-15", "weekly", "0.7"),
+    ("https://cryptocasinomedia.com/about/", "2026-09-15", "monthly", "0.7"),
+    ("https://cryptocasinomedia.com/advertise/", "2026-09-15", "monthly", "0.7"),
+    ("https://cryptocasinomedia.com/industry/crypto/", "2026-09-15", "weekly", "0.8"),
+    ("https://cryptocasinomedia.com/industry/igaming/", "2026-09-15", "weekly", "0.8")
+]
+static_xml_lines = [
+    '<?xml version="1.0" encoding="UTF-8"?>',
+    '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'
+]
+for url, lastmod, freq, prio in static_pages:
+    static_xml_lines.append(f'  <url><loc>{url}</loc><lastmod>{lastmod}</lastmod><changefreq>{freq}</changefreq><priority>{prio}</priority></url>')
+static_xml_lines.append('</urlset>\n')
+with open(static_sitemap_path, "w", encoding="utf-8") as f:
+    f.write("\n".join(static_xml_lines))
+print(f"SUCCESS: sitemaps/static.xml successfully updated with {len(static_pages)} static URLs!")
 
 # 3. Generate root sitemap index (sitemap.xml)
 sitemap_index_lines = [
     '<?xml version="1.0" encoding="UTF-8"?>',
     '<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
-    '  <sitemap><loc>https://cryptocasinomedia.com/sitemaps/articles.xml</loc><lastmod>2026-08-18</lastmod></sitemap>',
-    '  <sitemap><loc>https://cryptocasinomedia.com/sitemaps/authors.xml</loc><lastmod>2026-08-18</lastmod></sitemap>',
-    '  <sitemap><loc>https://cryptocasinomedia.com/sitemaps/guides.xml</loc><lastmod>2026-08-18</lastmod></sitemap>',
-    '  <sitemap><loc>https://cryptocasinomedia.com/sitemaps/legal.xml</loc><lastmod>2026-08-18</lastmod></sitemap>',
-    '  <sitemap><loc>https://cryptocasinomedia.com/sitemaps/news.xml</loc><lastmod>2026-08-18</lastmod></sitemap>',
-    '  <sitemap><loc>https://cryptocasinomedia.com/sitemaps/press-releases.xml</loc><lastmod>2026-08-18</lastmod></sitemap>',
-    '  <sitemap><loc>https://cryptocasinomedia.com/sitemaps/regions.xml</loc><lastmod>2026-08-18</lastmod></sitemap>',
-    '  <sitemap><loc>https://cryptocasinomedia.com/sitemaps/regulation.xml</loc><lastmod>2026-08-18</lastmod></sitemap>',
-    '  <sitemap><loc>https://cryptocasinomedia.com/sitemaps/static.xml</loc><lastmod>2026-08-18</lastmod></sitemap>',
-    '  <sitemap><loc>https://cryptocasinomedia.com/sitemaps/topics.xml</loc><lastmod>2026-08-18</lastmod></sitemap>',
+    '  <sitemap><loc>https://cryptocasinomedia.com/sitemaps/articles.xml</loc><lastmod>2026-09-15</lastmod></sitemap>',
+    '  <sitemap><loc>https://cryptocasinomedia.com/sitemaps/authors.xml</loc><lastmod>2026-09-15</lastmod></sitemap>',
+    '  <sitemap><loc>https://cryptocasinomedia.com/sitemaps/guides.xml</loc><lastmod>2026-09-15</lastmod></sitemap>',
+    '  <sitemap><loc>https://cryptocasinomedia.com/sitemaps/legal.xml</loc><lastmod>2026-09-15</lastmod></sitemap>',
+    '  <sitemap><loc>https://cryptocasinomedia.com/sitemaps/news.xml</loc><lastmod>2026-09-15</lastmod></sitemap>',
+    '  <sitemap><loc>https://cryptocasinomedia.com/sitemaps/press-releases.xml</loc><lastmod>2026-09-15</lastmod></sitemap>',
+    '  <sitemap><loc>https://cryptocasinomedia.com/sitemaps/regions.xml</loc><lastmod>2026-09-15</lastmod></sitemap>',
+    '  <sitemap><loc>https://cryptocasinomedia.com/sitemaps/regulation.xml</loc><lastmod>2026-09-15</lastmod></sitemap>',
+    '  <sitemap><loc>https://cryptocasinomedia.com/sitemaps/static.xml</loc><lastmod>2026-09-15</lastmod></sitemap>',
+    '  <sitemap><loc>https://cryptocasinomedia.com/sitemaps/topics.xml</loc><lastmod>2026-09-15</lastmod></sitemap>',
     '  <sitemap><loc>https://cryptocasinomedia.com/local-sitemap.xml</loc><lastmod>2026-09-15</lastmod></sitemap>',
     '</sitemapindex>\n'
 ]
