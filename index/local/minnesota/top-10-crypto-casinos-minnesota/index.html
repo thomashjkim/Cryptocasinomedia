@@ -54,6 +54,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/tailwind.css">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
     <style>body { font-family: 'Inter', sans-serif; }</style>
@@ -224,8 +225,8 @@
 
         <!-- Shared Editorial Hero Image -->
         <figure class="my-6">
-            <div class="aspect-video w-full bg-gray-100 overflow-hidden border border-gray-200 rounded-sm">
-                <img src="/images/crypto_casino_top10_editorial.jpg" alt="Digital search interest and crypto casino consumer discovery index in Minnesota" class="w-full h-full object-cover" />
+            <div class="aspect-video w-full bg-gray-100 overflow-hidden border border-gray-200 rounded-sm" style="aspect-ratio: 16/9;">
+                <img src="/images/crypto_casino_top10_editorial.jpg" alt="Digital search interest and crypto casino consumer discovery index in Minnesota" width="1024" height="576" loading="eager" fetchpriority="high" class="w-full h-auto object-cover" style="aspect-ratio: 16/9; max-width: 100%; display: block;" />
             </div>
             <figcaption class="text-xs text-gray-500 mt-2 font-sans space-y-1 text-center">
                 <p>Digital search interest and crypto casino consumer discovery index in Minnesota.</p>
