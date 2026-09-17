@@ -44,18 +44,18 @@ def format_names(state_slug, dma_slug=None):
 
 # 12-week date ranges
 WEEK_RANGES = [
-    ("W1", "May 31 – Jun 6, 2026"),
-    ("W2", "Jun 7 – Jun 13, 2026"),
-    ("W3", "Jun 14 – Jun 20, 2026"),
-    ("W4", "Jun 21 – Jun 27, 2026"),
-    ("W5", "Jun 28 – Jul 4, 2026"),
-    ("W6", "Jul 5 – Jul 11, 2026"),
-    ("W7", "Jul 12 – Jul 18, 2026"),
-    ("W8", "Jul 19 – Jun 25, 2026"),
-    ("W9", "Jul 26 – Aug 1, 2026"),
-    ("W10", "Aug 2 – Aug 8, 2026"),
-    ("W11", "Aug 9 – Aug 15, 2026"),
-    ("W12", "Aug 16 – Aug 22, 2026"),
+    ("W1", "Jun 21 – Jun 27, 2026"),
+    ("W2", "Jun 28 – Jul 4, 2026"),
+    ("W3", "Jul 5 – Jul 11, 2026"),
+    ("W4", "Jul 12 – Jul 18, 2026"),
+    ("W5", "Jul 19 – Jul 25, 2026"),
+    ("W6", "Jul 26 – Aug 1, 2026"),
+    ("W7", "Aug 2 – Aug 8, 2026"),
+    ("W8", "Aug 9 – Aug 15, 2026"),
+    ("W9", "Aug 16 – Aug 22, 2026"),
+    ("W10", "Aug 23 – Aug 29, 2026"),
+    ("W11", "Aug 30 – Sep 5, 2026"),
+    ("W12", "Sep 6 – Sep 12, 2026"),
 ]
 
 # 3. Fix broken cross-state links in all HTML files
@@ -167,7 +167,7 @@ for file_path in all_html_files:
     trend_dir = "increased" if w12_sc > w1_sc else ("decreased" if w12_sc < w1_sc else "held steady")
 
     summary_text = (
-        f"Over the 12-week observation cycle (May 31 to August 22, 2026), search attention for crypto casino terms in "
+        f"Over the 12-week observation cycle (June 21 to September 12, 2026), search attention for crypto casino terms in "
         f"<strong>{market_display}</strong> {trend_dir} from {w1_sc}/100 in W1 to {w12_sc}/100 in W12, averaging {avg_sc}/100 "
         f"(12-week high: {max_sc}, low: {min_sc}) against the national baseline (which moved from {scores_us[0]} to {scores_us[-1]})."
     )
@@ -195,7 +195,7 @@ for file_path in all_html_files:
                 {summary_text}
             </p>
             <div class="text-[11px] text-gray-400 mt-1.5">
-                Data period: May 31 – August 22, 2026 | Last verified: August 2026 | Source: Google Trends Public Dataset (BigQuery) via CryptoCasinoMedia Research
+                Data period: June 21 – September 12, 2026 | Last verified: September 17, 2026 | Source: Google Trends Public Dataset (BigQuery) via CryptoCasinoMedia Research
             </div>
         </section>"""
 
@@ -212,13 +212,13 @@ for file_path in all_html_files:
         "@context": "https://schema.org",
         "@type": "Dataset",
         "name": f"12-Week Search Attention Index: {market_display}",
-        "description": f"Weekly normalized search attention index (May 31 - August 22, 2026) for crypto gambling and casino queries in {market_display}, benchmarked against U.S. national averages.",
+        "description": f"Weekly normalized search attention index (June 21 - September 12, 2026) for crypto gambling and casino queries in {market_display}, benchmarked against U.S. national averages.",
         "creator": {
             "@type": "Organization",
             "name": "CryptoCasinoMedia Research",
             "url": "https://cryptocasinomedia.com"
         },
-        "temporalCoverage": "2026-05-31/2026-08-22",
+        "temporalCoverage": "2026-06-21/2026-09-12",
         "spatialCoverage": market_display,
         "variableMeasured": [
             {
