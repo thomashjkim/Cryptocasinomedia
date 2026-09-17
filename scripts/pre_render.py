@@ -180,6 +180,26 @@ def get_author_for_article(article):
     else:
         return 'marcus-vance', 'Marcus Vance', 'Senior iGaming Analyst'
 
+def get_semantic_content_type(article):
+    comp_name = (article.get('company') or '').strip()
+    source_name = (article.get('sourceName') or comp_name or "CryptoCasinoMedia Desk").strip()
+    source_lower = f"{source_name} {comp_name}".lower()
+    is_internal_editorial = any(k in source_lower for k in [
+        'cryptocasinomedia', 'ccm', 'editorial staff', 'data desk', 'legal desk', 
+        'research desk', 'regulatory desk', 'security desk', 'trend analytics', 
+        'product intelligence', 'technology desk', 'sports desk', 'market intelligence',
+        'compliance desk'
+    ])
+    if not is_internal_editorial:
+        return "Submitted Press Release"
+    if any(k in source_lower for k in ['legal desk', 'regulatory desk', 'compliance desk']) or article.get('primaryCategory') == 'regulation':
+        return "Regulatory Analysis"
+    if any(k in source_lower for k in ['security desk', 'security alert', 'scam']) or 'scam' in article.get('slug', '') or 'warning' in article.get('slug', ''):
+        return "Security Alert"
+    if any(k in source_lower for k in ['data desk', 'research desk', 'trend analytics', 'rankings']) or 'top-10' in article.get('slug', '') or 'ranking' in article.get('slug', ''):
+        return "CCM Research"
+    return "Industry News"
+
 from datetime import timezone
 now_utc_str = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
 
@@ -776,10 +796,7 @@ def renderArticlePage(slug):
     ])
     is_third_party = not is_internal_editorial
     
-    if is_third_party:
-        reporting_type = "OFFICIAL PRESS RELEASE"
-    else:
-        reporting_type = "EDITORIAL NEWS & ANALYSIS"
+    reporting_type = get_semantic_content_type(article)
 
     editor_slug, editor_name, editor_role = get_author_for_article(article)
     author_name = f"{editor_name} ({editor_role})"
@@ -819,7 +836,7 @@ def renderArticlePage(slug):
         provenance_header_html = f"""
                                         <div class="flex items-center justify-between mb-3 border-b border-gray-200 pb-2">
                                             <span class="text-xs uppercase tracking-wider font-semibold text-blue-800 bg-blue-50 px-2 py-0.5 rounded-sm">
-                                                {reporting_type}
+                                                {reporting_type.upper()}
                                             </span>
                                             <span class="text-xs text-gray-600 font-medium">Source: {source_badge_html}</span>
                                         </div>
@@ -831,7 +848,7 @@ def renderArticlePage(slug):
         provenance_header_html = f"""
                                         <div class="flex items-center justify-between mb-3 border-b border-gray-200 pb-2">
                                             <span class="text-xs uppercase tracking-wider font-semibold text-indigo-800 bg-indigo-50 px-2 py-0.5 rounded-sm">
-                                                {reporting_type}
+                                                {reporting_type.upper()}
                                             </span>
                                             <span class="text-xs text-gray-600 font-medium">Reporting Desk: {source_name}</span>
                                         </div>
@@ -1163,7 +1180,7 @@ def renderKnowledgePage(type):
             'sections': [
                 {'heading': 'The Sweepstakes Model Explained', 'body': 'Sweepstakes casinos operate under US sweepstakes laws rather than traditional gambling regulations. They utilize a dual-currency system: "Gold Coins" (GC) which hold no monetary value and are used for free play, and "Sweeps Coins" (SC) which are given away for free as a promotional entry and can be redeemed for real cash prizes. Players cannot purchase Sweeps Coins directly.'},
                 {'heading': 'Market Size and Growth', 'body': 'The US sweepstakes casino market has exploded, surpassing $4 billion in estimated revenue in 2026. This exponential growth is driven by the slow rollout of legal real-money online casinos (iGaming) in the US, which remains restricted to only a handful of states. Sweepstakes provide a legal, casino-like experience to players in over 40 states.'},
-                {'heading': 'Legal Framework and State Restrictions', 'body': 'While federally legal under sweepstakes provisions, state-level regulations vary wildly. In 2026, states like Michigan, Idaho, and Washington have taken aggressive stances against the sweepstakes model, forcing operators to geoblock residents. The legal distinction hinges on the "No Purchase Necessary" clause and the Alternative Method of Entry (AMOE), typically via mail-in requests.'},
+                {'heading': 'Legal Framework and State Restrictions', 'body': 'While federally recognized under promotional sweepstakes provisions, state-level regulations vary widely across the U.S. In 2026, nine jurisdictions explicitly prohibit or enforce market exits against sweepstakes casino operations: Washington, Idaho, Nevada, Utah, Michigan, Montana, New York (via S5935-A and AG C&D enforcement), Indiana (HB 1052), and Tennessee (SB 2136 / HB 1885). The legal compliance distinction hinges on rigorous adherence to the "No Purchase Necessary" doctrine and a verifiable Alternative Method of Entry (AMOE).'},
                 {'heading': 'Convergence with Crypto', 'body': 'A major trend in 2026 is the integration of cryptocurrency into the sweepstakes model. Operators are increasingly allowing users to purchase Gold Coin packages using Bitcoin or stablecoins, and redeeming Sweeps Coins via crypto payouts. This bypasses traditional banking hurdles that often plague the high-risk sweepstakes sector.'},
                 {'heading': 'Future Outlook', 'body': 'As the market matures, regulatory scrutiny will intensify. Major traditional iGaming operators are expected to launch their own sweepstakes brands or acquire existing market leaders to capture the massive US audience currently inaccessible via regulated real-money channels.'}
             ]
@@ -2377,6 +2394,7 @@ for article in articles_sorted:
             "height": "675"
         },
         "articleSection": article['primaryCategory'].replace('-', ' ').title(),
+        "genre": get_semantic_content_type(article),
         "keywords": ", ".join(article['topics']),
         "articleBody": " ".join(article['body']),
         "dateline": article['dateline'],
@@ -2689,31 +2707,7 @@ utility_pages = [
                 "name": "Sponsored Newsletter & Banner Campaign",
                 "priceCurrency": "USD",
                 "price": "999"
-            },
-            "aggregateRating": {
-                "@type": "AggregateRating",
-                "ratingValue": "4.9",
-                "reviewCount": "34",
-                "bestRating": "5",
-                "worstRating": "1"
-            },
-            "review": [
-                {
-                    "@type": "Review",
-                    "author": {
-                        "@type": "Organization",
-                        "name": "Surgence iGaming Intelligence"
-                    },
-                    "datePublished": "2026-06-12",
-                    "reviewBody": "CryptoCasinoMedia delivered exceptional B2B visibility across targeted crypto casino operator audiences.",
-                    "reviewRating": {
-                        "@type": "Rating",
-                        "ratingValue": "5",
-                        "bestRating": "5",
-                        "worstRating": "1"
-                    }
-                }
-            ]
+            }
         }
     ]),
     ('/submit/', 'Free Crypto Casino Press Release Submission | CryptoCasinoMedia', 'Submit your crypto casino, iGaming, sportsbook, payments, gaming technology, or sweepstakes press release to CryptoCasinoMedia for editorial review and publication.', renderSubmitPage(), [

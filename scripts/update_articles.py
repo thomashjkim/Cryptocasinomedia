@@ -426,10 +426,10 @@ articles_data = [ { 'body': [ 'Dominator Play has partnered with Notix.Games, an
               'governed by local gambling prohibitions, promotional sweepstakes statutes, and active enforcement '
               'postures.',
               'As of late August 2026, dual-currency promotional sweepstakes casinos operate under standard '
-              'availability in 26 jurisdictions, face active attorney general enforcement or high regulatory scrutiny '
-              'in 12 jurisdictions, face statutory or operator restrictions in 6 states, are explicitly prohibited in '
-              '6 jurisdictions (Washington, Idaho, Nevada, Utah, Michigan, and Montana), and have pending statutory '
-              'implementation in 1 state (Oklahoma).'],
+              'availability in 24 jurisdictions, face active attorney general enforcement or high regulatory scrutiny '
+              'in 11 jurisdictions, face statutory or operator restrictions in 6 states, are explicitly prohibited in '
+              '9 jurisdictions (Washington, Idaho, Nevada, Utah, Michigan, Montana, New York, Indiana, and Tennessee), '
+              'and have pending statutory implementation in 1 state (Oklahoma).'],
     'company': 'CryptoCasinoMedia Data Desk',
     'contact': 'editorial@cryptocasinomedia.com',
     'dateline': 'WASHINGTON, D.C. — August 29, 2026',
