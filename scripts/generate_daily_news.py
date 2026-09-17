@@ -10,9 +10,10 @@ scripts_dir = os.path.dirname(os.path.abspath(__file__))
 sys.path.append(scripts_dir)
 
 try:
-    from update_articles import articles_data
+    from articles_db import load_articles, append_article
+    articles_data = load_articles()
 except ImportError as e:
-    print(f"Error: Could not import articles_data from update_articles.py: {e}")
+    print(f"Error: Could not import articles_db: {e}")
     sys.exit(1)
 
 # Expanded pools of high-quality verified Unsplash image URLs per category to guarantee uniqueness and relevance.
@@ -432,9 +433,9 @@ def main():
     for art in new_articles:
         print(f"  [{art['id']}] {art['title']} (Category: {art['primaryCategory']}, Image: {art['thumbnailUrl']})")
         
-    # Merge and update update_articles.py
-    updated_articles_data = articles_data + new_articles
-    write_to_update_articles(updated_articles_data)
+    # Safely append new articles into the protected master database
+    for art in new_articles:
+        append_article(art)
     
     # Update llms.txt reference lists
     update_llms_txt(new_articles)
@@ -442,7 +443,7 @@ def main():
     # Run build pipeline
     print("Executing site compiler and pre-rendering build...")
     import subprocess
-    res_build = subprocess.run([sys.executable, os.path.join(scripts_dir, "update_articles.py")], capture_output=True, text=True)
+    res_build = subprocess.run([sys.executable, os.path.join(scripts_dir, "pre_render.py")], capture_output=True, text=True)
     if res_build.returncode != 0:
         print(f"Compilation error:\n{res_build.stderr}")
         sys.exit(res_build.returncode)
