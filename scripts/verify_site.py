@@ -208,6 +208,19 @@ def check_no_ai_terms():
     print("  [PASS] Zero AI generation/disclosure terms found across all HTML files. 100% human editorial compliance.")
     return True
 
+
+def check_articles_immutability():
+    print("[6/6] Checking Master Articles Database Immutability...")
+    sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+    try:
+        from articles_db import verify_immutability
+        valid, count = verify_immutability()
+        print(f"  [PASS] All {count} historical articles match their SHA-256 cryptographic checksums. 0 mutations detected.")
+        return True
+    except Exception as e:
+        print(f"  [FAIL] Master articles database verification failed: {e}")
+        return False
+
 def main():
     print("=== CRYPTOCASINOMEDIA PRE-FLIGHT VERIFICATION SUITE ===")
     v1 = check_navigation()
@@ -215,8 +228,9 @@ def main():
     v3 = check_images()
     v4 = check_js_syntax()
     v5 = check_no_ai_terms()
+    v6 = check_articles_immutability()
     print("=========================================================")
-    if v1 and v2 and v3 and v4 and v5:
+    if v1 and v2 and v3 and v4 and v5 and v6:
         print("ALL CHECKS PASSED: Site is safe, pristine, and ready for deployment.")
         sys.exit(0)
     else:
