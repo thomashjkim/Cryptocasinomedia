@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CryptoCasinoMedia — B2B Crypto Gambling & iGaming Market Intelligence</title>
     <meta name="description" content="CryptoCasinoMedia is an independent B2B crypto gambling and iGaming market intelligence publisher.">
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+    <meta name="googlebot" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+    <meta name="bingbot" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
     <link rel="canonical" href="https://cryptocasinomedia.com/" id="canonical-link">
     <link rel="sitemap" type="application/xml" href="/sitemap.xml">
     <meta property="og:type" content="website">

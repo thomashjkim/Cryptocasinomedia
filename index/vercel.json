@@ -151,6 +151,10 @@
       "source": "/(.*)",
       "headers": [
         {
+          "key": "Link",
+          "value": "</.well-known/ai-catalog.json>; rel=\"ai-catalog\", </llms.txt>; rel=\"describedby\""
+        },
+        {
           "key": "Cache-Control",
           "value": "public, max-age=0, must-revalidate"
         },
