@@ -7,6 +7,13 @@
     <language>en-us</language>
     <atom:link href="https://cryptocasinomedia.com/rss.xml" rel="self" type="application/rss+xml" />
     <item>
+      <title>Dominator Play Partners with ONEHAZEL to Bring Its Games Across a Wider Network</title>
+      <link>https://cryptocasinomedia.com/press-releases/dominator-play-partners-with-onehazel-to-bring-its-games-across-a-wider-network/</link>
+      <guid isPermaLink="true">https://cryptocasinomedia.com/press-releases/dominator-play-partners-with-onehazel-to-bring-its-games-across-a-wider-network/</guid>
+      <pubDate>2026-09-21T11:00:00Z</pubDate>
+      <description>Dominator Play partners with ONEHAZEL to bring its casino games portfolio onto the gaming marketplace, streamlining game integration and distribution for operators worldwide.</description>
+    </item>
+    <item>
       <title>Dominator Play Kicks Off Football Dominator: Goal or Miss</title>
       <link>https://cryptocasinomedia.com/press-releases/dominator-play-kicks-off-football-dominator-goal-or-miss/</link>
       <guid isPermaLink="true">https://cryptocasinomedia.com/press-releases/dominator-play-kicks-off-football-dominator-goal-or-miss/</guid>
@@ -208,13 +215,6 @@
       <guid isPermaLink="true">https://cryptocasinomedia.com/press-releases/curacao-lok-license-transition-enforces-physical-presence-crypto-casinos-2026/</guid>
       <pubDate>2026-08-04T08:00:00-04:00</pubDate>
       <description>Curacao GCB enforces mandatory physical presence and direct LOK licensing for all crypto casino operators by Q4 2026.</description>
-    </item>
-    <item>
-      <title>Provably Fair 2.0: Technical Architecture and Cryptographic Verification Standards for Crypto Casinos</title>
-      <link>https://cryptocasinomedia.com/press-releases/provably-fair-technical-cryptographic-verification-standards-2026/</link>
-      <guid isPermaLink="true">https://cryptocasinomedia.com/press-releases/provably-fair-technical-cryptographic-verification-standards-2026/</guid>
-      <pubDate>2026-07-28T09:00:00-04:00</pubDate>
-      <description>An in-depth look at Provably Fair 2.0 cryptographic verification standards, detailing Server/Client seed generation and HMAC-SHA256 math for crypto casinos.</description>
     </item>
   </channel>
 </rss>
