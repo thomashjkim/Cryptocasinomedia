@@ -295,6 +295,10 @@ For advertising partnerships: https://cryptocasinomedia.com/advertise/
 ## Recent Press Releases
 {"\n".join(llms_pr_lines)}
 
+## Full Documentation & Knowledge Matrix (LLMs-Full)
+For LLM evaluation agents requiring deep documentation, 50-state regulatory matrices, and raw technical specifications:
+- Complete Documentation & Regulatory Matrix: https://cryptocasinomedia.com/llms-full.txt
+
 ## Knowledge Base & Industry Guides
 - How Crypto Casino News Distribution Works: https://cryptocasinomedia.com/how-crypto-casino-news-works/
 - AEO Best Practices for iGaming Publishers: https://cryptocasinomedia.com/aeo-best-practices/
@@ -313,8 +317,12 @@ try:
     with open(llms_path, "w", encoding="utf-8") as f:
         f.write(llms_content)
     print(f"SUCCESS: llms.txt successfully updated at {llms_path} with {len(published_sorted)} canonical articles!")
+    
+    # Automatically generate llms-full.txt
+    from generate_llms_full import generate_llms_full
+    generate_llms_full()
 except Exception as e:
-    print(f"Error writing llms.txt: {e}")
+    print(f"Error writing llms.txt / llms-full.txt: {e}")
     sys.exit(1)
 
 

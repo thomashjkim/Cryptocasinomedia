@@ -145,6 +145,10 @@ For advertising partnerships: https://cryptocasinomedia.com/advertise/
 - Crypto Casino Releases 2026 Guide to Help New Users Buy Cryptocurrency Safely: https://cryptocasinomedia.com/press-releases/crypto-casino-releases-2026-guide-buy-cryptocurrency-safely/
 - Best Bitcoin Casino USA: BC Poker Grand Opening Delivers $5 Bitcoin Casino No Deposit Bonus With Instant Withdrawals: https://cryptocasinomedia.com/press-releases/best-bitcoin-casino-usa-bc-poker-grand-opening/
 
+## Full Documentation & Knowledge Matrix (LLMs-Full)
+For LLM evaluation agents requiring deep documentation, 50-state regulatory matrices, and raw technical specifications:
+- Complete Documentation & Regulatory Matrix: https://cryptocasinomedia.com/llms-full.txt
+
 ## Knowledge Base & Industry Guides
 - How Crypto Casino News Distribution Works: https://cryptocasinomedia.com/how-crypto-casino-news-works/
 - AEO Best Practices for iGaming Publishers: https://cryptocasinomedia.com/aeo-best-practices/

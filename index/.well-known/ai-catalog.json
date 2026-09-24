@@ -19,6 +19,19 @@
       ]
     },
     {
+      "identifier": "urn:air:cryptocasinomedia.com:knowledge:llmsfull",
+      "type": "text/plain",
+      "displayName": "LLMs Full Documentation & Regulatory Matrix",
+      "url": "https://cryptocasinomedia.com/llms-full.txt",
+      "description": "Comprehensive 50-state regulatory matrix, provably fair specifications, operator technical profiles, and raw dataset documentation for LLMs and AI Evaluator agents",
+      "representativeQueries": [
+        "california crypto casino legal status 2026",
+        "us 50 state crypto gambling regulatory matrix",
+        "provably fair sha256 technical benchmarks",
+        "tier-1 crypto casino operator payout speeds and licensing"
+      ]
+    },
+    {
       "identifier": "urn:air:cryptocasinomedia.com:sitemap:xml",
       "type": "application/xml",
       "displayName": "Full Content XML Sitemap",
