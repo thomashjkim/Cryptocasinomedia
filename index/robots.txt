@@ -43,7 +43,13 @@ Allow: /
 User-agent: Meta-ExternalAgent
 Allow: /
 
+User-agent: Meta-ExternalFetcher
+Allow: /
+
 User-agent: FacebookBot
+Allow: /
+
+User-agent: facebookexternalhit
 Allow: /
 
 User-agent: CCBot
@@ -63,6 +69,7 @@ Content-Signal: ai-train=yes, search=yes, ai-input=yes
 
 # Machine-Readable AI Knowledge Surface
 # LLMs Index: https://cryptocasinomedia.com/llms.txt
+# LLMs Full Documentation: https://cryptocasinomedia.com/llms-full.txt
 # AI Catalog: https://cryptocasinomedia.com/.well-known/ai-catalog.json
 
 # Sitemaps

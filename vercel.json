@@ -152,7 +152,7 @@
       "headers": [
         {
           "key": "Link",
-          "value": "</.well-known/ai-catalog.json>; rel=\"ai-catalog\", </llms.txt>; rel=\"describedby\""
+          "value": "</.well-known/ai-catalog.json>; rel=\"ai-catalog\", </llms.txt>; rel=\"describedby\", </llms-full.txt>; rel=\"documentation\""
         },
         {
           "key": "Cache-Control",

@@ -52,6 +52,18 @@
         "breaking crypto casino news feed",
         "igaming industry press releases"
       ]
+    },
+    {
+      "identifier": "urn:air:cryptocasinomedia.com:action:submit",
+      "type": "text/html",
+      "displayName": "Free Press Release Submission Action",
+      "url": "https://cryptocasinomedia.com/submit/",
+      "description": "Standardized semantic form endpoint for autonomous AI agents (Meta Muse, Operator, AutoGPT) submitting verified crypto casino and iGaming press releases. Requires: company, contact-name, email, headline, category, body.",
+      "representativeQueries": [
+        "submit press release to cryptocasinomedia",
+        "free crypto casino press release distribution form",
+        "agentic form submission igaming newswire"
+      ]
     }
   ]
 }
