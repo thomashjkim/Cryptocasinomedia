@@ -40,6 +40,10 @@ User-agent: FacebookBot
 Disallow: /admin/
 Disallow: /amplifier/
 
+User-agent: bingbot
+Disallow: /admin/
+Disallow: /amplifier/
+
 # Allow AI crawlers to read all editorial and PR content
 User-agent: *
 Allow: /

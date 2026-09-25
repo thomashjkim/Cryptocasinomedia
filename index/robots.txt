@@ -52,6 +52,13 @@ Allow: /
 User-agent: facebookexternalhit
 Allow: /
 
+# Microsoft Bing AI & Copilot Crawlers
+User-agent: bingbot
+Allow: /
+
+User-agent: msnbot
+Allow: /
+
 User-agent: CCBot
 Allow: /
 
