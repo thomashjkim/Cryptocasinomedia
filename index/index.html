@@ -115,14 +115,14 @@
 <body class="min-h-screen bg-white text-gray-900 font-sans flex flex-col selection:bg-blue-100 selection:text-blue-900">
 
     <!-- Static forms definition -->
-    <form name="contact" action="https://formsubmit.co/cryptocasinomedia@gmail.com" method="POST" hidden>
+    <form name="contact" action="https://airform.io/cryptocasinomedia@gmail.com" method="POST" hidden>
         <input type="hidden" name="form-name" value="contact">
         <input name="name">
         <input name="email">
         <input name="subject">
         <textarea name="message"></textarea>
     </form>
-    <form name="press-release" action="https://formsubmit.co/cryptocasinomedia@gmail.com" method="POST" hidden>
+    <form name="press-release" action="https://airform.io/cryptocasinomedia@gmail.com" method="POST" hidden>
         <input type="hidden" name="form-name" value="press-release">
         <input name="company">
         <input name="contact-name">
@@ -5617,7 +5617,7 @@
         }
 
         function renderContactPage() {
-            return '<div class="max-w-[800px] mx-auto px-4 sm:px-6 lg:px-8 py-16 animate-fade-in"><div class="mb-10 border-b border-gray-200 pb-8"><h1 class="text-4xl font-semibold tracking-tight text-gray-900 mb-3">Contact Us</h1><p class="text-lg text-gray-600">Reach our editorial team for inquiries, partnerships, or general questions.</p></div><div id="contact-success" class="hidden mb-6 p-4 bg-green-50 border border-green-200 text-green-800 text-sm font-medium rounded-sm">Thank you! Your message has been sent. We will get back to you within 1-2 business days.</div><form name="contact" action="https://formsubmit.co/cryptocasinomedia@gmail.com" method="POST" class="space-y-6"><input type="hidden" name="_next" value="https://cryptocasinomedia.com/contact/?success=true"><input type="hidden" name="_subject" value="🔔 New Contact Inquiry - CryptoCasinoMedia"><input type="hidden" name="_captcha" value="false"><input type="hidden" name="_template" value="table"><div class="grid grid-cols-1 sm:grid-cols-2 gap-6"><div><label class="block text-sm font-semibold text-gray-700 mb-2">Full Name *</label><input type="text" name="name" required placeholder="John Smith" class="w-full border border-gray-300 px-4 py-2.5 text-sm focus:outline-none focus:border-gray-900 bg-white"></div><div><label class="block text-sm font-semibold text-gray-700 mb-2">Email Address *</label><input type="email" name="email" required placeholder="you@company.com" class="w-full border border-gray-300 px-4 py-2.5 text-sm focus:outline-none focus:border-gray-900 bg-white"></div></div><div><label class="block text-sm font-semibold text-gray-700 mb-2">Subject *</label><input type="text" name="subject" required placeholder="How can we help?" class="w-full border border-gray-300 px-4 py-2.5 text-sm focus:outline-none focus:border-gray-900 bg-white"></div><div><label class="block text-sm font-semibold text-gray-700 mb-2">Message *</label><textarea name="message" required rows="6" placeholder="Your message..." class="w-full border border-gray-300 px-4 py-2.5 text-sm focus:outline-none focus:border-gray-900 bg-white resize-none"></textarea></div><button type="submit" class="px-8 py-3 bg-gray-900 text-white text-sm font-semibold hover:bg-blue-700 transition-colors shadow-sm">Send Message</button></form><div class="mt-12 pt-8 border-t border-gray-200"><h3 class="text-lg font-semibold text-gray-900 mb-4">Corporate Office</h3><p class="text-sm text-gray-600 mb-1"><strong>CryptoCasinoMedia Group LLC</strong></p><p class="text-sm text-gray-600 mb-2">1209 North Orange Street, Wilmington, DE 19801, USA</p><p class="text-sm text-gray-600 mb-4"><strong>Email:</strong> <a href="mailto:cryptocasinomedia@gmail.com" class="text-blue-700 hover:underline">cryptocasinomedia@gmail.com</a></p><p class="text-sm text-gray-600">For general inquiries and press release review, you can also email us directly or fill out the form above.</p></div></div>';
+            return '<div class="max-w-[800px] mx-auto px-4 sm:px-6 lg:px-8 py-16 animate-fade-in"><div class="mb-10 border-b border-gray-200 pb-8"><h1 class="text-4xl font-semibold tracking-tight text-gray-900 mb-3">Contact Us</h1><p class="text-lg text-gray-600">Reach our editorial team for inquiries, partnerships, or general questions.</p></div><div id="contact-success" class="hidden mb-6 p-4 bg-green-50 border border-green-200 text-green-800 text-sm font-medium rounded-sm">Thank you! Your message has been sent. We will get back to you within 1-2 business days.</div><form name="contact" onsubmit="handleContactSubmit(event)" action="https://airform.io/cryptocasinomedia@gmail.com" method="POST" class="space-y-6"><div class="grid grid-cols-1 sm:grid-cols-2 gap-6"><div><label class="block text-sm font-semibold text-gray-700 mb-2">Full Name *</label><input type="text" name="name" required placeholder="John Smith" class="w-full border border-gray-300 px-4 py-2.5 text-sm focus:outline-none focus:border-gray-900 bg-white"></div><div><label class="block text-sm font-semibold text-gray-700 mb-2">Email Address *</label><input type="email" name="email" required placeholder="you@company.com" class="w-full border border-gray-300 px-4 py-2.5 text-sm focus:outline-none focus:border-gray-900 bg-white"></div></div><div><label class="block text-sm font-semibold text-gray-700 mb-2">Subject *</label><input type="text" name="subject" required placeholder="How can we help?" class="w-full border border-gray-300 px-4 py-2.5 text-sm focus:outline-none focus:border-gray-900 bg-white"></div><div><label class="block text-sm font-semibold text-gray-700 mb-2">Message *</label><textarea name="message" required rows="6" placeholder="Your message..." class="w-full border border-gray-300 px-4 py-2.5 text-sm focus:outline-none focus:border-gray-900 bg-white resize-none"></textarea></div><button type="submit" class="px-8 py-3 bg-gray-900 text-white text-sm font-semibold hover:bg-blue-700 transition-colors shadow-sm">Send Message</button></form><div class="mt-12 pt-8 border-t border-gray-200"><h3 class="text-lg font-semibold text-gray-900 mb-4">Corporate Office</h3><p class="text-sm text-gray-600 mb-1"><strong>CryptoCasinoMedia Group LLC</strong></p><p class="text-sm text-gray-600 mb-2">1209 North Orange Street, Wilmington, DE 19801, USA</p><p class="text-sm text-gray-600 mb-4"><strong>Email:</strong> <a href="mailto:cryptocasinomedia@gmail.com" class="text-blue-700 hover:underline">cryptocasinomedia@gmail.com</a></p><p class="text-sm text-gray-600">For general inquiries and press release review, you can also email us directly or fill out the form above.</p></div></div>';
         }
 
         function renderSubmitPage() {
@@ -5642,7 +5642,7 @@
         Thank you for your submission! Our editorial team will review your press release and follow up within 1-3 business days.
     </div>
 
-    <form name="press-release" action="https://formsubmit.co/cryptocasinomedia@gmail.com" method="POST" class="space-y-6 bg-white p-6 sm:p-8 border border-gray-200 shadow-sm rounded-sm mb-12">
+    <form name="press-release" onsubmit="handlePRSubmit(event)" action="https://airform.io/cryptocasinomedia@gmail.com" method="POST" class="space-y-6 bg-white p-6 sm:p-8 border border-gray-200 shadow-sm rounded-sm mb-12">
         <input type="hidden" name="_next" value="https://cryptocasinomedia.com/submit/?success=true">
         <input type="hidden" name="_subject" value="🚀 New Press Release Submission - CryptoCasinoMedia">
         <input type="hidden" name="_captcha" value="false">
@@ -7903,14 +7903,95 @@
 
     </script>
     <script>
-        document.addEventListener('submit', function(e) {
-            var form = e.target;
-            if (form.name !== 'contact' && form.name !== 'press-release') return;
-            var submitBtn = form.querySelector('button[type="submit"]');
-            if (submitBtn) {
-                submitBtn.innerText = 'Sending...';
+        window.handlePRSubmit = function(e) {
+            e.preventDefault();
+            var f = e.target;
+            var company = (f.company ? f.company.value : '') || '';
+            var name = (f['contact-name'] ? f['contact-name'].value : '') || '';
+            var email = (f.email ? f.email.value : '') || '';
+            var date = (f['distribution-date'] ? f['distribution-date'].value : '') || 'Immediate';
+            var headline = (f.headline ? f.headline.value : '') || '';
+            var category = (f.category ? f.category.value : '') || '';
+            var body = (f.body ? f.body.value : '') || '';
+            var imageUrl = (f['image-url'] ? f['image-url'].value : '') || 'N/A';
+
+            var subject = "🚀 [Press Release] " + (headline || company || 'New Submission');
+            var mailBody = "Company Name: " + company + "\n" +
+                           "Contact Name: " + name + "\n" +
+                           "Contact Email: " + email + "\n" +
+                           "Distribution Date: " + date + "\n" +
+                           "Category: " + category + "\n" +
+                           "Headline: " + headline + "\n" +
+                           "Image URL: " + imageUrl + "\n\n" +
+                           "--- PRESS RELEASE BODY ---\n\n" + body;
+
+            var mailtoUrl = "mailto:cryptocasinomedia@gmail.com?subject=" + encodeURIComponent(subject) + "&body=" + encodeURIComponent(mailBody);
+
+            try {
+                fetch("https://airform.io/cryptocasinomedia@gmail.com", {
+                    method: "POST",
+                    headers: {"Content-Type": "application/json"},
+                    body: JSON.stringify({
+                        company: company,
+                        contactName: name,
+                        email: email,
+                        distributionDate: date,
+                        category: category,
+                        headline: headline,
+                        imageUrl: imageUrl,
+                        body: body
+                    })
+                }).catch(function() {});
+            } catch(err) {}
+
+            var successEl = document.getElementById('pr-success');
+            if (successEl) {
+                successEl.innerHTML = '<div class="font-bold text-base mb-1">✅ Press Release Ready to Send!</div><p class="mb-2">Your email application has been opened with your submission pre-filled to <strong>cryptocasinomedia@gmail.com</strong>. Please click "Send" in your email app to complete delivery.</p><p class="text-xs text-green-700">If your email app did not open automatically, <a href="' + mailtoUrl + '" class="underline font-bold text-green-900">click here to send directly to cryptocasinomedia@gmail.com</a>.</p>';
+                successEl.classList.remove('hidden');
+                successEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
             }
-        });
+
+            window.location.href = mailtoUrl;
+        };
+
+        window.handleContactSubmit = function(e) {
+            e.preventDefault();
+            var f = e.target;
+            var name = (f.name ? f.name.value : '') || '';
+            var email = (f.email ? f.email.value : '') || '';
+            var subject = (f.subject ? f.subject.value : '') || 'General Inquiry';
+            var message = (f.message ? f.message.value : '') || '';
+
+            var mailSubject = "🔔 [Contact Inquiry] " + subject;
+            var mailBody = "Full Name: " + name + "\n" +
+                           "Email: " + email + "\n" +
+                           "Subject: " + subject + "\n\n" +
+                           "--- MESSAGE ---\n\n" + message;
+
+            var mailtoUrl = "mailto:cryptocasinomedia@gmail.com?subject=" + encodeURIComponent(mailSubject) + "&body=" + encodeURIComponent(mailBody);
+
+            try {
+                fetch("https://airform.io/cryptocasinomedia@gmail.com", {
+                    method: "POST",
+                    headers: {"Content-Type": "application/json"},
+                    body: JSON.stringify({
+                        name: name,
+                        email: email,
+                        subject: subject,
+                        message: message
+                    })
+                }).catch(function() {});
+            } catch(err) {}
+
+            var successEl = document.getElementById('contact-success');
+            if (successEl) {
+                successEl.innerHTML = '<div class="font-bold text-base mb-1">✅ Message Ready to Send!</div><p class="mb-2">Your email application has been opened with your message pre-filled to <strong>cryptocasinomedia@gmail.com</strong>. Please click "Send" in your email app to complete delivery.</p><p class="text-xs text-green-700">If your email app did not open automatically, <a href="' + mailtoUrl + '" class="underline font-bold text-green-900">click here to send directly to cryptocasinomedia@gmail.com</a>.</p>';
+                successEl.classList.remove('hidden');
+                successEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }
+
+            window.location.href = mailtoUrl;
+        };
 
         function checkFormSuccess() {
             if (window.location.search && window.location.search.indexOf('success=true') !== -1) {
