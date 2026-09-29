@@ -68,7 +68,73 @@ Allow: /
 User-agent: Diffbot
 Allow: /
 
+# xAI / Grok & Social Knowledge Crawlers
+User-agent: xAI-Bot
+Allow: /
+
+User-agent: GrokBot
+Allow: /
+
+User-agent: Twitterbot
+Allow: /
+
+# Chinese AI & LLM Crawlers (Baidu, ByteDance, DeepSeek, Moonshot/Kimi, Alibaba/Qwen, Tencent/Hunyuan)
 User-agent: Bytespider
+Allow: /
+
+User-agent: Baiduspider
+Allow: /
+
+User-agent: Baiduspider-render
+Allow: /
+
+User-agent: Baiduspider-image
+Allow: /
+
+User-agent: DeepSeekBot
+Allow: /
+
+User-agent: MoonshotBot
+Allow: /
+
+User-agent: KimiBot
+Allow: /
+
+User-agent: QwenBot
+Allow: /
+
+User-agent: Alibaba.Security.Heimdall
+Allow: /
+
+User-agent: TencentTraveler
+Allow: /
+
+User-agent: HunyuanBot
+Allow: /
+
+User-agent: Sogouspider
+Allow: /
+
+User-agent: YiBot
+Allow: /
+
+# Other Leading Global AI Search & LLM Crawlers
+User-agent: MistralBot
+Allow: /
+
+User-agent: MistralAI-User
+Allow: /
+
+User-agent: Amazonbot
+Allow: /
+
+User-agent: YouBot
+Allow: /
+
+User-agent: DuckAssistBot
+Allow: /
+
+User-agent: KagiBot
 Allow: /
 
 # AI Content Signals (IETF/Cloudflare AI Standard)
