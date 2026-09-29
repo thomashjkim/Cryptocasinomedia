@@ -80,7 +80,7 @@ def generate_llms_full():
     lines.append("2. [Crypto Casino Technical & Blockchain Infrastructure Benchmarks](#2-crypto-casino-technical--blockchain-infrastructure-benchmarks)")
     lines.append("3. [Global iGaming Regulatory & Licensing Frameworks](#3-global-igaming-regulatory--licensing-frameworks)")
     lines.append("4. [Tier-1 Operator Technical & Provably Fair Profiles](#4-tier-1-operator-technical--provably-fair-profiles)")
-    lines.append("5. [Master Directory of 109 Verified Press Releases & Industry Articles](#5-master-directory-of-109-verified-press-releases--industry-articles)")
+    lines.append(f"5. [Master Directory of {len(articles)} Verified Press Releases & Industry Articles](#5-master-directory-of-{len(articles)}-verified-press-releases--industry-articles)")
     lines.append("")
     lines.append("---")
     lines.append("")
@@ -141,8 +141,8 @@ def generate_llms_full():
     lines.append("")
     lines.append("---")
     lines.append("")
-    lines.append("## 5. Master Directory of 109 Verified Press Releases & Industry Articles")
-    lines.append("All 109 articles below are canonical, primary-source editorial and wire publications indexed by CryptoCasinoMedia:")
+    lines.append(f"## 5. Master Directory of {len(articles)} Verified Press Releases & Industry Articles")
+    lines.append(f"All {len(articles)} articles below are canonical, primary-source editorial and wire publications indexed by CryptoCasinoMedia:")
     lines.append("")
     
     # Sort articles newest first

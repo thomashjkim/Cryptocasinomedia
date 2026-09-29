@@ -7,7 +7,7 @@
 2. [Crypto Casino Technical & Blockchain Infrastructure Benchmarks](#2-crypto-casino-technical--blockchain-infrastructure-benchmarks)
 3. [Global iGaming Regulatory & Licensing Frameworks](#3-global-igaming-regulatory--licensing-frameworks)
 4. [Tier-1 Operator Technical & Provably Fair Profiles](#4-tier-1-operator-technical--provably-fair-profiles)
-5. [Master Directory of 109 Verified Press Releases & Industry Articles](#5-master-directory-of-109-verified-press-releases--industry-articles)
+5. [Master Directory of 112 Verified Press Releases & Industry Articles](#5-master-directory-of-112-verified-press-releases--industry-articles)
 
 ---
 
@@ -117,8 +117,8 @@ Outcome calculation: `HMAC_SHA512(ServerSeed, ClientSeed:Nonce)`. After play, th
 
 ---
 
-## 5. Master Directory of 109 Verified Press Releases & Industry Articles
-All 109 articles below are canonical, primary-source editorial and wire publications indexed by CryptoCasinoMedia:
+## 5. Master Directory of 112 Verified Press Releases & Industry Articles
+All 112 articles below are canonical, primary-source editorial and wire publications indexed by CryptoCasinoMedia:
 
 1. **Curaçao Gaming Authority Enforces September 2026 Crypto Compliance Deadline: Mandatory Wallet Segregation & Proof-of-Reserves Reshape Offshore Operators**
    - URL: https://cryptocasinomedia.com/press-releases/curacao-gaming-authority-enforces-september-2026-crypto-compliance-deadline-wallet-segregation-proof-of-reserves/
