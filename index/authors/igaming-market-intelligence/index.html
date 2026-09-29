@@ -7652,8 +7652,7 @@
             if (form.name !== 'contact' && form.name !== 'press-release') return;
             var submitBtn = form.querySelector('button[type="submit"]');
             if (submitBtn) {
-                submitBtn.disabled = true;
-                submitBtn.innerText = 'Submitting...';
+                submitBtn.innerText = 'Sending...';
             }
         });
 
