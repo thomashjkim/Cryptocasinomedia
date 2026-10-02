@@ -2373,7 +2373,6 @@ for article in articles_sorted:
         }
         if not is_desk:
             editor_schema["jobTitle"] = editor_role
-    else:
         author_schema = {
             "@type": "Organization" if is_desk else "Person",
             "name": editor_name,
@@ -2381,6 +2380,11 @@ for article in articles_sorted:
         }
         if not is_desk:
             author_schema["jobTitle"] = editor_role
+            author_schema["worksFor"] = {
+                "@type": "Organization",
+                "@id": "https://cryptocasinomedia.com/#organization",
+                "name": "CryptoCasinoMedia"
+            }
         editor_schema = None
 
     article_schema = {

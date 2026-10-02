@@ -28,30 +28,32 @@ articles_xml_lines = [
     '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'
 ]
 
-# Standard core pages with stable modification dates
+latest_date = (published_sorted[0].get("firstPublishedAt") or published_sorted[0]["publishedAt"]).split("T")[0] if published_sorted else "2026-10-01"
+
+# Standard core pages with dynamic modification dates for active hubs
 core_pages = [
-    ("https://cryptocasinomedia.com/", "2026-08-18", "daily", "1.0"),
-    ("https://cryptocasinomedia.com/press-releases/", "2026-08-18", "daily", "0.9"),
-    ("https://cryptocasinomedia.com/crypto-casinos/", "2026-08-18", "daily", "0.8"),
-    ("https://cryptocasinomedia.com/sportsbook/", "2026-08-18", "daily", "0.8"),
-    ("https://cryptocasinomedia.com/regulation/", "2026-08-18", "weekly", "0.8"),
-    ("https://cryptocasinomedia.com/payments/", "2026-08-18", "weekly", "0.7"),
-    ("https://cryptocasinomedia.com/sweepstakes/", "2026-08-18", "weekly", "0.7"),
-    ("https://cryptocasinomedia.com/guides/", "2026-08-18", "weekly", "0.7"),
-    ("https://cryptocasinomedia.com/about/", "2026-08-18", "monthly", "0.7"),
-    ("https://cryptocasinomedia.com/editorial-standards/", "2026-08-18", "monthly", "0.6"),
-    ("https://cryptocasinomedia.com/advertise/", "2026-08-18", "monthly", "0.7"),
-    ("https://cryptocasinomedia.com/submit/", "2026-08-18", "monthly", "0.7"),
-    ("https://cryptocasinomedia.com/contact/", "2026-08-18", "monthly", "0.7"),
-    ("https://cryptocasinomedia.com/industry/crypto/", "2026-08-18", "weekly", "0.8"),
-    ("https://cryptocasinomedia.com/industry/igaming/", "2026-08-18", "weekly", "0.8"),
-    ("https://cryptocasinomedia.com/how-crypto-casino-news-works/", "2026-08-18", "monthly", "0.7"),
-    ("https://cryptocasinomedia.com/aeo-best-practices/", "2026-08-18", "monthly", "0.7"),
-    ("https://cryptocasinomedia.com/press-release-seo/", "2026-08-18", "monthly", "0.7"),
-    ("https://cryptocasinomedia.com/agent/", "2026-08-18", "weekly", "0.7"),
-    ("https://cryptocasinomedia.com/guides/regulation-2026/", "2026-08-18", "monthly", "0.9"),
-    ("https://cryptocasinomedia.com/guides/sweepstakes-market/", "2026-08-18", "monthly", "0.9"),
-    ("https://cryptocasinomedia.com/guides/gamblefi-telegram/", "2026-08-18", "monthly", "0.9")
+    ("https://cryptocasinomedia.com/", latest_date, "daily", "1.0"),
+    ("https://cryptocasinomedia.com/press-releases/", latest_date, "daily", "0.9"),
+    ("https://cryptocasinomedia.com/crypto-casinos/", latest_date, "daily", "0.8"),
+    ("https://cryptocasinomedia.com/sportsbook/", latest_date, "daily", "0.8"),
+    ("https://cryptocasinomedia.com/regulation/", latest_date, "weekly", "0.8"),
+    ("https://cryptocasinomedia.com/payments/", latest_date, "weekly", "0.7"),
+    ("https://cryptocasinomedia.com/sweepstakes/", latest_date, "weekly", "0.7"),
+    ("https://cryptocasinomedia.com/guides/", "2026-09-15", "weekly", "0.7"),
+    ("https://cryptocasinomedia.com/about/", "2026-09-15", "monthly", "0.7"),
+    ("https://cryptocasinomedia.com/editorial-standards/", "2026-09-15", "monthly", "0.6"),
+    ("https://cryptocasinomedia.com/advertise/", "2026-09-15", "monthly", "0.7"),
+    ("https://cryptocasinomedia.com/submit/", "2026-09-15", "monthly", "0.7"),
+    ("https://cryptocasinomedia.com/contact/", "2026-09-15", "monthly", "0.7"),
+    ("https://cryptocasinomedia.com/industry/crypto/", "2026-09-15", "weekly", "0.8"),
+    ("https://cryptocasinomedia.com/industry/igaming/", "2026-09-15", "weekly", "0.8"),
+    ("https://cryptocasinomedia.com/how-crypto-casino-news-works/", "2026-09-15", "monthly", "0.7"),
+    ("https://cryptocasinomedia.com/aeo-best-practices/", "2026-09-15", "monthly", "0.7"),
+    ("https://cryptocasinomedia.com/press-release-seo/", "2026-09-15", "monthly", "0.7"),
+    ("https://cryptocasinomedia.com/agent/", "2026-09-15", "weekly", "0.7"),
+    ("https://cryptocasinomedia.com/guides/regulation-2026/", "2026-09-15", "monthly", "0.9"),
+    ("https://cryptocasinomedia.com/guides/sweepstakes-market/", "2026-09-15", "monthly", "0.9"),
+    ("https://cryptocasinomedia.com/guides/gamblefi-telegram/", "2026-09-15", "monthly", "0.9")
 ]
 
 for url, lastmod, changefreq, priority in core_pages:
@@ -76,7 +78,7 @@ pr_xml_lines = [
     '<?xml version="1.0" encoding="UTF-8"?>',
     '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'
 ]
-pr_xml_lines.append('  <url><loc>https://cryptocasinomedia.com/press-releases/</loc><lastmod>2026-09-09</lastmod><changefreq>daily</changefreq><priority>0.9</priority></url>')
+pr_xml_lines.append(f'  <url><loc>https://cryptocasinomedia.com/press-releases/</loc><lastmod>{latest_date}</lastmod><changefreq>daily</changefreq><priority>0.9</priority></url>')
 for article in published_sorted:
     slug = article["slug"]
     published_at = article.get("firstPublishedAt") or article["publishedAt"]
@@ -153,40 +155,18 @@ with open(static_sitemap_path, "w", encoding="utf-8") as f:
     f.write("\n".join(static_xml_lines))
 print(f"SUCCESS: sitemaps/static.xml successfully updated with {len(static_pages)} static URLs!")
 
-# 3. Generate root sitemap index (sitemap.xml)
-sitemap_index_lines = [
-    '<?xml version="1.0" encoding="UTF-8"?>',
-    '<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
-    '  <sitemap><loc>https://cryptocasinomedia.com/sitemaps/articles.xml</loc><lastmod>2026-09-15</lastmod></sitemap>',
-    '  <sitemap><loc>https://cryptocasinomedia.com/sitemaps/authors.xml</loc><lastmod>2026-09-15</lastmod></sitemap>',
-    '  <sitemap><loc>https://cryptocasinomedia.com/sitemaps/guides.xml</loc><lastmod>2026-09-15</lastmod></sitemap>',
-    '  <sitemap><loc>https://cryptocasinomedia.com/sitemaps/legal.xml</loc><lastmod>2026-09-15</lastmod></sitemap>',
-    '  <sitemap><loc>https://cryptocasinomedia.com/sitemaps/news.xml</loc><lastmod>2026-09-15</lastmod></sitemap>',
-    '  <sitemap><loc>https://cryptocasinomedia.com/sitemaps/press-releases.xml</loc><lastmod>2026-09-15</lastmod></sitemap>',
-    '  <sitemap><loc>https://cryptocasinomedia.com/sitemaps/regions.xml</loc><lastmod>2026-09-15</lastmod></sitemap>',
-    '  <sitemap><loc>https://cryptocasinomedia.com/sitemaps/regulation.xml</loc><lastmod>2026-09-15</lastmod></sitemap>',
-    '  <sitemap><loc>https://cryptocasinomedia.com/sitemaps/static.xml</loc><lastmod>2026-09-15</lastmod></sitemap>',
-    '  <sitemap><loc>https://cryptocasinomedia.com/sitemaps/topics.xml</loc><lastmod>2026-09-15</lastmod></sitemap>',
-    '  <sitemap><loc>https://cryptocasinomedia.com/local-sitemap.xml</loc><lastmod>2026-09-15</lastmod></sitemap>',
-    '</sitemapindex>\n'
-]
-with open(sitemap_path, "w", encoding="utf-8") as f:
-    f.write("\n".join(sitemap_index_lines))
-print(f"SUCCESS: sitemap.xml successfully updated as sitemapindex referencing 11 child sitemaps!")
-
-# Generate News Sitemap (news-sitemap.xml) for eligible recently published news URLs strictly within 48-hour window
+# 3. Generate News Sitemap (news-sitemap.xml & sitemaps/news.xml) for eligible recently published news URLs strictly within 48-hour window
 news_xml_lines = [
     '<?xml version="1.0" encoding="UTF-8"?>',
     '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">'
 ]
 
-# Eligible articles strictly published within the last 48 hours using stable firstPublishedAt
 two_days_ago_iso = (datetime.datetime.now(datetime.timezone.utc) - datetime.timedelta(days=2)).strftime("%Y-%m-%dT%H:%M:%SZ")
 recent_articles = [a for a in published_sorted if (a.get('firstPublishedAt') or a.get('publishedAt', '')) >= two_days_ago_iso]
 
 for article in recent_articles:
     slug = article["slug"]
-    published_at = article.get("firstPublishedAt") or article["publishedAt"]  # Real stable firstPublishedAt (NEVER build/current time)
+    published_at = article.get("firstPublishedAt") or article["publishedAt"]
     title_clean = article["title"].replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;')
     loc = f"https://cryptocasinomedia.com/press-releases/{slug}/"
     news_xml_lines.append(f'''  <url>
@@ -213,6 +193,54 @@ try:
 except Exception as e:
     print(f"Error writing news-sitemap.xml: {e}")
     sys.exit(1)
+
+# Helper function to dynamically extract the maximum lastmod from each child sitemap
+import xml.etree.ElementTree as ET
+
+def extract_sitemap_lastmod(file_path, fallback="2026-09-17"):
+    if not os.path.exists(file_path):
+        return fallback
+    try:
+        tree = ET.parse(file_path)
+        root = tree.getroot()
+        dates = []
+        for elem in root.findall('.//{http://www.sitemaps.org/schemas/sitemap/0.9}lastmod'):
+            if elem.text:
+                dates.append(elem.text.strip())
+        for elem in root.findall('.//{http://www.google.com/schemas/sitemap-news/0.9}publication_date'):
+            if elem.text:
+                dates.append(elem.text.strip().split('T')[0])
+        return max(dates) if dates else fallback
+    except Exception:
+        return fallback
+
+# 4. Generate root sitemap index (sitemap.xml) with true dynamic child sitemap lastmod
+child_sitemaps_defs = [
+    ("https://cryptocasinomedia.com/sitemaps/articles.xml", articles_sitemap_path),
+    ("https://cryptocasinomedia.com/sitemaps/authors.xml", authors_sitemap_path),
+    ("https://cryptocasinomedia.com/sitemaps/guides.xml", os.path.join(PROJECT_ROOT, "index/sitemaps/guides.xml")),
+    ("https://cryptocasinomedia.com/sitemaps/legal.xml", os.path.join(PROJECT_ROOT, "index/sitemaps/legal.xml")),
+    ("https://cryptocasinomedia.com/sitemaps/news.xml", os.path.join(PROJECT_ROOT, "index/sitemaps/news.xml")),
+    ("https://cryptocasinomedia.com/sitemaps/press-releases.xml", pr_sitemap_path),
+    ("https://cryptocasinomedia.com/sitemaps/regions.xml", os.path.join(PROJECT_ROOT, "index/sitemaps/regions.xml")),
+    ("https://cryptocasinomedia.com/sitemaps/regulation.xml", os.path.join(PROJECT_ROOT, "index/sitemaps/regulation.xml")),
+    ("https://cryptocasinomedia.com/sitemaps/static.xml", static_sitemap_path),
+    ("https://cryptocasinomedia.com/sitemaps/topics.xml", os.path.join(PROJECT_ROOT, "index/sitemaps/topics.xml")),
+    ("https://cryptocasinomedia.com/local-sitemap.xml", os.path.join(PROJECT_ROOT, "index/local-sitemap.xml")),
+]
+
+sitemap_index_lines = [
+    '<?xml version="1.0" encoding="UTF-8"?>',
+    '<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'
+]
+for loc, file_path in child_sitemaps_defs:
+    child_lastmod = extract_sitemap_lastmod(file_path)
+    sitemap_index_lines.append(f'  <sitemap><loc>{loc}</loc><lastmod>{child_lastmod}</lastmod></sitemap>')
+sitemap_index_lines.append('</sitemapindex>\n')
+
+with open(sitemap_path, "w", encoding="utf-8") as f:
+    f.write("\n".join(sitemap_index_lines))
+print(f"SUCCESS: sitemap.xml successfully updated as dynamic sitemapindex referencing {len(child_sitemaps_defs)} child sitemaps!")
 
 # Generate RSS 2.0 Syndication Feed (rss.xml) for recent 30 published articles
 rss_path = os.path.join(PROJECT_ROOT, "index/rss.xml")
