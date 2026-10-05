@@ -68,8 +68,7 @@ Allow: /
 User-agent: Diffbot
 Allow: /
 
-User-agent: Bytespider
-Allow: /
+
 
 # AI Content Signals (IETF/Cloudflare AI Standard)
 Content-Signal: ai-train=yes, search=yes, ai-input=yes
