@@ -2140,9 +2140,6 @@ def build_static_page(template_content, path, title, description, body_content, 
     
     # Inject og:image + Twitter Card tags + additional AEO meta tags
     extra_meta = f"""
-    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
-    <meta name="googlebot" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
-    <meta name="bingbot" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
     <meta property="og:image" content="{image_url}">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
@@ -2233,6 +2230,13 @@ def build_static_page(template_content, path, title, description, body_content, 
     content = replace_tag_content(content, '<main id="main-content"', '</main>', body_content)
     content = replace_tag_content(content, '<footer id="footer"', '</footer>', rendered_footer)
     
+    # Eliminate massive 800KB inline JavaScript SPA/data bloat from static pre-rendered pages
+    # Preserves pure semantic HTML with high code-to-text ratio for Googlebot and AI crawlers
+    if path not in ['/admin', '/admin/', '/amplifier', '/amplifier/']:
+        footer_pos = content.find('</footer>')
+        if footer_pos != -1:
+            content = content[:footer_pos + len('</footer>')] + '\n    <script>\n        function toggleMobileMenu() {\n            const m = document.getElementById("mobile-menu");\n            if (m) m.classList.toggle("hidden");\n        }\n        if (typeof lucide !== "undefined") lucide.createIcons();\n    </script>\n</body>\n</html>'
+
     return normalize_links(content)
 
 # Load the master dynamic index.html as our base template
