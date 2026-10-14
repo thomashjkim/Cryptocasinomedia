@@ -34,6 +34,16 @@ PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 template_path = os.path.join(PROJECT_ROOT, "index/index.html.template")
 output_base_dir = os.path.join(PROJECT_ROOT, "index")
 
+# Load US State Regulations for GEO Internal Linking
+state_regs_path = os.path.join(PROJECT_ROOT, "data/us_state_regulations.json")
+STATE_REGS_DATA = {}
+if os.path.exists(state_regs_path):
+    try:
+        with open(state_regs_path, "r", encoding="utf-8") as srf:
+            STATE_REGS_DATA = json.load(srf)
+    except Exception as e:
+        print(f"Warning: could not load state regulations: {e}")
+
 # Authors & Editorial Desks Registry
 AUTHORS_REGISTRY = [
     {
@@ -429,7 +439,7 @@ def renderStoryRow(article):
                 <a href="/press-releases/{article['slug']}" class="group flex flex-col sm:flex-row gap-4 py-5 border-b border-gray-200 hover:bg-gray-50 transition-colors -mx-4 px-4 sm:mx-0 sm:px-0 rounded-sm">
                     <div class="sm:w-1/3 md:w-1/4 flex-shrink-0">
                         <div class="aspect-video w-full bg-gray-100 overflow-hidden border border-gray-200">
-                            <img src="{article['thumbnailUrl']}" alt="{article['title']}" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                            <img src="{article['thumbnailUrl']}" alt="{article['title']}" width="300" height="169" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                         </div>
                     </div>
                     <div class="flex-1 flex flex-col justify-center">
@@ -448,7 +458,7 @@ def renderStoryGridCard(article):
     return f"""
                 <a href="/press-releases/{article['slug']}" class="group flex flex-col border-b sm:border-b-0 sm:border-r border-gray-200 sm:last:border-r-0 pb-6 sm:pb-0 sm:pr-6 sm:last:pr-0">
                     <div class="aspect-video w-full bg-gray-100 overflow-hidden mb-4 border border-gray-200">
-                        <img src="{article['thumbnailUrl']}" alt="{article['title']}" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                        <img src="{article['thumbnailUrl']}" alt="{article['title']}" width="400" height="225" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                     </div>
                     {renderArticleMeta(article)}
                     <h3 class="text-[17px] font-semibold text-gray-900 group-hover:text-blue-700 transition-colors leading-snug mb-2">
@@ -476,7 +486,7 @@ def renderHomePage():
                                     """ for article in latestSidebar])
     promoted_guides_html = """<a href="/guides/regulation-2026" class="px-3 py-1.5 bg-gray-100 text-xs font-medium text-gray-700 hover:bg-gray-200 transition-colors rounded-sm">Regulation 2026</a><a href="/guides/sweepstakes-market" class="px-3 py-1.5 bg-gray-100 text-xs font-medium text-gray-700 hover:bg-gray-200 transition-colors rounded-sm">Sweepstakes</a><a href="/guides/gamblefi-telegram" class="px-3 py-1.5 bg-gray-100 text-xs font-medium text-gray-700 hover:bg-gray-200 transition-colors rounded-sm">GambleFi</a>"""
     trendingHtml = promoted_guides_html + "".join([f"""
-                                        <a href="/press-releases/topic/{topic.lower()}" class="px-3 py-1.5 bg-gray-100 text-xs font-medium text-gray-700 hover:bg-gray-200 transition-colors rounded-sm">
+                                        <a href="/topic/{topic.lower()}/" class="px-3 py-1.5 bg-gray-100 text-xs font-medium text-gray-700 hover:bg-gray-200 transition-colors rounded-sm">
                                             {topic}
                                         </a>
                                     """ for topic in trendingTopics])
@@ -492,7 +502,7 @@ def renderHomePage():
                         <div class="lg:w-[70%]">
                             <a href="/press-releases/{leadStory['slug']}" class="group block mb-10">
                                 <div class="aspect-video w-full bg-gray-100 overflow-hidden border border-gray-200 mb-4 relative">
-                                    <img src="{leadStory['thumbnailUrl']}" alt="{leadStory['title']}" fetchpriority="high" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+                                    <img src="{leadStory['thumbnailUrl']}" alt="{leadStory['title']}" width="1200" height="675" fetchpriority="high" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
                                 </div>
                                 {renderArticleMeta(leadStory)}
                                 <h2 class="text-3xl sm:text-4xl font-semibold tracking-tight text-gray-900 group-hover:text-blue-700 transition-colors leading-tight mb-3">
@@ -722,7 +732,60 @@ def renderArticlePage(slug):
     else:
         expert_html = ""
 
-    tldr_section = expert_html + f"""
+    # AEO Key Takeaways / Fast Facts Bulleted Summary
+    takeaways = []
+    clean_lede = re.sub(r'<[^>]+>', '', article.get('lede', '')).strip()
+    if clean_lede:
+        takeaways.append(clean_lede)
+    if len(article.get('body', [])) > 1:
+        clean_p = re.sub(r'<[^>]+>', '', article['body'][1]).strip()
+        sentences = [s.strip() for s in re.split(r'\. |\.\n', clean_p) if len(s.strip()) > 25]
+        if sentences:
+            takeaways.append(sentences[0] + '.')
+    if article.get('expertAnalysis'):
+        clean_ea = re.sub(r'<[^>]+>', '', article['expertAnalysis']).strip()
+        ea_sentences = [s.strip() for s in re.split(r'\. |\.\n', clean_ea) if len(s.strip()) > 25]
+        if ea_sentences:
+            takeaways.append(ea_sentences[0] + '.')
+    elif article.get('excerpt'):
+        takeaways.append(f"Impacts multi-jurisdictional licensing, risk frameworks, and digital asset operations across {article.get('region', 'global')} markets.")
+
+    takeaway_lis = "".join([f'<li class="flex items-start text-sm text-gray-800 leading-relaxed"><span class="text-blue-700 font-bold mr-2.5 text-base leading-none">•</span><span>{t}</span></li>' for t in takeaways[:3]])
+    key_takeaways_html = f"""
+                                <section id="key-takeaways" data-semantic-role="key-takeaways" class="my-6 bg-slate-50 border border-slate-200 rounded-lg p-5 font-sans">
+                                    <div class="flex items-center gap-2 mb-3">
+                                        <span class="bg-blue-700 text-white text-[10px] font-bold px-2 py-0.5 rounded uppercase tracking-wider">AEO Fast Facts</span>
+                                        <h3 class="text-sm font-bold text-gray-900 uppercase tracking-wider m-0">Key Takeaways & Industry Overview</h3>
+                                    </div>
+                                    <ul class="space-y-2.5 pl-0 list-none m-0">
+                                        {takeaway_lis}
+                                    </ul>
+                                </section>
+                                """
+
+    # GEO State Market Hub Context
+    geo_callout_html = ""
+    article_search_str = f"{article['title']} {article['dateline']} {' '.join(article['topics'])} {article.get('excerpt', '')}".lower()
+    for state_slug, reg_info in STATE_REGS_DATA.items():
+        st_name = reg_info.get('state_name', '')
+        if st_name and re.search(r'\b' + re.escape(st_name.lower()) + r'\b', article_search_str):
+            regulator_name = reg_info.get('regulator', 'State Gaming Authority')
+            geo_callout_html = f"""
+                                <aside id="state-market-context" class="my-6 bg-indigo-50/70 border border-indigo-200 rounded-lg p-4 font-sans text-xs text-indigo-950">
+                                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                                        <div>
+                                            <span class="font-bold text-indigo-900 block mb-1">State Regulatory Intelligence ({st_name}):</span>
+                                            <span>Monitored under {regulator_name}. For verified licensing status, local statutes, and search trends, explore the regional hub.</span>
+                                        </div>
+                                        <a href="/local/{state_slug}/" class="shrink-0 inline-flex items-center px-3 py-1.5 bg-indigo-600 text-white font-medium rounded hover:bg-indigo-700 transition-colors">
+                                            {st_name} Market Hub →
+                                        </a>
+                                    </div>
+                                </aside>
+                                """
+            break
+
+    tldr_section = expert_html + key_takeaways_html + geo_callout_html + f"""
                                 <section id="tldr" data-semantic-role="summary" class="my-8 bg-gray-50 border-l-4 border-gray-400 p-6 rounded-sm">
                                     <h2 class="text-xs uppercase tracking-widest font-semibold text-gray-900 mb-2 font-sans">Executive Summary</h2>
                                     <p class="text-sm font-sans text-gray-800 leading-relaxed m-0">
@@ -818,7 +881,7 @@ def renderArticlePage(slug):
         links_list = "".join([f'<li class="text-xs text-blue-700 hover:underline"><a href="{url}" target="_blank" rel="noopener nofollow">{name} Official Reference / Portal</a></li>' for name, url in matched_sources])
         source_links_html = f"""
                                     <div class="mt-4 pt-3 border-t border-gray-200">
-                                        <h4 class="text-xs font-semibold uppercase tracking-wider text-gray-700 mb-2">Primary Reference & Verification Sources:</h4>
+                                        <h3 class="text-xs font-semibold uppercase tracking-wider text-gray-700 mb-2">Primary Reference & Verification Sources:</h3>
                                         <ul class="list-disc pl-5 space-y-1">
                                             {links_list}
                                         </ul>
@@ -878,7 +941,7 @@ def renderArticlePage(slug):
 
     promoted_aside_html = """<a href="/guides/regulation-2026" class="inline-flex items-center px-2 py-1 bg-gray-100 text-[11px] font-medium text-gray-700 hover:bg-gray-200 transition-colors rounded-sm"><i data-lucide="tag" class="w-[10px] h-[10px] mr-1"></i> Regulation 2026</a><a href="/guides/sweepstakes-market" class="inline-flex items-center px-2 py-1 bg-gray-100 text-[11px] font-medium text-gray-700 hover:bg-gray-200 transition-colors rounded-sm"><i data-lucide="tag" class="w-[10px] h-[10px] mr-1"></i> Sweepstakes</a><a href="/guides/gamblefi-telegram" class="inline-flex items-center px-2 py-1 bg-gray-100 text-[11px] font-medium text-gray-700 hover:bg-gray-200 transition-colors rounded-sm"><i data-lucide="tag" class="w-[10px] h-[10px] mr-1"></i> GambleFi</a>"""
     topicsHtml = promoted_aside_html + "".join([f"""
-                <a href="/press-releases/topic/{topic.lower().replace(' ', '-')}" class="inline-flex items-center px-2 py-1 bg-gray-100 text-[11px] font-medium text-gray-700 hover:bg-gray-200 transition-colors">
+                <a href="/topic/{topic.lower().replace(' ', '-')}/" class="inline-flex items-center px-2 py-1 bg-gray-100 text-[11px] font-medium text-gray-700 hover:bg-gray-200 transition-colors">
                     <i data-lucide="tag" class="w-[10px] h-[10px] mr-1"></i> {topic}
                 </a>
             """ for topic in article['topics']])
@@ -894,7 +957,7 @@ def renderArticlePage(slug):
     excerpt_block = f'<p class="text-lg text-gray-600 font-serif italic mb-6 leading-relaxed">{article["excerpt"]}</p>' if article.get("excerpt") else ''
     thumbnail_figure = f"""
                             <figure class="mb-8 border border-gray-200 bg-gray-50 p-1">
-                                <img src="{article['thumbnailUrl']}" alt="{article['title']}" fetchpriority="high" class="w-full h-auto object-cover max-h-[450px]" />
+                                <img src="{article['thumbnailUrl']}" alt="{article['title']}" width="1200" height="675" fetchpriority="high" class="w-full h-auto object-cover max-h-[450px]" />
                                 <figcaption class="text-[12px] text-gray-500 mt-2 px-2 pb-1 text-left font-sans flex flex-col sm:flex-row sm:justify-between items-start sm:items-center gap-1 border-t border-gray-100 pt-2">
                                     <span><strong>Caption:</strong> {article['title']}</span>
                                     <span class="text-gray-400 shrink-0">Source: {source_name}</span>
@@ -910,7 +973,7 @@ def renderArticlePage(slug):
                                 """ if article.get('contact') else ''
 
     promoted_footer_html = """<a href="/guides/regulation-2026" class="px-3 py-1.5 bg-gray-100 text-xs font-medium text-gray-700 hover:bg-gray-200 transition-colors rounded-sm">Regulation 2026</a><a href="/guides/sweepstakes-market" class="px-3 py-1.5 bg-gray-100 text-xs font-medium text-gray-700 hover:bg-gray-200 transition-colors rounded-sm">Sweepstakes</a><a href="/guides/gamblefi-telegram" class="px-3 py-1.5 bg-gray-100 text-xs font-medium text-gray-700 hover:bg-gray-200 transition-colors rounded-sm">GambleFi</a>"""
-    topics_footer_html = promoted_footer_html + "".join([f'<a href="/press-releases/topic/{t.lower().replace(" ", "-")}" class="px-3 py-1.5 bg-gray-100 text-xs font-medium text-gray-700 hover:bg-gray-200 transition-colors rounded-sm">{t}</a>' for t in article['topics']])
+    topics_footer_html = promoted_footer_html + "".join([f'<a href="/topic/{t.lower().replace(" ", "-")}/" class="px-3 py-1.5 bg-gray-100 text-xs font-medium text-gray-700 hover:bg-gray-200 transition-colors rounded-sm">{t}</a>' for t in article['topics']])
 
     company_name = article['company']
     if any(p in company_name for p in ["Polymarket", "Kalshi", "CFTC"]):
@@ -2138,6 +2201,11 @@ def build_static_page(template_content, path, title, description, body_content, 
     content = re.sub(r'<meta property="og:description" content=".*?">', f'<meta property="og:description" content="{description}">', content)
     content = re.sub(r'<meta property="og:url" content=".*?">', f'<meta property="og:url" content="https://cryptocasinomedia.com{path}">', content)
     
+    if path in ['/admin', '/admin/', '/amplifier', '/amplifier/']:
+        content = re.sub(r'<meta name="robots" content=".*?">', '<meta name="robots" content="noindex, nofollow">', content)
+        content = re.sub(r'<meta name="googlebot" content=".*?">', '<meta name="googlebot" content="noindex, nofollow">', content)
+        content = re.sub(r'<meta name="bingbot" content=".*?">', '<meta name="bingbot" content="noindex, nofollow">', content)
+    
     # Inject og:image + Twitter Card tags + additional AEO meta tags
     extra_meta = f"""
     <meta property="og:image" content="{image_url}">
@@ -2270,6 +2338,25 @@ ENTITY_MAPPINGS = {
     "BTC": "https://en.wikipedia.org/wiki/Bitcoin",
     "Ethereum": "https://en.wikipedia.org/wiki/Ethereum",
     "ETH": "https://en.wikipedia.org/wiki/Ethereum",
+    "American Gaming Association": "https://en.wikipedia.org/wiki/American_Gaming_Association",
+    "AGA": "https://en.wikipedia.org/wiki/American_Gaming_Association",
+    "Commodity Futures Trading Commission": "https://en.wikipedia.org/wiki/Commodity_Futures_Trading_Commission",
+    "CFTC": "https://en.wikipedia.org/wiki/Commodity_Futures_Trading_Commission",
+    "The Open Network": "https://en.wikipedia.org/wiki/Open_Network_(blockchain)",
+    "TON": "https://en.wikipedia.org/wiki/Open_Network_(blockchain)",
+    "TON Blockchain": "https://en.wikipedia.org/wiki/Open_Network_(blockchain)",
+    "Solana": "https://en.wikipedia.org/wiki/Solana_(blockchain_platform)",
+    "Solana Pay": "https://en.wikipedia.org/wiki/Solana_(blockchain_platform)",
+    "Base": "https://en.wikipedia.org/wiki/Coinbase#Base",
+    "MiCA": "https://en.wikipedia.org/wiki/Markets_in_Crypto-Assets",
+    "ESMA": "https://en.wikipedia.org/wiki/European_Securities_and_Markets_Authority",
+    "European Securities and Markets Authority": "https://en.wikipedia.org/wiki/European_Securities_and_Markets_Authority",
+    "Oklahoma": "https://en.wikipedia.org/wiki/Oklahoma",
+    "California": "https://en.wikipedia.org/wiki/California",
+    "New York": "https://en.wikipedia.org/wiki/New_York_(state)",
+    "Florida": "https://en.wikipedia.org/wiki/Florida",
+    "Prediction Markets": "https://en.wikipedia.org/wiki/Prediction_market",
+    "Sweepstakes": "https://en.wikipedia.org/wiki/Sweepstake",
     "Curacao Gaming Control Board": "https://www.wikidata.org/wiki/Q114881518",
     "Curacao": "https://en.wikipedia.org/wiki/Cura%C3%A7ao",
     "Florida Gaming Control Commission": "https://flgaming.gov/",
@@ -2342,6 +2429,19 @@ for article in articles_sorted:
                     "@type": "Thing",
                     "name": topic,
                     "sameAs": ENTITY_MAPPINGS[topic]
+                })
+
+    # Deep scan of title and excerpt for authoritative entities
+    search_context = f"{article.get('title', '')} {article.get('company', '')} {' '.join(article.get('topics', []))}"
+    for ent_key, ent_url in ENTITY_MAPPINGS.items():
+        if len(mentions) >= 8:
+            break
+        if re.search(r'\b' + re.escape(ent_key) + r'\b', search_context, re.I):
+            if not any(m['name'].lower() == ent_key.lower() or m['sameAs'] == ent_url for m in mentions):
+                mentions.append({
+                    "@type": "Thing",
+                    "name": ent_key,
+                    "sameAs": ent_url
                 })
 
     # Generate static Article + FAQPage + BreadcrumbList schemas
@@ -2428,7 +2528,9 @@ for article in articles_sorted:
     if editor_schema:
         article_schema["editor"] = editor_schema
     if mentions:
-        article_schema["about"] = mentions
+        article_schema["about"] = mentions[:3]
+        if len(mentions) > 3:
+            article_schema["mentions"] = mentions[3:]
     primary_topic = article['topics'][0] if article.get('topics') else "crypto casinos"
     second_paragraph = article['body'][1] if len(article['body']) > 1 else article['excerpt']
     faq_schema = {

@@ -1,4 +1,6 @@
 User-agent: *
+Disallow: /admin/
+Disallow: /amplifier/
 Allow: /
 
 # OpenAI Crawlers & Search Agents
