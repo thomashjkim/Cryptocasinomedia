@@ -695,6 +695,82 @@ def renderSectionPage(title, description, filterCategory, filterTopic=None):
         </div>
     """
 
+def clean_faq_subject(title):
+    t = re.sub(r'\(2026\)|2026|—\s*CryptoCasinoMedia|CryptoCasinoMedia', '', title, flags=re.IGNORECASE)
+    t = re.sub(r'^(Top 10 Crypto Casinos in|List of Online Casinos|Best Bitcoin Casino|Scam Alert:)\s*', '', t, flags=re.IGNORECASE)
+    t = re.sub(r'\s+', ' ', t).strip(' :-\"')
+    return t
+
+def generate_article_faqs(article):
+    title = article.get('title', '')
+    comp = (article.get('company') or '').strip()
+    lede = article.get('lede') or article.get('excerpt', '')
+    body = article.get('body', [])
+    cat = article.get('primaryCategory', 'crypto-casinos')
+    topics = article.get('topics', [])
+    
+    # Select best second answer paragraph
+    p2 = ''
+    for p in body[1:]:
+        if len(p) > 80 and not p.startswith('http') and not 'About ' in p[:10]:
+            p2 = p
+            break
+    if not p2:
+        p2 = body[0] if body else lede
+
+    t_lower = title.lower()
+    l_lower = lede.lower()
+    c_lower = comp.lower()
+
+    # --- Question 1: Specific core development ---
+    if any(k in t_lower or k in l_lower for k in ['prediction market', 'cftc', 'derivatives', 'event contract', 'kalshi', 'polymarket']):
+        q1 = 'Why are sports event contracts in prediction markets facing regulatory challenges under U.S. financial frameworks?'
+    elif any(k in t_lower or k in l_lower for k in ['telegram', 'ton blockchain', 'mini-app']):
+        q1 = 'How do Telegram mini-apps and TON blockchain rails alter user onboarding for Web3 casinos?'
+    elif any(k in t_lower or k in l_lower for k in ['sweepstakes', 'geofencing', 'social casino', 'dual-currency']):
+        q1 = 'What compliance measures and geofencing standards are sweepstakes operators adopting in 2026?'
+    elif any(k in t_lower or k in l_lower for k in ['mica', 'european union', 'esma', 'casp']):
+        q1 = 'How does the European MiCA regulatory regime impact crypto gaming transactions and licensing?'
+    elif any(k in t_lower or k in l_lower for k in ['solana', 'layer-2', 'layer 2', 'tps', 'throughput', 'micro-betting']):
+        q1 = 'What technical advantages do high-throughput Layer-1 and Layer-2 blockchains provide for on-chain wagering?'
+    elif any(k in t_lower or k in l_lower for k in ['stablecoin', 'usdt', 'usdc', 'payment rails']):
+        q1 = 'Why have fiat-pegged stablecoins become the dominant transaction method for crypto casino settlement?'
+    elif any(k in t_lower or k in l_lower for k in ['no deposit', 'free spins', 'bonus code']):
+        q1 = 'What wagering terms and redemption rules govern the promotional incentives outlined in this update?'
+    elif any(k in t_lower or k in l_lower for k in ['responsible gaming', 'problem gambling', 'ai monitoring']):
+        q1 = 'How are artificial intelligence and automated safeguards being utilized to advance responsible gaming standards?'
+    elif any(k in t_lower or k in l_lower for k in ['curacao', 'licensing reform', 'offshore']):
+        q1 = 'What structural shifts are occurring in international offshore gaming jurisdictions and master licenses?'
+    elif comp and not any(k in c_lower for k in ['cryptocasinomedia', 'desk', 'editorial', 'research']):
+        q1 = f'What key milestone or platform enhancement has {comp} introduced in this development?'
+    else:
+        subj = clean_faq_subject(title)
+        q1 = f'What are the core operational takeaways and market findings of {subj}?'
+
+    # --- Question 2: Strategic, regulatory, or technical impact ---
+    if cat == 'regulation':
+        q2 = 'What legal precedents and regulatory compliance risks should operators and stakeholders monitor?'
+    elif cat == 'sweepstakes':
+        q2 = 'How does the legal structure of promotional sweepstakes differ from traditional real-money wagering?'
+    elif cat == 'payments':
+        q2 = 'What security, AML, and settlement benefits do blockchain transactions provide over legacy banking rails?'
+    elif cat == 'sportsbook':
+        q2 = 'How are digital sportsbooks managing market volatility, liquidity pools, and live in-play wagering demand?'
+    elif cat == 'guides':
+        q2 = 'What critical security and wallet custody protocols should players follow when interacting with crypto gaming platforms?'
+    else: # crypto-casinos or general
+        if 'defi' in t_lower or 'yield' in t_lower or 'staking' in t_lower:
+            q2 = 'How do decentralized staking pools and DeFi yield models integrate with casino tokenomics?'
+        elif 'mobile' in t_lower or 'app' in t_lower:
+            q2 = 'How is the transition toward frictionless mobile and in-app messaging reshaping player acquisition?'
+        else:
+            q2 = 'How does this industry progression influence broader market adoption and consumer trust across crypto casinos?'
+
+    return [
+        {'question': q1, 'answer': lede},
+        {'question': q2, 'answer': p2}
+    ]
+
 def renderArticlePage(slug):
     article = next((a for a in articles_sorted if a['slug'] == slug), None)
     if not article:
@@ -816,26 +892,21 @@ def renderArticlePage(slug):
             bodyHtml += ADSENSE_IN_ARTICLE
     bodyHtml += '</section>'
 
-    # Align visible FAQ HTML with FAQ Schema
-    primary_topic = article['topics'][0] if article.get('topics') else "crypto casinos"
-    second_paragraph = article['body'][1] if len(article['body']) > 1 else article['excerpt']
+    # Align visible FAQ HTML with dynamic FAQ Schema
+    faqs = generate_article_faqs(article)
+    faq_items_html = ""
+    for faq in faqs:
+        faq_items_html += f"""
+                                <div class="border-b border-gray-100 pb-4">
+                                    <h4 class="text-sm font-semibold text-gray-900 mb-1">{faq['question']}</h4>
+                                    <p class="text-sm text-gray-600 leading-relaxed">{faq['answer']}</p>
+                                </div>"""
     
-    faqHtml = f"""
-                                <div class="border-b border-gray-100 pb-4">
-                                    <h4 class="text-sm font-semibold text-gray-900 mb-1">What is the key industry announcement in '{article['title']}'?</h4>
-                                    <p class="text-sm text-gray-600">{article['lede']}</p>
-                                </div>
-                                <div class="border-b border-gray-100 pb-4">
-                                    <h4 class="text-sm font-semibold text-gray-900 mb-1">How does this update impact the {primary_topic} sector?</h4>
-                                    <p class="text-sm text-gray-600">{second_paragraph}</p>
-                                </div>
-    """
-
     faq_section_html = f"""
                                 <section id="article-faq" class="my-10 border-t border-gray-200 pt-8 font-sans">
                                     <h3 class="text-lg font-bold text-gray-900 mb-6">Frequently Asked Questions</h3>
                                     <div class="space-y-6">
-                                        {faqHtml}
+                                        {faq_items_html}
                                     </div>
                                 </section>
                                 """
@@ -2279,6 +2350,9 @@ def build_static_page(template_content, path, title, description, body_content, 
     
     content = content.replace('<!-- Google tag (gtag.js) -->', f'{extra_meta}\n{schema_tags}\n    <!-- Google tag (gtag.js) -->')
     
+    if '/_vercel/insights/script.js' not in content:
+        content = content.replace('</head>', '    <!-- Vercel Web Analytics (First-Party Tracker - Unblocked by Brave/AdBlockers) -->\n    <script defer src="/_vercel/insights/script.js"></script>\n</head>')
+    
     # Header and footer rendering
     rendered_header = renderHeader(path)
     rendered_footer = renderFooter()
@@ -2531,22 +2605,17 @@ for article in articles_sorted:
         article_schema["about"] = mentions[:3]
         if len(mentions) > 3:
             article_schema["mentions"] = mentions[3:]
-    primary_topic = article['topics'][0] if article.get('topics') else "crypto casinos"
-    second_paragraph = article['body'][1] if len(article['body']) > 1 else article['excerpt']
+    faqs = generate_article_faqs(article)
     faq_schema = {
         "@context": "https://schema.org",
         "@type": "FAQPage",
         "mainEntity": [
             {
                 "@type": "Question",
-                "name": f"What is the key industry announcement in '{article['title']}'?",
-                "acceptedAnswer": {"@type": "Answer", "text": article['lede']}
-            },
-            {
-                "@type": "Question",
-                "name": f"How does this update impact the {primary_topic} sector?",
-                "acceptedAnswer": {"@type": "Answer", "text": second_paragraph}
+                "name": faq['question'],
+                "acceptedAnswer": {"@type": "Answer", "text": faq['answer']}
             }
+            for faq in faqs
         ]
     }
     

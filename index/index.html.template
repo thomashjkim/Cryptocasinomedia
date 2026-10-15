@@ -24,6 +24,8 @@
       gtag('js', new Date());
       gtag('config', 'G-248GHH3FQZ');
     </script>
+    <!-- Vercel Web Analytics (First-Party Tracker - Unblocked by Brave/AdBlockers) -->
+    <script defer src="/_vercel/insights/script.js"></script>
     <!-- Fonts Optimization -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
