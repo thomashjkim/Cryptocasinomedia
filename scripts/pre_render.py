@@ -1051,10 +1051,42 @@ def renderArticlePage(slug):
         about_company_text = f"The platforms and protocols referenced ({company_name}) represent leading digital prediction networks and regulated event contract markets, facilitating peer-to-peer wagering and structured hedging on global event outcomes."
     elif any(p in company_name for p in ["Google", "Alphabet"]):
         about_company_text = "Google (Alphabet Inc.) is a global technology leader, specializing in search engine platforms, digital advertising, and cloud computing infrastructure, defining advertising policy and compliance standards globally."
-    elif "," in company_name or "&" in company_name or " and " in company_name:
-        about_company_text = f"The platforms and operators referenced ({company_name}) represent leading digital asset wagering networks, decentralized sportsbooks, or compliance entities operating within the interactive gaming space."
     else:
         about_company_text = f"{company_name} is a leading operator in the digital asset and interactive gaming space, committed to providing secure, transparent, and innovative entertainment experiences globally. For more information, visit the official corporate portal."
+
+    if is_third_party:
+        source_link_html = f'<a href="{source_url}" target="_blank" rel="noopener nofollow" class="font-semibold text-blue-700 hover:underline inline-flex items-center">{source_name} <i data-lucide="external-link" class="w-3 h-3 ml-1"></i></a>' if source_url else f'<span class="font-semibold text-gray-900">{source_name}</span>'
+        facts_editorial_box = f"""<div>
+                                             <span class="block text-gray-500 text-[11px] uppercase tracking-wider mb-1">Original Source</span>
+                                             {source_link_html}
+                                         </div>
+                                         <div>
+                                             <span class="block text-gray-500 text-[11px] uppercase tracking-wider mb-1">Editorial Review</span>
+                                             <span class="font-semibold text-gray-900"><a href="/authors/{editor_slug}/" class="hover:text-blue-700 underline text-gray-900">{editor_name}</a> ({editor_role})</span>
+                                         </div>"""
+    else:
+        facts_editorial_box = f"""<div>
+                                             <span class="block text-gray-500 text-[11px] uppercase tracking-wider mb-1">Author</span>
+                                             <span class="font-semibold text-gray-900"><a href="/authors/{editor_slug}/" class="hover:text-blue-700 underline text-gray-900">{editor_name}</a> ({editor_role})</span>
+                                         </div>
+                                         <div>
+                                             <span class="block text-gray-500 text-[11px] uppercase tracking-wider mb-1">Editorial Desk</span>
+                                             <span class="font-semibold text-gray-900">{source_name}</span>
+                                         </div>
+                                         <div>
+                                             <span class="block text-gray-500 text-[11px] uppercase tracking-wider mb-1">Publisher</span>
+                                             <span class="font-semibold text-gray-900">CryptoCasinoMedia</span>
+                                         </div>"""
+
+    if is_third_party and source_url:
+        facts_official_website_box = f"""<div>
+                                             <span class="block text-gray-500 text-[11px] uppercase tracking-wider mb-1">Official Website</span>
+                                             <a href="{source_url}" target="_blank" rel="noopener nofollow" class="inline-flex items-center text-blue-700 hover:underline font-medium text-xs">
+                                                 Visit Site <i data-lucide="external-link" class="w-3 h-3 ml-1"></i>
+                                             </a>
+                                         </div>"""
+    else:
+        facts_official_website_box = ""
 
     return f"""
                 <div class="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8 py-8 animate-fade-in">
@@ -1146,37 +1178,14 @@ def renderArticlePage(slug):
                                         <h2 class="text-xs uppercase tracking-widest font-semibold text-gray-900">Release Facts</h2>
                                     </div>
                                     <div class="p-5 space-y-4 text-sm">
-                                        {f"""<div>
-                                             <span class=\"block text-gray-500 text-[11px] uppercase tracking-wider mb-1\">Original Source</span>
-                                             {f'<a href=\"{source_url}\" target=\"_blank\" rel=\"noopener nofollow\" class=\"font-semibold text-blue-700 hover:underline inline-flex items-center\">{source_name} <i data-lucide=\"external-link\" class=\"w-3 h-3 ml-1\"></i></a>' if source_url else f'<span class=\"font-semibold text-gray-900\">{source_name}</span>'}
-                                         </div>
-                                         <div>
-                                             <span class=\"block text-gray-500 text-[11px] uppercase tracking-wider mb-1\">Editorial Review</span>
-                                             <span class=\"font-semibold text-gray-900\"><a href=\"/authors/{editor_slug}/\" class=\"hover:text-blue-700 underline text-gray-900\">{editor_name}</a> ({editor_role})</span>
-                                         </div>""" if is_third_party else f"""<div>
-                                             <span class=\"block text-gray-500 text-[11px] uppercase tracking-wider mb-1\">Author</span>
-                                             <span class=\"font-semibold text-gray-900\"><a href=\"/authors/{editor_slug}/\" class=\"hover:text-blue-700 underline text-gray-900\">{editor_name}</a> ({editor_role})</span>
-                                         </div>
-                                         <div>
-                                             <span class=\"block text-gray-500 text-[11px] uppercase tracking-wider mb-1\">Editorial Desk</span>
-                                             <span class=\"font-semibold text-gray-900\">{source_name}</span>
-                                         </div>
-                                         <div>
-                                             <span class=\"block text-gray-500 text-[11px] uppercase tracking-wider mb-1\">Publisher</span>
-                                             <span class=\"font-semibold text-gray-900\">CryptoCasinoMedia</span>
-                                         </div>"""}
+                                        {facts_editorial_box}
                                         <div>
                                             <span class="block text-gray-500 text-[11px] uppercase tracking-wider mb-1">Verification Status</span>
                                             <div class="inline-flex items-center px-2 py-0.5 text-[12px] font-medium bg-green-50 text-green-800 border border-green-200 rounded-sm">
                                                 <i data-lucide="check-circle" class="w-3.5 h-3.5 mr-1 text-green-600"></i> Primary Source Confirmed
                                             </div>
                                         </div>
-                                        {f"""<div>
-                                             <span class=\"block text-gray-500 text-[11px] uppercase tracking-wider mb-1\">Official Website</span>
-                                             <a href=\"{source_url}\" target=\"_blank\" rel=\"noopener nofollow\" class=\"inline-flex items-center text-blue-700 hover:underline font-medium text-xs\">
-                                                 Visit Site <i data-lucide=\"external-link\" class=\"w-3 h-3 ml-1\"></i>
-                                             </a>
-                                         </div>""" if (is_third_party and source_url) else ""}
+                                        {facts_official_website_box}
                                         <div>
                                             <span class="block text-gray-500 text-[11px] uppercase tracking-wider mb-1">Region</span>
                                             <div class="flex items-center text-gray-900">
