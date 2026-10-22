@@ -2,6 +2,7 @@
   "version": 2,
   "cleanUrls": false,
   "trailingSlash": true,
+  "outputDirectory": "index",
   "redirects": [
     {
       "source": "/regulation/topic/:slug*/",
