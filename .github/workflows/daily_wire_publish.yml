@@ -29,14 +29,6 @@ jobs:
         run: |
           pip install Pillow requests
 
-      - name: Set up Node.js & Vercel CLI
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-
-      - name: Install Vercel CLI
-        run: npm install -g vercel@latest
-
       - name: Run Automated Wire Publisher
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
@@ -50,10 +42,9 @@ jobs:
           git add .
           git diff --quiet && git diff --staged --quiet || (git commit -m "chore(auto): daily wire publication [skip ci]" --author="TK <tk@eznewswire.com>" && git push origin main)
 
-      - name: Deploy to Vercel Production
+      - name: Trigger Vercel Production Deployment
         env:
-          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
-          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
-          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+          VERCEL_DEPLOY_HOOK: ${{ secrets.VERCEL_DEPLOY_HOOK }}
         run: |
-          vercel --prod --cwd index --yes --token=$VERCEL_TOKEN
+          curl -s -X POST "$VERCEL_DEPLOY_HOOK"
+
