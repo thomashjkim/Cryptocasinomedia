@@ -19,6 +19,7 @@ import json
 import re
 import random
 import datetime
+import time
 import urllib.request
 import urllib.parse
 import xml.etree.ElementTree as ET
@@ -60,7 +61,7 @@ def call_gemini(prompt, models=["models/gemini-flash-lite-latest", "models/gemin
                     data=json.dumps(payload).encode("utf-8"),
                     headers={"Content-Type": "application/json"}
                 )
-                with urllib.request.urlopen(req, timeout=30) as resp:
+                with urllib.request.urlopen(req, timeout=90) as resp:
                     data = json.loads(resp.read().decode("utf-8"))
                     raw_text = data["candidates"][0]["content"]["parts"][0]["text"]
                     return json.loads(raw_text)
