@@ -76,53 +76,55 @@ def slugify(text):
     text = re.sub(r"[\s_-]+", "-", text).strip("-")
     return text[:90]
 
-# Editorial Photographic Image Library (Categorized 16:9 stock photos without text)
-IMAGE_POOLS = {
-    "crypto-casinos": [
-        "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?auto=format&fit=crop&q=80&w=1200",
-        "https://images.unsplash.com/photo-1639762681485-074b7f938ba0?auto=format&fit=crop&q=80&w=1200",
-        "https://images.unsplash.com/photo-1622979135225-d2ba269bc1df?auto=format&fit=crop&q=80&w=1200",
-        "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&q=80&w=1200"
-    ],
-    "payments": [
-        "https://images.unsplash.com/photo-1559526324-4b87b5e36e44?auto=format&fit=crop&q=80&w=1200",
-        "https://images.unsplash.com/photo-1563986768609-322da13575f3?auto=format&fit=crop&q=80&w=1200",
-        "https://images.unsplash.com/photo-1556742049-0a67c5574f73?auto=format&fit=crop&q=80&w=1200"
-    ],
-    "sweepstakes": [
-        "https://images.unsplash.com/photo-1511512578047-dfb367046420?auto=format&fit=crop&q=80&w=1200",
-        "https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&q=80&w=1200",
-        "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&q=80&w=1200"
-    ],
-    "regulation": [
-        "https://images.unsplash.com/photo-1589829545856-d10d557cf95f?auto=format&fit=crop&q=80&w=1200",
-        "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&q=80&w=1200",
-        "https://images.unsplash.com/photo-1450133064473-71024230f91b?auto=format&fit=crop&q=80&w=1200"
-    ],
-    "sportsbook": [
-        "https://images.unsplash.com/photo-1508098682722-e99c43a406b2?auto=format&fit=crop&q=80&w=1200",
-        "https://images.unsplash.com/photo-1461896836934-ffe607ba8211?auto=format&fit=crop&q=80&w=1200",
-        "https://images.unsplash.com/photo-1517649763962-0c623266ddc0?auto=format&fit=crop&q=80&w=1200"
-    ]
-}
+EDITORIAL_VAULT_DIR = os.path.join(IMAGES_DIR, "editorial_vault")
 
-def download_or_assign_image(category, slug):
-    """Assigns or downloads a pristine photographic image for the article."""
+VAULT_RULES = [
+    (["mica", "european", "brussels", "esma", "eba"], "eu_mica_regulation.jpg"),
+    (["curacao", "gcb", "lok", "licensing", "license"], "curacao_gcb_regulation.jpg"),
+    (["regulation", "regulatory", "hearing", "compliance", "law", "attorney", "sec", "cftc"], "eu_regulatory_hearing.jpg"),
+    (["geofencing", "sweepstakes", "sweeps", "state border", "vgw", "chumba", "luckyland"], "us_state_geofencing.jpg"),
+    (["sweepstakes compliance", "identity", "kyc", "geocomply"], "sweepstakes_compliance_ops.jpg"),
+    (["provably fair", "algorithm", "hashing", "rng", "crash"], "provably_fair_mechanics.jpg"),
+    (["slot", "studio", "pragmatic", "evolution", "play'n go", "developer", "mechanics"], "mobile_slot_studio.jpg"),
+    (["cashier", "layer-2", "settlement", "payouts", "withdrawal", "high-volume", "processing"], "fintech_cashier_infrastructure.jpg"),
+    (["stablecoin", "usdt", "usdc", "vault", "deposit"], "stablecoin_payments.jpg"),
+    (["payments", "rail", "crypto payments", "gateway", "web3 wallet"], "crypto_payments_engineering.jpg"),
+    (["telegram", "ton", "bot", "mini app"], "telegram_ton_wallet.jpg"),
+    (["prediction", "sportsbook", "polymarket", "kalshi", "wagering", "betting"], "prediction_markets_sportsbook.jpg"),
+    (["casino floor", "commercial casino", "slot machine", "las vegas"], "commercial_casino_floor.jpg"),
+    (["analytics", "kpi", "boardroom", "executive", "market intelligence"], "gaming_analytics_boardroom.jpg"),
+]
+
+def assign_bespoke_editorial_image(title, category, topics, slug):
+    """Assigns an authentic, topic-matched photographic asset from the editorial vault."""
     dest_path = os.path.join(IMAGES_DIR, f"{slug}.jpg")
-    pool = IMAGE_POOLS.get(category, IMAGE_POOLS["crypto-casinos"])
-    selected_url = random.choice(pool)
-    try:
-        req = urllib.request.Request(selected_url, headers={"User-Agent": "Mozilla/5.0"})
-        with urllib.request.urlopen(req, timeout=15) as resp:
-            with open(dest_path, "wb") as f:
-                f.write(resp.read())
-        print(f"  [IMAGE] Saved high-res photographic asset for {slug}.jpg")
-    except Exception as e:
-        print(f"  [IMAGE FALLBACK] Using existing placeholder for {slug}: {e}")
-        # Copy a default high-res fallback
-        fallback = os.path.join(IMAGES_DIR, "gig-launches-sweepx-social-sweepstakes-platform-primero-games-us-2026.jpg")
-        if os.path.exists(fallback):
-            shutil.copy(fallback, dest_path)
+    search_haystack = f"{title.lower()} {category.lower()} {' '.join([t.lower() for t in topics])}"
+    
+    chosen_vault_file = None
+    for keywords, filename in VAULT_RULES:
+        if any(kw in search_haystack for kw in keywords):
+            vault_file_path = os.path.join(EDITORIAL_VAULT_DIR, filename)
+            if os.path.exists(vault_file_path):
+                chosen_vault_file = vault_file_path
+                break
+                
+    if not chosen_vault_file:
+        cat_defaults = {
+            "regulation": "eu_regulatory_hearing.jpg",
+            "sweepstakes": "sweepstakes_compliance_ops.jpg",
+            "payments": "fintech_cashier_infrastructure.jpg",
+            "sportsbook": "prediction_markets_sportsbook.jpg",
+            "crypto-casinos": "provably_fair_mechanics.jpg",
+        }
+        fallback_name = cat_defaults.get(category, "gaming_analytics_boardroom.jpg")
+        chosen_vault_file = os.path.join(EDITORIAL_VAULT_DIR, fallback_name)
+        
+    if os.path.exists(chosen_vault_file):
+        shutil.copy(chosen_vault_file, dest_path)
+        print(f"  [EDITORIAL VAULT] Matched '{os.path.basename(chosen_vault_file)}' for '{title}' -> {slug}.jpg")
+    else:
+        print(f"  [IMAGE ERROR] Vault file not found: {chosen_vault_file}")
+        
     return f"/images/{slug}.jpg"
 
 def main():
@@ -187,7 +189,7 @@ Return a JSON array containing EXACTLY 3 or 4 article objects. Each article obje
             slug = f"{slug}-{now_utc.strftime('%H%M')}"
 
         art_id = f"pr-{slug}"
-        img_url = download_or_assign_image(art.get("primaryCategory", "crypto-casinos"), slug)
+        img_url = assign_bespoke_editorial_image(art["title"], art.get("primaryCategory", "crypto-casinos"), art.get("topics", []), slug)
 
         assembled = {
             "id": art_id,
