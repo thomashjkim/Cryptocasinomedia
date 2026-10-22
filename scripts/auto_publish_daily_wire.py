@@ -41,25 +41,34 @@ API_KEY = os.environ.get("GEMINI_API_KEY", "").strip()
 if not API_KEY:
     raise ValueError("GEMINI_API_KEY environment variable is required.")
 
-def call_gemini(prompt, model="models/gemini-flash-lite-latest"):
-    """Calls Gemini API with structured JSON output enforcement."""
-    url = f"https://generativelanguage.googleapis.com/v1beta/{model}:generateContent?key={API_KEY}"
-    payload = {
-        "contents": [{"parts": [{"text": prompt}]}],
-        "generationConfig": {
-            "response_mime_type": "application/json",
-            "temperature": 0.4
-        }
-    }
-    req = urllib.request.Request(
-        url,
-        data=json.dumps(payload).encode("utf-8"),
-        headers={"Content-Type": "application/json"}
-    )
-    with urllib.request.urlopen(req, timeout=30) as resp:
-        data = json.loads(resp.read().decode("utf-8"))
-        raw_text = data["candidates"][0]["content"]["parts"][0]["text"]
-        return json.loads(raw_text)
+def call_gemini(prompt, models=["models/gemini-flash-lite-latest", "models/gemini-2.5-flash", "models/gemini-2.0-flash"]):
+    """Calls Gemini API with exponential backoff retry and model fallback."""
+    last_err = None
+    for model in models:
+        for attempt in range(4):
+            try:
+                url = f"https://generativelanguage.googleapis.com/v1beta/{model}:generateContent?key={API_KEY}"
+                payload = {
+                    "contents": [{"parts": [{"text": prompt}]}],
+                    "generationConfig": {
+                        "response_mime_type": "application/json",
+                        "temperature": 0.4
+                    }
+                }
+                req = urllib.request.Request(
+                    url,
+                    data=json.dumps(payload).encode("utf-8"),
+                    headers={"Content-Type": "application/json"}
+                )
+                with urllib.request.urlopen(req, timeout=30) as resp:
+                    data = json.loads(resp.read().decode("utf-8"))
+                    raw_text = data["candidates"][0]["content"]["parts"][0]["text"]
+                    return json.loads(raw_text)
+            except Exception as e:
+                last_err = e
+                print(f"  [Gemini {model} Attempt {attempt+1}] Warning: {e}. Retrying in {(attempt+1)*3}s...")
+                time.sleep((attempt + 1) * 3)
+    raise RuntimeError(f"All Gemini models and retries failed: {last_err}")
 
 def slugify(text):
     text = re.sub(r"[^\w\s-]", "", text.lower())
