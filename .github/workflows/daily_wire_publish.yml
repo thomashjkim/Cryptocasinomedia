@@ -2,9 +2,12 @@ name: Daily Wire News Automated Publishing
 
 on:
   schedule:
-    # 9:00 AM EDT (13:00 UTC) / 9:00 AM EST (14:00 UTC)
-    # Cron runs daily at 13:00 UTC (9:00 AM U.S. Eastern Daylight Time)
-    - cron: '0 13 * * *'
+    # 9:05 AM EDT (13:05 UTC) primary - avoids top-of-hour congestion drop
+    - cron: '5 13 * * *'
+    # 9:20 AM EDT (13:20 UTC) fallback retry if GitHub drops 9:05
+    - cron: '20 13 * * *'
+    # 9:35 AM EDT (13:35 UTC) second fallback retry
+    - cron: '35 13 * * *'
   workflow_dispatch: # Allows manual trigger anytime from GitHub UI
 
 permissions:

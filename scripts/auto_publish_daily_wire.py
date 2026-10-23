@@ -138,6 +138,12 @@ def main():
     existing_slugs = {a["slug"] for a in master_articles}
     print(f"Current database volume: {len(master_articles)} articles.")
 
+    today_prefix = now_utc.strftime("%Y-%m-%d")
+    today_published = [a for a in master_articles if a.get("publishedAt", "").startswith(today_prefix)]
+    if len(today_published) >= 3 and not os.environ.get("FORCE_PUBLISH"):
+        print(f"Today ({today_prefix}) already has {len(today_published)} articles published. Skipping redundant execution.")
+        return
+
     # 2. Daily Wire Topics Generation Prompt
     prompt = f"""
 You are the senior editorial director at CryptoCasinoMedia, the leading B2B market intelligence publication covering crypto casinos, sweepstakes gaming, iGaming regulation, and Web3 sportsbooks.
