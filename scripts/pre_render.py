@@ -434,12 +434,19 @@ def renderArticleMeta(article):
     html += "</div>"
     return html
 
+def buster(url):
+    if not url:
+        return url
+    if "?" in url:
+        return url
+    return f"{url}?v=3"
+
 def renderStoryRow(article):
     return f"""
                 <a href="/press-releases/{article['slug']}" class="group flex flex-col sm:flex-row gap-4 py-5 border-b border-gray-200 hover:bg-gray-50 transition-colors -mx-4 px-4 sm:mx-0 sm:px-0 rounded-sm">
                     <div class="sm:w-1/3 md:w-1/4 flex-shrink-0">
                         <div class="aspect-video w-full bg-gray-100 overflow-hidden border border-gray-200">
-                            <img src="{article['thumbnailUrl']}" alt="{article['title']}" width="300" height="169" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                            <img src="{buster(article['thumbnailUrl'])}" alt="{article['title']}" width="300" height="169" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                         </div>
                     </div>
                     <div class="flex-1 flex flex-col justify-center">
@@ -458,7 +465,7 @@ def renderStoryGridCard(article):
     return f"""
                 <a href="/press-releases/{article['slug']}" class="group flex flex-col border-b sm:border-b-0 sm:border-r border-gray-200 sm:last:border-r-0 pb-6 sm:pb-0 sm:pr-6 sm:last:pr-0">
                     <div class="aspect-video w-full bg-gray-100 overflow-hidden mb-4 border border-gray-200">
-                        <img src="{article['thumbnailUrl']}" alt="{article['title']}" width="400" height="225" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                        <img src="{buster(article['thumbnailUrl'])}" alt="{article['title']}" width="400" height="225" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                     </div>
                     {renderArticleMeta(article)}
                     <h3 class="text-[17px] font-semibold text-gray-900 group-hover:text-blue-700 transition-colors leading-snug mb-2">
@@ -502,7 +509,7 @@ def renderHomePage():
                         <div class="lg:w-[70%]">
                             <a href="/press-releases/{leadStory['slug']}" class="group block mb-10">
                                 <div class="aspect-video w-full bg-gray-100 overflow-hidden border border-gray-200 mb-4 relative">
-                                    <img src="{leadStory['thumbnailUrl']}" alt="{leadStory['title']}" width="1200" height="675" fetchpriority="high" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+                                    <img src="{buster(leadStory['thumbnailUrl'])}" alt="{leadStory['title']}" width="1200" height="675" fetchpriority="high" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
                                 </div>
                                 {renderArticleMeta(leadStory)}
                                 <h2 class="text-3xl sm:text-4xl font-semibold tracking-tight text-gray-900 group-hover:text-blue-700 transition-colors leading-tight mb-3">
@@ -601,7 +608,7 @@ def renderSectionPage(title, description, filterCategory, filterTopic=None):
         mainColumnHtml = f"""
                     <a href="/press-releases/{first['slug']}" class="group flex flex-col sm:flex-row gap-6 mb-10">
                         <div class="sm:w-1/2 aspect-video bg-gray-100 overflow-hidden border border-gray-200">
-                            <img src="{first['thumbnailUrl']}" alt="{first['title']}" fetchpriority="high" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                            <img src="{buster(first['thumbnailUrl'])}" alt="{first['title']}" fetchpriority="high" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                         </div>
                         <div class="sm:w-1/2 flex flex-col justify-center">
                             {renderArticleMeta(first)}
@@ -1028,7 +1035,7 @@ def renderArticlePage(slug):
     excerpt_block = f'<p class="text-lg text-gray-600 font-serif italic mb-6 leading-relaxed">{article["excerpt"]}</p>' if article.get("excerpt") else ''
     thumbnail_figure = f"""
                             <figure class="mb-8 border border-gray-200 bg-gray-50 p-1">
-                                <img src="{article['thumbnailUrl']}" alt="{article['title']}" width="1200" height="675" fetchpriority="high" class="w-full h-auto object-cover max-h-[450px]" />
+                                <img src="{buster(article['thumbnailUrl'])}" alt="{article['title']}" width="1200" height="675" fetchpriority="high" class="w-full h-auto object-cover max-h-[450px]" />
                                 <figcaption class="text-[12px] text-gray-500 mt-2 px-2 pb-1 text-left font-sans flex flex-col sm:flex-row sm:justify-between items-start sm:items-center gap-1 border-t border-gray-100 pt-2">
                                     <span><strong>Caption:</strong> {article['title']}</span>
                                     <span class="text-gray-400 shrink-0">Source: {source_name}</span>
@@ -2483,7 +2490,7 @@ for article in articles_sorted:
     description = article['excerpt']
     
     # Generate image crops (16:9, 4:3, 1:1) from Unsplash URL
-    image_base = article.get('thumbnailUrl') or "https://cryptocasinomedia.com/og-image.jpg"
+    image_base = buster(article.get('thumbnailUrl')) or "https://cryptocasinomedia.com/og-image.jpg"
     image_16_9 = image_base
     image_4_3 = image_base.replace('w=800', 'w=800&ar=4:3&fit=crop') if 'unsplash.com' in image_base else image_base
     image_1_1 = image_base.replace('w=800', 'w=800&ar=1:1&fit=crop') if 'unsplash.com' in image_base else image_base
@@ -2643,7 +2650,7 @@ for article in articles_sorted:
     
     body = renderArticlePage(slug)
     # Pass article thumbnail as og:image for rich social sharing previews
-    article_og_image = article.get('thumbnailUrl')
+    article_og_image = buster(article.get('thumbnailUrl'))
     html = build_static_page(template_content, path, title, description, body, [article_schema, faq_schema, breadcrumb_schema], og_image=article_og_image)
     
     # Write to index/press-releases/[slug]/index.html
