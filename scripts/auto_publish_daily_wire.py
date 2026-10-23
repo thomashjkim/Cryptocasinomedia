@@ -95,36 +95,51 @@ VAULT_RULES = [
     (["analytics", "kpi", "boardroom", "executive", "market intelligence"], "gaming_analytics_boardroom.jpg"),
 ]
 
-def assign_bespoke_editorial_image(title, category, topics, slug):
-    """Assigns an authentic, topic-matched photographic asset from the editorial vault."""
+def assign_bespoke_editorial_image(title, category, topics, slug, used_files=None):
+    """Assigns an authentic, topic-matched photographic asset, strictly enforcing zero reuse."""
+    if used_files is None:
+        used_files = set()
     dest_path = os.path.join(IMAGES_DIR, f"{slug}.jpg")
     search_haystack = f"{title.lower()} {category.lower()} {' '.join([t.lower() for t in topics])}"
     
+    # 1. Attempt on-the-fly unique generation with Pollinations / Flux
+    try:
+        gen_prompt = f"photorealistic editorial news photo, {title}, Reuters Bloomberg style, 16:9, highly detailed, no text, no watermark"
+        encoded = urllib.parse.quote(gen_prompt[:250])
+        seed = random.randint(100000, 99999999)
+        url = f"https://image.pollinations.ai/prompt/{encoded}?width=1280&height=720&model=flux&nologo=true&seed={seed}"
+        req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0"})
+        with urllib.request.urlopen(req, timeout=12) as resp:
+            data = resp.read()
+            if len(data) > 15000:
+                with open(dest_path, "wb") as f:
+                    f.write(data)
+                print(f"  [AI GENERATION] Generated 100% unique 16:9 photo for '{title}' -> {slug}.jpg")
+                return f"/images/{slug}.jpg"
+    except Exception as e:
+        print(f"  [AI Gen notice] Falling back to vault: {e}")
+        
+    # 2. Match from vault avoiding any previously used file in the batch
     chosen_vault_file = None
+    all_vault_files = [os.path.join(EDITORIAL_VAULT_DIR, f) for f in os.listdir(EDITORIAL_VAULT_DIR) if f.endswith('.jpg')]
+    
     for keywords, filename in VAULT_RULES:
         if any(kw in search_haystack for kw in keywords):
             vault_file_path = os.path.join(EDITORIAL_VAULT_DIR, filename)
-            if os.path.exists(vault_file_path):
+            if os.path.exists(vault_file_path) and vault_file_path not in used_files:
                 chosen_vault_file = vault_file_path
                 break
                 
     if not chosen_vault_file:
-        cat_defaults = {
-            "regulation": "eu_regulatory_hearing.jpg",
-            "sweepstakes": "sweepstakes_compliance_ops.jpg",
-            "payments": "fintech_cashier_infrastructure.jpg",
-            "sportsbook": "prediction_markets_sportsbook.jpg",
-            "crypto-casinos": "provably_fair_mechanics.jpg",
-        }
-        fallback_name = cat_defaults.get(category, "gaming_analytics_boardroom.jpg")
-        chosen_vault_file = os.path.join(EDITORIAL_VAULT_DIR, fallback_name)
-        
-    if os.path.exists(chosen_vault_file):
-        shutil.copy(chosen_vault_file, dest_path)
-        print(f"  [EDITORIAL VAULT] Matched '{os.path.basename(chosen_vault_file)}' for '{title}' -> {slug}.jpg")
-    else:
-        print(f"  [IMAGE ERROR] Vault file not found: {chosen_vault_file}")
-        
+        available_vault = [f for f in all_vault_files if f not in used_files]
+        if available_vault:
+            chosen_vault_file = random.choice(available_vault)
+        else:
+            chosen_vault_file = random.choice(all_vault_files)
+            
+    used_files.add(chosen_vault_file)
+    shutil.copy(chosen_vault_file, dest_path)
+    print(f"  [EDITORIAL VAULT] Assigned unique '{os.path.basename(chosen_vault_file)}' for '{title}' -> {slug}.jpg")
     return f"/images/{slug}.jpg"
 
 def main():
@@ -186,6 +201,7 @@ Return a JSON array containing EXACTLY 3 or 4 article objects. Each article obje
 
     # 3. Assemble and stage new articles
     staged_articles = []
+    used_batch_images = set()
     for art in generated_articles[:4]:
         base_slug = slugify(art["title"])
         slug = f"{base_slug}-2026" if not base_slug.endswith("2026") else base_slug
@@ -195,7 +211,7 @@ Return a JSON array containing EXACTLY 3 or 4 article objects. Each article obje
             slug = f"{slug}-{now_utc.strftime('%H%M')}"
 
         art_id = f"pr-{slug}"
-        img_url = assign_bespoke_editorial_image(art["title"], art.get("primaryCategory", "crypto-casinos"), art.get("topics", []), slug)
+        img_url = assign_bespoke_editorial_image(art["title"], art.get("primaryCategory", "crypto-casinos"), art.get("topics", []), slug, used_files=used_batch_images)
 
         assembled = {
             "id": art_id,
