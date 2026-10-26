@@ -1,6 +1,50 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://cryptocasinomedia.com/press-releases/soft2bet-deploys-arbitrum-layer-2-settlement-engine-to-slash-crypto-casino-gas-fees-2026/</loc>
+    <news:news>
+      <news:publication>
+        <news:name>CryptoCasinoMedia</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2026-10-26T19:12:55Z</news:publication_date>
+      <news:title>Soft2Bet Deploys Arbitrum Layer-2 Settlement Engine to Slash Crypto Casino Gas Fees</news:title>
+    </news:news>
+  </url>
+  <url>
+    <loc>https://cryptocasinomedia.com/press-releases/vgw-holdings-introduces-ai-driven-geofencing-suite-for-us-social-sweepstakes-operations-2026/</loc>
+    <news:news>
+      <news:publication>
+        <news:name>CryptoCasinoMedia</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2026-10-26T19:12:55Z</news:publication_date>
+      <news:title>VGW Holdings Introduces AI-Driven Geofencing Suite for U.S. Social Sweepstakes Operations</news:title>
+    </news:news>
+  </url>
+  <url>
+    <loc>https://cryptocasinomedia.com/press-releases/ukgc-and-curacao-gaming-control-board-sign-cross-border-enforcement-pact-for-crypto-operat-2026/</loc>
+    <news:news>
+      <news:publication>
+        <news:name>CryptoCasinoMedia</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2026-10-26T19:12:55Z</news:publication_date>
+      <news:title>UKGC and Curacao Gaming Control Board Sign Cross-Border Enforcement Pact for Crypto Operators</news:title>
+    </news:news>
+  </url>
+  <url>
+    <loc>https://cryptocasinomedia.com/press-releases/pragmatic-play-integrates-zero-knowledge-provably-fair-verification-across-web3-slot-portf-2026/</loc>
+    <news:news>
+      <news:publication>
+        <news:name>CryptoCasinoMedia</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2026-10-26T19:12:55Z</news:publication_date>
+      <news:title>Pragmatic Play Integrates Zero-Knowledge Provably Fair Verification Across Web3 Slot Portfolio</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://cryptocasinomedia.com/press-releases/soft2bet-integrates-arbitrum-l2-rails-to-scale-high-frequency-crypto-casino-transactions-2026/</loc>
     <news:news>
       <news:publication>
@@ -31,39 +75,6 @@
       </news:publication>
       <news:publication_date>2026-10-25T17:02:43Z</news:publication_date>
       <news:title>Pragmatic Play Unveils Provably Fair Crash Mechanics for Web3 Mobile Integration</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://cryptocasinomedia.com/press-releases/soft2bet-deploys-layer-2-settlement-engine-to-slash-crypto-casino-gas-fees-by-95-2026/</loc>
-    <news:news>
-      <news:publication>
-        <news:name>CryptoCasinoMedia</news:name>
-        <news:language>en</news:language>
-      </news:publication>
-      <news:publication_date>2026-10-24T16:33:17Z</news:publication_date>
-      <news:title>Soft2Bet Deploys Layer-2 Settlement Engine to Slash Crypto Casino Gas Fees by 95%</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://cryptocasinomedia.com/press-releases/vgw-holdings-introduces-ai-driven-geofencing-suite-for-us-social-sweepstakes-compliance-2026/</loc>
-    <news:news>
-      <news:publication>
-        <news:name>CryptoCasinoMedia</news:name>
-        <news:language>en</news:language>
-      </news:publication>
-      <news:publication_date>2026-10-24T16:33:17Z</news:publication_date>
-      <news:title>VGW Holdings Introduces AI-Driven Geofencing Suite for U.S. Social Sweepstakes Compliance</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://cryptocasinomedia.com/press-releases/pragmatic-play-integrates-zero-knowledge-provably-fair-verification-across-live-casino-por-2026/</loc>
-    <news:news>
-      <news:publication>
-        <news:name>CryptoCasinoMedia</news:name>
-        <news:language>en</news:language>
-      </news:publication>
-      <news:publication_date>2026-10-24T16:33:17Z</news:publication_date>
-      <news:title>Pragmatic Play Integrates Zero-Knowledge Provably Fair Verification Across Live Casino Portfolio</news:title>
     </news:news>
   </url>
 </urlset>
