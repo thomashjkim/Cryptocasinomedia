@@ -123,10 +123,24 @@ def assign_bespoke_editorial_image(title, category, topics, slug, used_files=Non
     if API_KEY:
         try:
             url = f"https://generativelanguage.googleapis.com/v1beta/models/imagen-3.0-generate-002:predict?key={API_KEY}"
+            if any(k in search_haystack for k in ["provably fair", "crash", "multiplier", "slot", "plinko", "game", "rng"]):
+                visual_context = "modern game design studio testing interactive mobile casino touchscreen prototypes, neon multiplier curves, crash game charts on large monitors, clean dark mode UI"
+            elif any(k in search_haystack for k in ["cashier", "stablecoin", "usdt", "usdc", "settlement", "arbitrum", "solana", "l2", "layer 2", "gas", "payout", "deposit"]):
+                visual_context = "smartphone displaying a high-tech cryptocurrency casino cashier interface with USDT and Ethereum balances on dark reflective smoked-glass desk next to gold casino chips and physical crypto coin, cinematic cyan and amber lighting"
+            elif any(k in search_haystack for k in ["sweepstakes", "sweeps", "geofencing", "state border", "vgw", "chumba"]):
+                visual_context = "state compliance operations room with risk analysts monitoring real-time United States geographic border telemetry and compliance heatmaps across glowing widescreen displays"
+            elif any(k in search_haystack for k in ["curacao", "license", "licensing", "regulator", "legal", "court", "hearing", "sec", "cftc", "lawsuit"]):
+                visual_context = "executive legal compliance boardroom with gaming commission directors and attorneys reviewing digital regulatory filings on tablets around polished marble table"
+            elif any(k in search_haystack for k in ["live dealer", "studio", "blackjack", "roulette"]):
+                visual_context = "high-end live dealer broadcast television studio with green felt gaming table, broadcast cameras, overhead lighting rigs and control room in background"
+            else:
+                visual_context = "high-end modern crypto casino fintech workstation with digital asset order books, crypto payment settlement feeds, gold gaming chips, and glowing displays"
+
             prompt = (
-                f"A realistic photojournalistic news photograph for an iGaming news report titled '{title}'. "
-                f"Editorial style like Reuters or Bloomberg, authentic professional setting, natural lighting, "
-                f"16:9 aspect ratio, strictly zero text, zero letters, zero watermark, no cartoon, no 3D render."
+                f"Editorial news photograph for an iGaming crypto news report titled '{title}'. "
+                f"Scene: {visual_context}. "
+                f"Photojournalistic style like Bloomberg, Financial Times, or CoinDesk, 16:9 aspect ratio, natural lighting, "
+                f"strictly zero legible typos, zero letters, zero watermark, no cartoon, realistic photography."
             )
             payload = {
                 "instances": [{"prompt": prompt}],
