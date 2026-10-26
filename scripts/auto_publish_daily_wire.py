@@ -78,68 +78,116 @@ def slugify(text):
 
 EDITORIAL_VAULT_DIR = os.path.join(IMAGES_DIR, "editorial_vault")
 
+import base64
+import hashlib
+
 VAULT_RULES = [
-    (["mica", "european", "brussels", "esma", "eba"], "eu_mica_regulation.jpg"),
-    (["curacao", "gcb", "lok", "licensing", "license"], "curacao_gcb_regulation.jpg"),
-    (["regulation", "regulatory", "hearing", "compliance", "law", "attorney", "sec", "cftc"], "eu_regulatory_hearing.jpg"),
-    (["geofencing", "sweepstakes", "sweeps", "state border", "vgw", "chumba", "luckyland"], "us_state_geofencing.jpg"),
-    (["sweepstakes compliance", "identity", "kyc", "geocomply"], "sweepstakes_compliance_ops.jpg"),
-    (["provably fair", "algorithm", "hashing", "rng", "crash"], "provably_fair_mechanics.jpg"),
-    (["slot", "studio", "pragmatic", "evolution", "play'n go", "developer", "mechanics"], "mobile_slot_studio.jpg"),
-    (["cashier", "layer-2", "settlement", "payouts", "withdrawal", "high-volume", "processing"], "fintech_cashier_infrastructure.jpg"),
-    (["stablecoin", "usdt", "usdc", "vault", "deposit"], "stablecoin_payments.jpg"),
-    (["payments", "rail", "crypto payments", "gateway", "web3 wallet"], "crypto_payments_engineering.jpg"),
+    (["mica", "european", "brussels", "esma", "eba"], "vault_brussels_regulators.jpg"),
+    (["curacao", "gcb", "lok", "licensing", "license"], "vault_curacao_harbor_boardroom.jpg"),
+    (["regulation", "regulatory", "hearing", "compliance", "law", "attorney", "sec", "cftc"], "vault_brussels_regulators.jpg"),
+    (["geofencing", "sweepstakes", "sweeps", "state border", "vgw", "chumba", "luckyland"], "vault_state_geofencing_hearing.jpg"),
+    (["sweepstakes compliance", "identity", "kyc", "geocomply"], "vault_compliance_ops_center.jpg"),
+    (["provably fair", "algorithm", "hashing", "rng", "crash", "verification"], "vault_berlin_crypto_lab.jpg"),
+    (["live dealer", "studio", "evolution", "broadcast", "blackjack", "roulette"], "vault_live_dealer_studio.jpg"),
+    (["slot", "studio", "pragmatic", "play'n go", "developer", "mechanics"], "vault_tokyo_game_studio.jpg"),
+    (["cashier", "layer-2", "settlement", "payouts", "withdrawal", "high-volume", "arbitrum", "solana"], "vault_sf_payments_engineering.jpg"),
+    (["stablecoin", "usdt", "usdc", "vault", "deposit", "treasury", "liquidity"], "vault_ny_treasury_desk.jpg"),
+    (["payments", "rail", "crypto payments", "gateway", "web3 wallet"], "vault_sf_payments_engineering.jpg"),
     (["telegram", "ton", "bot", "mini app"], "telegram_ton_wallet.jpg"),
     (["prediction", "sportsbook", "polymarket", "kalshi", "wagering", "betting"], "prediction_markets_sportsbook.jpg"),
-    (["casino floor", "commercial casino", "slot machine", "las vegas"], "commercial_casino_floor.jpg"),
-    (["analytics", "kpi", "boardroom", "executive", "market intelligence"], "gaming_analytics_boardroom.jpg"),
 ]
 
-def assign_bespoke_editorial_image(title, category, topics, slug, used_files=None):
-    """Assigns an authentic, topic-matched photographic asset, strictly enforcing zero reuse."""
+def get_all_article_image_hashes(master_articles):
+    """Computes SHA-256 hashes of all existing article images to guarantee 100% zero reuse."""
+    hashes = set()
+    for a in master_articles:
+        t = a.get("thumbnailUrl", "")
+        if "/images/" in t:
+            fname = t.split("/images/")[-1].split("?")[0]
+            local_path = os.path.join(IMAGES_DIR, fname)
+            if os.path.exists(local_path):
+                h = hashlib.sha256(open(local_path, "rb").read()).hexdigest()
+                hashes.add(h)
+    return hashes
+
+def assign_bespoke_editorial_image(title, category, topics, slug, used_files=None, historical_hashes=None):
+    """Assigns an authentic, topic-matched photographic asset, strictly enforcing zero reuse across entire site history."""
     if used_files is None:
         used_files = set()
+    if historical_hashes is None:
+        historical_hashes = set()
     dest_path = os.path.join(IMAGES_DIR, f"{slug}.jpg")
     search_haystack = f"{title.lower()} {category.lower()} {' '.join([t.lower() for t in topics])}"
     
-    # 1. Attempt on-the-fly unique generation with Pollinations / Flux
-    try:
-        gen_prompt = f"photorealistic editorial news photo, {title}, Reuters Bloomberg style, 16:9, highly detailed, no text, no watermark"
-        encoded = urllib.parse.quote(gen_prompt[:250])
-        seed = random.randint(100000, 99999999)
-        url = f"https://image.pollinations.ai/prompt/{encoded}?width=1280&height=720&model=flux&nologo=true&seed={seed}"
-        req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0"})
-        with urllib.request.urlopen(req, timeout=12) as resp:
-            data = resp.read()
-            if len(data) > 15000:
-                with open(dest_path, "wb") as f:
-                    f.write(data)
-                print(f"  [AI GENERATION] Generated 100% unique 16:9 photo for '{title}' -> {slug}.jpg")
-                return f"/images/{slug}.jpg"
-    except Exception as e:
-        print(f"  [AI Gen notice] Falling back to vault: {e}")
+    # 1. Attempt on-the-fly unique generation with Google Imagen 3 API (via GEMINI_API_KEY)
+    if API_KEY:
+        try:
+            url = f"https://generativelanguage.googleapis.com/v1beta/models/imagen-3.0-generate-002:predict?key={API_KEY}"
+            prompt = (
+                f"A realistic photojournalistic news photograph for an iGaming news report titled '{title}'. "
+                f"Editorial style like Reuters or Bloomberg, authentic professional setting, natural lighting, "
+                f"16:9 aspect ratio, strictly zero text, zero letters, zero watermark, no cartoon, no 3D render."
+            )
+            payload = {
+                "instances": [{"prompt": prompt}],
+                "parameters": {
+                    "sampleCount": 1,
+                    "aspectRatio": "16:9",
+                    "outputMimeType": "image/jpeg"
+                }
+            }
+            req = urllib.request.Request(
+                url,
+                data=json.dumps(payload).encode("utf-8"),
+                headers={"Content-Type": "application/json"}
+            )
+            with urllib.request.urlopen(req, timeout=40) as resp:
+                res_data = json.loads(resp.read().decode("utf-8"))
+                b64 = res_data["predictions"][0]["bytesBase64Encoded"]
+                img_bytes = base64.b64decode(b64)
+                h = hashlib.sha256(img_bytes).hexdigest()
+                if h not in historical_hashes:
+                    with open(dest_path, "wb") as f:
+                        f.write(img_bytes)
+                    historical_hashes.add(h)
+                    print(f"  [IMAGEN 3] Generated 100% unique 16:9 photo for '{title}' -> {slug}.jpg (SHA-256: {h[:12]})")
+                    return f"/images/{slug}.jpg"
+        except Exception as e:
+            print(f"  [Imagen 3 notice] Falling back to vault: {e}")
         
-    # 2. Match from vault avoiding any previously used file in the batch
+    # 2. Match from vault strictly filtering out any file whose hash was ever used in history
     chosen_vault_file = None
     all_vault_files = [os.path.join(EDITORIAL_VAULT_DIR, f) for f in os.listdir(EDITORIAL_VAULT_DIR) if f.endswith('.jpg')]
     
+    # Filter only vault files whose SHA-256 has NEVER been used
+    clean_vault_files = []
+    for vf in all_vault_files:
+        vh = hashlib.sha256(open(vf, "rb").read()).hexdigest()
+        if vh not in historical_hashes and vf not in used_files:
+            clean_vault_files.append(vf)
+            
+    if not clean_vault_files:
+        raise RuntimeError("CRITICAL ERROR: Editorial vault is exhausted of unique images! Refill editorial_vault immediately.")
+
     for keywords, filename in VAULT_RULES:
         if any(kw in search_haystack for kw in keywords):
-            vault_file_path = os.path.join(EDITORIAL_VAULT_DIR, filename)
-            if os.path.exists(vault_file_path) and vault_file_path not in used_files:
-                chosen_vault_file = vault_file_path
+            candidate = os.path.join(EDITORIAL_VAULT_DIR, filename)
+            if candidate in clean_vault_files:
+                chosen_vault_file = candidate
                 break
                 
     if not chosen_vault_file:
-        available_vault = [f for f in all_vault_files if f not in used_files]
-        if available_vault:
-            chosen_vault_file = random.choice(available_vault)
-        else:
-            chosen_vault_file = random.choice(all_vault_files)
+        chosen_vault_file = random.choice(clean_vault_files)
             
+    # Mark as used and compute hash to prevent any future reuse
     used_files.add(chosen_vault_file)
+    chosen_hash = hashlib.sha256(open(chosen_vault_file, "rb").read()).hexdigest()
+    historical_hashes.add(chosen_hash)
+    
     shutil.copy(chosen_vault_file, dest_path)
-    print(f"  [EDITORIAL VAULT] Assigned unique '{os.path.basename(chosen_vault_file)}' for '{title}' -> {slug}.jpg")
+    # Remove from vault once assigned so the vault file is permanently retired
+    os.remove(chosen_vault_file)
+    print(f"  [EDITORIAL VAULT] Assigned & retired '{os.path.basename(chosen_vault_file)}' for '{title}' -> {slug}.jpg (SHA-256: {chosen_hash[:12]})")
     return f"/images/{slug}.jpg"
 
 def main():
@@ -202,6 +250,7 @@ Return a JSON array containing EXACTLY 3 or 4 article objects. Each article obje
     # 3. Assemble and stage new articles
     staged_articles = []
     used_batch_images = set()
+    historical_image_hashes = get_all_article_image_hashes(master_articles)
     for art in generated_articles[:4]:
         base_slug = slugify(art["title"])
         slug = f"{base_slug}-2026" if not base_slug.endswith("2026") else base_slug
@@ -211,7 +260,14 @@ Return a JSON array containing EXACTLY 3 or 4 article objects. Each article obje
             slug = f"{slug}-{now_utc.strftime('%H%M')}"
 
         art_id = f"pr-{slug}"
-        img_url = assign_bespoke_editorial_image(art["title"], art.get("primaryCategory", "crypto-casinos"), art.get("topics", []), slug, used_files=used_batch_images)
+        img_url = assign_bespoke_editorial_image(
+            art["title"], 
+            art.get("primaryCategory", "crypto-casinos"), 
+            art.get("topics", []), 
+            slug, 
+            used_files=used_batch_images,
+            historical_hashes=historical_image_hashes
+        )
 
         assembled = {
             "id": art_id,

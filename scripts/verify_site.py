@@ -7,9 +7,10 @@ Validates:
 3. Image Asset Integrity (no broken src, missing files, or empty images across all HTML pages)
 4. JS Syntax Validation on all generated static pages using Node.js AST
 """
-import os, sys, re, subprocess
+import os, sys, re, subprocess, json
 
 INDEX_DIR = 'index'
+DATA_DIR = 'data'
 REQUIRED_NAV = [
     'Press Releases',
     'Crypto Casinos',
@@ -210,7 +211,7 @@ def check_no_ai_terms():
 
 
 def check_articles_immutability():
-    print("[6/6] Checking Master Articles Database Immutability...")
+    print("[6/7] Checking Master Articles Database Immutability...")
     sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
     try:
         from articles_db import verify_immutability
@@ -221,6 +222,39 @@ def check_articles_immutability():
         print(f"  [FAIL] Master articles database verification failed: {e}")
         return False
 
+def check_zero_duplicate_images():
+    print("[7/7] Checking Strict Zero Duplicate Image Policy across site...")
+    master_json = os.path.join(DATA_DIR, "articles_master.json")
+    if not os.path.exists(master_json):
+        print("  [FAIL] data/articles_master.json not found!")
+        return False
+    with open(master_json, "r", encoding="utf-8") as f:
+        articles = json.load(f)
+    
+    seen_hashes = {}
+    duplicates = []
+    for a in articles:
+        t = a.get("thumbnailUrl", "")
+        if "/images/" in t:
+            fname = t.split("/images/")[-1].split("?")[0]
+            local_path = os.path.join(INDEX_DIR, "images", fname)
+            if os.path.exists(local_path):
+                import hashlib
+                h = hashlib.sha256(open(local_path, "rb").read()).hexdigest()
+                if h in seen_hashes:
+                    duplicates.append((a["slug"], fname, seen_hashes[h]))
+                else:
+                    seen_hashes[h] = (a["slug"], fname)
+    
+    if duplicates:
+        print(f"  [FAIL] Detected {len(duplicates)} duplicate image usages across articles!")
+        for slug, fname, prev in duplicates[:5]:
+            print(f"    - '{slug}' ({fname}) duplicates '{prev[0]}' ({prev[1]})")
+        return False
+    
+    print(f"  [PASS] Checked {len(seen_hashes)} unique article images: 100% bespoke zero-duplicate compliance.")
+    return True
+
 def main():
     print("=== CRYPTOCASINOMEDIA PRE-FLIGHT VERIFICATION SUITE ===")
     v1 = check_navigation()
@@ -229,8 +263,9 @@ def main():
     v4 = check_js_syntax()
     v5 = check_no_ai_terms()
     v6 = check_articles_immutability()
+    v7 = check_zero_duplicate_images()
     print("=========================================================")
-    if v1 and v2 and v3 and v4 and v5 and v6:
+    if v1 and v2 and v3 and v4 and v5 and v6 and v7:
         print("ALL CHECKS PASSED: Site is safe, pristine, and ready for deployment.")
         sys.exit(0)
     else:
