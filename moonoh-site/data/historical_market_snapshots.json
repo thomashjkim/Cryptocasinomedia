@@ -831,5 +831,124 @@
         }
       }
     }
+  },
+  "2026-10-28": {
+    "manhattan": {
+      "active_listings": 448,
+      "median_price": 30,
+      "p25_price": 14.5,
+      "p75_price": 120,
+      "free_items": 3,
+      "categories": {
+        "furniture": {
+          "active_listings": 52,
+          "median_price": 40,
+          "p25_price": 20,
+          "p75_price": 121.25
+        },
+        "electronics": {
+          "active_listings": 78,
+          "median_price": 50,
+          "p25_price": 20,
+          "p75_price": 147.5
+        },
+        "womens-fashion": {
+          "active_listings": 0,
+          "median_price": 0,
+          "p25_price": 0,
+          "p75_price": 0
+        },
+        "home-garden": {
+          "active_listings": 0,
+          "median_price": 0,
+          "p25_price": 0,
+          "p75_price": 0
+        },
+        "food-groceries": {
+          "active_listings": 0,
+          "median_price": 0,
+          "p25_price": 0,
+          "p75_price": 0
+        }
+      }
+    },
+    "brooklyn": {
+      "active_listings": 2222,
+      "median_price": 42,
+      "p25_price": 24,
+      "p75_price": 148,
+      "free_items": 0,
+      "categories": {
+        "furniture": {
+          "active_listings": 25,
+          "median_price": 60,
+          "p25_price": 35,
+          "p75_price": 135
+        },
+        "electronics": {
+          "active_listings": 6,
+          "median_price": 120,
+          "p25_price": 55,
+          "p75_price": 185
+        },
+        "womens-fashion": {
+          "active_listings": 0,
+          "median_price": 0,
+          "p25_price": 0,
+          "p75_price": 0
+        },
+        "home-garden": {
+          "active_listings": 0,
+          "median_price": 0,
+          "p25_price": 0,
+          "p75_price": 0
+        },
+        "food-groceries": {
+          "active_listings": 0,
+          "median_price": 0,
+          "p25_price": 0,
+          "p75_price": 0
+        }
+      }
+    },
+    "queens": {
+      "active_listings": 686,
+      "median_price": 20,
+      "p25_price": 10,
+      "p75_price": 60,
+      "free_items": 20,
+      "categories": {
+        "furniture": {
+          "active_listings": 90,
+          "median_price": 25,
+          "p25_price": 10,
+          "p75_price": 92.5
+        },
+        "electronics": {
+          "active_listings": 92,
+          "median_price": 40,
+          "p25_price": 15,
+          "p75_price": 80
+        },
+        "womens-fashion": {
+          "active_listings": 0,
+          "median_price": 0,
+          "p25_price": 0,
+          "p75_price": 0
+        },
+        "home-garden": {
+          "active_listings": 0,
+          "median_price": 0,
+          "p25_price": 0,
+          "p75_price": 0
+        },
+        "food-groceries": {
+          "active_listings": 0,
+          "median_price": 0,
+          "p25_price": 0,
+          "p75_price": 0
+        }
+      }
+    }
   }
 }
