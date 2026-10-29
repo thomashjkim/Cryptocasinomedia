@@ -222,6 +222,7 @@ def extract_sitemap_lastmod(file_path, fallback="2026-09-17"):
 # 4. Generate root sitemap index (sitemap.xml) with clean, non-overlapping child sitemaps
 child_sitemaps_defs = [
     ("https://cryptocasinomedia.com/sitemaps/static.xml", static_sitemap_path),
+    ("https://cryptocasinomedia.com/sitemaps/articles.xml", articles_sitemap_path),
     ("https://cryptocasinomedia.com/sitemaps/press-releases.xml", pr_sitemap_path),
     ("https://cryptocasinomedia.com/sitemaps/authors.xml", authors_sitemap_path),
     ("https://cryptocasinomedia.com/sitemaps/guides.xml", os.path.join(PROJECT_ROOT, "index/sitemaps/guides.xml")),
