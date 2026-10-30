@@ -7,6 +7,27 @@
     <language>en-us</language>
     <atom:link href="https://cryptocasinomedia.com/rss.xml" rel="self" type="application/rss+xml" />
     <item>
+      <title>Soft2Bet Deploys Layer-2 Stablecoin Cashier Infrastructure to Process Instant High-Volume B2B Settlements</title>
+      <link>https://cryptocasinomedia.com/press-releases/soft2bet-deploys-layer-2-stablecoin-cashier-infrastructure-to-process-instant-high-volume--2026-1610/</link>
+      <guid isPermaLink="true">https://cryptocasinomedia.com/press-releases/soft2bet-deploys-layer-2-stablecoin-cashier-infrastructure-to-process-instant-high-volume--2026-1610/</guid>
+      <pubDate>2026-10-30T16:10:24Z</pubDate>
+      <description>Soft2Bet has rolled out an advanced Layer-2 stablecoin settlement engine designed to slash cross-border transaction fees and deliver instant payouts for its tier-one crypto casino partners. The proprietary infrastructure integrates directly with major EVM-compatible rollups to process multi-million dollar daily cashier volumes.</description>
+    </item>
+    <item>
+      <title>VGW Holdings Enhances Multi-State Geofencing and Age Verification Protocols for U.S. Sweepstakes Platforms</title>
+      <link>https://cryptocasinomedia.com/press-releases/vgw-holdings-enhances-multi-state-geofencing-and-age-verification-protocols-for-us-sweepst-2026/</link>
+      <guid isPermaLink="true">https://cryptocasinomedia.com/press-releases/vgw-holdings-enhances-multi-state-geofencing-and-age-verification-protocols-for-us-sweepst-2026/</guid>
+      <pubDate>2026-10-30T16:10:24Z</pubDate>
+      <description>Virtual Game World (VGW) has introduced upgraded geofencing and biometric age-verification suites across its U.S. social sweepstakes properties. The compliance overhaul comes in response to tightening state-level scrutiny and evolving Attorney General guidelines regarding dual-currency gaming models.</description>
+    </item>
+    <item>
+      <title>Pragmatic Play Integrates Provably Fair Smart Contract Verification Across Web3 Slot Portfolio</title>
+      <link>https://cryptocasinomedia.com/press-releases/pragmatic-play-integrates-provably-fair-smart-contract-verification-across-web3-slot-portf-2026/</link>
+      <guid isPermaLink="true">https://cryptocasinomedia.com/press-releases/pragmatic-play-integrates-provably-fair-smart-contract-verification-across-web3-slot-portf-2026/</guid>
+      <pubDate>2026-10-30T16:10:24Z</pubDate>
+      <description>Pragmatic Play has announced the full integration of on-chain cryptographic seed generation across its entire crypto-optimized slot portfolio. The new feature allows players to independently verify the randomness and fairness of every spin directly on public ledgers.</description>
+    </item>
+    <item>
       <title>BC.GAME Integrates Arbitrum Orbit for Instant Layer-2 Stablecoin Settlement</title>
       <link>https://cryptocasinomedia.com/press-releases/bcgame-integrates-arbitrum-orbit-for-instant-layer-2-stablecoin-settlement-2026/</link>
       <guid isPermaLink="true">https://cryptocasinomedia.com/press-releases/bcgame-integrates-arbitrum-orbit-for-instant-layer-2-stablecoin-settlement-2026/</guid>
@@ -194,27 +215,6 @@
       <guid isPermaLink="true">https://cryptocasinomedia.com/press-releases/vgw-holdings-enhances-real-time-state-geofencing-framework-for-us-social-sweepstakes-portf-2026/</guid>
       <pubDate>2026-10-22T17:43:52Z</pubDate>
       <description>Virtual Gaming Worlds (VGW) has rolled out an advanced, multi-layered geofencing and dynamic IP verification system across its flagship sweepstakes platforms. The upgrade ensures airtight compliance with rapidly evolving state-level restrictions.</description>
-    </item>
-    <item>
-      <title>Pragmatic Play Integrates Cryptographic Provably Fair Mechanics Into Live Dealer Studio Portfolio</title>
-      <link>https://cryptocasinomedia.com/press-releases/pragmatic-play-integrates-cryptographic-provably-fair-mechanics-into-live-dealer-studio-po-2026/</link>
-      <guid isPermaLink="true">https://cryptocasinomedia.com/press-releases/pragmatic-play-integrates-cryptographic-provably-fair-mechanics-into-live-dealer-studio-po-2026/</guid>
-      <pubDate>2026-10-22T17:43:52Z</pubDate>
-      <description>Pragmatic Play has introduced native cryptographic verification across its live dealer and RNG game portfolio. Operators can now offer trustless, independently verifiable game rounds tailored for Web3 crypto casino demographics.</description>
-    </item>
-    <item>
-      <title>Soft2Bet Deploys Layer-2 Stablecoin Cashier Infrastructure to Process Instant High-Volume B2B Settlements</title>
-      <link>https://cryptocasinomedia.com/press-releases/soft2bet-deploys-layer-2-stablecoin-cashier-infrastructure-to-process-instant-high-volume--2026/</link>
-      <guid isPermaLink="true">https://cryptocasinomedia.com/press-releases/soft2bet-deploys-layer-2-stablecoin-cashier-infrastructure-to-process-instant-high-volume--2026/</guid>
-      <pubDate>2026-10-22T13:41:42Z</pubDate>
-      <description>Soft2Bet has integrated an advanced Layer-2 stablecoin settlement engine across its B2B network, targeting sub-second transaction finality and drastically reduced network fees for tier-one crypto casino operators. The deployment addresses persistent blockchain congestion issues while maintaining institutional-grade auditing capabilities for cross-border gaming traffic.</description>
-    </item>
-    <item>
-      <title>VGW and Stake Expand Dynamic Geofencing Compliance Frameworks for U.S. Social Sweepstakes Casinos</title>
-      <link>https://cryptocasinomedia.com/press-releases/vgw-and-stake-expand-dynamic-geofencing-compliance-frameworks-for-us-social-sweepstakes-ca-2026/</link>
-      <guid isPermaLink="true">https://cryptocasinomedia.com/press-releases/vgw-and-stake-expand-dynamic-geofencing-compliance-frameworks-for-us-social-sweepstakes-ca-2026/</guid>
-      <pubDate>2026-10-22T13:41:42Z</pubDate>
-      <description>Amid escalating state-level scrutiny, major social sweepstakes operators have jointly rolled out enhanced real-time geofencing and IP-intelligence protocols. The upgrades aim to tightly enforce jurisdictional exclusions across restricted U.S. states while preserving compliant promotional play models.</description>
     </item>
   </channel>
 </rss>
