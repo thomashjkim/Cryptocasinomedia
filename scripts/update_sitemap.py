@@ -110,10 +110,12 @@ authors_xml_lines.append('</urlset>\n')
 # 2b. Generate dedicated guides sitemap (sitemaps/guides.xml)
 guides_sitemap_path = os.path.join(PROJECT_ROOT, "index/sitemaps/guides.xml")
 guides_pages = [
-    ("https://cryptocasinomedia.com/guides/", "2026-09-15", "weekly", "0.9"),
-    ("https://cryptocasinomedia.com/guides/regulation-2026/", "2026-09-15", "monthly", "0.9"),
-    ("https://cryptocasinomedia.com/guides/sweepstakes-market/", "2026-09-15", "monthly", "0.9"),
-    ("https://cryptocasinomedia.com/guides/gamblefi-telegram/", "2026-09-15", "monthly", "0.9"),
+    ("https://cryptocasinomedia.com/guides/", latest_date, "daily", "1.0"),
+    ("https://cryptocasinomedia.com/guides/best-crypto-casinos-2026/", latest_date, "weekly", "1.0"),
+    ("https://cryptocasinomedia.com/guides/no-kyc-crypto-casinos/", latest_date, "weekly", "1.0"),
+    ("https://cryptocasinomedia.com/guides/regulation-2026/", "2026-10-30", "monthly", "0.9"),
+    ("https://cryptocasinomedia.com/guides/sweepstakes-market/", "2026-10-30", "monthly", "0.9"),
+    ("https://cryptocasinomedia.com/guides/gamblefi-telegram/", "2026-10-30", "monthly", "0.9"),
 ]
 guides_xml_lines = [
     '<?xml version="1.0" encoding="UTF-8"?>',
@@ -219,15 +221,14 @@ def extract_sitemap_lastmod(file_path, fallback="2026-09-17"):
     except Exception:
         return fallback
 
-# 4. Generate root sitemap index (sitemap.xml) with clean, non-overlapping child sitemaps
+# 4. Generate root sitemap index (sitemap.xml) with clean, high-priority child sitemaps
 child_sitemaps_defs = [
     ("https://cryptocasinomedia.com/sitemaps/static.xml", static_sitemap_path),
     ("https://cryptocasinomedia.com/sitemaps/articles.xml", articles_sitemap_path),
+    ("https://cryptocasinomedia.com/sitemaps/guides.xml", os.path.join(PROJECT_ROOT, "index/sitemaps/guides.xml")),
     ("https://cryptocasinomedia.com/sitemaps/press-releases.xml", pr_sitemap_path),
     ("https://cryptocasinomedia.com/sitemaps/authors.xml", authors_sitemap_path),
-    ("https://cryptocasinomedia.com/sitemaps/guides.xml", os.path.join(PROJECT_ROOT, "index/sitemaps/guides.xml")),
     ("https://cryptocasinomedia.com/sitemaps/topics.xml", os.path.join(PROJECT_ROOT, "index/sitemaps/topics.xml")),
-    ("https://cryptocasinomedia.com/local-sitemap.xml", os.path.join(PROJECT_ROOT, "index/local-sitemap.xml")),
 ]
 
 # Only include news sitemap in index when there are active news articles published within 48h
