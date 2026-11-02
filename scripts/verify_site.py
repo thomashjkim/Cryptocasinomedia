@@ -14,11 +14,11 @@ DATA_DIR = 'data'
 REQUIRED_NAV = [
     'Press Releases',
     'Crypto Casinos',
+    'Guides',
     'Sportsbook',
     'Regulation',
     'Payments',
-    'Sweepstakes',
-    'Local'
+    'Sweepstakes'
 ]
 
 def check_navigation():

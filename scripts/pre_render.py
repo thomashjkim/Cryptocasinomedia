@@ -241,11 +241,11 @@ L2_MENUS = {
 navItems = [
     { 'label': 'Press Releases', 'path': '/press-releases/' },
     { 'label': 'Crypto Casinos', 'path': '/crypto-casinos/' },
+    { 'label': 'Guides', 'path': '/guides/' },
     { 'label': 'Sportsbook', 'path': '/sportsbook/' },
     { 'label': 'Regulation', 'path': '/regulation/' },
     { 'label': 'Payments', 'path': '/payments/' },
     { 'label': 'Sweepstakes', 'path': '/sweepstakes/' },
-    { 'label': 'Local', 'path': '/local/' },
 ]
 
 # Global Wikidata Entity mappings for high-value B2B concepts
@@ -491,7 +491,7 @@ def renderHomePage():
                                             </a>
                                         </div>
                                     """ for article in latestSidebar])
-    promoted_guides_html = """<a href="/guides/regulation-2026" class="px-3 py-1.5 bg-gray-100 text-xs font-medium text-gray-700 hover:bg-gray-200 transition-colors rounded-sm">Regulation 2026</a><a href="/guides/sweepstakes-market" class="px-3 py-1.5 bg-gray-100 text-xs font-medium text-gray-700 hover:bg-gray-200 transition-colors rounded-sm">Sweepstakes</a><a href="/guides/gamblefi-telegram" class="px-3 py-1.5 bg-gray-100 text-xs font-medium text-gray-700 hover:bg-gray-200 transition-colors rounded-sm">GambleFi</a>"""
+    promoted_guides_html = """<a href="/guides/best-crypto-casinos-2026/" class="px-3 py-1.5 bg-blue-50 text-blue-800 border border-blue-200 text-xs font-semibold hover:bg-blue-100 transition-colors rounded-sm">Best Crypto Casinos</a><a href="/guides/fast-withdrawal-crypto-casinos/" class="px-3 py-1.5 bg-emerald-50 text-emerald-800 border border-emerald-200 text-xs font-semibold hover:bg-emerald-100 transition-colors rounded-sm">Fast Withdrawals</a><a href="/guides/no-kyc-crypto-casinos/" class="px-3 py-1.5 bg-purple-50 text-purple-800 border border-purple-200 text-xs font-semibold hover:bg-purple-100 transition-colors rounded-sm">No KYC</a><a href="/guides/gamblefi-telegram/" class="px-3 py-1.5 bg-gray-100 text-xs font-medium text-gray-700 hover:bg-gray-200 transition-colors rounded-sm">GambleFi</a>"""
     trendingHtml = promoted_guides_html + "".join([f"""
                                         <a href="/topic/{topic.lower()}/" class="px-3 py-1.5 bg-gray-100 text-xs font-medium text-gray-700 hover:bg-gray-200 transition-colors rounded-sm">
                                             {topic}
@@ -536,6 +536,29 @@ def renderHomePage():
 
                         <div class="lg:w-[30%]">
                             <div class="sticky top-24">
+                                <div class="mb-8 p-5 bg-blue-50/70 border border-blue-200 rounded-sm">
+                                    <h2 class="text-xs uppercase tracking-widest font-bold text-blue-900 mb-3 flex items-center justify-between">
+                                        <span>2026 Flagship Guides</span>
+                                        <span class="text-[10px] bg-blue-600 text-white px-1.5 py-0.5 rounded font-mono font-bold">BENCHMARKS</span>
+                                    </h2>
+                                    <div class="flex flex-col space-y-3">
+                                        <a href="/guides/best-crypto-casinos-2026/" class="group block">
+                                            <span class="text-xs font-bold text-gray-900 group-hover:text-blue-700 transition-colors block">Best Crypto Casinos (2026)</span>
+                                            <span class="text-[11px] text-gray-500">Top Bitcoin & Web3 operators ranked</span>
+                                        </a>
+                                        <div class="border-t border-blue-100"></div>
+                                        <a href="/guides/fast-withdrawal-crypto-casinos/" class="group block">
+                                            <span class="text-xs font-bold text-gray-900 group-hover:text-emerald-700 transition-colors block">Fast Withdrawal Casinos</span>
+                                            <span class="text-[11px] text-gray-500">Instant payout speeds & cashier audit</span>
+                                        </a>
+                                        <div class="border-t border-blue-100"></div>
+                                        <a href="/guides/no-kyc-crypto-casinos/" class="group block">
+                                            <span class="text-xs font-bold text-gray-900 group-hover:text-purple-700 transition-colors block">No KYC Crypto Casinos</span>
+                                            <span class="text-[11px] text-gray-500">Anonymous gambling & AML limits</span>
+                                        </a>
+                                    </div>
+                                </div>
+
                                 <h2 class="text-xs uppercase tracking-widest font-semibold text-gray-900 mb-4 border-b border-gray-900 pb-2">Latest Updates</h2>
                                 <div class="flex flex-col space-y-4 mb-10">
                                     {latestSidebarHtml}

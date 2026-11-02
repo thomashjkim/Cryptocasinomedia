@@ -112,6 +112,7 @@ guides_sitemap_path = os.path.join(PROJECT_ROOT, "index/sitemaps/guides.xml")
 guides_pages = [
     ("https://cryptocasinomedia.com/guides/", latest_date, "daily", "1.0"),
     ("https://cryptocasinomedia.com/guides/best-crypto-casinos-2026/", latest_date, "weekly", "1.0"),
+    ("https://cryptocasinomedia.com/guides/fast-withdrawal-crypto-casinos/", latest_date, "weekly", "1.0"),
     ("https://cryptocasinomedia.com/guides/no-kyc-crypto-casinos/", latest_date, "weekly", "1.0"),
     ("https://cryptocasinomedia.com/guides/regulation-2026/", "2026-10-30", "monthly", "0.9"),
     ("https://cryptocasinomedia.com/guides/sweepstakes-market/", "2026-10-30", "monthly", "0.9"),
