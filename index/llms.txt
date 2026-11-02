@@ -35,6 +35,9 @@ To submit a press release: https://cryptocasinomedia.com/submit/
 For advertising partnerships: https://cryptocasinomedia.com/advertise/
 
 ## Recent Press Releases
+- Rollbit Deploys Solana-Based App-Chain to Scale High-Frequency Web3 Casino Operations: https://cryptocasinomedia.com/press-releases/rollbit-deploys-solana-based-app-chain-to-scale-high-frequency-web3-casino-operations-2026/
+- Fireblocks and MoonPay Partner to Launch Institutional Custody and On-Ramp Suite for Regulated Brazilian iGaming: https://cryptocasinomedia.com/press-releases/fireblocks-and-moonpay-partner-to-launch-institutional-custody-and-on-ramp-suite-for-regul-2026/
+- Polymarket Integrates SX Bet Liquidity Pools to Expand On-Chain Sports Betting and Election Markets: https://cryptocasinomedia.com/press-releases/polymarket-integrates-sx-bet-liquidity-pools-to-expand-on-chain-sports-betting-and-electio-2026/
 - Soft2Bet Integrates Arbitrum Layer-2 for Instantaneous Stablecoin Settlement Across Tier-1 Casino Brands: https://cryptocasinomedia.com/press-releases/soft2bet-integrates-arbitrum-layer-2-for-instantaneous-stablecoin-settlement-across-tier-1-2026/
 - Stake.us Introduces Dynamic State-Level Geofencing Engine to Ensure Strict Social Casino Compliance: https://cryptocasinomedia.com/press-releases/stakeus-introduces-dynamic-state-level-geofencing-engine-to-ensure-strict-social-casino-co-2026/
 - Pragmatic Play and BC.GAME Partner to Launch Provably Fair Live Dealer Studio Integration: https://cryptocasinomedia.com/press-releases/pragmatic-play-and-bcgame-partner-to-launch-provably-fair-live-dealer-studio-integration-2026/

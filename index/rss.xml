@@ -7,6 +7,27 @@
     <language>en-us</language>
     <atom:link href="https://cryptocasinomedia.com/rss.xml" rel="self" type="application/rss+xml" />
     <item>
+      <title>Rollbit Deploys Solana-Based App-Chain to Scale High-Frequency Web3 Casino Operations</title>
+      <link>https://cryptocasinomedia.com/press-releases/rollbit-deploys-solana-based-app-chain-to-scale-high-frequency-web3-casino-operations-2026/</link>
+      <guid isPermaLink="true">https://cryptocasinomedia.com/press-releases/rollbit-deploys-solana-based-app-chain-to-scale-high-frequency-web3-casino-operations-2026/</guid>
+      <pubDate>2026-11-02T20:00:24Z</pubDate>
+      <description>Rollbit has officially transitioned its high-frequency perpetual and house-edge gaming engine to a dedicated Solana-based app-chain. The custom infrastructure upgrade eliminates public network congestion, enabling sub-millisecond execution for thousands of concurrent players.</description>
+    </item>
+    <item>
+      <title>Fireblocks and MoonPay Partner to Launch Institutional Custody and On-Ramp Suite for Regulated Brazilian iGaming</title>
+      <link>https://cryptocasinomedia.com/press-releases/fireblocks-and-moonpay-partner-to-launch-institutional-custody-and-on-ramp-suite-for-regul-2026/</link>
+      <guid isPermaLink="true">https://cryptocasinomedia.com/press-releases/fireblocks-and-moonpay-partner-to-launch-institutional-custody-and-on-ramp-suite-for-regul-2026/</guid>
+      <pubDate>2026-11-02T20:00:24Z</pubDate>
+      <description>Fireblocks and MoonPay have unveiled a joint institutional payment and custody suite designed specifically for operators seeking compliance under Brazil’s newly enforced Secretaria de Prêmios e Apostas (SPA) framework.</description>
+    </item>
+    <item>
+      <title>Polymarket Integrates SX Bet Liquidity Pools to Expand On-Chain Sports Betting and Election Markets</title>
+      <link>https://cryptocasinomedia.com/press-releases/polymarket-integrates-sx-bet-liquidity-pools-to-expand-on-chain-sports-betting-and-electio-2026/</link>
+      <guid isPermaLink="true">https://cryptocasinomedia.com/press-releases/polymarket-integrates-sx-bet-liquidity-pools-to-expand-on-chain-sports-betting-and-electio-2026/</guid>
+      <pubDate>2026-11-02T20:00:24Z</pubDate>
+      <description>Prediction market leader Polymarket has partnered with decentralized sports betting exchange SX Bet to pool liquidity across high-stakes sports fixtures and global political events.</description>
+    </item>
+    <item>
       <title>Soft2Bet Integrates Arbitrum Layer-2 for Instantaneous Stablecoin Settlement Across Tier-1 Casino Brands</title>
       <link>https://cryptocasinomedia.com/press-releases/soft2bet-integrates-arbitrum-layer-2-for-instantaneous-stablecoin-settlement-across-tier-1-2026/</link>
       <guid isPermaLink="true">https://cryptocasinomedia.com/press-releases/soft2bet-integrates-arbitrum-layer-2-for-instantaneous-stablecoin-settlement-across-tier-1-2026/</guid>
@@ -194,27 +215,6 @@
       <guid isPermaLink="true">https://cryptocasinomedia.com/press-releases/soft2bet-integrates-arbitrum-l2-rails-to-scale-high-frequency-crypto-casino-transactions-2026/</guid>
       <pubDate>2026-10-25T17:02:43Z</pubDate>
       <description>Soft2Bet has deployed Arbitrum Layer-2 scaling technology across its proprietary iGaming platform, targeting sub-second settlement times and near-zero gas fees for high-volume crypto depositors. The architectural upgrade addresses historical friction points in blockchain-based casino cashiers.</description>
-    </item>
-    <item>
-      <title>VGW Holdings Deploys Real-Time AI Geofencing Across U.S. Sweepstakes Casino Network</title>
-      <link>https://cryptocasinomedia.com/press-releases/vgw-holdings-deploys-real-time-ai-geofencing-across-us-sweepstakes-casino-network-2026/</link>
-      <guid isPermaLink="true">https://cryptocasinomedia.com/press-releases/vgw-holdings-deploys-real-time-ai-geofencing-across-us-sweepstakes-casino-network-2026/</guid>
-      <pubDate>2026-10-25T17:02:43Z</pubDate>
-      <description>Virtual Gaming Worlds has introduced an advanced AI-driven geofencing and location verification protocol across its U.S. social sweepstakes portfolio. The system responds directly to escalating multi-state regulatory scrutiny regarding dual-currency sweepstakes models.</description>
-    </item>
-    <item>
-      <title>Pragmatic Play Unveils Provably Fair Crash Mechanics for Web3 Mobile Integration</title>
-      <link>https://cryptocasinomedia.com/press-releases/pragmatic-play-unveils-provably-fair-crash-mechanics-for-web3-mobile-integration-2026/</link>
-      <guid isPermaLink="true">https://cryptocasinomedia.com/press-releases/pragmatic-play-unveils-provably-fair-crash-mechanics-for-web3-mobile-integration-2026/</guid>
-      <pubDate>2026-10-25T17:02:43Z</pubDate>
-      <description>Pragmatic Play has launched a dedicated suite of cryptographic crash and instant-win titles engineered specifically for Web3 mobile casinos. The games feature client-verifiable random number generation seeded directly via blockchain hashes.</description>
-    </item>
-    <item>
-      <title>Soft2Bet Deploys Layer-2 Settlement Engine to Slash Crypto Casino Gas Fees by 95%</title>
-      <link>https://cryptocasinomedia.com/press-releases/soft2bet-deploys-layer-2-settlement-engine-to-slash-crypto-casino-gas-fees-by-95-2026/</link>
-      <guid isPermaLink="true">https://cryptocasinomedia.com/press-releases/soft2bet-deploys-layer-2-settlement-engine-to-slash-crypto-casino-gas-fees-by-95-2026/</guid>
-      <pubDate>2026-10-24T16:33:17Z</pubDate>
-      <description>Soft2Bet has rolled out an advanced Layer-2 settlement infrastructure designed specifically for high-frequency crypto casino operators. The proprietary routing engine drastically reduces transaction costs while maintaining instant, provably fair withdrawal finality.</description>
     </item>
   </channel>
 </rss>

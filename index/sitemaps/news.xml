@@ -1,6 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://cryptocasinomedia.com/press-releases/rollbit-deploys-solana-based-app-chain-to-scale-high-frequency-web3-casino-operations-2026/</loc>
+    <news:news>
+      <news:publication>
+        <news:name>CryptoCasinoMedia</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2026-11-02T20:00:24Z</news:publication_date>
+      <news:title>Rollbit Deploys Solana-Based App-Chain to Scale High-Frequency Web3 Casino Operations</news:title>
+    </news:news>
+  </url>
+  <url>
+    <loc>https://cryptocasinomedia.com/press-releases/fireblocks-and-moonpay-partner-to-launch-institutional-custody-and-on-ramp-suite-for-regul-2026/</loc>
+    <news:news>
+      <news:publication>
+        <news:name>CryptoCasinoMedia</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2026-11-02T20:00:24Z</news:publication_date>
+      <news:title>Fireblocks and MoonPay Partner to Launch Institutional Custody and On-Ramp Suite for Regulated Brazilian iGaming</news:title>
+    </news:news>
+  </url>
+  <url>
+    <loc>https://cryptocasinomedia.com/press-releases/polymarket-integrates-sx-bet-liquidity-pools-to-expand-on-chain-sports-betting-and-electio-2026/</loc>
+    <news:news>
+      <news:publication>
+        <news:name>CryptoCasinoMedia</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2026-11-02T20:00:24Z</news:publication_date>
+      <news:title>Polymarket Integrates SX Bet Liquidity Pools to Expand On-Chain Sports Betting and Election Markets</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://cryptocasinomedia.com/press-releases/soft2bet-integrates-arbitrum-layer-2-for-instantaneous-stablecoin-settlement-across-tier-1-2026/</loc>
     <news:news>
       <news:publication>
@@ -42,50 +75,6 @@
       </news:publication>
       <news:publication_date>2026-11-01T18:24:26Z</news:publication_date>
       <news:title>European Securities and Markets Authority Issues Strict MiCA Compliance Guidelines for Crypto Casino Operators</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://cryptocasinomedia.com/press-releases/soft2bet-deploys-layer-2-settlement-architecture-to-handle-surge-in-stablecoin-cashier-vol-2026/</loc>
-    <news:news>
-      <news:publication>
-        <news:name>CryptoCasinoMedia</news:name>
-        <news:language>en</news:language>
-      </news:publication>
-      <news:publication_date>2026-10-31T17:40:51Z</news:publication_date>
-      <news:title>Soft2Bet Deploys Layer-2 Settlement Architecture to Handle Surge in Stablecoin Cashier Volume</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://cryptocasinomedia.com/press-releases/stakeus-introduces-enhanced-state-geofencing-and-biometric-verification-to-satisfy-strict--2026/</loc>
-    <news:news>
-      <news:publication>
-        <news:name>CryptoCasinoMedia</news:name>
-        <news:language>en</news:language>
-      </news:publication>
-      <news:publication_date>2026-10-31T17:40:51Z</news:publication_date>
-      <news:title>Stake.us Introduces Enhanced State Geofencing and Biometric Verification to Satisfy Strict Sweepstakes Rules</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://cryptocasinomedia.com/press-releases/uk-gambling-commission-and-curacao-gaming-control-board-sign-cross-border-regulatory-enfor-2026/</loc>
-    <news:news>
-      <news:publication>
-        <news:name>CryptoCasinoMedia</news:name>
-        <news:language>en</news:language>
-      </news:publication>
-      <news:publication_date>2026-10-31T17:40:51Z</news:publication_date>
-      <news:title>UK Gambling Commission and Curacao Gaming Control Board Sign Cross-Border Regulatory Enforcement Pact</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://cryptocasinomedia.com/press-releases/pragmatic-play-integrates-provably-fair-smart-contract-verification-across-web3-slot-portf-2026-1740/</loc>
-    <news:news>
-      <news:publication>
-        <news:name>CryptoCasinoMedia</news:name>
-        <news:language>en</news:language>
-      </news:publication>
-      <news:publication_date>2026-10-31T17:40:51Z</news:publication_date>
-      <news:title>Pragmatic Play Integrates Provably Fair Smart Contract Verification Across Web3 Slot Portfolio</news:title>
     </news:news>
   </url>
 </urlset>
