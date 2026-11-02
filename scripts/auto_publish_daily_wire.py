@@ -255,26 +255,41 @@ def main():
         print(f"Today ({today_prefix}) already has {len(today_published)} articles published. Skipping redundant execution.")
         return
 
-    # 2. Daily Wire Topics Generation Prompt
+    # 2. Extract recent articles to strictly forbid repetition and spam loop
+    recent_history = sorted(master_articles, key=lambda x: x.get("publishedAt", ""), reverse=True)[:30]
+    recent_titles_str = "\n".join([f"- {a.get('title', '')} (Company: {a.get('company', '')})" for a in recent_history])
+
+    # 3. Daily Wire Topics Generation Prompt with Strict Anti-Duplication Mandate
     prompt = f"""
-You are the senior editorial director at CryptoCasinoMedia, the leading B2B market intelligence publication covering crypto casinos, sweepstakes gaming, iGaming regulation, and Web3 sportsbooks.
+You are the senior editorial director at CryptoCasinoMedia, the leading market intelligence publication covering crypto casinos, sweepstakes gaming, iGaming regulation, and Web3 sportsbooks.
 
 Today is {date_str}.
-Generate EXACTLY 3 or 4 timely, highly authoritative B2B news press releases based on recent corporate press releases from PR Newswire, GlobeNewswire, and BusinessWire.
+Generate EXACTLY 3 or 4 timely, highly authoritative B2B/B2C news press releases based on real-world industry movements.
 
-Topics must cover these core pillars:
-1. Crypto casino payment rail innovation / Layer-2 / Stablecoin cashier volume.
-2. U.S. social sweepstakes casino legal compliance, state geofencing, or platform launch.
-3. Regulatory directives (EU MiCA, UKGC, Curacao reform, or U.S. CFTC / state gaming commissions).
-4. Major iGaming studio partnership, provably fair mechanics, or Web3 mobile integration.
+CRITICAL DIVERSITY & ANTI-DUPLICATION MANDATE:
+The following topics and companies have ALREADY been heavily covered recently. You are STRICTLY FORBIDDEN from generating repetitive variations of these:
+{recent_titles_str}
+
+ABSOLUTE NEGATIVE CONSTRAINTS (DO NOT REPEAT):
+1. NO MORE articles about "Soft2Bet Layer-2 settlement" or "Soft2Bet stablecoin cashier".
+2. NO MORE articles about "Stake.us or VGW geofencing / biometric verification / state borders".
+3. NO MORE articles about "Pragmatic Play provably fair verification / smart contracts".
+4. NO generic Curacao LOK / MiCA overviews without a brand-new, specific corporate news event.
+
+INSTEAD, SELECT FRESH, DIVERSE TOPICS FROM THESE EXPANDED SECTORS:
+- Prediction Markets & Sportsbooks: Polymarket, Kalshi, Novig, SX Bet, on-chain election/sports wagering liquidity.
+- Next-Gen Web3 Casinos: Shuffle.com, Rollbit, Duelbits, Cloudbet, CoinPoker, Telegram TON mini-apps, Base/Solana app-chains.
+- Game Studios & Crash Providers: Hacksaw Gaming, Evolution, Nolimit City, Spribe (Aviator), Push Gaming, Relax Gaming.
+- Emerging Jurisdictions: Brazil's Secretaria de Prêmios e Apostas (SPA) licensing, UAE VARA crypto directives, Philippines (PAGCOR), Malta MGA crypto asset framework.
+- Payment Rails & FinTech: MoonPay, Banxa, Stripe crypto on-ramp, Fireblocks institutional custody, Solana Pay casino integrations.
 
 Return a JSON array containing EXACTLY 3 or 4 article objects. Each article object must strictly contain:
-- "title": (String) A sharp, journalistic headline without hype or exclamation marks.
-- "company": (String) Real industry corporate entity (e.g. Soft2Bet, BC.GAME, GiG, Play'n GO, Stake, Pragmatic Play, Kalshi, etc.)
+- "title": (String) A sharp, journalistic headline without hype or exclamation marks. Incorporate realistic, high-demand industry developments.
+- "company": (String) A real industry entity (e.g. Polymarket, Hacksaw Gaming, Shuffle.com, MoonPay, Spribe, Fireblocks, Evolution, etc. - DO NOT reuse Soft2Bet or VGW today).
 - "primaryCategory": (String, exactly one of: "crypto-casinos", "sportsbook", "regulation", "payments", "sweepstakes")
 - "topics": (Array of 4-6 strings)
 - "region": (String, e.g. "North America", "Europe", "Global", "Asia-Pacific", "Latin America")
-- "dateline": (String, e.g. "NEW YORK — {date_str}" or "LONDON — {date_str}")
+- "dateline": (String, e.g. "NEW YORK — {date_str}" or "LONDON — {date_str}" or "SINGAPORE — {date_str}")
 - "excerpt": (String) 2-3 sentences concise executive summary for AEO.
 - "lede": (String) 1 journalistic lede paragraph (40-60 words).
 - "expertAnalysis": (String) 1 comprehensive paragraph providing CCM Expert Analysis on business and regulatory impact.
