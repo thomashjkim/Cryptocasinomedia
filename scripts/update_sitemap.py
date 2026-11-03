@@ -230,6 +230,7 @@ child_sitemaps_defs = [
     ("https://cryptocasinomedia.com/sitemaps/press-releases.xml", pr_sitemap_path),
     ("https://cryptocasinomedia.com/sitemaps/authors.xml", authors_sitemap_path),
     ("https://cryptocasinomedia.com/sitemaps/topics.xml", os.path.join(PROJECT_ROOT, "index/sitemaps/topics.xml")),
+    ("https://cryptocasinomedia.com/local-sitemap.xml", os.path.join(PROJECT_ROOT, "index/local-sitemap.xml")),
 ]
 
 # Only include news sitemap in index when there are active news articles published within 48h

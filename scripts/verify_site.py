@@ -18,7 +18,8 @@ REQUIRED_NAV = [
     'Sportsbook',
     'Regulation',
     'Payments',
-    'Sweepstakes'
+    'Sweepstakes',
+    'Local'
 ]
 
 def check_navigation():

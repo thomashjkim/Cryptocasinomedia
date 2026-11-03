@@ -246,6 +246,7 @@ navItems = [
     { 'label': 'Regulation', 'path': '/regulation/' },
     { 'label': 'Payments', 'path': '/payments/' },
     { 'label': 'Sweepstakes', 'path': '/sweepstakes/' },
+    { 'label': 'Local', 'path': '/local/' },
 ]
 
 # Global Wikidata Entity mappings for high-value B2B concepts

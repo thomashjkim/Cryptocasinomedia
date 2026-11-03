@@ -7450,6 +7450,7 @@
             { label: 'Regulation', path: '/regulation' },
             { label: 'Payments', path: '/payments' },
             { label: 'Sweepstakes', path: '/sweepstakes' },
+            { label: 'Local', path: '/local' },
         ];
 
         function getLogoHTML(dark = false, iconOnly = false) {
