@@ -2298,6 +2298,8 @@ def build_static_page(template_content, path, title, description, body_content, 
     # Default OG image fallback
     default_og_image = "https://cryptocasinomedia.com/og-image.jpg"
     image_url = og_image if og_image else default_og_image
+    if image_url and image_url.startswith("/"):
+        image_url = f"https://cryptocasinomedia.com{image_url}"
     
     # Meta tag replacements (case-insensitive option or exact matches)
     content = re.sub(r'<title>.*?</title>', f'<title>{title}</title>', content)
@@ -2514,6 +2516,8 @@ for article in articles_sorted:
     
     # Generate image crops (16:9, 4:3, 1:1) from Unsplash URL
     image_base = buster(article.get('thumbnailUrl')) or "https://cryptocasinomedia.com/og-image.jpg"
+    if image_base and image_base.startswith("/"):
+        image_base = f"https://cryptocasinomedia.com{image_base}"
     image_16_9 = image_base
     image_4_3 = image_base.replace('w=800', 'w=800&ar=4:3&fit=crop') if 'unsplash.com' in image_base else image_base
     image_1_1 = image_base.replace('w=800', 'w=800&ar=1:1&fit=crop') if 'unsplash.com' in image_base else image_base
