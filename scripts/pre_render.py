@@ -241,7 +241,6 @@ L2_MENUS = {
 navItems = [
     { 'label': 'Press Releases', 'path': '/press-releases/' },
     { 'label': 'Crypto Casinos', 'path': '/crypto-casinos/' },
-    { 'label': 'Guides', 'path': '/guides/' },
     { 'label': 'Sportsbook', 'path': '/sportsbook/' },
     { 'label': 'Regulation', 'path': '/regulation/' },
     { 'label': 'Payments', 'path': '/payments/' },
