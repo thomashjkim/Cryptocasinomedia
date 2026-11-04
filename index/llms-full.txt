@@ -120,35 +120,35 @@ Outcome calculation: `HMAC_SHA512(ServerSeed, ClientSeed:Nonce)`. After play, th
 ## 5. Master Directory of 189 Verified Press Releases & Industry Articles
 All 189 articles below are canonical, primary-source editorial and wire publications indexed by CryptoCasinoMedia:
 
-1. **Byte Federal and BurraPay Deploy Regulated Cryptocurrency Settlement Rails at Circa Resort & Casino Las Vegas for Retail Sportsbook Wagering**
-   - URL: https://cryptocasinomedia.com/press-releases/byte-federal-burrapay-circa-resort-casino-crypto-sportsbook-las-vegas-2026/
-   - Date:  | Category: Press Releases | Entity: PR Newswire / Byte Federal Newsroom
-   - Canonical Reference: `byte-federal-burrapay-circa-resort-casino-crypto-sportsbook-las-vegas-2026`
+1. **SOFTSWISS Releases 2026 iGaming Trends Report: Crypto Casino Market Maturation, AI Personalization, and Stricter Global Regulatory Frameworks**
+   - URL: https://cryptocasinomedia.com/press-releases/softswiss-2026-igaming-trends-report-shows-crypto-adoption-and-regulatory-maturation-2026/
+   - Date:  | Category: Press Releases | Entity: PR Newswire / SOFTSWISS Newsroom
+   - Canonical Reference: `softswiss-2026-igaming-trends-report-shows-crypto-adoption-and-regulatory-maturation-2026`
 
-2. **MyPrize Partners with Crypto.com to Launch MyPrize Markets, Merging Social Gaming with Regulated Event Contracts**
-   - URL: https://cryptocasinomedia.com/press-releases/myprize-cryptocom-launch-myprize-markets-event-contracts-social-gaming-2026/
-   - Date:  | Category: Press Releases | Entity: PR Newswire / MyPrize Newsroom
-   - Canonical Reference: `myprize-cryptocom-launch-myprize-markets-event-contracts-social-gaming-2026`
+2. **DATA.BET 2026 Sportsbook Report: Tier-2 Sports and Esports Wagering Drive 34% Surge in Digital Asset Cashier Turnover**
+   - URL: https://cryptocasinomedia.com/press-releases/databet-2026-sportsbook-report-highlights-rapid-expansion-esports-crypto-settlements-2026/
+   - Date:  | Category: Press Releases | Entity: PR Newswire / DATA.BET Corporate Communications
+   - Canonical Reference: `databet-2026-sportsbook-report-highlights-rapid-expansion-esports-crypto-settlements-2026`
 
-3. **Super Group Reports Record Q3 2026 Financial Results as Spin Online Casino and Betway Expand Global Regulated Footprint**
-   - URL: https://cryptocasinomedia.com/press-releases/super-group-sghc-reports-record-q3-2026-online-casino-revenue-surge-2026/
-   - Date:  | Category: Press Releases | Entity: Business Wire / Super Group Corporate Communications
-   - Canonical Reference: `super-group-sghc-reports-record-q3-2026-online-casino-revenue-surge-2026`
+3. **Casino.TG Launches Native Telegram Web3 Casino App Featuring Zero-KYC Micro-Wagering and Instant TON Blockchain Payouts**
+   - URL: https://cryptocasinomedia.com/press-releases/casinotg-launches-next-gen-telegram-crypto-casino-app-instant-ton-settlements-2026/
+   - Date:  | Category: Press Releases | Entity: PR Newswire / Casino.TG Media Relations
+   - Canonical Reference: `casinotg-launches-next-gen-telegram-crypto-casino-app-instant-ton-settlements-2026`
 
-4. **JACK.com Unveils Next-Generation Web3 Casino Architecture Featuring Instant Cashouts and Zero-Wager Rewards Under Curaçao Gaming Framework**
-   - URL: https://cryptocasinomedia.com/press-releases/jack-crypto-casino-unveils-zero-wager-rewards-instant-cashouts-curacao-2026/
-   - Date:  | Category: Press Releases | Entity: GlobeNewswire / JACK.com Media Desk
-   - Canonical Reference: `jack-crypto-casino-unveils-zero-wager-rewards-instant-cashouts-curacao-2026`
+4. **Seminole Hard Rock Hotel & Casino and Major Food Group Announce Strategic Partnership to Expand Luxury VIP Gaming Lounges**
+   - URL: https://cryptocasinomedia.com/press-releases/seminole-hard-rock-major-food-group-strategic-hospitality-vip-gaming-expansion-2026/
+   - Date:  | Category: Press Releases | Entity: PR Newswire / Seminole Hard Rock Newsroom
+   - Canonical Reference: `seminole-hard-rock-major-food-group-strategic-hospitality-vip-gaming-expansion-2026`
 
-5. **PrizePicks Expands Prediction Markets Footprint with Event Contract Settlement Rails Across U.S. Jurisdictions**
-   - URL: https://cryptocasinomedia.com/press-releases/prizepicks-expands-prediction-markets-event-contract-settlement-rails-2026/
-   - Date:  | Category: Press Releases | Entity: PR Newswire / PrizePicks Media Relations
-   - Canonical Reference: `prizepicks-expands-prediction-markets-event-contract-settlement-rails-2026`
+5. **Cloudbet Expands Institutional Crypto Sportsbook Cashier with Zero-Slippage Stablecoin Rails and Automated High-Roller Settlements**
+   - URL: https://cryptocasinomedia.com/press-releases/cloudbet-expands-institutional-crypto-sportsbook-cashier-zero-slippage-stablecoins-2026/
+   - Date:  | Category: Press Releases | Entity: PR Newswire / Cloudbet Corporate Media
+   - Canonical Reference: `cloudbet-expands-institutional-crypto-sportsbook-cashier-zero-slippage-stablecoins-2026`
 
-6. **Paysafe Global iGaming Study Reveals 78% of High-Volume Bettors Prioritize Cryptocurrency and Instant Stablecoin Payout Rails**
-   - URL: https://cryptocasinomedia.com/press-releases/paysafe-study-reveals-78-percent-high-volume-bettors-demand-crypto-stablecoin-cashiers-2026/
-   - Date:  | Category: Press Releases | Entity: Business Wire / Paysafe Group Investor Relations
-   - Canonical Reference: `paysafe-study-reveals-78-percent-high-volume-bettors-demand-crypto-stablecoin-cashiers-2026`
+6. **Seminole Hard Rock Casino Named Official Miami Host City Supporter for FIFA World Cup 2026**
+   - URL: https://cryptocasinomedia.com/press-releases/seminole-hard-rock-casino-named-official-miami-world-cup-2026-host-city-supporter-2026/
+   - Date:  | Category: Press Releases | Entity: PR Newswire / Hard Rock International & Miami Host Committee
+   - Canonical Reference: `seminole-hard-rock-casino-named-official-miami-world-cup-2026-host-city-supporter-2026`
 
 7. **Sonesta International Hotels and Boyd Gaming Announce Exclusive Strategic Affiliation to Expand Nationwide Casino Resort Portfolio**
    - URL: https://cryptocasinomedia.com/press-releases/sonesta-and-boyd-gaming-exclusive-strategic-affiliation-19-casino-resorts-2026/
