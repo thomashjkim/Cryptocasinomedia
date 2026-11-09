@@ -39,7 +39,7 @@ jobs:
           git config --global user.name "TK"
           git config --global user.email "tk@eznewswire.com"
           git add .
-          git diff --quiet && git diff --staged --quiet || (git commit -m "chore(auto): daily wire publication [skip ci]" --author="TK <tk@eznewswire.com>" && git push origin main)
+          git diff --quiet && git diff --staged --quiet || (git commit -m "feat(auto): daily wire publication" --author="TK <tk@eznewswire.com>" && git push origin main)
 
       - name: Trigger Vercel Production Deployment
         env:
