@@ -4,14 +4,13 @@ Fully Autonomous Daily Wire News Publisher for CryptoCasinoMedia
 Executed daily via GitHub Actions at 9:00 AM Eastern Time (14:00 UTC).
 
 Workflow:
-1. Monitors PR Newswire live RSS feeds for Crypto, Casino, iGaming, Stablecoins, and Payments.
-2. Ingests genuine releases, parses full body text and metadata directly from the wire.
+1. Ingests genuine press releases from PR Newswire Gambling & Financial directories and feeds.
+2. Extracts full body text, quotes, and metadata directly from the wire.
 3. Downloads, optimizes, and verifies official wire photographs (mmx.prnewswire.com).
-4. Maintains a high-quality fallback wire pool so every day GUARANTEES 3-6 new authentic articles.
-5. Appends to data/articles_master.json while guaranteeing PR-1 to PR-207 immutability.
-6. Updates SHA-256 checksums, master CSV, and pre-renders static HTML pages.
-7. Refreshes XML sitemaps, news-sitemap.xml, and rss.xml.
-8. Passes verify_site.py pre-flight suite with 100% integrity.
+4. Appends to data/articles_master.json while strictly preserving PR-1 to PR-213 immutability.
+5. Updates SHA-256 checksums, master CSV, and pre-renders static HTML pages.
+6. Refreshes XML sitemaps, news-sitemap.xml, rss.xml, and llms.txt.
+7. Passes verify_site.py pre-flight suite with 100% integrity.
 """
 
 import os
@@ -44,17 +43,18 @@ ctx.verify_mode = ssl.CERT_NONE
 
 HEADERS = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'}
 
-WIRE_RSS_FEEDS = [
-    'https://www.prnewswire.com/rss/news-releases-list.rss',
-    'https://www.prnewswire.com/rss/financial-services-latest-news/financial-services-latest-news-list.rss',
-    'https://www.prnewswire.com/rss/entertainment-media-latest-news/entertainment-media-latest-news-list.rss'
+PRIMARY_WIRE_DIRECTORIES = [
+    'https://www.prnewswire.com/news-releases/travel-latest-news/gambling-casinos-list/',
+    'https://www.prnewswire.com/news-releases/financial-services-latest-news/financial-services-latest-news-list.html',
+    'https://www.prnewswire.com/news-releases/entertainment-media-latest-news/entertainment-media-latest-news-list.html'
 ]
 
 INDUSTRY_KEYWORDS = [
     'crypto', 'casino', 'betting', 'gaming', 'bitcoin', 'stablecoin',
     'lottery', 'poker', 'igaming', 'token', 'blockchain', 'fintech',
     'bank', 'gambling', 'sweepstakes', 'wynn', 'mgm', 'scientific games',
-    'draftkings', 'fanduel', 'pnc', 'coinbase', 'solana', 'ethereum', 'usdc'
+    'draftkings', 'fanduel', 'pnc', 'coinbase', 'solana', 'ethereum', 'usdc',
+    'securitize', 'red rock', 'brightstar', 'formation'
 ]
 
 def slugify(text):
@@ -138,24 +138,50 @@ def download_and_optimize_image(img_url, filename, max_width=1600):
         return None
 
 def fetch_wire_candidates():
-    """Scans RSS feeds for eligible press releases."""
+    """Scans PR Newswire gambling and financial directories for eligible releases."""
     candidates = []
     seen = set()
-    for feed in WIRE_RSS_FEEDS:
+    base = "https://www.prnewswire.com"
+
+    for directory in PRIMARY_WIRE_DIRECTORIES:
+        try:
+            req = urllib.request.Request(directory, headers=HEADERS)
+            with urllib.request.urlopen(req, context=ctx, timeout=15) as r:
+                html = r.read().decode('utf-8', errors='ignore')
+                links = re.findall(r'/news-releases/[a-zA-Z0-9-]+\.html', html)
+                for rel_path in links:
+                    full_url = base + rel_path
+                    if full_url in seen:
+                        continue
+                    seen.add(full_url)
+                    # Check keywords in the slug
+                    slug_lower = rel_path.lower()
+                    if any(k in slug_lower for k in INDUSTRY_KEYWORDS):
+                        candidates.append(full_url)
+        except Exception as e:
+            print(f"Directory error {directory}: {e}")
+
+    # Fallback to general RSS feeds
+    rss_feeds = [
+        'https://www.prnewswire.com/rss/news-releases-list.rss',
+        'https://www.prnewswire.com/rss/financial-services-latest-news/financial-services-latest-news-list.rss'
+    ]
+    for feed in rss_feeds:
         try:
             req = urllib.request.Request(feed, headers=HEADERS)
             with urllib.request.urlopen(req, context=ctx, timeout=10) as r:
                 root = ET.fromstring(r.read())
                 for item in root.findall('.//item'):
-                    title = item.find('title').text or ""
                     link = item.find('link').text or ""
+                    title = item.find('title').text or ""
                     if link in seen:
                         continue
                     if any(k in title.lower() for k in INDUSTRY_KEYWORDS):
                         seen.add(link)
-                        candidates.append((title, link))
+                        candidates.append(link)
         except Exception as e:
             print(f"Feed error {feed}: {e}")
+
     return candidates
 
 def run_daily_pipeline():
@@ -174,23 +200,23 @@ def run_daily_pipeline():
     if len(today_articles) >= 4:
         print(f"Quota already satisfied for {today_str} ({len(today_articles)} articles). Performing verification & sync.")
     else:
-        print(f"Harvesting breaking wire releases from PR Newswire feeds...")
-        raw_candidates = fetch_wire_candidates()
-        print(f"Found {len(raw_candidates)} candidate releases matching industry keywords.")
+        print(f"Harvesting breaking wire releases from PR Newswire directories...")
+        candidate_urls = fetch_wire_candidates()
+        print(f"Found {len(candidate_urls)} candidate URLs matching industry keywords.")
 
         staged_articles = []
         next_id_num = len(master_articles) + 1
 
-        for title, link in raw_candidates:
+        for link in candidate_urls:
             if len(staged_articles) >= (4 - len(today_articles)):
                 break
 
-            slug = slugify(title)
-            if slug in existing_slugs or any(a["slug"] == slug for a in staged_articles):
-                continue
-
             parsed = parse_prnewswire_article(link)
             if not parsed or not parsed["img_url"]:
+                continue
+
+            slug = slugify(parsed["title"])
+            if slug in existing_slugs or any(a["slug"] == slug for a in staged_articles):
                 continue
 
             img_filename = f"{slug}.jpg"
@@ -200,16 +226,16 @@ def run_daily_pipeline():
 
             # Determine primary category
             t_lower = parsed["title"].lower()
-            if any(k in t_lower for k in ['payment', 'stablecoin', 'usdc', 'bank', 'treasury', 'cashier']):
+            if any(k in t_lower for k in ['payment', 'stablecoin', 'usdc', 'bank', 'treasury', 'cashier', 'credit']):
                 cat = "payments"
-            elif any(k in t_lower for k in ['regulation', 'cftc', 'sec', 'law', 'strike', 'union', 'court']):
+            elif any(k in t_lower for k in ['regulation', 'cftc', 'sec', 'law', 'strike', 'union', 'court', 'sustainability']):
                 cat = "press-releases"
-            elif any(k in t_lower for k in ['sportsbook', 'betting', 'odds', 'poker']):
+            elif any(k in t_lower for k in ['sportsbook', 'betting', 'odds', 'poker', 'oss']):
                 cat = "sportsbook"
             else:
                 cat = "crypto-casinos"
 
-            company_match = re.search(r'([A-Z][A-Za-z0-9\s\.,&]+?)\s+(?:Announces|Launches|Reports|Unveils|Secures|Introduces|Partners)', parsed["title"])
+            company_match = re.search(r'([A-Z][A-Za-z0-9\s\.,&]+?)\s+(?:Announces|Launches|Reports|Unveils|Secures|Introduces|Partners|Crowns|Enters)', parsed["title"])
             company = company_match.group(1).strip() if company_match else "Industry Newsroom"
 
             art_obj = {
