@@ -73,6 +73,96 @@
       "source": "/guides/topic/",
       "destination": "/topic/",
       "permanent": true
+    },
+    {
+      "source": "/crypto",
+      "destination": "/crypto-casinos/",
+      "permanent": true
+    },
+    {
+      "source": "/crypto/",
+      "destination": "/crypto-casinos/",
+      "permanent": true
+    },
+    {
+      "source": "/tgam",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/tgam/",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/press-releases/tg-casinos-telegram-web3-integration-2026",
+      "destination": "/press-releases/tg-casino-telegram-web3-integration-2026/",
+      "permanent": true
+    },
+    {
+      "source": "/press-releases/tg-casinos-telegram-web3-integration-2026/",
+      "destination": "/press-releases/tg-casino-telegram-web3-integration-2026/",
+      "permanent": true
+    },
+    {
+      "source": "/press-releases/soft2bet-secures-multi-state-b2b-supplier-certification-under-expanded-us-operator-frame-2026",
+      "destination": "/press-releases/soft2bet-secures-multi-state-b2b-supplier-certification-under-expanded-us-regulatory-frame-2026/",
+      "permanent": true
+    },
+    {
+      "source": "/press-releases/soft2bet-secures-multi-state-b2b-supplier-certification-under-expanded-us-operator-frame-2026/",
+      "destination": "/press-releases/soft2bet-secures-multi-state-b2b-supplier-certification-under-expanded-us-regulatory-frame-2026/",
+      "permanent": true
+    },
+    {
+      "source": "/press-releases/argentina-england-world-cup-dash-crypto-sportsbook-volumes",
+      "destination": "/press-releases/argentina-england-world-cup-clash-crypto-sportsbook-volumes/",
+      "permanent": true
+    },
+    {
+      "source": "/press-releases/argentina-england-world-cup-dash-crypto-sportsbook-volumes/",
+      "destination": "/press-releases/argentina-england-world-cup-clash-crypto-sportsbook-volumes/",
+      "permanent": true
+    },
+    {
+      "source": "/press-releases/byte-federal-launches-point-of-sale-crypto-cashback-merchant-terminal-kiosk-august-2026",
+      "destination": "/press-releases/",
+      "permanent": true
+    },
+    {
+      "source": "/press-releases/byte-federal-launches-point-of-sale-crypto-cashback-merchant-terminal-kiosk-august-2026/",
+      "destination": "/press-releases/",
+      "permanent": true
+    },
+    {
+      "source": "/press-releases/fifa-world-cup-crypto-sportsbook-betting-record-figures-2026",
+      "destination": "/sportsbook/",
+      "permanent": true
+    },
+    {
+      "source": "/press-releases/fifa-world-cup-crypto-sportsbook-betting-record-figures-2026/",
+      "destination": "/sportsbook/",
+      "permanent": true
+    },
+    {
+      "source": "/press-releases/bitcoin-casino-no-deposit-bonus-2026-bspoker-launches-50-free",
+      "destination": "/crypto-casinos/",
+      "permanent": true
+    },
+    {
+      "source": "/press-releases/bitcoin-casino-no-deposit-bonus-2026-bspoker-launches-50-free/",
+      "destination": "/crypto-casinos/",
+      "permanent": true
+    },
+    {
+      "source": "/press-releases/global-crypto-casino-maximum-regulations-2026",
+      "destination": "/press-releases/",
+      "permanent": true
+    },
+    {
+      "source": "/press-releases/global-crypto-casino-maximum-regulations-2026/",
+      "destination": "/press-releases/",
+      "permanent": true
     }
   ],
   "rewrites": [
