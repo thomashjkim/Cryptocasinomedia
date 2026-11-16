@@ -15,8 +15,13 @@ cd "$PROJECT_DIR"
 # 1. Pull latest remote changes cleanly
 /usr/local/bin/git pull --rebase origin main >> "$LOG_FILE" 2>&1 || true
 
-# 2. Run automated wire publisher
-/usr/local/bin/python3 scripts/auto_publish_daily_wire.py >> "$LOG_FILE" 2>&1
+# 2. Run automated wire publisher with safe error handling
+if ! /usr/local/bin/python3 scripts/auto_publish_daily_wire.py >> "$LOG_FILE" 2>&1; then
+    echo "[$(date '+%Y-%m-%d %H:%M:%S %Z')] ERROR: auto_publish_daily_wire.py failed. Cleaning up working tree to keep repository pristine..." >> "$LOG_FILE"
+    /usr/local/bin/git checkout -- . >> "$LOG_FILE" 2>&1 || true
+    /usr/local/bin/git clean -fd >> "$LOG_FILE" 2>&1 || true
+    exit 1
+fi
 
 # 3. Check for repository changes and push
 if ! /usr/local/bin/git diff --quiet || ! /usr/local/bin/git diff --staged --quiet || [ -n "$(/usr/local/bin/git status --porcelain)" ]; then

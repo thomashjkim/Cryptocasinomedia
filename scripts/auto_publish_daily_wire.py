@@ -57,6 +57,17 @@ INDUSTRY_KEYWORDS = [
     'securitize', 'red rock', 'brightstar', 'formation'
 ]
 
+NON_ENGLISH_INDICATORS = [
+    'rejoindra', 'wird-sich', 'nombra', 'nomme', 'ernennt', 'les-banques',
+    'des-entreprises', 'unternehmens', 'noticias', 'comunicado', 'deutsche',
+    'pressemitteilung', 'consejero-delegado', 'directeur-general', 'impulsa'
+]
+
+OFF_TOPIC_EXCLUSIONS = [
+    'outer banks', 'vacation', 'villa', 'rental', 'housing', 'resort rental',
+    'real estate', 'in-hellonation', 'days-on-market', 'longevity', 'shark tank'
+]
+
 def slugify(text):
     text = re.sub(r"[^\w\s-]", "", text.lower())
     text = re.sub(r"[\s_-]+", "-", text).strip("-")
@@ -129,9 +140,20 @@ def download_and_optimize_image(img_url, filename, max_width=1600):
         out_buf = io.BytesIO()
         im.save(out_buf, format='JPEG', quality=88, optimize=True)
         final_data = out_buf.getvalue()
+
+        # Check for strict zero-duplicate image policy by SHA-256 hash
+        h = hashlib.sha256(final_data).hexdigest()
+        import glob
+        for existing_file in glob.glob(os.path.join(IMAGES_DIR, "*.jpg")):
+            if os.path.basename(existing_file) != filename:
+                with open(existing_file, "rb") as ef:
+                    if hashlib.sha256(ef.read()).hexdigest() == h:
+                        print(f"REJECTED: Image hash {h[:10]} duplicates existing asset {os.path.basename(existing_file)}!")
+                        return None
+
         with open(dest_path, "wb") as f:
             f.write(final_data)
-        print(f"Saved optimized image {filename} ({len(final_data)} bytes)")
+        print(f"Saved optimized image {filename} ({len(final_data)} bytes, sha256={h[:10]})")
         return filename
     except Exception as e:
         print(f"Warning: Failed downloading image from {img_url}: {e}")
@@ -156,6 +178,10 @@ def fetch_wire_candidates():
                     seen.add(full_url)
                     # Check keywords in the slug
                     slug_lower = rel_path.lower()
+                    if any(ne in slug_lower for ne in NON_ENGLISH_INDICATORS):
+                        continue
+                    if any(ex in slug_lower for ex in OFF_TOPIC_EXCLUSIONS):
+                        continue
                     if any(k in slug_lower for k in INDUSTRY_KEYWORDS):
                         candidates.append(full_url)
         except Exception as e:
@@ -175,6 +201,10 @@ def fetch_wire_candidates():
                     link = item.find('link').text or ""
                     title = item.find('title').text or ""
                     if link in seen:
+                        continue
+                    if any(ne in title.lower() or ne in link.lower() for ne in NON_ENGLISH_INDICATORS):
+                        continue
+                    if any(ex in title.lower() or ex in link.lower() for ex in OFF_TOPIC_EXCLUSIONS):
                         continue
                     if any(k in title.lower() for k in INDUSTRY_KEYWORDS):
                         seen.add(link)
