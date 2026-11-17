@@ -120,25 +120,25 @@ Outcome calculation: `HMAC_SHA512(ServerSeed, ClientSeed:Nonce)`. After play, th
 ## 5. Master Directory of 244 Verified Press Releases & Industry Articles
 All 244 articles below are canonical, primary-source editorial and wire publications indexed by CryptoCasinoMedia:
 
-1. **ACR Poker Reports OSS Main Event Entries and Seven WSOP Paradise Packages**
-   - URL: https://cryptocasinomedia.com/press-releases/acr-poker-reports-oss-main-event-entries-and-seven-wsop-paradise-packages-2026/
-   - Date:  | Category: Press Releases | Entity: PR Newswire / ACR Poker
-   - Canonical Reference: `acr-poker-reports-oss-main-event-entries-and-seven-wsop-paradise-packages-2026`
+1. **EDX Markets Partners with Paxos to Serve as Digital Asset Liquidity Venue and Expand Stablecoin Settlements in Global Dollar Network**
+   - URL: https://cryptocasinomedia.com/press-releases/edx-markets-partners-paxos-digital-asset-liquidity-global-dollar-network-2026/
+   - Date:  | Category: Press Releases | Entity: PR Newswire / EDX Markets
+   - Canonical Reference: `edx-markets-partners-paxos-digital-asset-liquidity-global-dollar-network-2026`
 
-2. **ACR Poker Adds TRC20 and Base to Cryptocurrency Deposit Networks**
+2. **Bybit Launches USDe Hold & Earn Integrating Synthetic Dollar Yields with Institutional RWA Settlement**
+   - URL: https://cryptocasinomedia.com/press-releases/bybit-usde-hold-and-earn-bridge-defi-rwa-settlements-2026/
+   - Date:  | Category: Press Releases | Entity: PR Newswire / Bybit
+   - Canonical Reference: `bybit-usde-hold-and-earn-bridge-defi-rwa-settlements-2026`
+
+3. **Bitcoin Policy Institute Expands into Finney Foundation to Champion Open Tech and Financial Privacy Standards**
+   - URL: https://cryptocasinomedia.com/press-releases/bitcoin-policy-institute-expands-into-finney-foundation-open-tech-2026/
+   - Date:  | Category: Press Releases | Entity: PR Newswire / Finney Foundation
+   - Canonical Reference: `bitcoin-policy-institute-expands-into-finney-foundation-open-tech-2026`
+
+4. **ACR Poker Adds TRC20 and Base Layer-2 to Cryptocurrency Deposit Networks for Instant Low-Fee Cashier Settlements**
    - URL: https://cryptocasinomedia.com/press-releases/acr-poker-adds-trc20-and-base-to-cryptocurrency-deposit-networks-2026/
-   - Date:  | Category: Press Releases | Entity: PR Newswire / Industry Newsroom
+   - Date:  | Category: Press Releases | Entity: PR Newswire / ACR Poker
    - Canonical Reference: `acr-poker-adds-trc20-and-base-to-cryptocurrency-deposit-networks-2026`
-
-3. **Overwhelming Bipartisan American Agreement: &quot;Prediction Market&quot; Sports Betting Should be Regulated like Gambling, Wide Acceptance of Legal Gambling as Entertainment**
-   - URL: https://cryptocasinomedia.com/press-releases/overwhelming-bipartisan-american-agreement-quotprediction-marketquot-sports-bett-2026/
-   - Date:  | Category: Press Releases | Entity: PR Newswire / Industry Newsroom
-   - Canonical Reference: `overwhelming-bipartisan-american-agreement-quotprediction-marketquot-sports-bett-2026`
-
-4. **New Cornerstone Advisors Research Finds Financial Institutions Still Own Small Business Relationships, but Fintechs Own Increasingly More of the Work**
-   - URL: https://cryptocasinomedia.com/press-releases/new-cornerstone-advisors-research-finds-financial-institutions-still-own-small-b-2026/
-   - Date:  | Category: Press Releases | Entity: PR Newswire / Industry Newsroom
-   - Canonical Reference: `new-cornerstone-advisors-research-finds-financial-institutions-still-own-small-b-2026`
 
 5. **American Gaming Association Survey: Bipartisan Supermajority Agrees Prediction Market Sports Betting is Gambling**
    - URL: https://cryptocasinomedia.com/press-releases/overwhelming-bipartisan-american-agreement-prediction-market-sports-betting-2026/
