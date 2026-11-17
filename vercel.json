@@ -163,6 +163,86 @@
       "source": "/press-releases/global-crypto-casino-maximum-regulations-2026/",
       "destination": "/press-releases/",
       "permanent": true
+    },
+    {
+      "source": "/press-releases/byte-federal-launches-cross-border-crypto-atm-network-across-latin-america-august-2027",
+      "destination": "/press-releases/",
+      "permanent": true
+    },
+    {
+      "source": "/press-releases/byte-federal-launches-cross-border-crypto-atm-network-across-latin-america-august-2027/",
+      "destination": "/press-releases/",
+      "permanent": true
+    },
+    {
+      "source": "/origin",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/origin/",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/tgpm",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/tgpm/",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/press-releases/sp-casinos-telegram-wallet-integration-2026",
+      "destination": "/press-releases/",
+      "permanent": true
+    },
+    {
+      "source": "/press-releases/sp-casinos-telegram-wallet-integration-2026/",
+      "destination": "/press-releases/",
+      "permanent": true
+    },
+    {
+      "source": "/press-releases/sp-licensed-sports-betting-record-figure-2026",
+      "destination": "/sportsbook/",
+      "permanent": true
+    },
+    {
+      "source": "/press-releases/sp-licensed-sports-betting-record-figure-2026/",
+      "destination": "/sportsbook/",
+      "permanent": true
+    },
+    {
+      "source": "/press-releases/mgo-deploys-dynamic-geofencing-and-ai-identity-verification-for-us-sweepstakes-operations-2026",
+      "destination": "/sweepstakes/",
+      "permanent": true
+    },
+    {
+      "source": "/press-releases/mgo-deploys-dynamic-geofencing-and-ai-identity-verification-for-us-sweepstakes-operations-2026/",
+      "destination": "/sweepstakes/",
+      "permanent": true
+    },
+    {
+      "source": "/press-releases/bitcoin-casino-no-deposit-bonus-2025-bico-poker-bonushunter-driver",
+      "destination": "/crypto-casinos/",
+      "permanent": true
+    },
+    {
+      "source": "/press-releases/bitcoin-casino-no-deposit-bonus-2025-bico-poker-bonushunter-driver/",
+      "destination": "/crypto-casinos/",
+      "permanent": true
+    },
+    {
+      "source": "/press-releases/global-cryptocurrency-casinos-maximum-regulations-2025",
+      "destination": "/regulation/",
+      "permanent": true
+    },
+    {
+      "source": "/press-releases/global-cryptocurrency-casinos-maximum-regulations-2025/",
+      "destination": "/regulation/",
+      "permanent": true
     }
   ],
   "rewrites": [
