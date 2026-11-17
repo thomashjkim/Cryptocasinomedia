@@ -1,0 +1,12 @@
+# Smithery Configuration for CryptoCasinoMedia Newsroom MCP Server
+startCommand:
+  type: stdio
+  configSchema:
+    type: object
+    properties: {}
+  commandFunction: |-
+    (config) => ({
+      command: "node",
+      args: ["server.js"],
+      env: {}
+    })
