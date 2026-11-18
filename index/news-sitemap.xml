@@ -121,15 +121,4 @@
       <news:title>Coinbase and Broadridge Publish Proposed Industry Standard for Onchain Shareholder Communications</news:title>
     </news:news>
   </url>
-  <url>
-    <loc>https://cryptocasinomedia.com/press-releases/ice-and-abra-partner-to-bring-qualified-custody-to-institutional-digital-assets-2026/</loc>
-    <news:news>
-      <news:publication>
-        <news:name>CryptoCasinoMedia</news:name>
-        <news:language>en</news:language>
-      </news:publication>
-      <news:publication_date>2026-11-16T14:30:00Z</news:publication_date>
-      <news:title>ICE and Abra Partner to Deliver Qualified Custody for Institutional Digital Asset Loans and Yield Strategies</news:title>
-    </news:news>
-  </url>
 </urlset>
