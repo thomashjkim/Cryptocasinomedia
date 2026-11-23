@@ -1,5 +1,6 @@
 # CryptoCasinoMedia Newsroom & Operations MCP Server
 
+[![thomashjkim/Cryptocasinomedia MCP server](https://glama.ai/mcp/servers/thomashjkim/Cryptocasinomedia/badges/score.svg)](https://glama.ai/mcp/servers/thomashjkim/Cryptocasinomedia)
 [![Smithery](https://smithery.ai/badge/@thomashjkim/Cryptocasinomedia)](https://smithery.ai/server/@thomashjkim/Cryptocasinomedia)
 [![MCP](https://img.shields.io/badge/MCP-Standard%202025--12--11-blue)](https://modelcontextprotocol.io)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
