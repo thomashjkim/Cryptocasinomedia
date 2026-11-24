@@ -653,7 +653,7 @@ def renderSectionPage(title, description, filterCategory, filterTopic=None):
                         if (curDisplay) curDisplay.textContent = curP;
 
                         var html = '';
-                        html += '<button type="button" onclick="window.navSectionPage(' + (curP - 1) + ')" ' + (curP === 1 ? 'disabled' : '') + ' class="px-2.5 py-1.5 border border-gray-300 rounded text-gray-700 hover:bg-gray-100 disabled:opacity-30 disabled:cursor-not-allowed font-medium">Prev</button>';
+                        html += '<button type="button" onclick="window.navSectionPage(' + (curP - 1) + ')" ' + (curP === 1 ? 'disabled' : '') + ' class="px-3 py-1.5 border border-gray-300 rounded text-gray-700 hover:bg-gray-100 disabled:opacity-30 disabled:cursor-not-allowed font-medium text-xs" style="background-color: #ffffff; color: #374151;">Prev</button>';
 
                         var pages = [];
                         if (totalP <= 7) {{
@@ -674,12 +674,13 @@ def renderSectionPage(title, description, filterCategory, filterTopic=None):
                                 html += '<span class="px-2 py-1 text-gray-400">...</span>';
                             }} else {{
                                 var isAct = (p === curP);
-                                var cls = isAct ? 'bg-blue-700 text-white font-bold border-blue-700' : 'text-gray-700 hover:bg-gray-100 border-gray-300';
-                                html += '<button type="button" onclick="window.navSectionPage(' + p + ')" class="px-2.5 py-1.5 border rounded ' + cls + '">' + p + '</button>';
+                                var cls = isAct ? 'border-blue-700 active-page-btn' : 'text-gray-700 hover:bg-gray-100 border-gray-300';
+                                var sty = isAct ? 'style="background-color: #1d4ed8 !important; color: #ffffff !important; border-color: #1d4ed8 !important; font-weight: 700 !important;"' : 'style="background-color: #ffffff; color: #374151;"';
+                                html += '<button type="button" onclick="window.navSectionPage(' + p + ')" class="px-3 py-1.5 border rounded text-xs font-medium ' + cls + '" ' + sty + '>' + p + '</button>';
                             }}
                         }}
 
-                        html += '<button type="button" onclick="window.navSectionPage(' + (curP + 1) + ')" ' + (curP === totalP ? 'disabled' : '') + ' class="px-2.5 py-1.5 border border-gray-300 rounded text-gray-700 hover:bg-gray-100 disabled:opacity-30 disabled:cursor-not-allowed font-medium">Next</button>';
+                        html += '<button type="button" onclick="window.navSectionPage(' + (curP + 1) + ')" ' + (curP === totalP ? 'disabled' : '') + ' class="px-3 py-1.5 border border-gray-300 rounded text-gray-700 hover:bg-gray-100 disabled:opacity-30 disabled:cursor-not-allowed font-medium" style="background-color: #ffffff; color: #374151;">Next</button>';
                         btnContainer.innerHTML = html;
                     }}
 
@@ -3188,8 +3189,8 @@ with open(os.path.join(output_base_dir, "404.html"), "w", encoding="utf-8") as f
 pages_generated += 1
 
 # 7. Overwrite index/index.html to pre-render the homepage statically
-home_title = "CryptoCasinoMedia — B2B iGaming & Crypto Casino News"
-home_description = "The trusted B2B source for crypto casino news, press releases, regulation updates, and iGaming industry analysis."
+home_title = "CryptoCasinoMedia | B2B iGaming News"
+home_description = "B2B crypto casino news, press releases & iGaming industry analysis."
 home_org_schema = {
     "@context": "https://schema.org",
     "@type": "Organization",

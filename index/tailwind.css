@@ -2688,3 +2688,14 @@
   aspect-ratio: 16 / 9;
 }
 
+.bg-blue-700 {
+  background-color: #1d4ed8 !important;
+}
+
+.active-page-btn {
+  background-color: #1d4ed8 !important;
+  color: #ffffff !important;
+  border-color: #1d4ed8 !important;
+  font-weight: 700 !important;
+}
+
