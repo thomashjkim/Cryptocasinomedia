@@ -14,7 +14,7 @@ Official Model Context Protocol (MCP) server for **CryptoCasinoMedia** (`https:/
 1. **`get_newsroom_metrics`**
    - Returns real-time newsroom statistics: total master articles, 24h & 48h publication counts, category distributions, and repository sync state.
 2. **`search_articles`**
-   - Instant search across 244+ verified news stories, regulatory filings, and guides by query, company name, category, or topic tags.
+   - Instant search across 1,260+ verified news stories, historical wire press releases, regulatory filings, and guides by query, company name, category, or topic tags.
 3. **`get_article_details`**
    - Retrieves full article body, editorial metadata, high-resolution wire photo URI, dateline, and category classifications by slug or article ID.
 4. **`verify_site_health`**

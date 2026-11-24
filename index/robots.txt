@@ -92,3 +92,5 @@ Content-Signal: ai-train=yes, search=yes, ai-input=yes
 Sitemap: https://cryptocasinomedia.com/sitemap.xml
 Sitemap: https://cryptocasinomedia.com/news-sitemap.xml
 Sitemap: https://cryptocasinomedia.com/local-sitemap.xml
+Sitemap: https://cryptocasinomedia.com/sitemap-archive-1.xml
+Sitemap: https://cryptocasinomedia.com/sitemap-archive-2.xml

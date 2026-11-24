@@ -12,6 +12,13 @@ const { execSync } = require("child_process");
 
 const PROJECT_ROOT = path.resolve(__dirname, "..");
 const MASTER_JSON = path.join(PROJECT_ROOT, "data", "articles_master.json");
+const ARCHIVE_JSON = path.join(PROJECT_ROOT, "data", "articles_archive_1000.json");
+
+function getAllArticles() {
+  const master = fs.existsSync(MASTER_JSON) ? JSON.parse(fs.readFileSync(MASTER_JSON, "utf-8")) : [];
+  const archive = fs.existsSync(ARCHIVE_JSON) ? JSON.parse(fs.readFileSync(ARCHIVE_JSON, "utf-8")) : [];
+  return { master, archive, combined: [...master, ...archive] };
+}
 
 const server = new Server(
   {
@@ -100,16 +107,16 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
 
   try {
     if (name === "get_newsroom_metrics") {
-      const articles = JSON.parse(fs.readFileSync(MASTER_JSON, "utf-8"));
+      const { master, archive, combined } = getAllArticles();
       const now = new Date();
       const last24h = new Date(now.getTime() - 24 * 60 * 60 * 1000);
       const last48h = new Date(now.getTime() - 48 * 60 * 60 * 1000);
 
-      const recent24h = articles.filter(a => new Date(a.publishedAt) >= last24h);
-      const recent48h = articles.filter(a => new Date(a.publishedAt) >= last48h);
+      const recent24h = master.filter(a => new Date(a.publishedAt) >= last24h);
+      const recent48h = master.filter(a => new Date(a.publishedAt) >= last48h);
 
       const catCounts = {};
-      articles.forEach(a => {
+      combined.forEach(a => {
         const cat = a.primaryCategory || "other";
         catCounts[cat] = (catCounts[cat] || 0) + 1;
       });
@@ -120,12 +127,18 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
       } catch (e) {}
 
       const metrics = {
-        totalArticles: articles.length,
+        totalArticles: combined.length,
+        activeEditorialArticles: master.length,
+        historicalWireArchiveArticles: archive.length,
         articlesLast24h: recent24h.length,
         articlesLast48h: recent48h.length,
         categories: catCounts,
-        latestPublishedAt: articles[0]?.publishedAt || "none",
-        latestTitle: articles[0]?.title || "none",
+        latestPublishedAt: master[0]?.publishedAt || "none",
+        latestTitle: master[0]?.title || "none",
+        archiveSitemaps: [
+          "https://cryptocasinomedia.com/sitemap-archive-1.xml",
+          "https://cryptocasinomedia.com/sitemap-archive-2.xml"
+        ],
         latestCommit: gitCommit,
       };
 
@@ -140,12 +153,12 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
     }
 
     if (name === "search_articles") {
-      const articles = JSON.parse(fs.readFileSync(MASTER_JSON, "utf-8"));
+      const { combined } = getAllArticles();
       const q = (args.query || "").toLowerCase();
       const cat = args.category;
       const limit = args.limit || 5;
 
-      const filtered = articles.filter(a => {
+      const filtered = combined.filter(a => {
         if (cat && a.primaryCategory !== cat) return false;
         const inTitle = (a.title || "").toLowerCase().includes(q);
         const inSlug = (a.slug || "").toLowerCase().includes(q);
@@ -177,9 +190,9 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
     }
 
     if (name === "get_article_details") {
-      const articles = JSON.parse(fs.readFileSync(MASTER_JSON, "utf-8"));
+      const { combined } = getAllArticles();
       const target = (args.slug_or_id || "").trim();
-      const article = articles.find(a => a.slug === target || a.id === target);
+      const article = combined.find(a => a.slug === target || a.id === target);
 
       if (!article) {
         return {
