@@ -61,6 +61,14 @@ Allow: /
 User-agent: msnbot
 Allow: /
 
+# Naver Search Engine (Yeti)
+User-agent: Yeti
+Allow: /
+
+# Daum / Kakao Search Engine (Daumoa)
+User-agent: Daumoa
+Allow: /
+
 User-agent: CCBot
 Allow: /
 
