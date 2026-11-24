@@ -222,6 +222,18 @@ def is_article_published(article):
 
 # Filter published articles; scheduled un-published articles remain hidden until published
 articles_published = [a for a in articles_data if is_article_published(a)]
+
+# Load 1,000 historical wire archive articles
+archive_json_path = os.path.join(PROJECT_ROOT, "data", "articles_archive_1000.json")
+if os.path.exists(archive_json_path):
+    try:
+        with open(archive_json_path, "r", encoding="utf-8") as arf:
+            archive_articles = json.load(arf)
+            articles_published.extend(archive_articles)
+            print(f"Loaded {len(archive_articles)} archive articles. Total in pre_render: {len(articles_published)}")
+    except Exception as e:
+        print(f"Warning loading archive in pre_render: {e}")
+
 articles_sorted = sorted(articles_published, key=lambda x: x.get('firstPublishedAt') or x['publishedAt'], reverse=True)
 
 try:
@@ -604,7 +616,98 @@ def renderSectionPage(title, description, filterCategory, filterTopic=None):
         mainColumnHtml = '<div class="py-12 text-center text-gray-500">No articles found for this section.</div>'
     else:
         first = filteredArticles[0]
-        rows = "".join([renderStoryRow(a) for a in filteredArticles[1:]])
+        other_articles = filteredArticles[1:]
+        page_size = 20
+        total_pages = (len(other_articles) + page_size - 1) // page_size if other_articles else 1
+
+        rows = []
+        for idx, a in enumerate(other_articles):
+            p_num = (idx // page_size) + 1
+            style_str = '' if p_num == 1 else 'style="display: none;"'
+            row_markup = renderStoryRow(a)
+            rows.append(f'<div class="section-page-item" data-page="{p_num}" {style_str}>{row_markup}</div>')
+
+        paginated_rows_html = "".join(rows)
+
+        pagination_controls = ""
+        if total_pages > 1:
+            pagination_controls = f"""
+                <div id="section-pagination-bar" class="border-t border-gray-200 mt-8 pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 font-sans text-xs">
+                    <div class="text-gray-500">
+                        Showing page <span id="cur-page-num" class="font-bold text-gray-900">1</span> of <span id="tot-page-num" class="font-bold text-gray-900">{total_pages}</span> (<strong class="text-gray-900">{len(filteredArticles)}</strong> releases)
+                    </div>
+                    <div class="flex items-center gap-1" id="section-pagination-buttons">
+                    </div>
+                </div>
+                <script>
+                (function() {{
+                    var curP = 1;
+                    var totalP = {total_pages};
+                    var totalItems = {len(other_articles)};
+                    var pSize = {page_size};
+
+                    function renderButtons() {{
+                        var btnContainer = document.getElementById('section-pagination-buttons');
+                        var curDisplay = document.getElementById('cur-page-num');
+                        if (!btnContainer) return;
+                        if (curDisplay) curDisplay.textContent = curP;
+
+                        var html = '';
+                        html += '<button type="button" onclick="window.navSectionPage(' + (curP - 1) + ')" ' + (curP === 1 ? 'disabled' : '') + ' class="px-2.5 py-1.5 border border-gray-300 rounded text-gray-700 hover:bg-gray-100 disabled:opacity-30 disabled:cursor-not-allowed font-medium">Prev</button>';
+
+                        var pages = [];
+                        if (totalP <= 7) {{
+                            for (var i = 1; i <= totalP; i++) pages.push(i);
+                        }} else {{
+                            pages.push(1);
+                            if (curP > 3) pages.push('...');
+                            var s = Math.max(2, curP - 1);
+                            var e = Math.min(totalP - 1, curP + 1);
+                            for (var j = s; j <= e; j++) pages.push(j);
+                            if (curP < totalP - 2) pages.push('...');
+                            pages.push(totalP);
+                        }}
+
+                        for (var k = 0; k < pages.length; k++) {{
+                            var p = pages[k];
+                            if (p === '...') {{
+                                html += '<span class="px-2 py-1 text-gray-400">...</span>';
+                            }} else {{
+                                var isAct = (p === curP);
+                                var cls = isAct ? 'bg-blue-700 text-white font-bold border-blue-700' : 'text-gray-700 hover:bg-gray-100 border-gray-300';
+                                html += '<button type="button" onclick="window.navSectionPage(' + p + ')" class="px-2.5 py-1.5 border rounded ' + cls + '">' + p + '</button>';
+                            }}
+                        }}
+
+                        html += '<button type="button" onclick="window.navSectionPage(' + (curP + 1) + ')" ' + (curP === totalP ? 'disabled' : '') + ' class="px-2.5 py-1.5 border border-gray-300 rounded text-gray-700 hover:bg-gray-100 disabled:opacity-30 disabled:cursor-not-allowed font-medium">Next</button>';
+                        btnContainer.innerHTML = html;
+                    }}
+
+                    window.navSectionPage = function(targetP) {{
+                        if (targetP < 1 || targetP > totalP) return;
+                        curP = targetP;
+                        var items = document.querySelectorAll('.section-page-item');
+                        for (var i = 0; i < items.length; i++) {{
+                            items[i].style.display = (items[i].getAttribute('data-page') == targetP) ? 'block' : 'none';
+                        }}
+                        renderButtons();
+                        var feedAnchor = document.getElementById('section-feed-anchor');
+                        if (feedAnchor) {{
+                            feedAnchor.scrollIntoView({{ behavior: 'smooth' }});
+                        }}
+                        if (window.history && window.history.pushState) {{
+                            var newUrl = window.location.pathname + (targetP > 1 ? '?page=' + targetP : '');
+                            window.history.pushState(null, '', newUrl);
+                        }}
+                    }};
+
+                    var pMatch = window.location.search.match(/[?&]page=(\\d+)/);
+                    var initP = pMatch ? parseInt(pMatch[1], 10) : 1;
+                    window.navSectionPage(initP);
+                }})();
+                </script>
+            """
+
         mainColumnHtml = f"""
                     <a href="/press-releases/{first['slug']}" class="group flex flex-col sm:flex-row gap-6 mb-10">
                         <div class="sm:w-1/2 aspect-video bg-gray-100 overflow-hidden border border-gray-200">
@@ -620,10 +723,11 @@ def renderSectionPage(title, description, filterCategory, filterTopic=None):
                             </p>
                         </div>
                     </a>
-                    <div class="w-full h-[1px] bg-gray-200 mb-6"></div>
+                    <div id="section-feed-anchor" class="w-full h-[1px] bg-gray-200 mb-6"></div>
                     <div class="flex flex-col">
-                        {rows}
+                        {paginated_rows_html}
                     </div>
+                    {pagination_controls}
                 """
 
     # Section-scoped Most Read articles
