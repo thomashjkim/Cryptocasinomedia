@@ -625,16 +625,26 @@ def renderSectionPage(title, description, filterCategory, filterTopic=None):
             p_num = (idx // page_size) + 1
             style_str = '' if p_num == 1 else 'style="display: none;"'
             row_markup = renderStoryRow(a)
-            rows.append(f'<div class="section-page-item" data-page="{p_num}" {style_str}>{row_markup}</div>')
+            rows.append(f'<div class="section-page-item" data-index="{idx}" data-page="{p_num}" {style_str}>{row_markup}</div>')
 
         paginated_rows_html = "".join(rows)
 
         pagination_controls = ""
         if total_pages > 1:
             pagination_controls = f"""
-                <div id="section-pagination-bar" class="border-t border-gray-200 mt-8 pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 font-sans text-xs">
-                    <div class="text-gray-500">
-                        Showing page <span id="cur-page-num" class="font-bold text-gray-900">1</span> of <span id="tot-page-num" class="font-bold text-gray-900">{total_pages}</span> (<strong class="text-gray-900">{len(filteredArticles)}</strong> releases)
+                <div id="section-pagination-bar" class="border-t border-gray-200 mt-8 pt-6 flex flex-col md:flex-row items-center justify-between gap-4 font-sans text-xs">
+                    <div class="flex flex-wrap items-center gap-4 text-gray-500">
+                        <div>
+                            Showing page <span id="cur-page-num" class="font-bold text-gray-900">1</span> of <span id="tot-page-num" class="font-bold text-gray-900">{total_pages}</span> (<strong class="text-gray-900">{len(filteredArticles)}</strong> releases)
+                        </div>
+                        <div class="flex items-center gap-2 border-l border-gray-200 pl-4 text-gray-600">
+                            <span class="font-medium">Per page:</span>
+                            <div class="inline-flex rounded border border-gray-300 overflow-hidden" role="group">
+                                <button type="button" onclick="window.changePerPage(10)" id="per-page-10" class="px-2.5 py-1 text-xs font-medium bg-white text-gray-700 hover:bg-gray-100 transition-colors border-r border-gray-300" style="background-color: #ffffff; color: #374151;">10</button>
+                                <button type="button" onclick="window.changePerPage(20)" id="per-page-20" class="px-2.5 py-1 text-xs font-bold text-white transition-colors border-r border-gray-300" style="background-color: #1d4ed8 !important; color: #ffffff !important; font-weight: 700 !important;">20</button>
+                                <button type="button" onclick="window.changePerPage(50)" id="per-page-50" class="px-2.5 py-1 text-xs font-medium bg-white text-gray-700 hover:bg-gray-100 transition-colors" style="background-color: #ffffff; color: #374151;">50</button>
+                            </div>
+                        </div>
                     </div>
                     <div class="flex items-center gap-1" id="section-pagination-buttons">
                     </div>
@@ -642,15 +652,32 @@ def renderSectionPage(title, description, filterCategory, filterTopic=None):
                 <script>
                 (function() {{
                     var curP = 1;
-                    var totalP = {total_pages};
+                    var pSize = 20;
                     var totalItems = {len(other_articles)};
-                    var pSize = {page_size};
+                    var totalP = Math.ceil(totalItems / pSize) || 1;
+                    var hasInteracted = false;
+
+                    function updatePerPageUI() {{
+                        [10, 20, 50].forEach(function(sz) {{
+                            var btn = document.getElementById('per-page-' + sz);
+                            if (!btn) return;
+                            if (sz === pSize) {{
+                                btn.style.cssText = 'background-color: #1d4ed8 !important; color: #ffffff !important; font-weight: 700 !important;';
+                                btn.className = 'px-2.5 py-1 text-xs font-bold text-white transition-colors ' + (sz !== 50 ? 'border-r border-gray-300' : '');
+                            }} else {{
+                                btn.style.cssText = 'background-color: #ffffff; color: #374151;';
+                                btn.className = 'px-2.5 py-1 text-xs font-medium bg-white text-gray-700 hover:bg-gray-100 transition-colors ' + (sz !== 50 ? 'border-r border-gray-300' : '');
+                            }}
+                        }});
+                    }}
 
                     function renderButtons() {{
                         var btnContainer = document.getElementById('section-pagination-buttons');
                         var curDisplay = document.getElementById('cur-page-num');
+                        var totDisplay = document.getElementById('tot-page-num');
                         if (!btnContainer) return;
                         if (curDisplay) curDisplay.textContent = curP;
+                        if (totDisplay) totDisplay.textContent = totalP;
 
                         var html = '';
                         html += '<button type="button" onclick="window.navSectionPage(' + (curP - 1) + ')" ' + (curP === 1 ? 'disabled' : '') + ' class="px-3 py-1.5 border border-gray-300 rounded text-gray-700 hover:bg-gray-100 disabled:opacity-30 disabled:cursor-not-allowed font-medium text-xs" style="background-color: #ffffff; color: #374151;">Prev</button>';
@@ -680,31 +707,58 @@ def renderSectionPage(title, description, filterCategory, filterTopic=None):
                             }}
                         }}
 
-                        html += '<button type="button" onclick="window.navSectionPage(' + (curP + 1) + ')" ' + (curP === totalP ? 'disabled' : '') + ' class="px-3 py-1.5 border border-gray-300 rounded text-gray-700 hover:bg-gray-100 disabled:opacity-30 disabled:cursor-not-allowed font-medium" style="background-color: #ffffff; color: #374151;">Next</button>';
+                        html += '<button type="button" onclick="window.navSectionPage(' + (curP + 1) + ')" ' + (curP === totalP ? 'disabled' : '') + ' class="px-3 py-1.5 border border-gray-300 rounded text-gray-700 hover:bg-gray-100 disabled:opacity-30 disabled:cursor-not-allowed font-medium text-xs" style="background-color: #ffffff; color: #374151;">Next</button>';
                         btnContainer.innerHTML = html;
                     }}
 
+                    window.changePerPage = function(newSize) {{
+                        hasInteracted = true;
+                        pSize = parseInt(newSize, 10) || 20;
+                        totalP = Math.ceil(totalItems / pSize) || 1;
+                        updatePerPageUI();
+                        window.navSectionPage(1);
+                    }};
+
                     window.navSectionPage = function(targetP) {{
-                        if (targetP < 1 || targetP > totalP) return;
+                        if (targetP < 1) targetP = 1;
+                        if (targetP > totalP) targetP = totalP;
                         curP = targetP;
+
                         var items = document.querySelectorAll('.section-page-item');
+                        var startIdx = (curP - 1) * pSize;
+                        var endIdx = curP * pSize;
+
                         for (var i = 0; i < items.length; i++) {{
-                            items[i].style.display = (items[i].getAttribute('data-page') == targetP) ? 'block' : 'none';
+                            items[i].style.display = (i >= startIdx && i < endIdx) ? 'block' : 'none';
                         }}
+
                         renderButtons();
+
                         var feedAnchor = document.getElementById('section-feed-anchor');
-                        if (feedAnchor) {{
+                        if (feedAnchor && hasInteracted) {{
                             feedAnchor.scrollIntoView({{ behavior: 'smooth' }});
                         }}
+
                         if (window.history && window.history.pushState) {{
-                            var newUrl = window.location.pathname + (targetP > 1 ? '?page=' + targetP : '');
+                            var params = new URLSearchParams(window.location.search);
+                            if (curP > 1) {{ params.set('page', curP); }} else {{ params.delete('page'); }}
+                            if (pSize !== 20) {{ params.set('limit', pSize); }} else {{ params.delete('limit'); }}
+                            var qs = params.toString();
+                            var newUrl = window.location.pathname + (qs ? '?' + qs : '');
                             window.history.pushState(null, '', newUrl);
                         }}
                     }};
 
-                    var pMatch = window.location.search.match(/[?&]page=(\\d+)/);
-                    var initP = pMatch ? parseInt(pMatch[1], 10) : 1;
+                    var urlParams = new URLSearchParams(window.location.search);
+                    var initLimit = parseInt(urlParams.get('limit'), 10);
+                    if ([10, 20, 50].indexOf(initLimit) !== -1) {{
+                        pSize = initLimit;
+                        totalP = Math.ceil(totalItems / pSize) || 1;
+                        updatePerPageUI();
+                    }}
+                    var initP = parseInt(urlParams.get('page'), 10) || 1;
                     window.navSectionPage(initP);
+                    hasInteracted = true;
                 }})();
                 </script>
             """
