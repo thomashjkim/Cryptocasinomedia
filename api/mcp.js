@@ -225,7 +225,7 @@ function processRpcMessage(msg) {
           tools: { listChanged: false },
         },
         serverInfo: {
-          name: "io.github.thomashjkim/cryptocasinomedia-newsroom",
+          name: "com.cryptocasinomedia/newsroom",
           version: "1.0.0",
         },
       },
@@ -272,11 +272,11 @@ module.exports = (req, res) => {
 
   if (req.method === "GET") {
     return res.status(200).json({
-      name: "io.github.thomashjkim/cryptocasinomedia-newsroom",
+      name: "com.cryptocasinomedia/newsroom",
       title: "CryptoCasinoMedia Newsroom & Market Intelligence",
       version: "1.0.0",
       transport: "streamable-http",
-      endpoint: "https://cryptocasinomedia.com/api/mcp",
+      endpoint: "https://cryptocasinomedia.com/api/mcp/",
       homepage: "https://cryptocasinomedia.com",
       tools: TOOLS.map((t) => t.name),
     });

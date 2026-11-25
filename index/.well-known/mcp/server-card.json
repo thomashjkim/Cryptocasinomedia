@@ -1,6 +1,6 @@
 {
   "serverInfo": {
-    "name": "io.github.thomashjkim/cryptocasinomedia-newsroom",
+    "name": "com.cryptocasinomedia/newsroom",
     "version": "1.0.0",
     "title": "CryptoCasinoMedia Newsroom MCP Server",
     "description": "Live crypto casino & iGaming news search, article metadata, and newsroom metrics via MCP.",
@@ -20,6 +20,6 @@
   },
   "transport": {
     "type": "streamable-http",
-    "endpoint": "https://cryptocasinomedia.com/api/mcp"
+    "endpoint": "https://cryptocasinomedia.com/api/mcp/"
   }
 }
