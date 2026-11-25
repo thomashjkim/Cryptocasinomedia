@@ -3,6 +3,11 @@
   "cleanUrls": false,
   "trailingSlash": true,
   "outputDirectory": "index",
+  "functions": {
+    "api/mcp.js": {
+      "includeFiles": "data/articles_*.json"
+    }
+  },
   "redirects": [
     {
       "source": "/regulation/topic/:slug*/",
